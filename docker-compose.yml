@@ -1,0 +1,27 @@
+services:
+  app:
+    container_name: inmemoriambrasil
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    #    ports:
+    #      - "3000"
+    networks:
+      - proxy
+    depends_on:
+      - mongo
+  #    labels:
+  #      - "traefik.enable=false"
+
+  mongo:
+    image: mongo:7
+    container_name: inmemoriambrasil-mongo
+    restart: unless-stopped
+    volumes:
+      - ./data/mongo:/data/db
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
