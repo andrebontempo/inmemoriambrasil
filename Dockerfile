@@ -20,7 +20,7 @@ COPY . .
 ENV NODE_ENV=production
 
 # Expõe a porta usada pela aplicação
-EXPOSE 3051
+EXPOSE 3000
 
 # Comando para iniciar o app
 CMD ["node", "server.js"]
