@@ -7,8 +7,11 @@ WORKDIR /usr/src/app
 # Copia os arquivos de dependências primeiro (para cache de build)
 COPY package*.json ./
 
+# Instala dependências necessárias para compilar módulos nativos
+RUN apk add --no-cache python3 make g++
+
 # Instala apenas dependências de produção
-RUN npm install --production
+RUN npm install --omit=dev
 
 # Copia o restante do código para o container
 COPY . .
