@@ -1,0 +1,49 @@
+<!-- Seção com imagem de fundo e detalhes do memorial -->
+<div
+  style="
+      width: 100%;
+      height: 350px;
+      background-image: url('/site/pescaria.png');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    "
+>
+  <div class="container h-100">
+    <div class="row h-100 align-items-center">
+      <!-- Foto do memorial à esquerda -->
+      <div class="col-md-3 d-flex justify-content-center">
+        {{#if mainPhoto.url}}
+          <img
+            src="/memorials/{{slug}}/photos/{{mainPhoto.url}}"
+            alt="Imagem do Memorial"
+            class="img-fluid rounded"
+            style="max-width: 250px; height: 250px; object-fit: cover; border: 5px solid #4f0e21;"
+          />
+        {{else}}
+          <img
+            src="/uploads/default.png"
+            alt="Imagem Padrão do Memorial"
+            class="img-fluid rounded"
+            style="max-width: 250px; height: 250px; object-fit: cover; border: 5px solid #4f0e21;"
+          />
+        {{/if}}
+      </div>
+
+      <!-- Conteúdo ao lado da foto com sombra no texto -->
+      <div
+        class="col-md-9 d-flex flex-column justify-content-center text-white text-start gap-3"
+      >
+        <h1 style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);"><strong
+          >{{firstName}} {{lastName}}</strong></h1>
+        <h4 style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">{{formatDate
+            birth.date
+            "year"
+          }}
+          -
+          {{formatDate death.date "year"}}</h4>
+      </div>
+    </div>
+  </div>
+
+</div>

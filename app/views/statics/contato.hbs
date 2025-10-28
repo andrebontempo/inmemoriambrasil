@@ -1,0 +1,75 @@
+<main class="container my-5">
+  <div
+    class="p-5 rounded-4 shadow-lg text-white"
+    style="background-color: #4f0e21;"
+  >
+    <!-- Título centralizado -->
+    <h2 class="text-center mb-4 fw-bold">Contato</h2>
+
+    <!-- Formulário com largura reduzida -->
+    <form action="#" method="post" class="mx-auto" style="max-width: 80%;">
+
+      <!-- Dados Pessoais -->
+      <!--<h3 class="mt-4 fw-bold">Informações de Contato</h3>-->
+      <div
+        class="border rounded p-4 mb-4"
+        style="background-color: #4f0e21; color: white;"
+      >
+
+        <!-- Campo Nome -->
+        <div class="mb-3">
+          <label for="nome" class="form-label">Nome:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="nome"
+            name="nome"
+            required
+          />
+        </div>
+
+        <!-- Campo E-mail -->
+        <div class="mb-3">
+          <label for="email" class="form-label">E-mail:</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            required
+          />
+        </div>
+
+        <!-- Campo Assunto -->
+        <div class="mb-3">
+          <label for="assunto" class="form-label">Assunto:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="assunto"
+            name="assunto"
+            required
+          />
+        </div>
+
+        <!-- Campo Mensagem -->
+        <div class="mb-3">
+          <label for="mensagem" class="form-label">Mensagem:</label>
+          <textarea
+            class="form-control"
+            id="mensagem"
+            name="mensagem"
+            rows="4"
+            required
+          ></textarea>
+        </div>
+
+      </div>
+
+      <!-- Botão de Envio alinhado à direita -->
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-light">Enviar</button>
+      </div>
+    </form>
+  </div>
+</main>

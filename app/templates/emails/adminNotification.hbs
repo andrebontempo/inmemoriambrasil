@@ -1,0 +1,41 @@
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Novo memorial criado</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        color: #333;
+      }
+      .container {
+        max-width: 600px;
+        margin: auto;
+        padding: 30px;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        background-color: #fdfdfd;
+      }
+      .btn {
+        display: inline-block;
+        background-color: #007b5e;
+        color: #ffffff;
+        padding: 12px 24px;
+        margin-top: 20px;
+        text-decoration: none;
+        border-radius: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Novo memorial criado</h2>
+      <p><strong>{{nomeUsuario}}</strong>
+        acabou de criar o memorial de
+        <strong>{{nomeMemorial}}</strong>.</p>
+      <p>Confira o conteúdo e verifique se está tudo conforme as diretrizes da
+        plataforma:</p>
+      <a href="{{link}}" class="btn">Visualizar memorial</a>
+      <p style="margin-top: 30px;">Notificação automática da InMemoriam Brasil.</p>
+    </div>
+  </body>
+</html>

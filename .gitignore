@@ -1,0 +1,5 @@
+node_modules/
+0_antigos/
+1_seeds/
+tests/
+.env

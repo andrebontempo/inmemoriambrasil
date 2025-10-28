@@ -1,0 +1,229 @@
+<main class="container my-5">
+  <!-- Sessão para Apresentação de Video Tutorial -->
+  <section class="row">
+    <div class="col-md-6">
+      <div class="card p-4 h-100 bg-primary text-white rounded-4 shadow-lg">
+        <h2 class="card-title fw-bold">In Memoriam Brasil</h2>
+        <p class="text-justify">
+          Preserve para sempre a memória de quem foi especial em sua vida. Crie
+          um
+          <strong>Memorial Virtual</strong>
+          e preste uma linda homenagem a esta pessoa querida. Com poucos passos,
+          você cria uma página personalizada, acessível a qualquer momento e de
+          qualquer lugar.
+          <br /><br />
+          <strong>In Memoriam Brasil</strong>
+          é um espaço de carinho e recordação para expressar seus sentimentos e
+          compartilhar com familiares e amigos. Honre aqueles que fizeram parte
+          da sua vida e mantenha suas histórias vivas para sempre.
+        </p>
+        <div class="text-end">
+          <a
+            href="/memorial/create-step1"
+            class="btn btn-light btn-custom"
+          >Criar Memorial</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="ratio ratio-16x9 h-100 rounded-4 overflow-hidden shadow-lg">
+        <video controls width="100%">
+          <source src="/site/tutorial_SOL.mp4" type="video/mp4" />
+          Seu navegador não suporta a reprodução deste vídeo.
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- Memoriais existentes como exemplos -->
+  <section class="my-5">
+    <h2 class="mb-4 text-center text-secondary">Páginas de Memoriais Existentes</h2>
+    <div class="row">
+      {{! Card 1 }}
+      <div class="col-md-3">
+        <a href="/memorial/pateta-pereira/about" style="text-decoration: none;">
+          <div
+            class="card border-0 shadow"
+            style="background-color: #4f0e21; color: white;"
+          >
+            <img
+              src="/site/homenageado1.png"
+              class="card-img-top rounded-top"
+              alt="Homenageado 1"
+            />
+            <div class="card-body">
+              <p class="card-text text-center fw-bold">Pateta Pereira</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      {{! Card 2 }}
+      <div class="col-md-3">
+        <a
+          href="/memorial/mickey-oliveira/about"
+          style="text-decoration: none;"
+        >
+          <div
+            class="card border-0 shadow"
+            style="background-color: #4f0e21; color: white;"
+          >
+            <img
+              src="/site/homenageado2.png"
+              class="card-img-top rounded-top"
+              alt="Homenageado 2"
+            />
+            <div class="card-body">
+              <p class="card-text text-center fw-bold">Mickey Oliveira</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      {{! Card 3 }}
+      <div class="col-md-3">
+        <a href="/memorial/olivia-palito/about" style="text-decoration: none;">
+          <div
+            class="card border-0 shadow"
+            style="background-color: #4f0e21; color: white;"
+          >
+            <img
+              src="/site/homenageado3.png"
+              class="card-img-top rounded-top"
+              alt="Homenageado 3"
+            />
+            <div class="card-body">
+              <p class="card-text text-center fw-bold">Olivia Palito</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      {{! Card 4 }}
+      <div class="col-md-3">
+        <a
+          href="/memorial/mulher-maravilha/about"
+          style="text-decoration: none;"
+        >
+          <div
+            class="card border-0 shadow"
+            style="background-color: #4f0e21; color: white;"
+          >
+            <img
+              src="/site/homenageado4.png"
+              class="card-img-top rounded-top"
+              alt="Homenageado 4"
+            />
+            <div class="card-body">
+              <p class="card-text text-center fw-bold">Mulher Maravilha</p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Estatísticas do Site - Versão compacta e responsiva -->
+  <section class="my-5">
+    <div class="container text-center">
+      <h2 class="mb-4 text-secondary">Números do InMemoriamBrasil</h2>
+
+      <div
+        class="d-flex flex-wrap justify-content-center gap-3 overflow-auto px-2"
+      >
+        <!-- Card: Memoriais -->
+        <div
+          class="card border-0 shadow py-2 px-2 bg-white text-center"
+          style="width: 220px; flex: 0 0 auto;"
+        >
+          <div
+            class="card-body text-dark d-flex flex-column align-items-center p-2"
+          >
+            <i class="bi bi-person-lines-fill fs-5" style="color: #4f0e21;"></i>
+            <h6
+              class="mt-1 mb-0 fw-bold small"
+              style="color: #4f0e21;"
+            >Memoriais</h6>
+            <p class="fs-6 fw-bold mb-1">{{totalMemoriais}}</p>
+          </div>
+        </div>
+
+        <!-- Card: Visitantes -->
+        <div
+          class="card border-0 shadow py-2 px-2 bg-white text-center"
+          style="width: 220px; flex: 0 0 auto;"
+        >
+          <div
+            class="card-body text-dark d-flex flex-column align-items-center p-2"
+          >
+            <i class="bi bi-eye-fill fs-5" style="color: #4f0e21;"></i>
+            <h6
+              class="mt-1 mb-0 fw-bold small"
+              style="color: #4f0e21;"
+            >Visitantes</h6>
+            <p class="fs-6 fw-bold mb-1">{{totalVisitas}}</p>
+          </div>
+        </div>
+
+        <!-- Card: Tributos -->
+        <div
+          class="card border-0 shadow py-2 px-2 bg-white text-center"
+          style="width: 220px; flex: 0 0 auto;"
+        >
+          <div
+            class="card-body text-dark d-flex flex-column align-items-center p-2"
+          >
+            <i class="bi bi-flower1 fs-5" style="color: #4f0e21;"></i>
+            <h6
+              class="mt-1 mb-0 fw-bold small"
+              style="color: #4f0e21;"
+            >Tributos</h6>
+            <p class="fs-6 fw-bold mb-1">{{totalTributos}}</p>
+          </div>
+        </div>
+
+        <!-- Card: Histórias de Vida -->
+        <div
+          class="card border-0 shadow py-2 px-2 bg-white text-center"
+          style="width: 220px; flex: 0 0 auto;"
+        >
+          <div
+            class="card-body text-dark d-flex flex-column align-items-center p-2"
+          >
+            <i
+              class="bi bi-journal-bookmark-fill fs-5"
+              style="color: #4f0e21;"
+            ></i>
+            <h6
+              class="mt-1 mb-0 fw-bold small"
+              style="color: #4f0e21;"
+            >Histórias de Vida</h6>
+            <p class="fs-6 fw-bold mb-1">{{totalHistorias}}</p>
+          </div>
+        </div>
+
+        <!-- Card: Histórias Compartilhadas -->
+        <div
+          class="card border-0 shadow py-2 px-2 bg-white text-center"
+          style="width: 220px; flex: 0 0 auto;"
+        >
+          <div
+            class="card-body text-dark d-flex flex-column align-items-center p-2"
+          >
+            <i
+              class="bi bi-journal-bookmark-fill fs-5"
+              style="color: #4f0e21;"
+            ></i>
+            <h6
+              class="mt-1 mb-0 fw-bold small"
+              style="color: #4f0e21;"
+            >Histórias Compartilhadas</h6>
+            <p class="fs-6 fw-bold mb-1">{{totalCompartilhadas}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>

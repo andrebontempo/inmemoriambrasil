@@ -1,0 +1,105 @@
+<main>
+  <div class="custom-container my-0 p-2">
+    <form
+      action="/memorial/{{slug}}/lifestory/update/{{lifeStory._id}}"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+      <input type="hidden" name="_method" value="PUT" />
+      <input type="hidden" name="memorial" value="{{lifeStory.memorial}}" />
+      <input type="hidden" name="slug" value="{{slug}}" />
+
+      <div class="custom-box my-2 mx-4">
+        <h3>Editar História</h3>
+        <div class="card p-3">
+
+          <!-- Título da História -->
+          <div class="mb-2">
+            <label for="storyTitle" class="form-label">
+              <i class="bi bi-bookmark-fill"></i>
+              Título da História
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              id="storyTitle"
+              name="title"
+              value="{{lifeStory.title}}"
+              required
+            />
+          </div>
+
+          <!-- Conteúdo da História -->
+          <div class="mb-2">
+            <label for="storyContent" class="form-label">
+              <i class="bi bi-chat-left-text"></i>
+              Conteúdo
+            </label>
+            <textarea
+              class="edit-input form-control"
+              rows="5"
+              id="storyContent"
+              name="content"
+              required
+            >{{lifeStory.content}}</textarea>
+          </div>
+
+          <!-- Data do Acontecimento -->
+          <div class="mb-2">
+            <label for="eventDate" class="form-label">
+              <i class="bi bi-calendar-event"></i>
+              Data do Acontecimento
+            </label>
+            <input
+              type="date"
+              class="form-control"
+              id="eventDate"
+              name="eventDate"
+              value="{{eventDate}}"
+            />
+          </div>
+
+          <!-- Imagem (opcional) -->
+          <div class="mb-2">
+            <label for="storyImage" class="form-label">
+              <i class="bi bi-image"></i>
+              Substituir imagem
+            </label>
+            <input
+              type="file"
+              class="form-control"
+              id="storyImage"
+              name="file"
+              accept="image/*"
+            />
+            {{#if lifeStory.image}}
+              <div class="mt-2">
+                <strong>Imagem atual:</strong><br />
+                <img
+                  src="/images/uploads/{{lifeStory.image}}"
+                  alt="Imagem da história"
+                  class="img-fluid rounded mt-2"
+                  style="max-height: 200px;"
+                />
+              </div>
+            {{/if}}
+          </div>
+
+          <!-- Usuário -->
+          <div class="text-muted mb-2 fs-7 text-end">
+            Editando como usuário logado.
+          </div>
+
+          <!-- Botões -->
+          <div class="d-flex justify-content-end align-items-center gap-2">
+            <a
+              href="/memorial/{{slug}}/lifestory"
+              class="btn btn-secondary"
+            >Cancelar</a>
+            <button type="submit" class="btn btn-primary">Atualizar História</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</main>

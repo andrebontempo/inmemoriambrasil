@@ -1,0 +1,62 @@
+<main>
+  <!-- Formulário de Edição do Memorial -->
+  <div class="custom-box p-4 mt-0 mx-4">
+    <h3>Editar Foto Principal, Epitáfio e Tema</h3>
+
+    <form action="/memorial/{{slug}}/memorial/updatefet" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="_method" value="PUT" />
+
+      <!-- Foto Principal -->
+      <fieldset class="mb-3">
+        <label class="form-label"><strong>Foto Principal:</strong></label>
+
+        <div class="d-flex align-items-center gap-3">
+          {{#if mainPhoto.url}}
+            <div>
+              <img src="/memorials/{{slug}}/photos/{{mainPhoto.url}}" alt="Foto Principal" style="width: 80px; height: 80px; object-fit: cover; border-radius: 10px;">
+            </div>
+          {{/if}}
+
+          <div class="flex-grow-1">
+            <input
+              type="file"
+              class="form-control"
+              name="file"
+              accept="image/*"
+            />
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Epitáfio -->
+      <fieldset class="mb-3">
+        <label class="form-label"><strong>Epitáfio:</strong></label>
+        <input
+          type="text"
+          class="form-control"
+          name="epitaph"
+          value="{{epitaph}}"
+          placeholder="Exemplo: 'Sempre em nossos corações'"
+        />
+      </fieldset>
+
+      <!-- Tema do Memorial -->
+      <fieldset class="mb-3">
+        <label class="form-label"><strong>Tema do Memorial:</strong></label>
+        <select class="form-select" name="theme">
+          <option value="Azul" {{#ifEquals theme "Azul"}}selected{{/ifEquals}}>Azul</option>
+          <option value="Verde" {{#ifEquals theme "Verde"}}selected{{/ifEquals}}>Verde</option>
+          <option value="Vermelho" {{#ifEquals theme "Vermelho"}}selected{{/ifEquals}}>Vermelho</option>
+          <option value="Neutro" {{#ifEquals theme "Neutro"}}selected{{/ifEquals}}>Neutro</option>
+          <!-- Pode adicionar mais temas aqui -->
+        </select>
+      </fieldset>
+
+      <!-- Botões de Ação -->
+      <div class="d-flex justify-content-end align-items-center gap-2 mt-4">
+        <a href="/memorial/{{slug}}" class="btn btn-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Atualizar</button>
+      </div>
+    </form>
+  </div>
+</main>

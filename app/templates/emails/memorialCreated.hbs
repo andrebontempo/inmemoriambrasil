@@ -1,0 +1,41 @@
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Memorial criado com sucesso</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        color: #333;
+      }
+      .container {
+        max-width: 600px;
+        margin: auto;
+        padding: 30px;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+      }
+      .btn {
+        display: inline-block;
+        background-color: #0056b3;
+        color: #ffffff;
+        padding: 12px 24px;
+        margin-top: 20px;
+        text-decoration: none;
+        border-radius: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Olá, {{nomeUsuario}}!</h2>
+      <p>O memorial de
+        <strong>{{nomeMemorial}}</strong>
+        foi criado com sucesso em nossa plataforma.</p>
+      <p>Você pode acessá-lo a qualquer momento pelo link abaixo:</p>
+      <a href="{{link}}" class="btn">Ver memorial</a>
+      <p style="margin-top: 30px;">Agradecemos por confiar na InMemoriam Brasil.</p>
+      <p>Equipe InMemoriam Brasil</p>
+    </div>
+  </body>
+</html>

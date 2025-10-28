@@ -1,0 +1,207 @@
+/* =========================================
+   🎨 CUSTOMIZAÇÃO DO BOOTSTRAP VIA :root 
+   ========================================= */
+:root {
+  /* 🎨 Cores principais */
+  --bs-primary: #4f0e21; /* Vermelho muito escuro */
+  --bs-primary-rgb: 79, 14, 33;
+  --bs-secondary: #7a142f; /* Vermelho escuro */
+  --bs-secondary-rgb: 122, 20, 47;
+  --bs-success: #198754; /* Verde Bootstrap */
+  --bs-success-rgb: 25, 135, 84;
+  --bs-info: #0dcaf0; /* Azul claro */
+  --bs-info-rgb: 13, 202, 240;
+  --bs-warning: #ffc107; /* Amarelo alerta */
+  --bs-warning-rgb: 255, 193, 7;
+  --bs-danger: #dc3545; /* Vermelho alerta */
+  --bs-danger-rgb: 220, 53, 69;
+  --bs-light: #7a142f; /* Vermelho claro */
+  --bs-light-rgb: 248, 215, 218;
+  --bs-dark: #2a0a13; /* Vermelho muito escuro (mais escuro que o primary) */
+  --bs-dark-rgb: 42, 10, 19;
+
+  /* 🖼️ Cores do corpo */
+  --bs-body-color: #212529; /* Cor do texto principal */
+  --bs-body-color-rgb: 33, 37, 41;
+  --bs-body-bg: #f8f9fa; /* Cor de fundo padrão */
+  --bs-body-bg-rgb: 248, 249, 250;
+  --bs-body-font-family: "Arial", sans-serif; /* Fonte principal */
+  --bs-body-font-size: 1rem; /* Tamanho da fonte */
+  --bs-body-font-weight: 400; /* Peso da fonte normal */
+  --bs-body-line-height: 1.5; /* Altura da linha */
+
+  /* 🎭 Cores de destaque */
+  --bs-emphasis-color: #000; /* Cor de ênfase no texto */
+  --bs-emphasis-color-rgb: 0, 0, 0;
+  --bs-secondary-color: #6c757d; /* Texto secundário */
+  --bs-secondary-color-rgb: 108, 117, 125;
+  --bs-secondary-bg: #e9ecef; /* Fundo secundário */
+  --bs-secondary-bg-rgb: 233, 236, 239;
+  --bs-tertiary-color: #495057; /* Texto terciário */
+  --bs-tertiary-color-rgb: 73, 80, 87;
+  --bs-tertiary-bg: #dee2e6; /* Fundo terciário */
+  --bs-tertiary-bg-rgb: 222, 226, 230;
+
+  /* 🎭 Cores de links */
+  --bs-link-color: #0d6efd; /* Cor do link padrão */
+  --bs-link-color-rgb: 13, 110, 253;
+  --bs-link-decoration: underline; /* Estilo padrão do link */
+  --bs-link-hover-color: #0a58ca; /* Cor do link ao passar o mouse */
+  --bs-link-hover-color-rgb: 10, 88, 202;
+  --bs-link-hover-decoration: underline; /* Estilo do link ao passar o mouse */
+
+  /* 🖋️ Cores de foco */
+  --bs-focus-ring-opacity: 0.25; /* Opacidade do anel de foco */
+  --bs-focus-ring-color: rgba(13, 110, 253, 0.25); /* Cor do anel de foco */
+
+  /* 🔳 Bordas */
+  --bs-border-width: 1px; /* Largura padrão da borda */
+  --bs-border-style: solid; /* Estilo padrão da borda */
+  --bs-border-color: #dee2e6; /* Cor padrão da borda */
+  --bs-border-color-translucent: rgba(
+    0,
+    0,
+    0,
+    0.175
+  ); /* Borda semi-transparente */
+  --bs-border-radius: 0.375rem; /* Raio de borda padrão */
+  --bs-border-radius-sm: 0.25rem; /* Borda pequena */
+  --bs-border-radius-lg: 0.5rem; /* Borda grande */
+  --bs-border-radius-xl: 1rem; /* Borda extra grande */
+  --bs-border-radius-2xl: 2rem; /* Borda super grande */
+  --bs-border-radius-pill: 50rem; /* Borda arredondada estilo pílula */
+
+  /* 🎭 Sombras e gradientes */
+  --bs-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Sombra padrão */
+  --bs-box-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* Sombra pequena */
+  --bs-box-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175); /* Sombra grande */
+  --bs-box-shadow-inset: inset 0 1px 2px rgba(0, 0, 0, 0.075); /* Sombra interna */
+  --bs-gradient: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.15),
+    rgba(0, 0, 0, 0.15)
+  ); /* Gradiente padrão */
+
+  /* 🟦 Botões */
+  --bs-btn-color: #fff; /* Cor do texto do botão */
+  --bs-btn-bg: var(--bs-primary); /* Cor do fundo do botão */
+  --bs-btn-border-color: var(--bs-primary); /* Cor da borda do botão */
+  --bs-btn-hover-color: #fff; /* Cor do texto ao passar o mouse */
+  --bs-btn-hover-bg: #3e0a19; /* Cor de fundo ao passar o mouse */
+  --bs-btn-hover-border-color: #3e0a19; /* Cor da borda ao passar o mouse */
+  --bs-btn-focus-shadow-rgb: 79, 14, 33; /* Cor do anel de foco */
+  --bs-btn-active-color: #fff; /* Cor do texto quando ativo */
+  --bs-btn-active-bg: #3e0a19; /* Cor do fundo quando ativo */
+  --bs-btn-active-border-color: #3e0a19; /* Cor da borda quando ativo */
+  --bs-btn-disabled-color: #6c757d; /* Cor do texto do botão desativado */
+  --bs-btn-disabled-bg: #e9ecef; /* Cor de fundo do botão desativado */
+  --bs-btn-disabled-border-color: #e9ecef; /* Cor da borda do botão desativado */
+
+  /* 🔲 Formulários */
+  --bs-form-valid-color: #198754; /* Cor do texto para campos válidos */
+  --bs-form-valid-border-color: #198754; /* Cor da borda para campos válidos */
+  --bs-form-invalid-color: #dc3545; /* Cor do texto para campos inválidos */
+  --bs-form-invalid-border-color: #dc3545; /* Cor da borda para campos inválidos */
+
+  /* 📍 Outros componentes */
+  --bs-card-bg: #fff; /* Fundo do card */
+  --bs-card-border-color: rgba(0, 0, 0, 0.125); /* Cor da borda do card */
+  --bs-card-color: #212529; /* Cor do texto do card */
+  --bs-modal-bg: #fff; /* Fundo do modal */
+  --bs-modal-border-color: rgba(0, 0, 0, 0.125); /* Cor da borda do modal */
+  --bs-modal-color: #212529; /* Cor do texto do modal */
+  --bs-tooltip-bg: #000; /* Fundo do tooltip */
+  --bs-tooltip-color: #fff; /* Cor do texto do tooltip */
+}
+/* =========================================
+   🎨 CUSTOMIZAÇÃO ESPECÍFICAS DE ELEMENTOS  
+   ========================================= */
+
+body {
+  background-image: url("/site/background.jpg"); /* Caminho para a imagem */
+  background-size: cover; /* Faz a imagem cobrir toda a área */
+  background-position: center; /* Centraliza a imagem */
+  background-attachment: fixed; /* Faz a imagem ficar fixa enquanto o usuário rola a página */
+  background-repeat: no-repeat; /* Impede a repetição da imagem */
+  height: 100vh; /* Faz a altura da seção ser igual à altura da tela */
+  width: 100%; /* Faz a largura da seção ocupar 100% da tela */
+}
+
+header {
+  background-color: var(--bs-dark);
+  color: #fff;
+  padding: 10px 0;
+}
+
+.navbar {
+  background-color: var(--bs-primary);
+}
+
+footer {
+  background-color: var(--bs-primary);
+  color: #fff;
+  padding: 20px 0;
+}
+
+.btn-primary {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-secondary);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: var(--bs-secondary);
+  border-color: var(--bs-dark);
+}
+
+.btn-primary:active {
+  background-color: var(--bs-dark) !important;
+  border-color: var(--bs-dark) !important;
+}
+
+.card-img-top {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.form-control::placeholder {
+  color: #555;
+  font-style: italic;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.nav-item.active {
+  background-color: var(--bs-secondary);
+  border-radius: 5px;
+}
+
+.nav-item.active .nav-link {
+  color: #ffffff;
+}
+
+/* Customização das flash messages*/
+
+.flash-container {
+  z-index: 1055;
+  max-width: 90%;
+  animation: slide-down 0.6s ease-out forwards;
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-out-up {
+  opacity: 0;
+  transform: translateY(-30px);
+  transition: all 0.5s ease-in;
+}

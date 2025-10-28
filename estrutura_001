@@ -1,0 +1,7 @@
+Comando para listar a estrutura de pastas e arquivos:
+
+tree -L 5 -I "node_modules|0_antigos|1_seeds|tests|memorials|site|uploads" > estrutura_002
+
+O Resultado do comando ficará no arquivo estrutura_002
+
+
