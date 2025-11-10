@@ -80,9 +80,22 @@ app.use((req, res, next) => {
 })
 */
 
+// Ativar/desativar modo manutenção
+const emManutencao = true // altere para false quando quiser liberar o site
+
+if (emManutencao) {
+  app.get("*", (req, res) => {
+    res.status(503).render("manutencao")
+  })
+} else {
+  // Rotas
+  const routes = require("./app/routes")
+  app.use("/", routes)
+}
+
 // Rotas
-const routes = require("./app/routes")
-app.use("/", routes)
+//const routes = require("./app/routes")
+//app.use("/", routes)
 
 // Middleware de erro (corrigido para evitar erro 500)
 app.use((err, req, res, next) => {

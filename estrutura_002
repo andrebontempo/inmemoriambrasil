@@ -103,9 +103,10 @@
 ├── config
 │   ├── db.js
 │   └── playground-1.mongodb.js
+├── docker-compose.yml
+├── Dockerfile
 ├── estrutura_001
 ├── estrutura_002
-├── LICENSE
 ├── package.json
 ├── package-lock.json
 ├── public
@@ -122,8 +123,6 @@
 │   │   └── scripts.js
 │   ├── templates
 │   └── users
-├── README.md
-├── server copy.js
 └── server.js
 
-27 directories, 100 files
+27 directories, 99 files
