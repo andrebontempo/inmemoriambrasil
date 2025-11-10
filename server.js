@@ -81,7 +81,7 @@ app.use((req, res, next) => {
 */
 
 // Ativar/desativar modo manutenção
-const emManutencao = true // altere para false quando quiser liberar o site
+const emManutencao = false // altere para false quando quiser liberar o site
 
 if (emManutencao) {
   app.get("*", (req, res) => {
