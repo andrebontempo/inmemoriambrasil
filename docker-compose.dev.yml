@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  app:
+    container_name: inmemoriambrasil-dev
+    build:
+      context: .
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "8080:3000" # Porta exposta para desenvolvimento
+    volumes:
+      - .:/usr/src/app
+    command: sh -c "npm install && npx nodemon server.js"
+    depends_on:
+      - mongo
+    networks:
+      - proxy
+
+  mongo:
+    image: mongo:7
+    container_name: inmemoriambrasil-mongo-dev
+    restart: unless-stopped
+    volumes:
+      - ./data/mongo:/data/db
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
