@@ -5,6 +5,8 @@ services:
       context: .
     restart: unless-stopped
     env_file: .env
+    environment:
+      - CHOKIDAR_USEPOLLING=true
     #ports:
     #  - "8080:3000" # Porta exposta para desenvolvimento
     volumes:
