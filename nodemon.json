@@ -1,0 +1,6 @@
+{
+  "watch": ["."],
+  "ignore": ["node_modules"],
+  "ext": "js,json,hbs,css",
+  "legacyWatch": true
+}
