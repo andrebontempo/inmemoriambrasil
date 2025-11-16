@@ -7,3 +7,4 @@ data/mongo/.mongodb/
 data/mongo/journal/
 data/mongo/diagnostic.data/
 data/mongo/.bash_history
+data/mongo/
