@@ -57,6 +57,7 @@
 │       ├── layouts
 │       │   ├── main.hbs
 │       │   └── memorial-layout.hbs
+│       ├── manutencao.hbs
 │       ├── memorial
 │       │   ├── create-step1.hbs
 │       │   ├── create-step2.hbs
@@ -103,10 +104,28 @@
 ├── config
 │   ├── db.js
 │   └── playground-1.mongodb.js
+├── deploy_producao.sh
+├── docker-compose.dev.yml
 ├── docker-compose.yml
 ├── Dockerfile
+├── dumpAtlas
+│   └── inmemoriambrasilBD
+│       ├── galleries.bson
+│       ├── galleries.metadata.json
+│       ├── lifestories.bson
+│       ├── lifestories.metadata.json
+│       ├── memorials.bson
+│       ├── memorials.metadata.json
+│       ├── prelude.json
+│       ├── sharedstories.bson
+│       ├── sharedstories.metadata.json
+│       ├── tributes.bson
+│       ├── tributes.metadata.json
+│       ├── users.bson
+│       └── users.metadata.json
 ├── estrutura_001
 ├── estrutura_002
+├── nodemon.json
 ├── package.json
 ├── package-lock.json
 ├── public
@@ -123,6 +142,7 @@
 │   │   └── scripts.js
 │   ├── templates
 │   └── users
-└── server.js
+├── server.js
+└── update-dev.sh
 
-27 directories, 99 files
+29 directories, 117 files
