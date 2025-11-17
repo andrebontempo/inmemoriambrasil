@@ -1,8 +1,0 @@
-nohup: ignorando entrada
-Servidor rodando na porta 3000
-✅ MongoDB conectado!
-[auth] register - before save sessionID=iYT-AEmEVCc9rRFtcYtRzPfpZDZ2khsh keys=cookie,flash,loggedUser
-[auth] register - after save sessionID=iYT-AEmEVCc9rRFtcYtRzPfpZDZ2khsh keys=cookie,flash,loggedUser
-[auth] register - before save sessionID=PaaoMQPEoAhifY-AfaIdLXlCdB1s7yD4 keys=cookie,flash,loggedUser
-[auth] register - after save sessionID=PaaoMQPEoAhifY-AfaIdLXlCdB1s7yD4 keys=cookie,flash,loggedUser
-[auth] showDashboard - sessionID=PaaoMQPEoAhifY-AfaIdLXlCdB1s7yD4 keys= [ 'cookie', 'flash', 'loggedUser' ]
