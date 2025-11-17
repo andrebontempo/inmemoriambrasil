@@ -155,7 +155,7 @@ const MemorialController = {
 
       // Verifica se o memorial já existe
       const memorialExistente = await Memorial.findOne({ slug })
-      console.log("Memorial existente:", memorialExistente, slug)
+      //console.log("Memorial existente:", memorialExistente, slug)
       if (memorialExistente) {
         return res.status(400).render("errors/400", {
           message: "Já existe um memorial com esse nome.",

@@ -105,6 +105,7 @@
 │   ├── db.js
 │   └── playground-1.mongodb.js
 ├── deploy_producao.sh
+├── DEV_NOTES.md
 ├── docker-compose.dev.yml
 ├── docker-compose.yml
 ├── Dockerfile
@@ -142,7 +143,15 @@
 │   │   └── scripts.js
 │   ├── templates
 │   └── users
+├── repro.log
+├── repro-session
+├── scripts
+│   └── session_e2e_test.sh
 ├── server.js
+├── server.log
+├── tools
+│   ├── findSession.js
+│   └── inspectSessions.js
 └── update-dev.sh
 
-29 directories, 117 files
+32 directories, 123 files

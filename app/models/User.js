@@ -31,6 +31,15 @@ const UserSchema = new mongoose.Schema(
 
 // 🔒 Hash da senha antes de salvar no banco
 UserSchema.pre("save", async function (next) {
+  // Normaliza o e-mail antes de salvar
+  if (this.email) {
+    try {
+      this.email = String(this.email).trim().toLowerCase()
+    } catch (e) {
+      // não interrompe o fluxo por causa da normalização
+    }
+  }
+
   if (!this.isModified("password") || !this.password) return next()
   const salt = await bcrypt.genSalt(10)
   this.password = await bcrypt.hash(this.password, salt)
