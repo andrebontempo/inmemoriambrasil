@@ -3,6 +3,7 @@ node_modules/
 1_seeds/
 tests/
 .env
+.env.copy
 data/mongo/.mongodb/
 data/mongo/journal/
 data/mongo/diagnostic.data/
