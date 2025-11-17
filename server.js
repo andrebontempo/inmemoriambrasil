@@ -3,6 +3,7 @@ const exphbs = require("express-handlebars")
 const path = require("path")
 const conectarDB = require("./config/db")
 const session = require("express-session")
+const MongoStore = require("connect-mongo")
 const flash = require("connect-flash")
 const setUserMiddleware = require("./app/middlewares/setUserMiddleware")
 require("dotenv").config()
@@ -29,8 +30,25 @@ app.use(
     secret: process.env.SESSION_SECRET || "seuSegredoSuperSeguro",
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URI, // coloque sua URI real
+      ttl: 60 * 60 * 24 * 7, // 7 dias
+    }),
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 7, // cookie 7 dias
+    },
   })
 )
+/*
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "seuSegredoSuperSeguro",
+    resave: false,
+    saveUninitialized: false,
+  })
+)
+*/
+
 app.use(flash())
 
 // Middleware para flash messages
