@@ -7,6 +7,27 @@ const MongoStore = require("connect-mongo")
 const flash = require("connect-flash")
 const setUserMiddleware = require("./app/middlewares/setUserMiddleware")
 require("dotenv").config()
+// Ambiente
+const isProduction = process.env.NODE_ENV === "production"
+
+// Validações básicas de variáveis de ambiente em produção
+if (isProduction && !process.env.MONGO_URI) {
+  console.error(
+    "❌ MONGO_URI não está definida. Abortando startup em produção."
+  )
+  process.exit(1)
+}
+if (isProduction && !process.env.SESSION_SECRET) {
+  console.error(
+    "❌ SESSION_SECRET não está definida em produção. Abortando startup."
+  )
+  process.exit(1)
+}
+if (!isProduction && !process.env.SESSION_SECRET) {
+  console.warn(
+    "⚠️ SESSION_SECRET não definida — usando fallback local. Não use isso em produção."
+  )
+}
 //const methodOverride = require("method-override")
 const helpers = require("./app/utils/helpers")
 const moment = require("moment-timezone")
@@ -20,25 +41,66 @@ conectarDB()
 // Middlewares Básicos
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+// cookie-parser (usado para parsing e assinatura de cookies quando aplicável)
+// (cookie-parser removido) - usando apenas express-session + connect-mongo
 //app.use(express.json({ limit: "500mb" }))
 //app.use(express.urlencoded({ limit: "500mb", extended: true }))
 app.use(express.static(path.join(__dirname, "public")))
 
 // Configuração de Sessão
+// Options de cookie para diferentes ambientes
+const cookieOptions = {
+  maxAge: 1000 * 60 * 60 * 24 * 7, // cookie 7 dias
+  secure: isProduction, // somente via HTTPS em produção
+  sameSite: isProduction ? "lax" : "lax",
+  httpOnly: true,
+}
+
+app.set("trust proxy", isProduction) // se estiver atrás de proxy (ex: nginx), necessário para cookies secure/trust
+
+// (Removed temporary debug interceptor that logged Set-Cookie)
+// The global fallback below is the only temporary workaround kept.
+
 app.use(
   session({
+    name: process.env.SESSION_NAME || "connect.sid",
     secret: process.env.SESSION_SECRET || "seuSegredoSuperSeguro",
     resave: false,
-    saveUninitialized: false,
+    // Em desenvolvimento, permitir saveUninitialized para garantir que o cookie seja enviado
+    saveUninitialized: isProduction ? false : true,
     store: MongoStore.create({
       mongoUrl: process.env.MONGO_URI, // coloque sua URI real
       ttl: 60 * 60 * 24 * 7, // 7 dias
     }),
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 7, // cookie 7 dias
-    },
+    cookie: cookieOptions,
   })
 )
+
+// Per-request: adjust session cookie `secure` flag depending on the incoming request
+// This allows express-session to attach the cookie when the request is effectively secure
+// (req.secure or X-Forwarded-Proto) while keeping cookieOptions as a sensible default.
+app.use((req, res, next) => {
+  try {
+    const forwardedProto = (
+      req.headers["x-forwarded-proto"] || ""
+    ).toLowerCase()
+    const secure = req.secure || forwardedProto.includes("https")
+    if (req.session && req.session.cookie) {
+      req.session.cookie.secure = secure
+    }
+  } catch (e) {
+    // swallow - not critical
+  }
+  next()
+})
+
+// Note: previously we had a global fallback that forcibly attached Set-Cookie
+// to responses when express-session didn't. That fallback has been removed.
+// We now rely on per-request adjustment of `req.session.cookie.secure` (above)
+// so the session middleware can emit cookies correctly depending on whether
+// the incoming request is actually secure (req.secure or X-Forwarded-Proto).
+
+// NOTE: rota de teste removida — não deixar rotas de debug em produção
 /*
 app.use(
   session({
@@ -117,7 +179,19 @@ if (emManutencao) {
 
 // Middleware de erro (corrigido para evitar erro 500)
 app.use((err, req, res, next) => {
-  console.error(err.stack)
+  // Log com mais contexto para facilitar depuração
+  try {
+    console.error(
+      `[${new Date().toISOString()}] Erro em ${req.method} ${req.originalUrl} - user=${
+        req.user ? req.user.id || req.user._id || "autenticado" : "anon"
+      }`,
+      err
+    )
+  } catch (logErr) {
+    console.error("Erro ao logar o erro original:", logErr)
+    console.error("Erro original:", err)
+  }
+
   res.status(500).render("error", {
     title: "Erro no Servidor",
     message: "Ocorreu um erro inesperado",

@@ -23,19 +23,31 @@ const AuthController = {
   // Processar o login do usuário
   loginUser: async (req, res) => {
     try {
-      const { email, password } = req.body
+      let { email, password } = req.body
 
-      // Verifica se o usuário existe
-      const user = await User.findOne({ email: email }) // Busca direta
+      // Validações básicas de entrada
+      if (!email || !password) {
+        return res
+          .status(400)
+          .render("auth/login", { error: "E-mail e senha são obrigatórios." })
+      }
+
+      email = String(email).trim().toLowerCase()
+
+      // Verifica se o usuário existe (não informar diferença entre 'não existe' e 'senha inválida' para evitar enumeração)
+      const user = await User.findOne({ email }) // Busca direta
 
       if (!user) {
         return res
           .status(400)
-          .render("auth/login", { error: "Usuário não cadastrado." })
+          .render("auth/login", { error: "E-mail ou senha inválidos." })
       }
 
       // Verifica se a senha está correta
-      const isMatch = await bcrypt.compare(password.trim(), user.password)
+      const isMatch = await bcrypt.compare(
+        String(password).trim(),
+        user.password
+      )
 
       if (!isMatch) {
         return res
@@ -51,6 +63,8 @@ const AuthController = {
         email: user.email,
       }
 
+      // Sessão preenchida com dados do usuário (será salva abaixo)
+
       // Redireciona para a URL original, se existir
       /*
       console.log(
@@ -62,8 +76,9 @@ const AuthController = {
 
       // Garante que a sessão será salva antes de redirecionar
       req.session.save(() => {
-        //console.log("🔁 Redirecionando para:", redirectTo)
+        // garante persistência antes do redirect
         delete req.session.redirectAfterLogin
+        // redireciona após garantir que a sessão foi persistida
         res.redirect(redirectTo)
       })
 
@@ -81,6 +96,11 @@ const AuthController = {
   // Exibir o painel do usuário autenticado com seus memoriais
   showDashboard: async (req, res) => {
     // Verifica se o usuário está autenticado
+    console.log(
+      `[auth] showDashboard - sessionID=${req.sessionID}`,
+      "keys=",
+      Object.keys(req.session || {})
+    )
     if (!req.session.loggedUser) {
       return res.redirect("/auth/login")
     }
@@ -117,10 +137,20 @@ const AuthController = {
   // Processar o cadastro do usuário
   registerUser: async (req, res) => {
     try {
-      const { firstName, lastName, email, password, confirmPassword } = req.body
+      let { firstName, lastName, email, password, confirmPassword } = req.body
 
-      //console.log("Dados do formulário:", req.body)
-      // Verifica se as senhas coincidem
+      // Validações básicas
+      if (!firstName || !lastName || !email || !password || !confirmPassword) {
+        return res.render("auth/register", {
+          error: "Todos os campos são obrigatórios.",
+          firstName,
+          lastName,
+          email,
+        })
+      }
+
+      email = String(email).trim().toLowerCase()
+
       if (password !== confirmPassword) {
         return res.render("auth/register", {
           error: "As senhas não coincidem!",
@@ -129,6 +159,16 @@ const AuthController = {
           email,
         })
       }
+
+      if (String(password).length < 8) {
+        return res.render("auth/register", {
+          error: "A senha deve ter pelo menos 8 caracteres.",
+          firstName,
+          lastName,
+          email,
+        })
+      }
+
       // Verifica se o e-mail já está cadastrado
       const existingUser = await User.findOne({ email })
       if (existingUser) {
@@ -147,20 +187,25 @@ const AuthController = {
       // Salvar o usuário no banco de dados
       await newUser.save()
 
-      //console.log("Usuário cadastrado com sucesso:", newUser)
-      // Agora que o usuário foi registrado, vamos logá-lo automaticamente:
-      // A autenticação será o mesmo processo que ocorre no login
+      // Agora que o usuário foi registrado, vamos logá-lo automaticamente
       req.session.loggedUser = {
-        id: newUser._id,
+        _id: newUser._id,
         firstName: newUser.firstName,
         lastName: newUser.lastName,
         email: newUser.email,
       }
 
-      //console.log("Usuário autenticado e logado automaticamente")
-
-      // Redireciona para o painel do usuário (dashboard)
-      res.redirect("/auth/dashboard")
+      // Garante que a sessão seja salva antes do redirect
+      console.log(
+        `[auth] register - before save sessionID=${req.sessionID} keys=${Object.keys(req.session || {})}`
+      )
+      req.session.save(() => {
+        console.log(
+          `[auth] register - after save sessionID=${req.sessionID} keys=${Object.keys(req.session || {})}`
+        )
+        // redireciona após garantir que a sessão foi persistida
+        res.redirect("/auth/dashboard")
+      })
     } catch (error) {
       console.error("Erro ao cadastrar usuário:", error)
       res

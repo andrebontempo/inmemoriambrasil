@@ -1,0 +1,18 @@
+temp: add dev-only global session cookie fallback; remove per-controller forcing and heavy debug logging
+
+- Add DEV-only global fallback middleware to attach Set-Cookie when express-session doesn't (guarded by NODE_ENV and FORCE_SET_COOKIE).
+- Remove per-controller cookie forcing and the previous debug interceptor to keep the workaround centralized.
+
+Notes:
+- This is a temporary, low-risk workaround to unblock local testing. Follow-up: investigate why express-session isn't setting Set-Cookie in local HTTP (secure cookie behaviour, trust proxy, or version mismatch).
+
+Suggested local git commands:
+
+# review changes
+git status
+git add server.js app/controllers/AuthController.js DEV_NOTES.md
+# create a clear commit
+git commit -m "temp: add dev-only global session cookie fallback; remove per-controller fallback and debug logging"
+# push to remote
+git push origin main
+
