@@ -1,11 +1,6 @@
 node_modules/
-0_antigos/
-1_seeds/
+0_trash/
 tests/
 .env
-.env.copy
-data/mongo/.mongodb/
-data/mongo/journal/
-data/mongo/diagnostic.data/
-data/mongo/.bash_history
-data/mongo/
+.env.*
+data/

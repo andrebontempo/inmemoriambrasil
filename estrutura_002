@@ -1,157 +1,158 @@
 .
 ├── app
-│   ├── controllers
-│   │   ├── AuthController.js
-│   │   ├── GalleryController.js
-│   │   ├── HomeController.js
-│   │   ├── InviteController.js
-│   │   ├── LifeStoryController.js
-│   │   ├── MemorialController.js
-│   │   ├── MemorialFETController.js
-│   │   ├── SharedStoryController.js
-│   │   ├── StatsController.js
-│   │   └── TributeController.js
-│   ├── middlewares
-│   │   ├── authMiddleware.js
-│   │   ├── errorHandlerMiddleware.js
-│   │   ├── setUserMiddleware.js
-│   │   └── uploadMiddleware.js
-│   ├── models
-│   │   ├── Gallery.js
-│   │   ├── LifeStory.js
-│   │   ├── Memorial.js
-│   │   ├── SharedStory.js
-│   │   ├── Tribute.js
-│   │   └── User.js
-│   ├── routes
-│   │   ├── authRoutes.js
-│   │   ├── homeRoutes.js
-│   │   ├── index.js
-│   │   └── memorialRoutes.js
-│   ├── services
-│   │   ├── authService.js
-│   │   ├── MailService.js
-│   │   ├── memorialService.js
-│   │   └── userService.js
-│   ├── templates
-│   │   └── emails
-│   │       ├── admin-alert.hbs
-│   │       ├── adminNotification.hbs
-│   │       ├── memorialCreated.hbs
-│   │       └── welcome.hbs
-│   ├── utils
-│   │   ├── helpers.js
-│   │   └── logger.js
-│   └── views
-│       ├── auth
-│       │   ├── dashboard.hbs
-│       │   ├── login.hbs
-│       │   ├── register.hbs
-│       │   └── user.hbs
-│       ├── error.hbs
-│       ├── errors
-│       │   ├── 400.hbs
-│       │   ├── 404.hbs
-│       │   ├── 500.hbs
-│       │   └── error.hbs
-│       ├── layouts
-│       │   ├── main.hbs
-│       │   └── memorial-layout.hbs
-│       ├── manutencao.hbs
-│       ├── memorial
-│       │   ├── create-step1.hbs
-│       │   ├── create-step2.hbs
-│       │   ├── create-step3.hbs
-│       │   ├── create-step4.hbs
-│       │   ├── edit
-│       │   │   ├── about.hbs
-│       │   │   ├── epitaph.hbs
-│       │   │   ├── epitaphNOVO.hbs
-│       │   │   ├── gallery.hbs
-│       │   │   ├── lifestory.hbs
-│       │   │   ├── memorial-fet.hbs
-│       │   │   ├── memorial.hbs
-│       │   │   ├── sharedstory.hbs
-│       │   │   └── tribute.hbs
-│       │   ├── memorial-about.hbs
-│       │   ├── memorial-gallery.hbs
-│       │   ├── memorial-lifestory.hbs
-│       │   ├── memorial-pesquisa.hbs
-│       │   └── memorial-sharedstory.hbs
-│       ├── partials
-│       │   ├── main
-│       │   │   ├── footer.hbs
-│       │   │   ├── header.hbs
-│       │   │   └── navbar.hbs
-│       │   └── memorial
-│       │       ├── memorial-cover.hbs
-│       │       ├── memorial-footer.hbs
-│       │       ├── memorial-header.hbs
-│       │       ├── memorial-navbar.hbs
-│       │       └── memorial-sidebar.hbs
-│       └── statics
-│           ├── condicoes-utilizacao.hbs
-│           ├── contato.hbs
-│           ├── criar-memorial.hbs
-│           ├── dashboard.hbs
-│           ├── home.hbs
-│           ├── mapa-site.hbs
-│           ├── memoriais-virtuais.hbs
-│           ├── plano-opcoes.hbs
-│           ├── politica-privacidade.hbs
-│           ├── sobre.hbs
-│           └── testemunhos.hbs
+│   ├── controllers
+│   │   ├── AuthController copy.js
+│   │   ├── AuthController.js
+│   │   ├── GalleryController.js
+│   │   ├── HomeController.js
+│   │   ├── InviteController.js
+│   │   ├── LifeStoryController.js
+│   │   ├── MemorialController.js
+│   │   ├── MemorialFETController.js
+│   │   ├── SharedStoryController.js
+│   │   ├── StatsController.js
+│   │   └── TributeController.js
+│   ├── middlewares
+│   │   ├── authMiddleware.js
+│   │   ├── errorHandlerMiddleware.js
+│   │   ├── setUserMiddleware.js
+│   │   └── uploadMiddleware.js
+│   ├── models
+│   │   ├── Gallery.js
+│   │   ├── LifeStory.js
+│   │   ├── Memorial.js
+│   │   ├── SharedStory.js
+│   │   ├── Tribute.js
+│   │   └── User.js
+│   ├── routes
+│   │   ├── authRoutes.js
+│   │   ├── homeRoutes.js
+│   │   ├── index.js
+│   │   └── memorialRoutes.js
+│   ├── services
+│   │   ├── authService.js
+│   │   ├── MailService.js
+│   │   ├── memorialService.js
+│   │   └── userService.js
+│   ├── templates
+│   │   └── emails
+│   │       ├── admin-alert.hbs
+│   │       ├── adminNotification.hbs
+│   │       ├── memorialCreated.hbs
+│   │       └── welcome.hbs
+│   ├── utils
+│   │   ├── helpers.js
+│   │   └── logger.js
+│   └── views
+│       ├── auth
+│       │   ├── dashboard.hbs
+│       │   ├── login.hbs
+│       │   ├── register.hbs
+│       │   └── user.hbs
+│       ├── error.hbs
+│       ├── errors
+│       │   ├── 400.hbs
+│       │   ├── 404.hbs
+│       │   ├── 500.hbs
+│       │   └── error.hbs
+│       ├── layouts
+│       │   ├── main.hbs
+│       │   └── memorial-layout.hbs
+│       ├── manutencao.hbs
+│       ├── memorial
+│       │   ├── create-step1.hbs
+│       │   ├── create-step2.hbs
+│       │   ├── create-step3.hbs
+│       │   ├── create-step4.hbs
+│       │   ├── edit
+│       │   │   ├── about.hbs
+│       │   │   ├── epitaph.hbs
+│       │   │   ├── epitaphNOVO.hbs
+│       │   │   ├── gallery.hbs
+│       │   │   ├── lifestory.hbs
+│       │   │   ├── memorial-fet.hbs
+│       │   │   ├── memorial.hbs
+│       │   │   ├── sharedstory.hbs
+│       │   │   └── tribute.hbs
+│       │   ├── memorial-about.hbs
+│       │   ├── memorial-gallery.hbs
+│       │   ├── memorial-lifestory.hbs
+│       │   ├── memorial-pesquisa.hbs
+│       │   └── memorial-sharedstory.hbs
+│       ├── partials
+│       │   ├── main
+│       │   │   ├── footer.hbs
+│       │   │   ├── header.hbs
+│       │   │   └── navbar.hbs
+│       │   └── memorial
+│       │       ├── memorial-cover.hbs
+│       │       ├── memorial-footer.hbs
+│       │       ├── memorial-header.hbs
+│       │       ├── memorial-navbar.hbs
+│       │       └── memorial-sidebar.hbs
+│       └── statics
+│           ├── condicoes-utilizacao.hbs
+│           ├── contato.hbs
+│           ├── criar-memorial.hbs
+│           ├── dashboard.hbs
+│           ├── home.hbs
+│           ├── mapa-site.hbs
+│           ├── memoriais-virtuais.hbs
+│           ├── plano-opcoes.hbs
+│           ├── politica-privacidade.hbs
+│           ├── sobre.hbs
+│           └── testemunhos.hbs
 ├── config
-│   ├── db.js
-│   └── playground-1.mongodb.js
+│   ├── db.js
+│   └── playground-1.mongodb.js
+├── deploy_dev.sh
 ├── deploy_producao.sh
 ├── DEV_NOTES.md
 ├── docker-compose.dev.yml
 ├── docker-compose.yml
 ├── Dockerfile
 ├── dumpAtlas
-│   └── inmemoriambrasilBD
-│       ├── galleries.bson
-│       ├── galleries.metadata.json
-│       ├── lifestories.bson
-│       ├── lifestories.metadata.json
-│       ├── memorials.bson
-│       ├── memorials.metadata.json
-│       ├── prelude.json
-│       ├── sharedstories.bson
-│       ├── sharedstories.metadata.json
-│       ├── tributes.bson
-│       ├── tributes.metadata.json
-│       ├── users.bson
-│       └── users.metadata.json
+│   └── inmemoriambrasilBD
+│       ├── galleries.bson
+│       ├── galleries.metadata.json
+│       ├── lifestories.bson
+│       ├── lifestories.metadata.json
+│       ├── memorials.bson
+│       ├── memorials.metadata.json
+│       ├── prelude.json
+│       ├── sharedstories.bson
+│       ├── sharedstories.metadata.json
+│       ├── tributes.bson
+│       ├── tributes.metadata.json
+│       ├── users.bson
+│       └── users.metadata.json
 ├── estrutura_001
 ├── estrutura_002
 ├── nodemon.json
 ├── package.json
 ├── package-lock.json
 ├── public
-│   ├── css
-│   │   ├── main-styles.css
-│   │   ├── memorial-styles.css
-│   │   └── templates
-│   │       ├── azul.css
-│   │       ├── roxo.css
-│   │       └── vinho.css
-│   ├── js
-│   │   ├── calcula_idade.js
-│   │   ├── navbar.js
-│   │   └── scripts.js
-│   ├── templates
-│   └── users
+│   ├── css
+│   │   ├── main-styles.css
+│   │   ├── memorial-styles.css
+│   │   └── templates
+│   │       ├── azul.css
+│   │       ├── roxo.css
+│   │       └── vinho.css
+│   ├── js
+│   │   ├── calcula_idade.js
+│   │   ├── navbar.js
+│   │   └── scripts.js
+│   ├── templates
+│   └── users
 ├── repro.log
 ├── repro-session
 ├── scripts
-│   └── session_e2e_test.sh
+├── server copy.js
 ├── server.js
 ├── server.log
-├── tools
-│   ├── findSession.js
-│   └── inspectSessions.js
-└── update-dev.sh
+└── tools
+    ├── findSession.js
+    └── inspectSessions.js
 
-32 directories, 123 files
+32 directories, 124 files
