@@ -1,0 +1,42 @@
+# Exemplo de variáveis de ambiente
+# Copie este arquivo para .env e preencha com seus valores
+
+# ========== Banco de Dados ==========
+# MongoDB local
+#MONGO_URI=mongodb://mongo:27017/inmemoriambrasilBD
+
+# Ou MongoDB Atlas (nuvem)
+#MONGO_URI=mongodb+srv://usuario:senha@cluster0.xxxxx.mongodb.net/inmemoriambrasil
+MONGO_URI=mongodb+srv://andrelnx:A2345678@cluster000.h5t9m.mongodb.net/inmemoriambrasilBD
+
+
+# ========== Sessão ==========
+# String secreta para criptografar sessões (mínimo 32 caracteres em produção)
+SESSION_SECRET=u0IPlL1WEuV+K+gPDXw4pcO7V7AUnA+Y
+
+
+# ========== Servidor ==========
+# Porta em que o servidor rodará (padrão: 8080)
+PORT=3000
+
+# Ambiente (development ou production)
+NODE_ENV=production
+
+# ========== Modo Manutenção ==========
+# Ativa modo manutenção: todos os requests retornam 503
+MAINTENANCE=false
+
+# ========== Proxy Reverso ==========
+# Se estiver atrás de nginx, Heroku, Vercel ou outro proxy reverso, defina como 1
+TRUST_PROXY=1
+
+# ========== Email ==========
+#api_key do servidor de email
+RESEND_API_KEY=re_DjCfkWEi_NaoSAH4hdyKncuvMAQqdxnWR
+SMTP_USER=apoioaocliente@inmemoriambrasil.com.br
+SMTP_PASS="Sites#@184"
+
+
+# ========== JWT ==========
+JWT_SECRET=chavesecreta
+JWT_EXPIRES=7d
