@@ -11,7 +11,7 @@ require("dotenv").config()
 
 const app = express()
 
-// Ambiente
+// Ambiente...
 const isProduction = process.env.NODE_ENV === "production"
 
 // ----- Validações essenciais -----
