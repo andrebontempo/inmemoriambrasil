@@ -180,6 +180,8 @@ const MemorialController = {
 
     const userId = req.session.loggedUser._id
     const data = req.session.memorial
+    //const user = req.session.loggedUser
+    const userCurrent = req.session.loggedUser
 
     try {
       const { epitaph, theme } = req.body
@@ -198,10 +200,10 @@ const MemorialController = {
           updatedAt: new Date(),
         }
       }
-      console.log(
-        "Dados finais do memorial na sessão:",
-        req.session.memorial.mainPhoto.url
-      )
+      //console.log(
+      //  "Dados finais do memorial na sessão:",
+      //  req.session.memorial.mainPhoto.url
+      //)
 
       // Agora cria oficialmente no banco
       const novoMemorial = await Memorial.create({
@@ -211,6 +213,21 @@ const MemorialController = {
 
       // Guarda ID do memorial criado
       req.session.memorialId = novoMemorial._id
+
+      // Envia e-mail para o usuário
+      await MailService.sendEmail({
+        to: userCurrent.email,
+        subject: "Seu memorial foi criado com sucesso",
+        html: `
+    <h1>Olá, ${userCurrent.firstName}</h1>
+    <p>O memorial de <strong>${novoMemorial.firstName} ${novoMemorial.lastName}</strong> foi criado com sucesso.</p>
+    <p>Você pode acessá-lo aqui: <a href="https://inmemoriambrasil.com.br/memorial/${novoMemorial.slug}">Ver memorial</a></p>
+  `,
+      })
+      // Atualizar sessão
+      req.session.memorialId = novoMemorial._id
+      req.session.memorialSlug = novoMemorial.slug
+      req.session.memorial = null // limpa os dados temporários
 
       // Redireciona para a página pública
       return res.redirect(`/memorial/${novoMemorial.slug}`)
