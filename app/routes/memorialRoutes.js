@@ -148,15 +148,7 @@ router.get("/:slug/memorial-fet/edit", MemorialFETController.editMemorialFET)
 router.post(
   "/:slug/memorial-fet/update",
   upload.single("file"),
-  (req, res) => {
-    // Verificar se o campo _method existe e se é 'PUT'
-    if (req.body._method && req.body._method === "PUT") {
-      // Chama o controller de atualização se o _method for PUT
-      return MemorialFETController.updateMemorialFET(req, res)
-    }
-    // Caso contrário, retorna um erro de método não permitido
-    res.status(400).send("Método não Permitidooo")
-  },
+  uploadToR2,
   MemorialFETController.updateMemorialFET
 )
 

@@ -3,19 +3,11 @@ const Gallery = require("../models/Gallery")
 const Tribute = require("../models/Tribute")
 const LifeStory = require("../models/LifeStory")
 const SharedStory = require("../models/SharedStory")
-const fs = require("fs")
-const path = require("path")
+const { r2, DeleteObjectCommand } = require("../../config/r2") // ajuste caminho conforme necessário
 
 const MemorialFETController = {
   editMemorialFET: async (req, res) => {
-    /*
-    console.log(
-      "MEMORIAL-FET - Recebendo requisição PARA EDITAR:",
-      req.params.slug
-    )
-    */
     try {
-      // Buscar memorial
       const memorial = await Memorial.findOne({ slug: req.params.slug })
         .populate({ path: "user", select: "firstName lastName" })
         .lean()
@@ -24,7 +16,6 @@ const MemorialFETController = {
         return res.status(404).send("Memorial não encontrado")
       }
 
-      // Buscar galeria associada
       const galeria = await Gallery.findOne({ memorial: memorial._id })
         .populate({ path: "user", select: "firstName lastName" })
         .select("photos audios videos")
@@ -36,15 +27,12 @@ const MemorialFETController = {
         videos: [],
       }
 
-      // Buscar contagem de tributos (caso tenha múltiplas associadas a esse memorial)
       const totalTributos = await Tribute.countDocuments({
         memorial: memorial._id,
       })
-      // Buscar contagem de histórias de vida (caso tenha múltiplas associadas a esse memorial)
       const totalHistorias = await LifeStory.countDocuments({
         memorial: memorial._id,
       })
-      // Buscar contagem de histórias compartilhadas (caso tenha múltiplas associadas a esse memorial)
       const totalHistoriasCom = await SharedStory.countDocuments({
         memorial: memorial._id,
       })
@@ -70,7 +58,6 @@ const MemorialFETController = {
         },
         gallery: galleryData,
         theme: memorial.theme || "Flores",
-        // Envia estatísticas específicas para a view
         estatisticas: {
           totalVisitas: memorial.visits || 0,
           totalTributos,
@@ -84,17 +71,10 @@ const MemorialFETController = {
     }
   },
 
-  // Atualizar memorial
   updateMemorialFET: async (req, res) => {
-    /*
-    console.log(
-      "MEMORIAL-FET - Recebendo requisição para ATUALIZAR:",
-      req.params.slug
-    )
-    */
     try {
       const { slug } = req.params
-      const { epitaph, theme } = req.body // Campos de texto que sempre podem ser atualizados
+      const { epitaph, theme } = req.body
 
       const memorial = await Memorial.findOne({ slug })
 
@@ -102,52 +82,44 @@ const MemorialFETController = {
         return res.status(404).send("Memorial não encontrado")
       }
 
-      // Vamos preparar os dados que queremos atualizar
       const updateData = {
         epitaph,
         theme,
       }
 
-      // Se vier uma nova foto no req.file
-      if (req.file) {
-        //console.log("Nova foto recebida:", req.file.filename)
+      //console.log("req.file ao atualizar foto:", req.file)
 
-        // Caminho da foto atual
-        const fotoAntiga = memorial.mainPhoto?.url
-        if (fotoAntiga) {
-          const caminhoFotoAntiga = path.join(
-            __dirname,
-            "..",
-            "..",
-            "public",
-            "memorials",
-            slug,
-            "photos",
-            fotoAntiga
-          )
-
-          // Verifica se o arquivo existe antes de tentar apagar
-          if (fs.existsSync(caminhoFotoAntiga)) {
-            fs.unlinkSync(caminhoFotoAntiga)
-            //console.log("Foto antiga deletada:", fotoAntiga)
+      // Se vier uma nova foto no req.file (uploadToR2 middleware)
+      if (req.file && req.file.key) {
+        // Apaga a foto antiga da Cloudflare R2 (se existir)
+        if (memorial.mainPhoto && memorial.mainPhoto.key) {
+          try {
+            await r2.send(
+              new DeleteObjectCommand({
+                Bucket: process.env.R2_BUCKET,
+                Key: memorial.mainPhoto.key,
+              })
+            )
+            console.log("Foto antiga removida da R2:", memorial.mainPhoto.key)
+          } catch (err) {
+            console.error("Erro ao deletar foto antiga da R2:", err)
           }
         }
 
-        // Atualizar a mainPhoto no memorial
+        // Atualiza mainPhoto com a nova info da R2
         updateData.mainPhoto = {
-          url: req.file.filename,
-          updatedAt: new Date(),
+          key: req.file.key,
+          url: req.file.url,
           originalName: req.file.originalname,
+          updatedAt: new Date(),
         }
       }
 
-      // Agora atualiza no banco de dados
       await Memorial.findOneAndUpdate({ slug }, updateData, { new: true })
 
-      // Redirecionar para o memorial
       res.redirect(`/memorial/${slug}`)
     } catch (err) {
-      console.error(err)
+      console.error("Erro ao atualizar memorial:", err)
       res.status(500).send("Erro ao atualizar memorial")
     }
   },

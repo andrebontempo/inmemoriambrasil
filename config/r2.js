@@ -1,4 +1,8 @@
-const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3")
+const {
+  S3Client,
+  PutObjectCommand,
+  DeleteObjectCommand,
+} = require("@aws-sdk/client-s3")
 
 const r2 = new S3Client({
   region: "auto",
@@ -9,4 +13,4 @@ const r2 = new S3Client({
   },
 })
 
-module.exports = { r2, PutObjectCommand }
+module.exports = { r2, PutObjectCommand, DeleteObjectCommand }
