@@ -6,45 +6,66 @@ const Gallery = require("../models/Gallery")
 const path = require("path")
 const fs = require("fs")
 const moment = require("moment-timezone")
+//const { PutObjectCommand } = require("@aws-sdk/client-s3")
+//const r2 = require("../../config/r2")
+const { r2, PutObjectCommand } = require("../../config/r2")
+const { DeleteObjectCommand } = require("@aws-sdk/client-s3")
 
 const LifeStoryController = {
   createLifeStory: async (req, res) => {
     const userCurrent = req.session.loggedUser
 
-    //console.log("Chegando em createLifeStory")
-    //console.log("req.params.slug:", req.params.slug)
-    //console.log("req.body:", req.body)
-
     try {
-      // Buscar o memorial pelo ID (se estiver no body) ou pelo slug (se necessário)
-      let memorial = await Memorial.findById(req.body.memorial)
+      let mediaFileName = ""
+      let fileUrl = ""
 
-      if (!memorial) {
-        // Tentar buscar pelo slug caso o ID não tenha sido encontrado
-        memorial = await Memorial.findOne({ slug: req.params.slug })
+      if (req.file) {
+        const timestamp = Date.now()
+        const originalName = req.file.originalname.replace(/\s+/g, "_")
+        mediaFileName = `${timestamp}_${originalName}`
+
+        const command = new PutObjectCommand({
+          Bucket: process.env.R2_BUCKET,
+          Key: mediaFileName,
+          Body: req.file.buffer,
+          ContentType: req.file.mimetype,
+        })
+
+        await r2.send(command)
+
+        fileUrl = req.file.url
+
+        //fileUrl = `https://${process.env.R2_BUCKET}.r2.cloudflarestorage.com/${mediaFileName}`
       }
 
+      // Buscar memorial
+      let memorial = await Memorial.findById(req.body.memorial)
+      if (!memorial) {
+        memorial = await Memorial.findOne({ slug: req.params.slug })
+      }
       if (!memorial) {
         console.error("Erro: Memorial não encontrado!")
         return res.status(404).send("Memorial não encontrado")
       }
 
-      // Criar a história de vida com os dados corretos
+      // Criar nova história de vida com objeto image
       const newLifeStory = new LifeStory({
-        memorial: memorial._id, // Pegando o ID do memorial corretamente
+        memorial: memorial._id,
         slug: req.params.slug,
-        user: userCurrent ? userCurrent._id : null, // Definir usuário se estiver autenticado
+        user: userCurrent ? userCurrent._id : null,
         title: req.body.title,
         content: req.body.content,
         eventDate: req.body.eventDate,
-        image: req.file ? `${req.file.filename}` : "",
+        image: {
+          key: mediaFileName,
+          url: fileUrl,
+          originalName: req.file ? req.file.originalname : "",
+        },
       })
 
-      // Salvar no banco de dados
       await newLifeStory.save()
-      //console.log("História de vida salva com sucesso!")
-      req.flash("success_msg", "História de Vida criada com sucesso!")
 
+      req.flash("success_msg", "História de Vida criada com sucesso!")
       res.redirect(`/memorial/${memorial.slug}/lifestory`)
     } catch (error) {
       console.error("Erro ao criar história de vida:", error)
@@ -52,19 +73,13 @@ const LifeStoryController = {
     }
   },
 
-  // Exibir histórias de vida de um memorial
   showLifeStory: async (req, res) => {
     const { slug } = req.params
-    //console.log("ESTOU AQUI EXIBIR LIFESTORY - Slug recebido:", slug)
+
     try {
       const memorial = await Memorial.findOne({ slug })
         .populate({ path: "user", select: "firstName lastName" })
-        .populate({ path: "lifeStory", select: "title content eventDate" }) // Populate para lifeStory
-        .populate({ path: "sharedStory", select: "title content" }) // Populate para sharedStory
-        .populate({ path: "gallery.photos", select: "url" }) // Populate para fotos da galeria
-        .populate({ path: "gallery.audios", select: "url" }) // Populate para áudios da galeria
-        .populate({ path: "gallery.videos", select: "url" }) // Populate para vídeos da galeria
-        .lean() // Converte o documento em um objeto simples
+        .lean()
 
       if (!memorial) {
         return res.status(404).render("errors/404", {
@@ -72,11 +87,10 @@ const LifeStoryController = {
         })
       }
 
-      // Buscar as photos relacionados ao memorial
       const galeria = await Gallery.findOne({ memorial: memorial._id })
-        .populate({ path: "user", select: "firstName lastName" })
         .select("photos audios videos")
-        .lean() // Garantir que o resultado seja simples (não um documento Mongoose)
+        .populate({ path: "user", select: "firstName lastName" })
+        .lean()
 
       const galleryData = galeria || {
         photos: [],
@@ -84,22 +98,18 @@ const LifeStoryController = {
         videos: [],
       }
 
-      // Buscar os Lifestories relacionados ao memorial
       const lifestories = await LifeStory.find({ memorial: memorial._id })
-        .sort({ eventDate: 1 }) // 1 = crescente
-        .populate({ path: "user", select: "firstName lastName" }) // Aqui, populando o campo user com firstName e lastName
-        .select("title content eventDate image createdAt") // Selecionando campos específicos dos tributos
-        .lean() // Garantir que o resultado seja simples (não um documento Mongoose)
+        .sort({ eventDate: 1 })
+        .populate({ path: "user", select: "firstName lastName" })
+        .select("title content eventDate image createdAt")
+        .lean()
 
-      // Buscar contagem de tributos (caso tenha múltiplas associadas a esse memorial)
       const totalTributos = await Tribute.countDocuments({
         memorial: memorial._id,
       })
-      // Buscar contagem de histórias de vida (caso tenha múltiplas associadas a esse memorial)
       const totalHistorias = await LifeStory.countDocuments({
         memorial: memorial._id,
       })
-      // Buscar contagem de histórias compartilhadas (caso tenha múltiplas associadas a esse memorial)
       const totalHistoriasCom = await SharedStory.countDocuments({
         memorial: memorial._id,
       })
@@ -108,19 +118,17 @@ const LifeStoryController = {
         layout: "memorial-layout",
         id: memorial._id,
         user: {
-          firstName: memorial.user.firstName || "Primeiro Nome Não informado",
-          lastName: memorial.user.lastName || "Último Nome Não informado",
+          firstName: memorial.user?.firstName || "",
+          lastName: memorial.user?.lastName || "",
         },
         firstName: memorial.firstName,
         lastName: memorial.lastName,
         slug: memorial.slug,
-        id: memorial._id,
         gender: memorial.gender,
         kinship: memorial.kinship,
         mainPhoto: memorial.mainPhoto,
-        lifeStory: lifestories || [], // Passando lifeStory para o template
+        lifeStory: lifestories || [],
         gallery: galleryData,
-        //idade: calcularIdade(memorial.birth?.date, memorial.death?.date),
         birth: {
           date: memorial.birth?.date || "Não informada",
           city: memorial.birth?.city || "Local desconhecido",
@@ -136,7 +144,6 @@ const LifeStoryController = {
         about: memorial.about,
         epitaph: memorial.epitaph,
         theme: memorial.theme,
-        // Envia estatísticas específicas para a view
         estatisticas: {
           totalVisitas: memorial.visits || 0,
           totalTributos,
@@ -151,6 +158,7 @@ const LifeStoryController = {
       })
     }
   },
+
   editLifeStory: async (req, res) => {
     const { slug } = req.params
     try {
@@ -282,7 +290,6 @@ const LifeStoryController = {
     }
   },
   deleteLifeStory: async (req, res) => {
-    const { slug } = req.body
     try {
       const lifeStory = await LifeStory.findById(req.params.id).populate(
         "memorial"
@@ -292,18 +299,13 @@ const LifeStoryController = {
         return res.status(404).send("História de Vida não encontrada")
       }
 
-      if (lifeStory.image) {
-        const imagePath = path.join(
-          __dirname,
-          "..",
-          "..",
-          "public",
-          "memorials",
-          `${slug}`,
-          "photos",
-          lifeStory.image
+      if (lifeStory.image && lifeStory.image.key) {
+        await r2.send(
+          new DeleteObjectCommand({
+            Bucket: process.env.R2_BUCKET,
+            Key: lifeStory.image.key,
+          })
         )
-        if (fs.existsSync(imagePath)) fs.unlinkSync(imagePath)
       }
 
       await LifeStory.findByIdAndDelete(req.params.id)

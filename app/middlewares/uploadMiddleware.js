@@ -1,8 +1,18 @@
 const multer = require("multer")
 const path = require("path")
-const fs = require("fs")
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3")
 
-// Função auxiliar para identificar o tipo de mídia
+// Configura cliente Cloudflare R2
+const r2 = new S3Client({
+  region: "auto",
+  endpoint: process.env.R2_ENDPOINT,
+  credentials: {
+    accessKeyId: process.env.R2_ACCESS_KEY,
+    secretAccessKey: process.env.R2_SECRET_KEY,
+  },
+})
+
+// Auxiliar
 function getMediaFolder(mimetype) {
   if (mimetype.startsWith("image/")) return "photos"
   if (mimetype.startsWith("audio/")) return "audios"
@@ -10,84 +20,46 @@ function getMediaFolder(mimetype) {
   return "others"
 }
 
-// Configuração de armazenamento dinâmica
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 100 * 1024 * 1024 },
+})
+
+async function uploadToR2(req, res, next) {
+  const file = req.file
+  if (!file) return next()
+
+  try {
     const slug = req.body.slug || req.params.slug
+    if (!slug) throw new Error("Slug não fornecido")
 
-    if (!slug) {
-      return cb(new Error("Slug não fornecido."))
-    }
+    const folder = getMediaFolder(file.mimetype)
+    const ext = path.extname(file.originalname)
+    const filename = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}${ext}`
+    const key = `memorials/${slug}/${folder}/${filename}`
 
-    const mediaFolder = getMediaFolder(file.mimetype)
-    const uploadPath = path.join(
-      __dirname,
-      "..",
-      "..",
-      "public",
-      "memorials",
-      slug,
-      mediaFolder
+    await r2.send(
+      new PutObjectCommand({
+        Bucket: process.env.R2_BUCKET,
+        Key: key,
+        Body: file.buffer,
+        ContentType: file.mimetype,
+      })
     )
 
-    // Cria diretório com tratamento de erro
-    try {
-      fs.mkdirSync(uploadPath, { recursive: true })
-      cb(null, uploadPath)
-    } catch (err) {
-      cb(new Error(`Falha ao criar diretório: ${err.message}`))
-    }
-  },
-  filename: function (req, file, cb) {
-    const ext = path.extname(file.originalname)
-    const filename = `${Date.now()}-${Math.random()
-      .toString(36)
-      .substring(2, 9)}${ext}`
-    cb(null, filename)
-  },
-})
+    // 👇 AGREGA INFORMAÇÕES PARA O CONTROLLER
+    req.file.key = key
+    req.file.url = `${process.env.R2_PUBLIC_URL}/${key}`
 
-// Filtro para tipos de arquivo permitidos
-const fileFilter = (req, file, cb) => {
-  const allowedTypes = [
-    "image/jpeg",
-    "image/png",
-    "image/gif",
-    "image/webp",
-    "audio/mpeg",
-    "audio/wav",
-    "audio/ogg",
-    "video/mp4",
-    "video/webm",
-    "video/ogg",
-  ]
-
-  if (allowedTypes.includes(file.mimetype)) {
-    cb(null, true)
-  } else {
-    cb(new Error("Tipo de arquivo não suportado"), false)
+    next()
+  } catch (err) {
+    return res.status(500).json({
+      error: "Erro ao enviar para R2: " + err.message,
+    })
   }
 }
 
-const upload = multer({
-  storage: storage,
-  fileFilter: fileFilter,
-  limits: {
-    fileSize: 100 * 1024 * 1024, // 100MB
-  },
-})
-
-// Middleware para tratamento de erros do Multer
-const handleMulterErrors = (err, req, res, next) => {
-  if (err instanceof multer.MulterError) {
-    if (err.code === "LIMIT_FILE_SIZE") {
-      return res.status(400).json({ error: "Arquivo muito grande (máx. 50MB)" })
-    }
-    return res.status(400).json({ error: err.message })
-  } else if (err) {
-    return res.status(400).json({ error: err.message })
-  }
-  next()
+module.exports = {
+  upload,
+  uploadToR2,
 }
-
-module.exports = upload

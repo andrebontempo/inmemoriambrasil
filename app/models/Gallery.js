@@ -1,9 +1,11 @@
 const mongoose = require("mongoose")
 
 const mediaSchema = new mongoose.Schema({
-  filename: { type: String, required: true },
-  caption: { type: String, default: "" },
-  uploadDate: { type: Date, default: Date.now },
+  key: { type: String, required: true }, // caminho no bucket
+  url: { type: String, required: true }, // link público
+  originalName: { type: String, required: true }, // nome original
+  caption: { type: String, default: "" }, // legenda opcional
+  uploadDate: { type: Date, default: Date.now }, // data de envio
   uploadedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 })
 

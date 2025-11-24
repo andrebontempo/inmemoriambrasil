@@ -8,7 +8,10 @@ const SharedStoryController = require("../controllers/SharedStoryController")
 const GalleryController = require("../controllers/GalleryController")
 const authMiddleware = require("../middlewares/authMiddleware")
 //const { ensureAuthenticated } = require("../middlewares/authMiddleware")
-const upload = require("../middlewares/uploadMiddleware")
+//const upload = require("../middlewares/uploadMiddleware")
+const { upload, uploadToR2 } = require("../middlewares/uploadMiddleware")
+const { r2, PutObjectCommand, DeleteObjectCommand } = require("../../config/r2")
+
 const InviteController = require("../controllers/InviteController")
 
 /*
@@ -83,6 +86,7 @@ router.post(
   "/:slug/lifestory/create",
   authMiddleware,
   upload.single("file"),
+  uploadToR2, // 3) Envia o arquivo para o Cloudflare R2
   LifeStoryController.createLifeStory
 )
 // Rota para mostrar uma história de vida
@@ -158,8 +162,8 @@ router.post(
 
 //*********ROTAS PARA O MEMORIAL CONTROLLER***********
 // Etapa 1: Nome e Sobrenome (Verificar se o usuário está cadastrado)
-router.get("/create-step1", MemorialController.renderStep1) // Mostrar o formulário da etapa 1
-router.post("/create-step1", MemorialController.createStep1) // Processar os dados da etapa 1
+router.get("/create-step1", authMiddleware, MemorialController.renderStep1) // Mostrar o formulário da etapa 1
+router.post("/create-step1", authMiddleware, MemorialController.createStep1) // Processar os dados da etapa 1
 
 // Etapa 2: Dados de Nascimento, Falecimento, Sexo e Parentesco
 router.get("/create-step2", authMiddleware, MemorialController.renderStep2) // Mostrar o formulário da etapa 2
@@ -171,11 +175,13 @@ router.post("/create-step3", authMiddleware, MemorialController.createStep3) // 
 
 // Etapa 4: Foto de Capa, Epitáfio e Tema
 router.get("/create-step4", authMiddleware, MemorialController.renderStep4) // Mostrar o formulário da etapa 4 (personalização)
+
 router.post(
   "/create-step4",
-  authMiddleware,
-  upload.single("file"), // Para o upload da foto de capa
-  MemorialController.createStep4 // Processar a foto de capa, epitáfio e tema
+  authMiddleware, // 1) Garante login
+  upload.single("file"), // 2) Captura o arquivo via multer
+  uploadToR2, // 3) Envia o arquivo para o Cloudflare R2
+  MemorialController.createStep4 // 4) Salva no banco e finaliza
 )
 
 router.get("/pesquisa", MemorialController.searchMemorial)

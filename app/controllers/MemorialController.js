@@ -12,29 +12,67 @@ const moment = require("moment-timezone")
 const { calcularIdade } = require("../utils/helpers")
 const MailService = require("../services/MailService")
 const session = require("express-session")
+//const { DeleteObjectCommand } = require("@aws-sdk/client-s3")
+//const r2 = require("../../config/r2") // ajuste o caminho se diferente
+//const { r2, PutObjectCommand } = require("../../config/r2")
+const { r2, PutObjectCommand, DeleteObjectCommand } = require("../../config/r2")
 
 const MemorialController = {
+  // 👉 Renderiza o formulário da etapa 1
   renderStep1: (req, res) => {
-    res.render("memorial/create-step1") // Renderiza a view do passo 1 (Nome e Sobrenome)
+    res.render("memorial/create-step1")
   },
+
+  // 👉 Processa o envio do nome e sobrenome
   createStep1: async (req, res) => {
-    // console.log("Usuário logado:", req.session.loggedUser)
-    // console.log("Corpo da requisição recebido:", req.body)
+    try {
+      const userCurrent = req.session.loggedUser
+      const { firstName, lastName } = req.body
 
-    const userCurrent = req.session.loggedUser
-    const { firstName, lastName } = req.body
+      // ⚠️ (Opcional) Se quiser bloquear usuário não logado:
+      /*
+      if (!userCurrent) {
+        return res.redirect("/auth/login")
+      }
+      */
 
-    /*
-    if (!userCurrent) {
-      return res.redirect("/auth/login")
+      if (!firstName || !lastName) {
+        return res.status(400).render("errors/400", {
+          message: "Informe nome e sobrenome para continuar.",
+        })
+      }
+
+      // ⚙️ Gera slug (usando sua função)
+      const slug = `${firstName}-${lastName}`
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[̀-ͯ]/g, "") // remove acentos
+        .replace(/ç/g, "c")
+        .replace(/\s+/g, "-")
+
+      // 🔎 Verifica se já existe
+      const exists = await Memorial.findOne({ slug })
+      if (exists) {
+        return res.status(400).render("errors/400", {
+          message: "Já existe um memorial com esse nome.",
+        })
+      }
+
+      // 💾 Salva os dados temporariamente na sessão
+      if (!req.session.memorial) req.session.memorial = {}
+
+      req.session.memorial.firstName = firstName
+      req.session.memorial.lastName = lastName
+      req.session.memorial.slug = slug
+
+      // 👉 Continua para o passo 2
+      return res.redirect("/memorial/create-step2")
+    } catch (err) {
+      console.error("Erro na etapa 1:", err)
+      return res.status(500).render("errors/500", {
+        message: "Erro ao iniciar a criação do memorial.",
+      })
     }
-    */
-    if (!req.session.memorial) req.session.memorial = {}
-
-    req.session.memorial.firstName = firstName
-    req.session.memorial.lastName = lastName
-
-    res.redirect("/memorial/create-step2")
   },
   renderStep2: (req, res) => {
     const step1Data = req.session.memorial || {}
@@ -107,259 +145,140 @@ const MemorialController = {
     res.render("memorial/create-step3")
   },
   createStep3: async (req, res) => {
+    //console.log("Recebido do formulário:", req.body)
+
+    const { plan } = req.body
+    if (!req.session.memorial) return res.redirect("/memorial/create-step1")
+
+    req.session.memorial.plan = plan
+
+    return res.redirect("/memorial/create-step4")
+  },
+
+  renderStep4: (req, res) => {
+    if (!req.session.memorial) {
+      return res.redirect("/memorial/create-step1")
+    }
+
+    res.render("memorial/create-step4", {
+      slug: req.session.memorial.slug, // Útil para preview
+      memorial: req.session.memorial,
+    })
+  },
+  createStep4: async (req, res) => {
+    // Garantir login
+    if (!req.session.loggedUser) {
+      req.flash("error_msg", "Faça login para concluir a criação do memorial.")
+      return res.redirect("/auth/login")
+    }
+
+    // Garantir sessão de memorial
+    if (!req.session.memorial) {
+      req.flash("error_msg", "Sessão expirada, comece novamente.")
+      return res.redirect("/memorial/create-step1")
+    }
+
+    const userId = req.session.loggedUser._id
+    const data = req.session.memorial
+
     try {
-      const { plan } = req.body
-      const memorial = req.session.memorial
+      const { epitaph, theme } = req.body
+
+      // Atualiza sessão
+      req.session.memorial.epitaph = epitaph
+      req.session.memorial.theme = theme
+
+      // Foto opcional
+      //console.log("req.file:", req.file)
+      if (req.file && req.file.key) {
+        req.session.memorial.mainPhoto = {
+          key: req.file.key,
+          url: req.file.url,
+          originalName: req.file.originalname,
+          updatedAt: new Date(),
+        }
+      }
+      console.log(
+        "Dados finais do memorial na sessão:",
+        req.session.memorial.mainPhoto.url
+      )
+
+      // Agora cria oficialmente no banco
+      const novoMemorial = await Memorial.create({
+        ...req.session.memorial,
+        user: userId, // ✔️ CORRETO
+      })
+
+      // Guarda ID do memorial criado
+      req.session.memorialId = novoMemorial._id
+
+      // Redireciona para a página pública
+      return res.redirect(`/memorial/${novoMemorial.slug}`)
+    } catch (err) {
+      console.error("Erro no step 4:", err)
+      return res
+        .status(500)
+        .render("errors/500", { message: "Erro no passo final." })
+    }
+  },
+
+  //ESTE MÉTODO NÃO ESTÁ SENDO USADO NO MOMENTO A CRIAÇÃO ESTÁ NO STEP4
+  createMemorial: async (req, res) => {
+    try {
       const user = req.session.loggedUser
-      const userCurrent = req.session.loggedUser
+      const data = req.session.memorial
 
-      if (!memorial || !user) {
-        return res.redirect("/memorial/create-step1")
-      }
+      if (!user || !data) return res.redirect("/memorial/create-step1")
 
-      // Ajusta a galeria para garantir um array mesmo que esteja vazio
-      const gallery = {
-        photos: req.body["gallery.photos"] ? [req.body["gallery.photos"]] : [],
-        audios: req.body["gallery.audios"] ? [req.body["gallery.audios"]] : [],
-        videos: req.body["gallery.videos"] ? [req.body["gallery.videos"]] : [],
-      }
-
-      // Verifica se nome e sobrenome foram informados
-      if (!memorial.firstName || !memorial.lastName) {
-        return res.status(400).render("errors/400", {
-          message: "Nome e sobrenome são obrigatórios!",
-        })
-      }
-
-      // Gera o slug baseado no nome e sobrenome
-      const slug = `${memorial.firstName}-${memorial.lastName}`
+      // Gera slug
+      const slug = `${data.firstName}-${data.lastName}`
         .toLowerCase()
         .normalize("NFD")
         .replace(/[̀-ͯ]/g, "")
         .replace(/ç/g, "c")
         .replace(/\s+/g, "-")
 
-      memorial.plan = plan
-      memorial.user = user._id
-      memorial.slug = slug
-
-      // ✅ Corrigir mainPhoto se for string
-      if (typeof memorial.mainPhoto === "string") {
-        memorial.mainPhoto = {
-          url: memorial.mainPhoto,
-          //originalName: "foto-sem-nome.jpg", // opcional
-        }
-      }
-
-      //console.log("DADOS do memorial:", memorialData)
-
-      // Verifica se o memorial já existe
-      const memorialExistente = await Memorial.findOne({ slug })
-      //console.log("Memorial existente:", memorialExistente, slug)
-      if (memorialExistente) {
+      // Verifica duplicidade
+      const exists = await Memorial.findOne({ slug })
+      if (exists) {
         return res.status(400).render("errors/400", {
           message: "Já existe um memorial com esse nome.",
         })
       }
-      // Cria o memorial
-      const newMemorial = new Memorial({
-        user: userCurrent._id,
-        firstName: memorial.firstName,
-        lastName: memorial.lastName,
-        mainPhoto: memorial.mainPhoto,
-        plan: memorial.plan,
-        slug: memorial.slug,
-        gender: memorial.gender, // || "Não informado",
-        kinship: memorial.kinship, // || "Não informado",
-        visibility: req.body.visibility || "public", // Usa o valor de visibilidade do formulário
-        birth: memorial.birth,
-        death: memorial.death,
-      })
-      // Salvar memorial no banco
-      //const newMemorial = await Memorial.create(memorial)
-      await newMemorial.save()
 
-      // Envia e-mail para o usuário
-      await MailService.sendEmail({
-        to: userCurrent.email,
-        subject: "Seu memorial foi criado com sucesso",
-        html: `
-          <h1>Olá, ${userCurrent.firstName}</h1>
-          <p>O memorial de <strong>${memorial.firstName} ${memorial.lastName}</strong> foi criado com sucesso.</p>
-          <p>Você pode acessá-lo aqui: <a href="localhost:3000/memorial/${slug}">Ver memorial</a></p>
-        `,
-      })
-      // Atualizar sessão
-      req.session.memorialId = newMemorial._id
-      req.session.memorialSlug = newMemorial.slug
-      req.session.memorial = null // limpa os dados temporários
-
-      res.redirect("/memorial/create-step4")
-    } catch (err) {
-      console.error("Erro ao salvar memorial:", err)
-      res.status(500).render("error", {
-        message: "Erro ao criar memorial. Tente novamente.",
-      })
-    }
-  },
-  renderStep4: (req, res) => {
-    if (!req.session.memorialId) {
-      return res.redirect("/memorial/create-step1")
-    }
-    //res.render("memorial/create-step4")
-    res.render("memorial/create-step4", {
-      memorialId: req.session.memorialId,
-      slug: req.session.memorialSlug, // <--- AQUI
-    })
-  },
-  createStep4: async (req, res) => {
-    //console.log("STEP4 - Recebendo requisição para ATUALIZAR:", req.params)
-    //console.log("Corpo da requisição recebido:", req.body)
-    //console.log("Arquivo recebido:", req.file)
-    try {
-      //const { slug } = req.params
-      const { slug, epitaph, theme } = req.body // Campos de texto que sempre podem ser atualizados
-
-      const memorial = await Memorial.findOne({ slug })
-
-      if (!memorial) {
-        return res.status(404).send("Memorial não encontrado")
-      }
-
-      // Vamos preparar os dados que queremos atualizar
-      const updateData = {
-        epitaph,
-        theme,
-      }
-
-      // Se vier uma nova foto no req.file
-      if (req.file) {
-        //console.log("Nova foto recebida:", req.file.filename)
-
-        // Caminho da foto atual
-        const fotoAntiga = memorial.mainPhoto?.url
-        if (fotoAntiga) {
-          const caminhoFotoAntiga = path.join(
-            __dirname,
-            "..",
-            "..",
-            "public",
-            "memorials",
-            slug,
-            "photos",
-            fotoAntiga
-          )
-
-          // Verifica se o arquivo existe antes de tentar apagar
-          if (fs.existsSync(caminhoFotoAntiga)) {
-            fs.unlinkSync(caminhoFotoAntiga)
-            //console.log("Foto antiga deletada:", fotoAntiga)
-          }
-        }
-
-        // Atualizar a mainPhoto no memorial
-        updateData.mainPhoto = {
-          url: req.file.filename,
-          updatedAt: new Date(),
-          originalName: req.file.originalname,
-        }
-      }
-
-      // Agora atualiza no banco de dados
-      await Memorial.findOneAndUpdate({ slug }, updateData, { new: true })
-
-      req.flash("success_msg", "Memorial Virtual - Criado com Sucesso!")
-
-      // Redirecionar para o memorial
-      res.redirect(`/memorial/${slug}`)
-    } catch (err) {
-      console.error(err)
-      res.status(500).send("Erro ao atualizar memorial")
-    }
-  },
-
-  createMemorial: async (req, res) => {
-    //console.log("Usuário logado:", req.session.loggedUser) // Exibe o usuário autenticado no console
-    //console.log("Corpo da requisição recebido:", req.body) //  Verifica os dados enviados
-
-    const userCurrent = req.session.loggedUser
-    const { firstName, lastName, gender, kinship } = req.body
-
-    // Ajusta o objeto `birth` garantindo valores padrões
-    const birth = {
-      date: req.body["birth.date"] || null,
-      city: req.body["birth.city"] || "Local desconhecido",
-      state: req.body["birth.state"] || "Estado não informado",
-      country: req.body["birth.country"] || "País não informado",
-    }
-
-    // Ajusta o objeto `death` garantindo valores padrões
-    const death = {
-      date: req.body["death.date"] || null,
-      city: req.body["death.city"] || "Local desconhecido",
-      state: req.body["death.state"] || "Estado não informado",
-      country: req.body["death.country"] || "País não informado",
-    }
-
-    // Ajusta a galeria para garantir um array mesmo que esteja vazio
-    const gallery = {
-      photos: req.body["gallery.photos"] ? [req.body["gallery.photos"]] : [],
-      audios: req.body["gallery.audios"] ? [req.body["gallery.audios"]] : [],
-      videos: req.body["gallery.videos"] ? [req.body["gallery.videos"]] : [],
-    }
-
-    // Verifica se nome e sobrenome foram informados
-    if (!firstName || !lastName) {
-      return res.status(400).render("errors/400", {
-        message: "Nome e sobrenome são obrigatórios!",
-      })
-    }
-
-    // Gera o slug baseado no nome e sobrenome
-    const slug = `${firstName}-${lastName}`
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[̀-ͯ]/g, "")
-      .replace(/ç/g, "c")
-      .replace(/\s+/g, "-")
-
-    // Verifica se o memorial já existe
-    try {
-      const memorialExistente = await Memorial.findOne({ slug })
-      if (memorialExistente) {
-        return res.status(400).render("errors/400", {
-          message: "Já existe um memorial com esse nome.",
-        })
-      }
-      // Cria o memorial
+      // Cria memorial completo
       const memorial = new Memorial({
-        user: userCurrent._id,
-        firstName,
-        lastName,
+        user: user._id,
+        firstName: data.firstName,
+        lastName: data.lastName,
         slug,
-        gender: gender, // || "Não informado",
-        kinship: kinship, // || "Não informado",
-        visibility: req.body.visibility || "public", // Usa o valor de visibilidade do formulário
-        birth,
-        death,
+        plan: data.plan,
+        gender: data.gender,
+        kinship: data.kinship,
+        visibility: data.visibility || "public",
+        birth: data.birth,
+        death: data.death,
+        mainPhoto: data.mainPhoto || null,
+        epitaph: data.epitaph,
+        theme: data.theme,
       })
 
-      //console.log(memorial)
       await memorial.save()
 
-      // Envia e-mail para o usuário
+      // E-mail de confirmação
       await MailService.sendEmail({
-        to: userCurrent.email,
+        to: user.email,
         subject: "Seu memorial foi criado com sucesso",
-        html: `
-          <h1>Olá, ${userCurrent.firstName}</h1>
-          <p>O memorial de <strong>${firstName} ${lastName}</strong> foi criado com sucesso.</p>
-          <p>Você pode acessá-lo aqui: <a href="localhost:3000/memorial/${slug}">Ver memorial</a></p>
-        `,
+        html: `<p>O memorial de <strong>${data.firstName} ${data.lastName}</strong> foi criado!</p>`,
       })
+
+      // Limpa sessão
+      req.session.memorial = null
+      req.session.memorialId = memorial._id
+
       return res.redirect(`/memorial/${slug}/memorial-fet/edit`)
-    } catch (error) {
-      console.error("Erro ao criar memorial:", error)
+    } catch (err) {
+      console.error("Erro ao criar memorial:", err)
       return res
         .status(500)
         .render("errors/500", { message: "Erro ao criar memorial." })
@@ -596,10 +515,10 @@ const MemorialController = {
   // Método para exibir a página de pesquisa por memorial
   // Método para exibir a página de pesquisa por memorial
   searchMemorial: async (req, res) => {
-    const termo = req.query.q // Obtém o termo digitado na pesquisa
-    const loggedUser = req.session.loggedUser // Obtém o usuário logado
-    //console.log("loggedUser", loggedUser)
+    const termo = req.query.q // termo digitado
+    const loggedUser = req.session.loggedUser
 
+    // Se não houver termo e nem "*", não busca nada ainda
     if (!termo) {
       return res.render("memorial/memorial-pesquisa", {
         resultados: [],
@@ -609,19 +528,25 @@ const MemorialController = {
     }
 
     try {
-      const resultados = await Memorial.find({
-        $or: [
-          { firstName: { $regex: termo, $options: "i" } }, // Busca pelo primeiro nome (case-insensitive)
-          { lastName: { $regex: termo, $options: "i" } }, // Busca pelo sobrenome (case-insensitive)
-        ],
-      }).lean() // Garante que os resultados sejam objetos simples
+      let resultados = []
 
-      // Converte o _id do usuário logado para string
+      // 🔎 Se termo for "*", busca TODOS
+      if (termo === "*") {
+        resultados = await Memorial.find().lean()
+      } else {
+        // Busca por nome/ sobrenome
+        resultados = await Memorial.find({
+          $or: [
+            { firstName: { $regex: termo, $options: "i" } },
+            { lastName: { $regex: termo, $options: "i" } },
+          ],
+        }).lean()
+      }
+
+      // Converter IDs para string (garante comparação)
       if (loggedUser && loggedUser._id) {
         loggedUser._id = loggedUser._id.toString()
       }
-
-      // Converte todos os userId dos memoriais para string
       resultados.forEach((memorial) => {
         if (memorial.userId) {
           memorial.userId = memorial.userId.toString()
@@ -631,10 +556,8 @@ const MemorialController = {
       res.render("memorial/memorial-pesquisa", {
         resultados,
         termo,
-        loggedUser, // Passa o usuário logado para o template
+        loggedUser,
       })
-
-      //console.log("loggedUser (confirmado para template):", loggedUser)
     } catch (error) {
       console.error("Erro na pesquisa:", error)
       res

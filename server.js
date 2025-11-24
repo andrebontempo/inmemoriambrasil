@@ -56,6 +56,11 @@ app.use(
   })
 )
 
+//app.use((req, res, next) => {
+//  console.log("Sessão atual:", req.session)
+//  next()
+//})
+
 // Ajusta secure conforme HTTPS real (via proxy)
 app.use((req, res, next) => {
   const forwardedProto = (req.headers["x-forwarded-proto"] || "").toLowerCase()

@@ -6,6 +6,28 @@ const fs = require("fs")
 const path = require("path")
 const Memorial = require("../models/Memorial")
 const moment = require("moment-timezone")
+const { deleteFromR2 } = require("../services/r2Delete")
+// IMPORT R2
+const {
+  S3Client,
+  PutObjectCommand,
+  DeleteObjectCommand,
+} = require("@aws-sdk/client-s3")
+const r2 = new S3Client({
+  region: "auto",
+  endpoint: process.env.R2_ENDPOINT,
+  credentials: {
+    accessKeyId: process.env.R2_ACCESS_KEY,
+    secretAccessKey: process.env.R2_SECRET_KEY,
+  },
+})
+
+function getFolder(mimetype) {
+  if (mimetype.startsWith("image/")) return "photos"
+  if (mimetype.startsWith("audio/")) return "audios"
+  if (mimetype.startsWith("video/")) return "videos"
+  return "others"
+}
 
 const GalleryController = {
   // Exibir galeria de um memorial
@@ -169,120 +191,99 @@ const GalleryController = {
   // Upload de arquivos na galeria
 
   updateGallery: async (req, res) => {
-    //console.log("ESTOU EM UPDATE GALERIA - Slug recebido:", req.params.slug)
     const { slug, tipo } = req.params
     const file = req.file
     const userCurrent = req.session.loggedUser
 
-    //console.log("Slug:", slug)
-    //console.log("Tipo:", tipo)
-    //console.log("Arquivo recebido:", req.file)
-
-    // Verifica se o arquivo foi enviado
     if (!file) return res.status(400).send("Nenhum arquivo enviado")
 
     try {
       const memorial = await Memorial.findOne({ slug })
       if (!memorial) return res.status(404).send("Memorial não encontrado")
 
-      // Localiza a galeria existente ou cria uma nova
       let gallery = await Gallery.findOne({ memorial: memorial._id })
-
       if (!gallery) {
         gallery = new Gallery({
           memorial: memorial._id,
           user: userCurrent._id,
-          //user: req.body.userId, // ou quem está logado
           photos: [],
           audios: [],
           videos: [],
         })
       }
 
-      // Insere no array correto conforme o tipo
-      const fileName = file.filename
+      const folder = getFolder(file.mimetype)
+      const ext = path.extname(file.originalname)
+      const filename = `${Date.now()}-${Math.random().toString(36).substring(3, 10)}${ext}`
+      const key = `memorials/${slug}/${folder}/${filename}`
 
-      if (tipo === "photo") {
-        gallery.photos.push({
-          filename: fileName,
-          uploadedBy: userCurrent._id,
+      await r2.send(
+        new PutObjectCommand({
+          Bucket: process.env.R2_BUCKET,
+          Key: key,
+          Body: file.buffer,
+          ContentType: file.mimetype,
         })
-      } else if (tipo === "audio") {
-        gallery.audios.push({
-          filename: fileName,
-          uploadedBy: userCurrent._id,
-        })
-      } else if (tipo === "video") {
-        gallery.videos.push({
-          filename: fileName,
-          uploadedBy: userCurrent._id,
-        })
-      } else {
-        return res.status(400).send("Tipo de mídia inválido.")
+      )
+
+      const fileData = {
+        key,
+        url: `${process.env.R2_PUBLIC_URL}/${key}`,
+        originalName: file.originalname,
+        uploadedBy: userCurrent._id,
       }
+
+      if (tipo === "photo") gallery.photos.push(fileData)
+      else if (tipo === "audio") gallery.audios.push(fileData)
+      else if (tipo === "video") gallery.videos.push(fileData)
+      else return res.status(400).send("Tipo inválido.")
 
       await gallery.save()
 
       res.redirect(`/memorial/${slug}/gallery`)
     } catch (error) {
-      console.error("Erro ao fazer upload:", error)
-      res.status(500).render("errors/500")
+      console.error("Erro ao enviar para R2:", error)
+      res.status(500).send("Erro no upload")
     }
   },
 
   // Deletar um arquivo da galeria
+  // Deletar um arquivo da galeria
+  // Deletar um arquivo da galeria
   deleteFile: async (req, res) => {
     const { slug, tipo } = req.params
-    const { fileName } = req.body
-
-    const tipoPasta =
-      tipo === "photo"
-        ? "photos"
-        : tipo === "audio"
-          ? "audios"
-          : tipo === "video"
-            ? "videos"
-            : null
-
-    if (!tipoPasta) return res.status(400).send("Tipo inválido")
+    const { key } = req.body // agora o frontend envia a KEY
 
     try {
+      // ✅ Verificação do tipo antes de qualquer ação
+      const tiposValidos = ["photo", "audio", "video"]
+      if (!tiposValidos.includes(tipo)) {
+        return res.status(400).send("Tipo inválido")
+      }
+
       const memorial = await Memorial.findOne({ slug })
       if (!memorial) return res.status(404).send("Memorial não encontrado")
 
-      const gallery = await Gallery.findOne({ memorial: memorial._id }) // <- aqui
+      const gallery = await Gallery.findOne({ memorial: memorial._id })
       if (!gallery) return res.status(404).send("Galeria não encontrada")
 
-      const filePath = path.join(
-        __dirname,
-        "..",
-        "..",
-        "public",
-        "memorials",
-        slug,
-        tipoPasta,
-        fileName
+      await r2.send(
+        new DeleteObjectCommand({
+          Bucket: process.env.R2_BUCKET,
+          Key: key,
+        })
       )
 
-      //console.log("Caminho final:", filePath)
-      //console.log("Arquivo existe?", fs.existsSync(filePath))
-
-      if (fs.existsSync(filePath)) fs.unlinkSync(filePath)
-
-      // Remover do array correto
-      if (tipo === "photo")
-        gallery.photos = gallery.photos.filter((f) => f.filename !== fileName)
-      else if (tipo === "audio")
-        gallery.audios = gallery.audios.filter((a) => a.filename !== fileName)
-      else if (tipo === "video")
-        gallery.videos = gallery.videos.filter((v) => v.filename !== fileName)
+      gallery[`${tipo}s`] = gallery[`${tipo}s`].filter(
+        (item) => item.key !== key
+      )
 
       await gallery.save()
 
       res.redirect(`/memorial/${slug}/gallery`)
-    } catch (error) {
-      console.error("Erro ao deletar arquivo:", error)
-      res.status(500).render("errors/500")
+    } catch (err) {
+      console.error("Erro ao deletar arquivo:", err)
+      res.status(500).send("Erro ao deletar arquivo")
     }
   },
 }

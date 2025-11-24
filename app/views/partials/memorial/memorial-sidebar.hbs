@@ -35,7 +35,7 @@
         <div class="row g-2">
           {{#each gallery.photos}}
             <div class="col-6">
-              <img src="/memorials/{{../slug}}/photos/{{this.filename}}" class="img-fluid rounded shadow-sm custom-sidebar-photo" alt="Foto de {{../firstName}}">
+              <img src={{this.url}} class="img-fluid rounded shadow-sm custom-sidebar-photo" alt="Foto de {{../firstName}}">
             </div>
           {{/each}}
         </div>

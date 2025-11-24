@@ -19,7 +19,7 @@
                   <div class="d-flex flex-row">
                     <!-- Imagem da história -->
                     <div class="me-3">
-                      <img src="{{#if this.image}}/memorials/{{../slug}}/photos/{{this.image}}{{else}}/site/default-story.jpg{{/if}}" class="img-fluid rounded custom-story-img" alt="Imagem da história">
+                      <img src={{this.image.url}} class="img-fluid rounded custom-story-img" alt="Imagem da história">
                     </div>
                     <div class="flex-grow-1">
                       <h5 class="fw-bold">{{this.title}}</h5>

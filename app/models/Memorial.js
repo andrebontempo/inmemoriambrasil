@@ -10,8 +10,15 @@ const MemorialSchema = new mongoose.Schema(
     kinship: { type: String },
 
     // Foto principal
+    //mainPhoto: {
+    //  url: { type: String, required: false },
+    //  updatedAt: { type: Date, default: Date.now },
+    //},
+
     mainPhoto: {
-      url: { type: String, required: false },
+      key: { type: String }, // <- Caminho do arquivo no Bucket (R2)
+      url: { type: String }, // <- URL pública
+      originalName: { type: String },
       updatedAt: { type: Date, default: Date.now },
     },
 
