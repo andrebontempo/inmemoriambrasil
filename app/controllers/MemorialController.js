@@ -219,10 +219,37 @@ const MemorialController = {
         to: userCurrent.email,
         subject: "Seu memorial foi criado com sucesso",
         html: `
-    <h1>Olá, ${userCurrent.firstName}</h1>
-    <p>O memorial de <strong>${novoMemorial.firstName} ${novoMemorial.lastName}</strong> foi criado com sucesso.</p>
-    <p>Você pode acessá-lo aqui: <a href="https://inmemoriambrasil.com.br/memorial/${novoMemorial.slug}">Ver memorial</a></p>
-  `,
+  <div style="font-family: sans-serif; max-width: 600px; margin: auto; background: #f9f9f9; border-radius: 8px; padding: 20px; border: 1px solid #ddd;">
+    <h2 style="color: #004085; text-align: center; margin-bottom: 20px;">
+      🎉 Memorial criado com sucesso!
+    </h2>
+
+    <p style="font-size: 15px; color: #333;">
+      Olá, <strong>${userCurrent.firstName}</strong>!
+    </p>
+
+    <p style="font-size: 15px; color: #333;">
+      O memorial de <strong>${novoMemorial.firstName} ${novoMemorial.lastName}</strong> foi criado com sucesso no <strong>In Memoriam Brasil</strong>.
+    </p>
+
+    <p style="text-align: center; margin: 25px 0;">
+      <a href="https://inmemoriambrasil.com.br/memorial/${novoMemorial.slug}"
+        style="display: inline-block; background-color: #004085; color: #fff; padding: 12px 22px; text-decoration: none; border-radius: 5px; font-weight: bold;">
+        ➤ Acessar o memorial
+      </a>
+    </p>
+
+    <p style="font-size: 15px; color: #333;">
+      Cuide das memórias de quem você ama com carinho e eternize histórias emocionantes.
+    </p>
+
+    <hr style="border: none; border-top: 1px solid #ddd; margin: 25px 0;">
+
+    <p style="font-size: 13px; color: #666; text-align: center;">
+      Este e-mail foi enviado automaticamente pelo site In Memoriam Brasil.
+    </p>
+  </div>
+`,
       })
       // Atualizar sessão
       req.session.memorialId = novoMemorial._id

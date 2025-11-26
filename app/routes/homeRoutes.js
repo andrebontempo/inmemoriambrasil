@@ -3,6 +3,7 @@ const router = express.Router()
 const HomeController = require("../controllers/HomeController")
 const authMiddleware = require("../middlewares/authMiddleware")
 const StatsController = require("../controllers/StatsController")
+const EnvioContatoController = require("../controllers/EnvioContatoController")
 
 // Rota raiz do site
 router.get("/", HomeController.index)
@@ -42,6 +43,9 @@ router.get("/plano-opcoes", (req, res) => {
 router.get("/contato", (req, res) => {
   res.render("statics/contato", { title: "Contato - In Memoriam Brasil" })
 })
+// Rota comentada para envio de formulário de contato
+router.post("/contato-envio", EnvioContatoController.envioContato)
+
 router.get("/memoriais-virtuais", (req, res) => {
   res.render("statics/memoriais-virtuais", {
     title: "Memoriais Virtuais - In Memoriam Brasil",
