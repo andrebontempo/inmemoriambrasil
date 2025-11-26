@@ -54,6 +54,7 @@ router.post(
   "/:slug/sharedstory/create",
   authMiddleware,
   upload.single("file"),
+  uploadToR2, // 3) Envia o arquivo para o Cloudflare R2
   SharedStoryController.createSharedStory
 )
 // Rota para mostrar uma história compartilhada
@@ -61,18 +62,13 @@ router.get("/:slug/sharedstory", SharedStoryController.showSharedStory)
 // Rota para editar uma história de vida
 router.get("/:slug/sharedstory/edit/:id", SharedStoryController.editSharedStory)
 // Rota para atualizar uma história COmpartilhada com POST
+
 router.post(
   "/:slug/sharedstory/update/:id",
+  authMiddleware,
   upload.single("file"),
-  (req, res) => {
-    // Verificar se o campo _method existe e se é 'PUT'
-    if (req.body._method && req.body._method === "PUT") {
-      // Chama o controller de atualização se o _method for PUT
-      return SharedStoryController.updateSharedStory(req, res)
-    }
-    // Caso contrário, retorna um erro de método não permitido
-    res.status(400).send("Método não permitido")
-  }
+  uploadToR2, // 3) Envia o arquivo para o Cloudflare R2
+  SharedStoryController.updateSharedStory
 )
 
 // Rota para excluir uma história compartilhada

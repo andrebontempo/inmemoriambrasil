@@ -6,24 +6,34 @@ const Gallery = require("../models/Gallery")
 const path = require("path")
 const fs = require("fs")
 const moment = require("moment-timezone")
+const { r2, PutObjectCommand } = require("../../config/r2")
+const { DeleteObjectCommand } = require("@aws-sdk/client-s3")
 
 const SharedStoryController = {
   createSharedStory: async (req, res) => {
     const userCurrent = req.session.loggedUser
 
-    //console.log("Chegando em createSharedStory")
-    //console.log("req.params.slug:", req.params.slug)
-    //console.log("req.body:", req.body)
-
     try {
-      // Buscar o memorial pelo ID (se estiver no body) ou pelo slug (se necessário)
-      let memorial = await Memorial.findById(req.body.memorial)
+      let mediaKey = ""
+      let fileUrl = ""
 
-      if (!memorial) {
-        // Tentar buscar pelo slug caso o ID não tenha sido encontrado
-        memorial = await Memorial.findOne({ slug: req.params.slug })
+      if (req.file) {
+        // validação defensiva
+        if (!req.file.key || !req.file.url) {
+          console.error(
+            "uploadToR2 não informou key/url. Verifique a ordem dos middlewares."
+          )
+          return res.status(500).send("Erro no upload do arquivo")
+        }
+
+        mediaKey = req.file.key
+        fileUrl = req.file.url
       }
 
+      // buscar memorial (seu código)
+      let memorial = await Memorial.findById(req.body.memorial)
+      if (!memorial)
+        memorial = await Memorial.findOne({ slug: req.params.slug })
       if (!memorial) {
         console.error("Erro: Memorial não encontrado!")
         return res.status(404).send("Memorial não encontrado")
@@ -37,12 +47,19 @@ const SharedStoryController = {
         title: req.body.title,
         content: req.body.content,
         eventDate: req.body.eventDate,
-        image: req.file ? `${req.file.filename}` : "",
+        image: req.file
+          ? {
+              key: mediaKey,
+              url: fileUrl,
+              originalName: req.file.originalname,
+              mimeType: req.file.mimetype,
+            }
+          : null,
       })
 
       // Salvar no banco de dados
       await newSharedStory.save()
-
+      req.flash("success_msg", "História Compartilhada criada com sucesso!")
       res.redirect(`/memorial/${memorial.slug}/sharedstory`)
     } catch (error) {
       console.error("Erro ao criar história compartilhada:", error)
@@ -53,16 +70,11 @@ const SharedStoryController = {
   // Exibir histórias compartilhadas de um memorial
   showSharedStory: async (req, res) => {
     const { slug } = req.params
-    //console.log("ESTOU AQUI EXIBIR SHAREDSTORY - Slug recebido:", slug)
+
     try {
       const memorial = await Memorial.findOne({ slug })
         .populate({ path: "user", select: "firstName lastName" })
-        //.populate({ path: "lifeStory", select: "title content eventDate" }) // Populate para lifeStory
-        .populate({ path: "sharedStory", select: "title content eventDate" }) // Populate para sharedStory
-        .populate({ path: "gallery.photos", select: "url" }) // Populate para fotos da galeria
-        .populate({ path: "gallery.audios", select: "url" }) // Populate para áudios da galeria
-        .populate({ path: "gallery.videos", select: "url" }) // Populate para vídeos da galeria
-        .lean() // Converte o documento em um objeto simples
+        .lean()
 
       if (!memorial) {
         return res.status(404).render("errors/404", {
@@ -70,11 +82,10 @@ const SharedStoryController = {
         })
       }
 
-      // Buscar as photos relacionados ao memorial
       const galeria = await Gallery.findOne({ memorial: memorial._id })
-        .populate({ path: "user", select: "firstName lastName" })
         .select("photos audios videos")
-        .lean() // Garantir que o resultado seja simples (não um documento Mongoose)
+        .populate({ path: "user", select: "firstName lastName" })
+        .lean()
 
       const galleryData = galeria || {
         photos: [],
@@ -82,42 +93,38 @@ const SharedStoryController = {
         videos: [],
       }
 
-      // Buscar os Sharedstories relacionados ao memorial
       const sharedstories = await SharedStory.find({ memorial: memorial._id })
-        .sort({ eventDate: 1 }) // 1 = crescente
-        .populate({ path: "user", select: "firstName lastName" }) // Aqui, populando o campo user com firstName e lastName
-        .select("title content eventDate image createdAt") // Selecionando campos específicos dos tributos
-        .lean() // Garantir que o resultado seja simples (não um documento Mongoose)
+        .sort({ eventDate: 1 })
+        .populate({ path: "user", select: "firstName lastName" })
+        .select("title content eventDate image createdAt")
+        .lean()
 
-      // Buscar contagem de tributos (caso tenha múltiplas associadas a esse memorial)
       const totalTributos = await Tribute.countDocuments({
         memorial: memorial._id,
       })
-      // Buscar contagem de histórias de vida (caso tenha múltiplas associadas a esse memorial)
       const totalHistorias = await LifeStory.countDocuments({
         memorial: memorial._id,
       })
-      // Buscar contagem de histórias compartilhadas (caso tenha múltiplas associadas a esse memorial)
       const totalHistoriasCom = await SharedStory.countDocuments({
         memorial: memorial._id,
       })
 
       return res.render("memorial/memorial-sharedstory", {
         layout: "memorial-layout",
+        id: memorial._id,
         user: {
-          firstName: memorial.user.firstName || "Primeiro Nome Não informado",
-          lastName: memorial.user.lastName || "Último Nome Não informado",
+          firstName: memorial.user?.firstName || "",
+          lastName: memorial.user?.lastName || "",
         },
         firstName: memorial.firstName,
         lastName: memorial.lastName,
         slug: memorial.slug,
-        id: memorial._id,
         gender: memorial.gender,
         kinship: memorial.kinship,
         mainPhoto: memorial.mainPhoto,
-        sharedStory: sharedstories || [], // Passando stories para o template
+        //lifeStory: lifestories || [],
+        sharedStory: sharedstories || [],
         gallery: galleryData,
-        //idade: calcularIdade(memorial.birth?.date, memorial.death?.date),
         birth: {
           date: memorial.birth?.date || "Não informada",
           city: memorial.birth?.city || "Local desconhecido",
@@ -133,7 +140,6 @@ const SharedStoryController = {
         about: memorial.about,
         epitaph: memorial.epitaph,
         theme: memorial.theme,
-        // Envia estatísticas específicas para a view
         estatisticas: {
           totalVisitas: memorial.visits || 0,
           totalTributos,
@@ -148,61 +154,33 @@ const SharedStoryController = {
       })
     }
   },
+
   editSharedStory: async (req, res) => {
     const { slug } = req.params
     try {
       const sharedStory = await SharedStory.findById(req.params.id).populate(
         "memorial"
       )
-      //console.log("SharedStory encontrado:", sharedStory)
+
       if (!sharedStory) {
-        return res.status(404).send("História compartilhada não encontrada")
+        return res.status(404).send("História não encontrada")
       }
 
-      if (req.file) {
-        if (sharedStory.image) {
-          const oldPath = path.join(
-            __dirname,
-            "..",
-            "..",
-            "public",
-            "memorials",
-            `${slug}`,
-            "photos",
-            sharedStory.image
-          )
-          if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath)
-        }
-        sharedStory.image = `/uploads/${req.file.filename}`
-      }
-
-      //Buscar dados do memorial para o painel direito
+      // Busca dados do memorial e galeria (mesmo que antes)
       const memorial = await Memorial.findOne({ slug })
         .populate({ path: "user", select: "firstName lastName" })
-        //.populate({ path: "lifeStory", select: "title content eventDate" }) // Populate para lifeStory
-        .populate({ path: "sharedStory", select: "title content eventDate" }) // Populate para sharedStory
-        .populate({ path: "gallery.photos", select: "url" }) // Populate para fotos da galeria
-        .populate({ path: "gallery.audios", select: "url" }) // Populate para áudios da galeria
-        .populate({ path: "gallery.videos", select: "url" }) // Populate para vídeos da galeria
-        .lean() // Converte o documento em um objeto simples
+        .populate({ path: "sharedStory", select: "title content eventDate" })
+        .lean()
 
       if (!memorial) {
-        return res.status(404).render("errors/404", {
-          message: "Memorial não encontrado.",
-        })
+        return res
+          .status(404)
+          .render("errors/404", { message: "Memorial não encontrado." })
       }
 
-      // Buscar as photos relacionados ao memorial
       const galeria = await Gallery.findOne({ memorial: memorial._id })
-        .populate({ path: "user", select: "firstName lastName" })
         .select("photos audios videos")
-        .lean() // Garantir que o resultado seja simples (não um documento Mongoose)
-
-      const galleryData = galeria || {
-        photos: [],
-        audios: [],
-        videos: [],
-      }
+        .lean()
 
       res.render("memorial/edit/sharedstory", {
         layout: "memorial-layout",
@@ -214,99 +192,121 @@ const SharedStoryController = {
         eventDate: moment(sharedStory.eventDate).format("YYYY-MM-DD"),
         birth: sharedStory.memorial.birth,
         death: sharedStory.memorial.death,
-        gallery: galleryData,
+        gallery: galeria || { photos: [], audios: [], videos: [] },
       })
     } catch (error) {
-      console.error("Erro ao editar história compartilhada:", error)
+      console.error("Erro ao editar história:", error)
       res.status(500).send("Erro interno do servidor")
     }
   },
   updateSharedStory: async (req, res) => {
     try {
-      //console.log("🔥 Dentro do updateSharedStory")
-      //console.log("📁 req.file:", req.file) // se enviou nova imagem
-      //console.log("📝 req.body:", req.body) // dados do formulário
-
       const { title, content, eventDate, slug } = req.body
       const sharedStory = await SharedStory.findById(req.params.id)
 
       if (!sharedStory) {
-        return res.status(404).send("História compartilhada não encontrada")
+        return res.status(404).send("História não encontrada")
       }
 
-      // Atualiza imagem se nova imagem for enviada
+      // Se recebeu nova imagem via middleware
       if (req.file) {
-        // Se já existe uma imagem associada, exclua a antiga
-        if (sharedStory.image) {
-          const oldPath = path.join(
-            __dirname,
-            "..",
-            "..",
-            "public",
-            "memorials",
-            `${slug}`,
-            "photos",
-            sharedStory.image
-          )
-          //console.log("🔥 Excluindo imagem antiga:", oldPath) // Verifique se o caminho está correto
-          if (fs.existsSync(oldPath)) {
-            fs.unlinkSync(oldPath)
+        // Deleta imagem antiga da R2, se existir key completa
+        if (sharedStory.image && sharedStory.image.key) {
+          try {
+            await r2.send(
+              new DeleteObjectCommand({
+                Bucket: process.env.R2_BUCKET,
+                Key: sharedStory.image.key,
+              })
+            )
+          } catch (delErr) {
+            console.error(
+              "Erro ao deletar arquivo antigo no R2:",
+              delErr.message
+            )
+            // não aborta a operação — apenas loga
           }
         }
-        // Atualiza o campo de imagem para o novo caminho
-        const newImagePath = `${req.file.filename}`
-        sharedStory.image = newImagePath
-        //console.log("📁 Nova imagem:", sharedStory.image) // Verifique se o novo caminho está correto
+
+        // **Não fazer upload aqui** — middleware já fez. Apenas salve os metadados retornados.
+        if (!req.file.key || !req.file.url) {
+          console.warn(
+            "uploadToR2 não definiu req.file.key/req.file.url. Verifique a ordem dos middlewares."
+          )
+          return res.status(500).send("Erro no upload do arquivo.")
+        }
+
+        sharedStory.image = {
+          key: req.file.key, // ex: memorials/<slug>/photos/<filename>
+          url: req.file.url, // ex: https://.../memorials/<slug>/photos/<filename>
+          originalName: req.file.originalname,
+          mimeType: req.file.mimetype,
+        }
       }
 
-      // Atualiza os campos
-      sharedStory.title = title
-      sharedStory.content = content
-
-      // Só atualiza eventDate se ele estiver presente e válido
+      // Atualiza demais campos
+      if (title !== undefined) sharedStory.title = title
+      if (content !== undefined) sharedStory.content = content
       if (eventDate && eventDate.trim() !== "") {
         sharedStory.eventDate = moment(eventDate, "YYYY-MM-DD").toDate()
       }
 
       await sharedStory.save()
-      req.flash("success_msg", "História Compartilhada atualizada com sucesso!")
+
+      req.flash("success_msg", "História de Vida atualizada com sucesso!")
       res.redirect(`/memorial/${slug}/sharedstory`)
     } catch (error) {
-      console.error("Erro ao editar História Compartilhada:", error)
-      req.flash("error_msg", "Título e conteúdo são obrigatórios.")
+      console.error("Erro ao editar História de Vida:", error)
+      req.flash("error_msg", "Erro ao salvar história de vida.")
       return res.redirect("back")
-      //res.status(500).send("Erro interno do servidor")
     }
   },
   deleteSharedStory: async (req, res) => {
-    const { slug } = req.body
     try {
       const sharedStory = await SharedStory.findById(req.params.id).populate(
         "memorial"
       )
 
       if (!sharedStory) {
-        return res.status(404).send("História compartilhada não encontrada")
+        return res.status(404).send("História de Vida não encontrada")
       }
 
-      if (sharedStory.image) {
-        const imagePath = path.join(
-          __dirname,
-          "..",
-          "..",
-          "public",
-          "memorials",
-          `${slug}`,
-          "photos",
-          sharedStory.image
+      // Verifica se o usuário tem permissão (criador do memorial)
+      if (
+        !req.session.loggedUser ||
+        sharedStory.memorial.user.toString() !==
+          req.session.loggedUser._id.toString()
+      ) {
+        req.flash(
+          "error_msg",
+          "Você não tem permissão para excluir esta história."
         )
-        if (fs.existsSync(imagePath)) fs.unlinkSync(imagePath)
+        return res.redirect(
+          `/memorial/${sharedStory.memorial.slug}/sharedstory`
+        )
       }
 
+      // Se tiver arquivo, deleta no R2
+      if (sharedStory.image && sharedStory.image.key) {
+        try {
+          await r2.send(
+            new DeleteObjectCommand({
+              Bucket: process.env.R2_BUCKET,
+              Key: sharedStory.image.key,
+            })
+          )
+        } catch (r2Error) {
+          console.error("Erro ao deletar arquivo no R2:", r2Error.message)
+        }
+      }
+
+      // Deleta o documento no MongoDB
       await SharedStory.findByIdAndDelete(req.params.id)
+
+      req.flash("success_msg", "História de Vida excluída com sucesso!")
       res.redirect(`/memorial/${sharedStory.memorial.slug}/sharedstory`)
     } catch (error) {
-      console.error("Erro ao deletar história compartilhada:", error)
+      console.error("Erro ao deletar história:", error)
       res.status(500).send("Erro interno do servidor")
     }
   },

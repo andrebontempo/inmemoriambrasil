@@ -6,8 +6,6 @@ const Gallery = require("../models/Gallery")
 const path = require("path")
 const fs = require("fs")
 const moment = require("moment-timezone")
-//const { PutObjectCommand } = require("@aws-sdk/client-s3")
-//const r2 = require("../../config/r2")
 const { r2, PutObjectCommand } = require("../../config/r2")
 const { DeleteObjectCommand } = require("@aws-sdk/client-s3")
 
@@ -41,6 +39,7 @@ const LifeStoryController = {
         return res.status(404).send("Memorial não encontrado")
       }
 
+      // Criar uma nova história de vida
       const newLifeStory = new LifeStory({
         memorial: memorial._id,
         slug: req.params.slug,
@@ -58,6 +57,7 @@ const LifeStoryController = {
           : null,
       })
 
+      // Salvar no banco de dados
       await newLifeStory.save()
       req.flash("success_msg", "História de Vida criada com sucesso!")
       res.redirect(`/memorial/${memorial.slug}/lifestory`)
@@ -66,6 +66,7 @@ const LifeStoryController = {
       res.status(500).render("errors/500")
     }
   },
+  // Exibir histórias de vida de um memorial
   showLifeStory: async (req, res) => {
     const { slug } = req.params
 
