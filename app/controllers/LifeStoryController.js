@@ -16,39 +16,31 @@ const LifeStoryController = {
     const userCurrent = req.session.loggedUser
 
     try {
-      let mediaFileName = ""
+      let mediaKey = ""
       let fileUrl = ""
 
       if (req.file) {
-        const timestamp = Date.now()
-        const originalName = req.file.originalname.replace(/\s+/g, "_")
-        mediaFileName = `${timestamp}_${originalName}`
+        // validação defensiva
+        if (!req.file.key || !req.file.url) {
+          console.error(
+            "uploadToR2 não informou key/url. Verifique a ordem dos middlewares."
+          )
+          return res.status(500).send("Erro no upload do arquivo")
+        }
 
-        const command = new PutObjectCommand({
-          Bucket: process.env.R2_BUCKET,
-          Key: mediaFileName,
-          Body: req.file.buffer,
-          ContentType: req.file.mimetype,
-        })
-
-        await r2.send(command)
-
+        mediaKey = req.file.key
         fileUrl = req.file.url
-
-        //fileUrl = `https://${process.env.R2_BUCKET}.r2.cloudflarestorage.com/${mediaFileName}`
       }
 
-      // Buscar memorial
+      // buscar memorial (seu código)
       let memorial = await Memorial.findById(req.body.memorial)
-      if (!memorial) {
+      if (!memorial)
         memorial = await Memorial.findOne({ slug: req.params.slug })
-      }
       if (!memorial) {
         console.error("Erro: Memorial não encontrado!")
         return res.status(404).send("Memorial não encontrado")
       }
 
-      // Criar nova história de vida com objeto image
       const newLifeStory = new LifeStory({
         memorial: memorial._id,
         slug: req.params.slug,
@@ -56,15 +48,17 @@ const LifeStoryController = {
         title: req.body.title,
         content: req.body.content,
         eventDate: req.body.eventDate,
-        image: {
-          key: mediaFileName,
-          url: fileUrl,
-          originalName: req.file ? req.file.originalname : "",
-        },
+        image: req.file
+          ? {
+              key: mediaKey,
+              url: fileUrl,
+              originalName: req.file.originalname,
+              mimeType: req.file.mimetype,
+            }
+          : null,
       })
 
       await newLifeStory.save()
-
       req.flash("success_msg", "História de Vida criada com sucesso!")
       res.redirect(`/memorial/${memorial.slug}/lifestory`)
     } catch (error) {
@@ -72,7 +66,6 @@ const LifeStoryController = {
       res.status(500).render("errors/500")
     }
   },
-
   showLifeStory: async (req, res) => {
     const { slug } = req.params
 
@@ -165,79 +158,47 @@ const LifeStoryController = {
       const lifeStory = await LifeStory.findById(req.params.id).populate(
         "memorial"
       )
-      //console.log("Lifestory encontrado:", lifeStory)
+
       if (!lifeStory) {
         return res.status(404).send("História não encontrada")
       }
 
-      if (req.file) {
-        if (lifeStory.image) {
-          const oldPath = path.join(
-            __dirname,
-            "..",
-            "..",
-            "public",
-            "memorials",
-            `${slug}`,
-            "photos",
-            lifeStory.image
-          )
-          if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath)
-        }
-        lifeStory.image = `/uploads/${req.file.filename}`
-      }
-
-      //Busca os dados para o painel lateral direito
+      // Busca dados do memorial e galeria (mesmo que antes)
       const memorial = await Memorial.findOne({ slug })
         .populate({ path: "user", select: "firstName lastName" })
-        .populate({ path: "lifeStory", select: "title content eventDate" }) // Populate para lifeStory
-        //.populate({ path: "sharedStory", select: "title content" }) // Populate para sharedStory
-        //.populate({ path: "gallery.photos", select: "url" }) // Populate para fotos da galeria
-        //.populate({ path: "gallery.audios", select: "url" }) // Populate para áudios da galeria
-        //.populate({ path: "gallery.videos", select: "url" }) // Populate para vídeos da galeria
-        .lean() // Converte o documento em um objeto simples
+        .populate({ path: "lifeStory", select: "title content eventDate" })
+        .lean()
 
       if (!memorial) {
-        return res.status(404).render("errors/404", {
-          message: "Memorial não encontrado.",
-        })
+        return res
+          .status(404)
+          .render("errors/404", { message: "Memorial não encontrado." })
       }
 
-      // Buscar as photos relacionados ao memorial
       const galeria = await Gallery.findOne({ memorial: memorial._id })
-        .populate({ path: "user", select: "firstName lastName" })
         .select("photos audios videos")
-        .lean() // Garantir que o resultado seja simples (não um documento Mongoose)
-
-      const galleryData = galeria || {
-        photos: [],
-        audios: [],
-        videos: [],
-      }
+        .lean()
 
       res.render("memorial/edit/lifestory", {
         layout: "memorial-layout",
-        lifeStory: lifeStory.toObject(), // Converte para objeto simples
-        slug: lifeStory.memorial.slug, // Passa o slug do memorial
+        lifeStory: lifeStory.toObject(),
+        slug: lifeStory.memorial.slug,
         firstName: lifeStory.memorial.firstName,
         lastName: lifeStory.memorial.lastName,
-        mainPhoto: lifeStory.memorial.mainPhoto, // Passa a foto principal do memorial
+        mainPhoto: lifeStory.memorial.mainPhoto,
         eventDate: moment(lifeStory.eventDate).format("YYYY-MM-DD"),
         birth: lifeStory.memorial.birth,
         death: lifeStory.memorial.death,
-        gallery: galleryData,
+        gallery: galeria || { photos: [], audios: [], videos: [] },
       })
     } catch (error) {
       console.error("Erro ao editar história:", error)
       res.status(500).send("Erro interno do servidor")
     }
   },
+
   updateLifeStory: async (req, res) => {
     try {
-      //console.log("🔥 Dentro do updateLifeStory")
-      //console.log("📁 req.file:", req.file) // se enviou nova imagem
-      //console.log("📝 req.body:", req.body) // dados do formulário
-
       const { title, content, eventDate, slug } = req.body
       const lifeStory = await LifeStory.findById(req.params.id)
 
@@ -245,50 +206,60 @@ const LifeStoryController = {
         return res.status(404).send("História não encontrada")
       }
 
-      // Atualiza imagem se nova imagem for enviada
+      // Se recebeu nova imagem via middleware
       if (req.file) {
-        // Se já existe uma imagem associada, exclua a antiga
-        if (lifeStory.image) {
-          const oldPath = path.join(
-            __dirname,
-            "..",
-            "..",
-            "public",
-            "memorials",
-            `${slug}`,
-            "photos",
-            lifeStory.image
-          )
-          //console.log("🔥 Excluindo imagem antiga:", oldPath) // Verifique se o caminho está correto
-          if (fs.existsSync(oldPath)) {
-            fs.unlinkSync(oldPath)
+        // Deleta imagem antiga da R2, se existir key completa
+        if (lifeStory.image && lifeStory.image.key) {
+          try {
+            await r2.send(
+              new DeleteObjectCommand({
+                Bucket: process.env.R2_BUCKET,
+                Key: lifeStory.image.key,
+              })
+            )
+          } catch (delErr) {
+            console.error(
+              "Erro ao deletar arquivo antigo no R2:",
+              delErr.message
+            )
+            // não aborta a operação — apenas loga
           }
         }
-        // Atualiza o campo de imagem para o novo caminho
-        const newImagePath = `${req.file.filename}`
-        lifeStory.image = newImagePath
-        //console.log("📁 Nova imagem:", lifeStory.image) // Verifique se o novo caminho está correto
+
+        // **Não fazer upload aqui** — middleware já fez. Apenas salve os metadados retornados.
+        if (!req.file.key || !req.file.url) {
+          console.warn(
+            "uploadToR2 não definiu req.file.key/req.file.url. Verifique a ordem dos middlewares."
+          )
+          return res.status(500).send("Erro no upload do arquivo.")
+        }
+
+        lifeStory.image = {
+          key: req.file.key, // ex: memorials/<slug>/photos/<filename>
+          url: req.file.url, // ex: https://.../memorials/<slug>/photos/<filename>
+          originalName: req.file.originalname,
+          mimeType: req.file.mimetype,
+        }
       }
 
-      // Atualiza os campos
-      lifeStory.title = title
-      lifeStory.content = content
-
-      // Só atualiza eventDate se ele estiver presente e válido
+      // Atualiza demais campos
+      if (title !== undefined) lifeStory.title = title
+      if (content !== undefined) lifeStory.content = content
       if (eventDate && eventDate.trim() !== "") {
         lifeStory.eventDate = moment(eventDate, "YYYY-MM-DD").toDate()
       }
 
       await lifeStory.save()
+
       req.flash("success_msg", "História de Vida atualizada com sucesso!")
       res.redirect(`/memorial/${slug}/lifestory`)
     } catch (error) {
       console.error("Erro ao editar História de Vida:", error)
-      req.flash("error_msg", "Título e conteúdo são obrigatórios.")
+      req.flash("error_msg", "Erro ao salvar história de vida.")
       return res.redirect("back")
-      //res.status(500).send("Erro interno do servidor")
     }
   },
+
   deleteLifeStory: async (req, res) => {
     try {
       const lifeStory = await LifeStory.findById(req.params.id).populate(
@@ -299,19 +270,37 @@ const LifeStoryController = {
         return res.status(404).send("História de Vida não encontrada")
       }
 
-      if (lifeStory.image && lifeStory.image.key) {
-        await r2.send(
-          new DeleteObjectCommand({
-            Bucket: process.env.R2_BUCKET,
-            Key: lifeStory.image.key,
-          })
+      // Verifica se o usuário tem permissão (criador do memorial)
+      if (
+        !req.session.loggedUser ||
+        lifeStory.memorial.user.toString() !==
+          req.session.loggedUser._id.toString()
+      ) {
+        req.flash(
+          "error_msg",
+          "Você não tem permissão para excluir esta história."
         )
+        return res.redirect(`/memorial/${lifeStory.memorial.slug}/lifestory`)
       }
 
+      // Se tiver arquivo, deleta no R2
+      if (lifeStory.image && lifeStory.image.key) {
+        try {
+          await r2.send(
+            new DeleteObjectCommand({
+              Bucket: process.env.R2_BUCKET,
+              Key: lifeStory.image.key,
+            })
+          )
+        } catch (r2Error) {
+          console.error("Erro ao deletar arquivo no R2:", r2Error.message)
+        }
+      }
+
+      // Deleta o documento no MongoDB
       await LifeStory.findByIdAndDelete(req.params.id)
 
-      req.flash("success_msg", "História de Vida - Excluída com Sucesso!")
-
+      req.flash("success_msg", "História de Vida excluída com sucesso!")
       res.redirect(`/memorial/${lifeStory.memorial.slug}/lifestory`)
     } catch (error) {
       console.error("Erro ao deletar história:", error)

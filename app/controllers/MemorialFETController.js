@@ -100,7 +100,7 @@ const MemorialFETController = {
                 Key: memorial.mainPhoto.key,
               })
             )
-            console.log("Foto antiga removida da R2:", memorial.mainPhoto.key)
+            //console.log("Foto antiga removida da R2:", memorial.mainPhoto.key)
           } catch (err) {
             console.error("Erro ao deletar foto antiga da R2:", err)
           }

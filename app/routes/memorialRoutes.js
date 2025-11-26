@@ -93,7 +93,16 @@ router.post(
 router.get("/:slug/lifestory", LifeStoryController.showLifeStory)
 // Rota para editar uma história de vida
 router.get("/:slug/lifestory/edit/:id", LifeStoryController.editLifeStory)
+
 // Rota para atualizar uma história de vida com POST
+router.post(
+  "/:slug/lifestory/update/:id",
+  authMiddleware,
+  upload.single("file"),
+  uploadToR2, // 3) Envia o arquivo para o Cloudflare R2
+  LifeStoryController.updateLifeStory
+)
+/*
 router.post(
   "/:slug/lifestory/update/:id",
   upload.single("file"),
@@ -107,6 +116,7 @@ router.post(
     res.status(400).send("Método não permitido")
   }
 )
+ */
 // Rota para excluir uma história de vida
 router.post("/:slug/lifestory/delete/:id", LifeStoryController.deleteLifeStory)
 
