@@ -42,8 +42,18 @@ const MemorialController = {
           message: "Informe nome e sobrenome para continuar.",
         })
       }
+      // ⚙️ Gera slug
+      const slug = `${firstName.trim()}-${lastName.trim()}`
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "") // remove acentos
+        .replace(/ç/g, "c")
+        .replace(/\s+/g, "-") // troca espaços internos por -
+        .replace(/[^a-z0-9-]/g, "") // opcional: remove caracteres especiais extra
+        .replace(/-+/g, "-") // reduz múltiplos "----" para apenas "-"
+        .replace(/^-|-$/g, "") // remove "-" no começo ou no final
 
-      // ⚙️ Gera slug (usando sua função)
+      /* ⚙️ Gera slug (usando sua função)
       const slug = `${firstName}-${lastName}`
         .toLowerCase()
         .normalize("NFD")
@@ -51,6 +61,7 @@ const MemorialController = {
         .replace(/ç/g, "c")
         .replace(/\s+/g, "-")
 
+      */
       // 🔎 Verifica se já existe
       const exists = await Memorial.findOne({ slug })
       if (exists) {
@@ -275,13 +286,16 @@ const MemorialController = {
 
       if (!user || !data) return res.redirect("/memorial/create-step1")
 
-      // Gera slug
-      const slug = `${data.firstName}-${data.lastName}`
+      // ⚙️ Gera slug
+      const slug = `${firstName.trim()}-${lastName.trim()}`
         .toLowerCase()
         .normalize("NFD")
-        .replace(/[̀-ͯ]/g, "")
+        .replace(/[\u0300-\u036f]/g, "") // remove acentos
         .replace(/ç/g, "c")
-        .replace(/\s+/g, "-")
+        .replace(/\s+/g, "-") // troca espaços internos por -
+        .replace(/[^a-z0-9-]/g, "") // opcional: remove caracteres especiais extra
+        .replace(/-+/g, "-") // reduz múltiplos "----" para apenas "-"
+        .replace(/^-|-$/g, "") // remove "-" no começo ou no final
 
       // Verifica duplicidade
       const exists = await Memorial.findOne({ slug })
