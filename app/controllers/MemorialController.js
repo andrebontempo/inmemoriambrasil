@@ -16,6 +16,7 @@ const session = require("express-session")
 //const r2 = require("../../config/r2") // ajuste o caminho se diferente
 //const { r2, PutObjectCommand } = require("../../config/r2")
 const { r2, PutObjectCommand, DeleteObjectCommand } = require("../../config/r2")
+const { deleteFromR2 } = require("../services/r2Delete")
 
 const MemorialController = {
   // 👉 Renderiza o formulário da etapa 1
@@ -610,41 +611,55 @@ const MemorialController = {
     }
   },
   // Método para deletar memorial
+  // 👉 Apaga memorial e todos os recursos associados
   deleteMemorial: async (req, res) => {
     try {
       const { slug } = req.params
-
-      //console.log("Recebendo requisição para deletar memorial:", slug)
-
-      // Buscar memorial
       const memorial = await Memorial.findOne({ slug })
-      if (!memorial) {
-        return res.status(404).send("Memorial não encontrado.")
+      if (!memorial) return res.status(404).send("Memorial não encontrado.")
+
+      const memorialId = memorial._id
+
+      /* 🖼️ 1) Deletar imagem principal no R2 */
+      if (memorial.mainPhoto?.key) {
+        await deleteFromR2(memorial.mainPhoto.key)
       }
 
-      // (Opcional) Apagar as fotos e pastas
-      const folderPath = path.join(
-        __dirname,
-        "..",
-        "..",
-        "public",
-        "memorials",
-        slug
-      )
-      if (fs.existsSync(folderPath)) {
-        fs.rmSync(folderPath, { recursive: true, force: true })
-        //console.log("Pasta do memorial apagada:", folderPath)
-        //console.log("Pasta de fotos do memorial apagada.")
+      /* 📚 2) Deletar todas as LifeStories */
+      const lifeStories = await LifeStory.find({ memorial: memorialId })
+      for (const life of lifeStories) {
+        if (life.image?.key) await deleteFromR2(life.image.key)
       }
+      await LifeStory.deleteMany({ memorial: memorialId })
 
-      // Deletar o memorial do banco
-      await Memorial.deleteOne({ slug })
+      /* 🤝 3) Deletar todas as SharedStories */
+      const sharedStories = await SharedStory.find({ memorial: memorialId })
+      for (const shared of sharedStories) {
+        if (shared.image?.key) await deleteFromR2(shared.image.key)
+      }
+      await SharedStory.deleteMany({ memorial: memorialId })
 
-      // Redirecionar para o dashboard
-      res.redirect("/auth/dashboard")
-    } catch (error) {
-      console.error("Erro ao deletar memorial:", error)
-      res.status(500).send("Erro ao deletar memorial.")
+      /* 🖼️📸 4) Deletar Galeria */
+      const gallery = await Gallery.findOne({ memorial: memorialId })
+      if (gallery?.photos?.length) {
+        for (const photo of gallery.photos) {
+          if (photo?.key) await deleteFromR2(photo.key)
+        }
+      }
+      await Gallery.deleteMany({ memorial: memorialId })
+
+      /* 💐 5) Apagar tributos */
+      await Tribute.deleteMany({ memorial: memorialId })
+
+      /* 🪦 6) Finalmente apagar o memorial */
+      await Memorial.deleteOne({ _id: memorialId })
+
+      /* 🎉 Finalizar */
+      req.flash("success_msg", "Memorial apagado com sucesso.")
+      return res.redirect("/auth/dashboard")
+    } catch (err) {
+      console.error("❌ Erro ao deletar memorial:", err)
+      return res.status(500).send("Erro ao deletar memorial.")
     }
   },
 }
