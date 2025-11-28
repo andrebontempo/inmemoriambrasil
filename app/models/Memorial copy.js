@@ -120,25 +120,19 @@ const MemorialSchema = new mongoose.Schema(
 
 // Middleware para registrar atualizações no memorial
 MemorialSchema.pre("save", function (next) {
-  // Se é novo -> não loga nada
   if (this.isNew) {
-    return next()
+    return next() // Se for um novo documento, não precisa registrar mudanças
   }
 
   const updateLogs = this.updateLogs || []
 
+  // Verifica cada campo do schema para ver se foi modificado
   this.modifiedPaths().forEach((field) => {
-    if (field === "updateLogs") return // ignorar
-
-    const oldValue = this.get(field)
-    const newValue = this[field]
-
-    // Só registra se realmente mudou
-    if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
+    if (field !== "updateLogs") {
       updateLogs.push({
         field,
-        oldValue,
-        newValue,
+        oldValue: this.get(field), // Valor antes da alteração
+        newValue: this[field], // Novo valor
         updatedAt: Date.now(),
       })
     }

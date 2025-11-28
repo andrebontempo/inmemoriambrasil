@@ -223,6 +223,19 @@ const MemorialController = {
         user: userId, // ✔️ CORRETO
       })
 
+      // 🖼️ Criar galeria vazia automaticamente
+      const novaGaleria = await Gallery.create({
+        memorial: novoMemorial._id,
+        user: userId,
+        photos: [],
+        audios: [],
+        videos: [],
+      })
+
+      // 🔗 Vincular galeria ao memorial
+      novoMemorial.gallery = novaGaleria._id
+      await novoMemorial.save()
+
       // Guarda ID do memorial criado
       req.session.memorialId = novoMemorial._id
 
