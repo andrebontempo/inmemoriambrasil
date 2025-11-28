@@ -3,17 +3,19 @@ const mongoose = require("mongoose")
 const MemorialSchema = new mongoose.Schema(
   {
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // Criador do memorial
+    collaborators: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     slug: { type: String, unique: true, required: true },
     gender: { type: String },
     kinship: { type: String },
 
-    // Foto principal
-    //mainPhoto: {
-    //  url: { type: String, required: false },
-    //  updatedAt: { type: Date, default: Date.now },
-    //},
+    accessLevel: {
+      type: String,
+      enum: ["public_read", "private_read", "private_edit"],
+      default: "public_read",
+    },
 
     mainPhoto: {
       key: { type: String }, // <- Caminho do arquivo no Bucket (R2)
@@ -96,25 +98,10 @@ const MemorialSchema = new mongoose.Schema(
 
     // **Campo gallery**: Referência para a coleção Gallery
     gallery: {
-      photos: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Gallery",
-        },
-      ],
-      audios: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Gallery",
-        },
-      ],
-      videos: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Gallery",
-        },
-      ],
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Gallery",
     },
+
     // **Campo visits**: Contador de visitas
     visits: { type: Number, default: 0 },
 

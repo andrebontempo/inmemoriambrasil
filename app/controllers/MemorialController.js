@@ -653,14 +653,34 @@ const MemorialController = {
       }
       await SharedStory.deleteMany({ memorial: memorialId })
 
-      /* 🖼️📸 4) Deletar Galeria */
+      /* 🖼️📸 4) Deletar Galeria COMPLETA (fotos, áudios e vídeos) */
       const gallery = await Gallery.findOne({ memorial: memorialId })
-      if (gallery?.photos?.length) {
-        for (const photo of gallery.photos) {
-          if (photo?.key) await deleteFromR2(photo.key)
+
+      if (gallery) {
+        // Fotos
+        if (gallery.photos?.length) {
+          for (const photo of gallery.photos) {
+            if (photo?.key) await deleteFromR2(photo.key)
+          }
         }
+
+        // Áudios
+        if (gallery.audios?.length) {
+          for (const audio of gallery.audios) {
+            if (audio?.key) await deleteFromR2(audio.key)
+          }
+        }
+
+        // Vídeos
+        if (gallery.videos?.length) {
+          for (const video of gallery.videos) {
+            if (video?.key) await deleteFromR2(video.key)
+          }
+        }
+
+        // Deletar documento da Gallery
+        await Gallery.deleteOne({ _id: gallery._id })
       }
-      await Gallery.deleteMany({ memorial: memorialId })
 
       /* 💐 5) Apagar tributos */
       await Tribute.deleteMany({ memorial: memorialId })
