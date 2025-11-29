@@ -87,6 +87,7 @@ const GalleryController = {
         gender: memorial.gender,
         kinship: memorial.kinship,
         mainPhoto: memorial.mainPhoto,
+        qrCode: memorial.qrCode,
         birth: memorial.birth,
         death: memorial.death,
         gallery: galleryData,

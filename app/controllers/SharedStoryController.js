@@ -122,6 +122,7 @@ const SharedStoryController = {
         gender: memorial.gender,
         kinship: memorial.kinship,
         mainPhoto: memorial.mainPhoto,
+        qrCode: memorial.qrCode,
         //lifeStory: lifestories || [],
         sharedStory: sharedstories || [],
         gallery: galleryData,

@@ -121,6 +121,7 @@ const LifeStoryController = {
         gender: memorial.gender,
         kinship: memorial.kinship,
         mainPhoto: memorial.mainPhoto,
+        qrCode: memorial.qrCode,
         lifeStory: lifestories || [],
         gallery: galleryData,
         birth: {
