@@ -232,10 +232,9 @@ const MemorialController = {
         videos: [],
       })
 
-      // 3️⃣ Atualizar memorial colocando a galeria
-      await Memorial.findByIdAndUpdate(novoMemorial._id, {
-        gallery: novaGaleria._id,
-      })
+      // 🔗 Vincular galeria ao memorial
+      novoMemorial.gallery = novaGaleria._id
+      await novoMemorial.save()
 
       // Guarda ID do memorial criado
       req.session.memorialId = novoMemorial._id
