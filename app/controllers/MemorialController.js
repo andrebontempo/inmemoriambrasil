@@ -425,6 +425,7 @@ const MemorialController = {
         gender: memorial.gender,
         kinship: memorial.kinship,
         mainPhoto: memorial.mainPhoto,
+        qrCode: memorial.qrCode,
         tribute: tributes || [],
         lifeStory: memorial.lifeStory || [],
         sharedStory: memorial.sharedStory || [],

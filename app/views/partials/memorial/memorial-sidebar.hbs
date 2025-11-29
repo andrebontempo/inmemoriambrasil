@@ -51,10 +51,9 @@
   {{#if qrCode.url}}
     <div class="text-center mt-2">
       <img src="{{qrCode.url}}" 
-           alt="QR Code do memorial de {{firstName}}" 
-           class="img-fluid rounded shadow-sm custom-sidebar-photo"
-           style="max-width: 200px;">
-
+     alt="QR Code do memorial de {{firstName}}" 
+     style="max-width: 200px; width: 100%; height: auto; object-fit: contain; border-radius: 8px;"
+     class="shadow-sm">
       <p class="small text-muted mt-2">Escaneie para acessar o memorial</p>
     </div>
   {{else}}
