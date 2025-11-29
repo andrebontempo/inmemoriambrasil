@@ -44,4 +44,22 @@
       {{/if}}
     </div>
   </a>
+  <!-- Box: QR Code -->
+<div class="custom-box-sidebar my-0 mx-0 p-3 hover-shadow mt-3">
+  <h4 class="fw-semibold"><i class="bi bi-qr-code-scan me-2"></i>QR Code</h4>
+
+  {{#if qrCode.url}}
+    <div class="text-center mt-2">
+      <img src="{{qrCode.url}}" 
+           alt="QR Code do memorial de {{firstName}}" 
+           class="img-fluid rounded shadow-sm custom-sidebar-photo"
+           style="max-width: 200px;">
+
+      <p class="small text-muted mt-2">Escaneie para acessar o memorial</p>
+    </div>
+  {{else}}
+    <p class="text-muted">QR Code ainda não gerado.</p>
+  {{/if}}
+</div>
+
 </main>
