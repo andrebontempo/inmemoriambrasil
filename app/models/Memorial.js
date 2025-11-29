@@ -23,7 +23,11 @@ const MemorialSchema = new mongoose.Schema(
       originalName: { type: String },
       updatedAt: { type: Date, default: Date.now },
     },
-
+    qrCode: {
+      key: { type: String },
+      url: { type: String },
+      updatedAt: { type: Date, default: Date.now },
+    },
     // Tema e plano - No futuro, serão ~40 opções
     theme: {
       type: String,

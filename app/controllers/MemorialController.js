@@ -17,6 +17,7 @@ const session = require("express-session")
 //const { r2, PutObjectCommand } = require("../../config/r2")
 const { r2, PutObjectCommand, DeleteObjectCommand } = require("../../config/r2")
 const { deleteFromR2 } = require("../services/r2Delete")
+const { generateQRCode } = require("../services/qrCode")
 
 const MemorialController = {
   // 👉 Renderiza o formulário da etapa 1
@@ -236,7 +237,8 @@ const MemorialController = {
       await Memorial.findByIdAndUpdate(novoMemorial._id, {
         gallery: novaGaleria._id,
       })
-
+      // gerar e salvar o QR Code automaticamente
+      await generateQRCode(novoMemorial)
       // Guarda ID do memorial criado
       req.session.memorialId = novoMemorial._id
 
@@ -651,6 +653,10 @@ const MemorialController = {
       /* 🖼️ 1) Deletar imagem principal no R2 */
       if (memorial.mainPhoto?.key) {
         await deleteFromR2(memorial.mainPhoto.key)
+      }
+      /* 🧾 1b) Deletar QR Code no R2 */
+      if (memorial.qrCode?.key) {
+        await deleteFromR2(memorial.qrCode.key)
       }
 
       /* 📚 2) Deletar todas as LifeStories */
