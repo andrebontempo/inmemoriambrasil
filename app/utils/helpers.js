@@ -1,4 +1,6 @@
 const moment = require("moment-timezone")
+require("moment/locale/pt-br") // <-- IMPORTANTE
+moment.locale("pt-br") // <-- Define PT-BR como padrão
 
 // Função para formatar datas
 const formatDate = (date, format) => {

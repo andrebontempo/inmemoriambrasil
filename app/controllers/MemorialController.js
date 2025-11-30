@@ -9,7 +9,7 @@ const fs = require("fs")
 const { Console } = require("console")
 const mongoose = require("mongoose")
 const moment = require("moment-timezone")
-const { calcularIdade } = require("../utils/helpers")
+const { calcularIdade, formatDate } = require("../utils/helpers")
 const MailService = require("../services/MailService")
 const session = require("express-session")
 //const { DeleteObjectCommand } = require("@aws-sdk/client-s3")
@@ -446,7 +446,6 @@ const MemorialController = {
         about: memorial.about,
         epitaph: memorial.epitaph,
         theme: memorial.theme,
-
         // Envia estatísticas específicas para a view
         estatisticas: {
           totalVisitas: memorial.visits || 0,
