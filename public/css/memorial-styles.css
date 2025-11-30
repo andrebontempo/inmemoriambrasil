@@ -474,6 +474,7 @@ iframe {
   width: 100px; /* Ajuste o tamanho conforme necessário */
   height: 100px;
   object-fit: cover; /* Para manter o corte da imagem */
+  flex-shrink: 0; /* impede que a imagem encolha quando o texto é grande */
   border-radius: 8px;
 }
 .gallery-grid img {
