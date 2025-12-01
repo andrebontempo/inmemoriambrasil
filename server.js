@@ -97,9 +97,7 @@ app.engine(".hbs", hbs.engine)
 app.set("view engine", ".hbs")
 app.set("views", path.join(__dirname, "app/views"))
 
-// ----- Modo Manutenção (desativado por padrão) -----
-//const emManutencao = process.env.MAINTENANCE
-//const emManutencao = false
+// ----- Modo Manutenção PADRÃO = EM DESENVOLVIMENTO TRUE NA VPS-----
 const emManutencao = String(process.env.MAINTENANCE).toLowerCase() === "true"
 
 if (emManutencao) {
