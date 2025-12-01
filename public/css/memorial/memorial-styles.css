@@ -169,7 +169,7 @@
 body {
   /*background-color: var(--bs-body-bg);*/
   /*background-color: #a57a88;*/
-  background-image: url("/site/bg_textura_1.png");
+  background-image: url("/css/memorial/files/bg_textura_1.png");
   background-size: 600px; /* ↓ diminui o tamanho do padrão */
   background-position: center center;
   background-attachment: fixed;
@@ -309,7 +309,7 @@ iframe {
 }
 
 .custom-container {
-  background-image: url("/site/bg_textura.png");
+  background-image: url("/css/memorial/files/bg_textura.png");
   background-size: 230px; /* ↓ diminui o tamanho do padrão */
   background-repeat: repeat;
   background-position: center center;
@@ -349,7 +349,7 @@ iframe {
 }
 
 .epitaph-box {
-  background-image: url("/site/bg_epitaph.png");
+  background-image: url("/css/memorial/files/bg_epitaph.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 100% 100%;
