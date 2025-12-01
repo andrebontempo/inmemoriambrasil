@@ -98,7 +98,9 @@ app.set("view engine", ".hbs")
 app.set("views", path.join(__dirname, "app/views"))
 
 // ----- Modo Manutenção (desativado por padrão) -----
-const emManutencao = false
+//const emManutencao = process.env.MAINTENANCE
+//const emManutencao = false
+const emManutencao = String(process.env.MAINTENANCE).toLowerCase() === "true"
 
 if (emManutencao) {
   app.get("*", (req, res) => {
