@@ -14,7 +14,7 @@ const UserSchema = new mongoose.Schema(
     googleId: { type: String, unique: true, sparse: true },
 
     // Avatar do usuário
-    avatar: { type: String, default: "/images/default-avatar.png" },
+    avatar: { type: String, default: "/css/main/files/user_default.png" },
 
     // Define o método de autenticação usado
     authProvider: { type: String, enum: ["local", "google"], required: true },
