@@ -186,7 +186,8 @@ header {
   position: sticky;
   top: 0; /* ele “cola” no topo quando atinge o topo */
   z-index: 999; /* garante que fique acima de outros elementos */
-  background-image: url("/site/bg_textura.png");
+  /*background-image: url("/site/bg_textura.png");*/
+  background-color: var(--bs-dark); /* Cor primária */
   background-size: 230px; /* ↓ diminui o tamanho do padrão */
   color: #fff;
   padding: 10px 0;

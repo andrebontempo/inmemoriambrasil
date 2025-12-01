@@ -1,28 +1,33 @@
-<header class="bs-primary text-white pb-0">
-  <div class="container pb-2">
-    <div class="d-flex justify-content-between align-items-center">
-      <!-- Logo à esquerda -->
-      <a href="/">
-        <img
-          src="/gallery/images/Logo_InMemoriamBrasil_1.png"
-          alt="Logo In Memoriam Brasil"
-          style="height: 60px;"
-        />
-      </a>
+<header class="bs-primary text-white py-3">
+  <div class="container">
 
-      <!-- Barra de pesquisa centralizada -->
+    <div
+      class="d-flex flex-column flex-md-row justify-content-between align-items-md-center"
+    >
+
+      <!-- Logo -->
+      <div class="text-center text-md-start mb-3 mb-md-0">
+        <a href="/">
+          <img
+            src="/gallery/images/Logo_InMemoriamBrasil_1.png"
+            alt="Logo In Memoriam Brasil"
+            style="height: 60px;"
+          />
+        </a>
+      </div>
+
+      <!-- Pesquisa -->
       <form
         action="/memorial/pesquisa"
         method="GET"
-        class="d-flex flex-grow-1 justify-content-center"
+        class="d-flex w-100 justify-content-start justify-content-md-center mb-3 mb-md-0 ms-3"
       >
-        <div class="input-group w-50">
+        <div class="input-group" style="max-width: 350px;">
           <input
             type="text"
             name="q"
             class="form-control"
             placeholder="Pesquisar por Memorial..."
-            aria-label="Pesquisar por Memorial"
           />
           <button class="btn btn-light" type="submit">
             <i class="bi bi-search"></i>
@@ -30,8 +35,9 @@
         </div>
       </form>
 
-      <!-- Links de autenticação à direita -->
-      <div class="d-flex gap-3">
+      <!-- Login -->
+      <div class="d-flex gap-3 justify-content-md-end justify-content-start">
+
         {{#if loggedUser}}
           <div class="dropdown">
             <a
@@ -39,31 +45,37 @@
               href="#"
               id="dropdownMenuButton"
               data-bs-toggle="dropdown"
-              aria-expanded="false"
-              style="text-decoration: none;"
             >
               Bem-vindo(a),
               {{loggedUser.firstName}}
             </a>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="/auth/dashboard">A Minha Conta</a></li>
               <li><a class="dropdown-item" href="/auth/logout">Sair</a></li>
             </ul>
           </div>
+
         {{else}}
-          <a href="/auth/register" class="text-white text-decoration-none fs-6">
+          <a
+            href="/auth/register"
+            class="text-white text-decoration-none fs-6 text-nowrap d-flex align-items-center gap-1"
+          >
             <i class="bi bi-person-plus text-white"></i>
             Criar uma conta
           </a>
+
           <a
             href="/auth/login"
-            class="text-white text-decoration-none fw-bold fs-6"
+            class="text-white text-decoration-none fw-bold fs-6 text-nowrap d-flex align-items-center gap-1"
           >
             <i class="bi bi-box-arrow-in-right text-white"></i>
             Entre
           </a>
+
         {{/if}}
+
       </div>
+
     </div>
   </div>
 </header>
