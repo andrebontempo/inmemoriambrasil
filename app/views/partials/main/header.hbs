@@ -38,7 +38,7 @@
       <!-- Login -->
       <div class="d-flex gap-3 justify-content-md-end justify-content-start">
 
-        {{#if loggedUser}}
+        {{#if user}}
           <div class="dropdown">
             <a
               class="btn btn-link text-white dropdown-toggle fs-6"
@@ -47,7 +47,7 @@
               data-bs-toggle="dropdown"
             >
               Bem-vindo(a),
-              {{loggedUser.firstName}}
+              {{user.firstName}}
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="/auth/dashboard">A Minha Conta</a></li>

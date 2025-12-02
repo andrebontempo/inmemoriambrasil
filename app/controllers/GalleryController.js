@@ -37,7 +37,7 @@ const GalleryController = {
     //console.log("ESTOU EM EXIBIR GALERIA - Slug recebido:", slug)
     try {
       const memorial = await Memorial.findOne({ slug })
-        .populate({ path: "user", select: "firstName lastName" })
+        .populate({ path: "owner", select: "firstName lastName" })
         .populate({ path: "lifeStory", select: "title content eventDate" }) // Populate para lifeStory
         .populate({ path: "sharedStory", select: "title content" }) // Populate para sharedStory
         //.populate({ path: "gallery.photos", select: "filename" }) // Populate para fotos da galeria
@@ -82,6 +82,10 @@ const GalleryController = {
         layout: "memorial-layout",
         slug: memorial.slug,
         id: memorial._id,
+        owner: {
+          firstName: memorial.owner?.firstName || "",
+          lastName: memorial.owner?.lastName || "",
+        },
         firstName: memorial.firstName,
         lastName: memorial.lastName,
         gender: memorial.gender,
@@ -99,10 +103,12 @@ const GalleryController = {
           totalHistorias,
           totalHistoriasCom,
         },
+        /*
         user: {
           firstName: memorial.user?.firstName || "Nome não informado",
           lastName: memorial.user?.lastName || "Sobrenome não informado",
         },
+        */
       })
     } catch (error) {
       console.error("Erro ao exibir galeria:", error)
@@ -115,12 +121,12 @@ const GalleryController = {
   // Editar galeria de um memorial
   editGallery: async (req, res) => {
     const { id } = req.params
-    const userCurrent = req.session.loggedUser
+    const userCurrent = req.session.user
     //console.log("ESTOU EM Edit GALERIA - ID recebido:", id)
 
     try {
       const memorial = await Memorial.findOne({ _id: id })
-        .populate({ path: "user", select: "firstName lastName" })
+        .populate({ path: "owner", select: "firstName lastName" })
         .populate({ path: "lifeStory", select: "title content eventDate" }) // Populate para lifeStory
         .populate({ path: "sharedStory", select: "title content" }) // Populate para sharedStory
         .populate({ path: "gallery.photos", select: "url" }) // Populate para fotos da galeria
@@ -179,7 +185,7 @@ const GalleryController = {
     // Verificar se o arquivo foi enviado
     //console.log("ESTOU EM UPDATE GALERIA - Slug recebido:", req.params.slug)
     const { slug } = req.params
-    const userCurrent = req.session.loggedUser
+    const userCurrent = req.session.user
     if (!req.file) {
       return res.status(400).send("Nenhum arquivo enviado.")
     }
@@ -194,7 +200,7 @@ const GalleryController = {
   updateGallery: async (req, res) => {
     const { slug, tipo } = req.params
     const file = req.file
-    const userCurrent = req.session.loggedUser
+    const userCurrent = req.session.user
 
     if (!file) return res.status(400).send("Nenhum arquivo enviado")
 

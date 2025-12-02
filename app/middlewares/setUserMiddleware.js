@@ -1,4 +1,9 @@
 module.exports = (req, res, next) => {
-  res.locals.loggedUser = req.session.loggedUser || null // Define `loggedUser` globalmente para todas as views
+  // Disponível para controladores
+  req.user = req.session.user || null
+
+  // Disponível nas views
+  res.locals.user = req.session.user || null
+
   next()
 }

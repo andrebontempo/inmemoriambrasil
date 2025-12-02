@@ -2,8 +2,13 @@ const mongoose = require("mongoose")
 
 const MemorialSchema = new mongoose.Schema(
   {
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // Criador do memorial
-    collaborators: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    }, // Criador do memorial
+
+    collaborators: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], // Colaboradores com permissão de edição
 
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },

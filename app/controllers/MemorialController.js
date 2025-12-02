@@ -28,7 +28,8 @@ const MemorialController = {
   // 👉 Processa o envio do nome e sobrenome
   createStep1: async (req, res) => {
     try {
-      const userCurrent = req.session.loggedUser
+      //console.log(req.session.user)
+      const userCurrent = req.session.user
       const { firstName, lastName } = req.body
 
       // ⚠️ (Opcional) Se quiser bloquear usuário não logado:
@@ -180,7 +181,7 @@ const MemorialController = {
   },
   createStep4: async (req, res) => {
     // Garantir login
-    if (!req.session.loggedUser) {
+    if (!req.session.user) {
       req.flash("error_msg", "Faça login para concluir a criação do memorial.")
       return res.redirect("/auth/login")
     }
@@ -191,10 +192,10 @@ const MemorialController = {
       return res.redirect("/memorial/create-step1")
     }
 
-    const userId = req.session.loggedUser._id
+    const userId = req.session.user._id
     const data = req.session.memorial
-    //const user = req.session.loggedUser
-    const userCurrent = req.session.loggedUser
+    //const user = req.session.user
+    const userCurrent = req.session.user
 
     try {
       const { epitaph, theme } = req.body
@@ -221,7 +222,7 @@ const MemorialController = {
       // Agora cria oficialmente no banco
       const novoMemorial = await Memorial.create({
         ...req.session.memorial,
-        user: userId, // ✔️ CORRETO
+        owner: userId, // ✔️ CORRETO
       })
 
       // 🖼️ Criar galeria vazia automaticamente
@@ -297,7 +298,7 @@ const MemorialController = {
   //ESTE MÉTODO NÃO ESTÁ SENDO USADO NO MOMENTO A CRIAÇÃO ESTÁ NO STEP4
   createMemorial: async (req, res) => {
     try {
-      const user = req.session.loggedUser
+      const user = req.session.user
       const data = req.session.memorial
 
       if (!user || !data) return res.redirect("/memorial/create-step1")
@@ -370,7 +371,7 @@ const MemorialController = {
         { $inc: { visits: 1 } },
         { new: true }
       )
-        .populate({ path: "user", select: "firstName lastName" })
+        .populate({ path: "owner", select: "firstName lastName" })
         .populate({ path: "lifeStory", select: "title content" })
         .populate({ path: "sharedStory", select: "title content" })
         .populate({ path: "gallery.photos", select: "url" })
@@ -414,10 +415,7 @@ const MemorialController = {
 
       return res.render("memorial/memorial-about", {
         layout: "memorial-layout",
-        user: {
-          firstName: memorial.user.firstName || "Primeiro Nome Não informado",
-          lastName: memorial.user.lastName || "Último Nome Não informado",
-        },
+        owner: memorial.owner,
         firstName: memorial.firstName,
         lastName: memorial.lastName,
         slug: memorial.slug,
@@ -468,7 +466,7 @@ const MemorialController = {
       //console.log("Recebendo requisição para editar memorial:", req.params.slug)
 
       const memorial = await Memorial.findOne({ slug: req.params.slug })
-        .populate({ path: "user", select: "firstName lastName" })
+        .populate({ path: "owner", select: "firstName lastName" })
         .populate({ path: "lifeStory", select: "title content" }) // Populate para lifeStory
         .populate({ path: "sharedStory", select: "title content" }) // Populate para sharedstory
         .lean() // Converte o documento em um objeto simples
@@ -591,14 +589,14 @@ const MemorialController = {
   // Método para exibir a página de pesquisa por memorial
   searchMemorial: async (req, res) => {
     const termo = req.query.q // termo digitado
-    const loggedUser = req.session.loggedUser
+    const user = req.session.user
 
     // Se não houver termo e nem "*", não busca nada ainda
     if (!termo) {
       return res.render("memorial/memorial-pesquisa", {
         resultados: [],
         termo,
-        loggedUser,
+        user,
       })
     }
 
@@ -619,8 +617,8 @@ const MemorialController = {
       }
 
       // Converter IDs para string (garante comparação)
-      if (loggedUser && loggedUser._id) {
-        loggedUser._id = loggedUser._id.toString()
+      if (user && user._id) {
+        user._id = user._id.toString()
       }
       resultados.forEach((memorial) => {
         if (memorial.userId) {
@@ -631,7 +629,7 @@ const MemorialController = {
       res.render("memorial/memorial-pesquisa", {
         resultados,
         termo,
-        loggedUser,
+        user,
       })
     } catch (error) {
       console.error("Erro na pesquisa:", error)

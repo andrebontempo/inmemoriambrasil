@@ -9,7 +9,7 @@ const MemorialFETController = {
   editMemorialFET: async (req, res) => {
     try {
       const memorial = await Memorial.findOne({ slug: req.params.slug })
-        .populate({ path: "user", select: "firstName lastName" })
+        .populate({ path: "owner", select: "firstName lastName" })
         .lean()
 
       if (!memorial) {

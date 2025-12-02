@@ -43,11 +43,12 @@ const AuthController = {
       }
 
       // Login OK
-      req.session.loggedUser = {
+      req.session.user = {
         _id: user._id,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
+        role: user.role, // IMPORTANTE para permissões
       }
 
       const redirectTo = req.session.redirectAfterLogin || "/auth/dashboard"
@@ -66,16 +67,16 @@ const AuthController = {
 
   // Exibir painel do usuário autenticado
   showDashboard: async (req, res) => {
-    if (!req.session.loggedUser) {
+    if (!req.session.user) {
       return res.redirect("/auth/login")
     }
 
     try {
-      const userId = req.session.loggedUser._id
-      const memoriais = await Memorial.find({ user: userId }).lean()
+      const userId = req.session.user._id
+      const memoriais = await Memorial.find({ owner: userId }).lean()
 
       res.render("auth/dashboard", {
-        user: req.session.loggedUser,
+        user: req.session.user,
         memoriais,
       })
     } catch (err) {
@@ -136,7 +137,7 @@ const AuthController = {
       await newUser.save()
 
       // Login automático após cadastro
-      req.session.loggedUser = {
+      req.session.user = {
         _id: newUser._id,
         firstName: newUser.firstName,
         lastName: newUser.lastName,

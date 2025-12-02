@@ -8,7 +8,7 @@ const TributeController = {
   // Exibir o formulário de cadastro
   createTribute: async (req, res) => {
     // Garantir que o usuário autenticado esteja presente
-    const userCurrent = req.session.loggedUser
+    const userCurrent = req.session.user
     try {
       //console.log(req.body)
       // Verifique se 'memorial' está no corpo da requisição
@@ -60,7 +60,7 @@ const TributeController = {
       */
       //Buscar dados do memorial para o painel direito
       const memorial = await Memorial.findOne({ slug })
-        .populate({ path: "user", select: "firstName lastName" })
+        .populate({ path: "owner", select: "firstName lastName" })
         .populate({ path: "lifeStory", select: "title content eventDate" }) // Populate para lifeStory
         .populate({ path: "sharedStory", select: "title content eventDate" }) // Populate para sharedStory
         .populate({ path: "gallery.photos", select: "url" }) // Populate para fotos da galeria

@@ -11,7 +11,7 @@ const { DeleteObjectCommand } = require("@aws-sdk/client-s3")
 
 const LifeStoryController = {
   createLifeStory: async (req, res) => {
-    const userCurrent = req.session.loggedUser
+    const userCurrent = req.session.user
 
     try {
       let mediaKey = ""
@@ -72,7 +72,7 @@ const LifeStoryController = {
 
     try {
       const memorial = await Memorial.findOne({ slug })
-        .populate({ path: "user", select: "firstName lastName" })
+        .populate({ path: "owner", select: "firstName lastName" })
         .lean()
 
       if (!memorial) {
@@ -111,9 +111,9 @@ const LifeStoryController = {
       return res.render("memorial/memorial-lifestory", {
         layout: "memorial-layout",
         id: memorial._id,
-        user: {
-          firstName: memorial.user?.firstName || "",
-          lastName: memorial.user?.lastName || "",
+        owner: {
+          firstName: memorial.owner?.firstName || "",
+          lastName: memorial.owner?.lastName || "",
         },
         firstName: memorial.firstName,
         lastName: memorial.lastName,
@@ -167,7 +167,7 @@ const LifeStoryController = {
 
       // Busca dados do memorial e galeria (mesmo que antes)
       const memorial = await Memorial.findOne({ slug })
-        .populate({ path: "user", select: "firstName lastName" })
+        .populate({ path: "owner", select: "firstName lastName" })
         .populate({ path: "lifeStory", select: "title content eventDate" })
         .lean()
 
@@ -274,9 +274,8 @@ const LifeStoryController = {
 
       // Verifica se o usuário tem permissão (criador do memorial)
       if (
-        !req.session.loggedUser ||
-        lifeStory.memorial.user.toString() !==
-          req.session.loggedUser._id.toString()
+        !req.session.user ||
+        lifeStory.memorial.owner.toString() !== req.session.user._id.toString()
       ) {
         req.flash(
           "error_msg",

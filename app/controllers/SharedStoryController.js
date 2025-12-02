@@ -11,7 +11,7 @@ const { DeleteObjectCommand } = require("@aws-sdk/client-s3")
 
 const SharedStoryController = {
   createSharedStory: async (req, res) => {
-    const userCurrent = req.session.loggedUser
+    const userCurrent = req.session.user
 
     try {
       let mediaKey = ""
@@ -73,7 +73,7 @@ const SharedStoryController = {
 
     try {
       const memorial = await Memorial.findOne({ slug })
-        .populate({ path: "user", select: "firstName lastName" })
+        .populate({ path: "owner", select: "firstName lastName" })
         .lean()
 
       if (!memorial) {
@@ -112,9 +112,9 @@ const SharedStoryController = {
       return res.render("memorial/memorial-sharedstory", {
         layout: "memorial-layout",
         id: memorial._id,
-        user: {
-          firstName: memorial.user?.firstName || "",
-          lastName: memorial.user?.lastName || "",
+        owner: {
+          firstName: memorial.owner?.firstName || "",
+          lastName: memorial.owner?.lastName || "",
         },
         firstName: memorial.firstName,
         lastName: memorial.lastName,
@@ -169,7 +169,7 @@ const SharedStoryController = {
 
       // Busca dados do memorial e galeria (mesmo que antes)
       const memorial = await Memorial.findOne({ slug })
-        .populate({ path: "user", select: "firstName lastName" })
+        .populate({ path: "owner", select: "firstName lastName" })
         .populate({ path: "sharedStory", select: "title content eventDate" })
         .lean()
 
@@ -274,9 +274,9 @@ const SharedStoryController = {
 
       // Verifica se o usuário tem permissão (criador do memorial)
       if (
-        !req.session.loggedUser ||
-        sharedStory.memorial.user.toString() !==
-          req.session.loggedUser._id.toString()
+        !req.session.user ||
+        sharedStory.memorial.owner.toString() !==
+          req.session.user._id.toString()
       ) {
         req.flash(
           "error_msg",
