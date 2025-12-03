@@ -1,192 +1,88 @@
 <main>
-  <div  class="custom-container my-0 p-2">
+  <div class="custom-container my-0 p-2">
 
-        <!-- Bloco estrutural transparente para o epitáfio -->
-        <div class="custom-box-transparent my-4 mx-0 d-flex justify-content-center">
-          {{#if epitaph}}
-            <div class="epitaph-box text-center">
-              <p class="epitaph-content">
-                &#8220;{{epitaph}}&#8221;
-              </p>
-            </div>
-          {{else}}
-             <div class="epitaph-box text-center">
-              <p class="epitaph-content">Aqui repousa uma alma que amou e foi amada. Que sua memória viva para sempre em nossos corações.</p>
-                
-            </div>
-            
-          {{/if}}
-        </div>
-
-        <!-- Informações do Memorial -->
-        <div class="custom-box mx-0">
-          <div class="birth-death-info mt-2 text-start">
-            <p><i class="bi bi-calendar-date-fill"></i><strong> Idade:</strong> {{idade}}</p>
-            <p>
-              <i class="bi bi-star-fill"></i>
-              <strong>Nascido(a) em </strong>
-              {{#if birth.date}}{{formatDate birth.date}}{{else}}Não informada{{/if}}
-              <strong> em </strong>
-              {{#if birth.city}}{{birth.city}}{{else}}Local desconhecido{{/if}},
-              {{#if birth.state}}{{birth.state}}{{else}}Estado não informado{{/if}},
-              {{#if birth.country}}{{birth.country}}{{else}}País não informado{{/if}}
-            </p>
-            <p>
-              <i class="bi bi-heartbreak-fill"></i>
-              <strong>Falecido(a) em </strong>
-              {{#if death.date}}{{formatDate death.date}}{{else}}Não informada{{/if}}
-              <strong> em </strong>
-              {{#if death.city}}{{death.city}}{{else}}Local desconhecido{{/if}},
-              {{#if death.state}}{{death.state}}{{else}}Estado não informado{{/if}},
-              {{#if death.country}}{{death.country}}{{else}}País não informado{{/if}}
-            </p>
-          </div>
-        </div>
-
-        <!-- Sobre o Memorial -->
-        <div class="custom-box my-2 mx-0 text-start">
-          <h3>Sobre este Memorial</h3>
-          <p class="text-justify">
-            {{#if about}}
-              {{about}}
-            {{else}}
-              Este memorial foi criado por
-              {{#if user}} {{user.firstName}} {{user.lastName}} {{else}} um usuário desconhecido {{/if}}, em homenagem a <strong>{{firstName}} {{lastName}}</strong> que nos deixou em {{#if death.date}}{{formatDate death.date}}{{else}}Não informada{{/if}}. Viveu {{idade}} de uma história repleta de momentos especiais. Seu legado permanecerá vivo nestas páginas, onde suas lembranças serão preservadas com carinho e respeito.
-            {{/if}}
+    <!-- Bloco estrutural transparente para o epitáfio -->
+    <div class="custom-box-transparent my-0 mx-0 d-flex justify-content-center">
+      {{#if epitaph}}
+        <div class="epitaph-box text-center">
+          <p class="epitaph-content">
+            &#8220;{{epitaph}}&#8221;
           </p>
         </div>
+      {{else}}
+        <div class="epitaph-box text-center">
+          <p class="epitaph-content">Aqui repousa uma alma que amou e foi amada.
+            Que sua memória viva para sempre em nossos corações.</p>
 
-<!-- Tributos -->
-<div class="custom-box my-2 mx-0 text-start">
-<h3 class="text-start"><i class="bi bi-chat-left-text me-2"></i>
-  Tributos:
-  <span class="fs-5 text-muted">Leia e deixe a sua homenagem...</span>
-</h3>
-  {{#if tribute.length}}
-    {{#each tribute}}
-      <div class="card my-2 custom-box">
-        <div class="card-body">
-          <div class="d-flex">
-            <!-- Imagem do tributo à esquerda -->
-            <div class="me-3" style="width: 100px;">
-              {{#if this.type}}
-                <img src="/css/memorial/files/{{this.type}}" alt="Símbolo do tributo" class="rounded" style="width: 100px; height: 100px; object-fit: cover;">
-              {{else}}
-                <img src="/css/memorial/files/tribute_caneta.png" alt="Imagem padrão" class="rounded" style="width: 100px; height: 100px; object-fit: cover;">
-              {{/if}}
-            </div>
-
-            <!-- Corpo do post -->
-            <div class="flex-grow-1">
-              <p class="card-text fs-5">{{this.message}}</p>
-              
-              <!-- Botões de interação com cores do padrão -->
-              <div class="d-flex justify-content-end gap-2 mt-3">
-
-
-                <a href="/memorial/{{../slug}}/tribute/edit/{{this._id}}" class="btn btn-primary" style="text-decoration: none;">
-                  <i class="bi bi-pencil-fill"></i> Editar
-                </a>
-                <!-- Formulário para deletar tributo via POST -->
-  <form action="/memorial/{{../slug}}/tribute/delete/{{this._id}}" method="POST" onsubmit="return confirm('Tem certeza que deseja apagar este tributo?');">
-    <input type="hidden" name="memorial" value="{{id}}" /> <!-- Passando o ID do memorial -->
-    <input type="hidden" name="slug" value="{{slug}}" /> <!-- Passando o ID do memorial -->
-    <button type="submit" class="btn btn-primary">
-      <i class="bi bi-trash-fill"></i> Apagar
-    </button>
-  </form>
-
-              </div>
-              
-              <!-- Informações de autoria e data com fonte menor, alinhadas à direita -->
-              <div class="text-muted mt-2 fs-8 text-end">
-                Publicado por <strong>{{this.user.firstName}} {{this.user.lastName}}</strong> em {{formatDateTribute this.createdAt "default"}}.
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    {{/each}}
-  {{else}}
-    <p>Nenhum tributo adicionado ainda.</p>
-  {{/if}}
-</div>
-
-
-<!-- Formulário de Envio de Tributo -->
-<form action="/memorial/{{slug}}/tribute/create" method="POST">
-  <input type="hidden" name="memorial" value="{{id}}" /> <!-- Passando o ID do memorial -->
-  <input type="hidden" name="slug" value="{{slug}}" /> <!-- Passando o ID do memorial -->
-  
-  <!-- Caixa de Edição de Tributo (com Bootstrap e CSS) -->
-  <div class="custom-box my-2 mx-0">
-    <h3>Deixe seu tributo</h3>
-    <div class="card p-3">
-      <!-- Escolha do tipo de tributo com botões de rádio -->
-      <div class="d-flex justify-content-center mb-3">
-        <!-- Caneta (selecionada por padrão) -->
-        <div class="text-center me-3">
-          <img
-            src="/css/memorial/files/tributo_caneta.png"
-            class="edit-icon"
-            alt="Caneta"
-            style="width: 40px; height: 40px; object-fit: cover; pointer-events: none; margin-bottom: 10px;">
-          <br>
-          <input type="radio" id="tributeTypeCaneta" name="type" value="tributo_caneta.png" checked>
         </div>
 
-        <!-- Flor -->
-        <div class="text-center me-3">
-          <img
-            src="/css/memorial/files/tributo_flor.png"
-            class="edit-icon"
-            alt="Flor"
-            style="width: 40px; height: 40px; object-fit: cover; pointer-events: none; margin-bottom: 10px;">
-          <br>
-          <input type="radio" id="tributeTypeFlor" name="type" value="tributo_flor.png">
-        </div>
+      {{/if}}
+    </div>
 
-        <!-- Vela -->
-        <div class="text-center">
-          <img
-            src="/css/memorial/files/tributo_vela.png"
-            class="edit-icon"
-            alt="Vela"
-            style="width: 40px; height: 40px; object-fit: cover; pointer-events: none; margin-bottom: 10px;">
-          <br>
-          <input type="radio" id="tributeTypeVela" name="type" value="tributo_vela.png">
-        </div>
-      </div>
-
-      <!-- Caixa de texto à esquerda -->
-      <div class="d-flex mb-2">
-        <textarea
-          class="edit-input form-control"
-          rows="3"
-          placeholder="Escreva sua mensagem..."
-          name="message"
-          required
-        ></textarea>
-      </div>
-
-      <!-- Informação sobre o usuário -->
-      <div class="text-muted mb-2 fs-7 text-end">
-        Por usuário logado.
-      </div>
-
-      <!-- Botão Enviar -->
-      <div class="text-end">
-        <button type="submit" class="btn btn-primary">
-          Enviar Tributo
-        </button>
+    <!-- Informações do Memorial -->
+    <div class="custom-box mx-0">
+      <div class="birth-death-info mt-2 text-start">
+        <p><i class="bi bi-calendar-date-fill"></i><strong> Idade:</strong>
+          {{idade}}</p>
+        <p>
+          <i class="bi bi-star-fill"></i>
+          <strong>Nascido(a) em </strong>
+          {{#if birth.date}}{{formatDate birth.date}}{{else}}Não informada{{/if}}
+          <strong> em </strong>
+          {{#if birth.city}}{{birth.city}}{{else}}Local desconhecido{{/if}},
+          {{#if birth.state}}{{birth.state}}{{else}}Estado não informado{{/if}},
+          {{#if birth.country}}{{birth.country}}{{else}}País não informado{{/if}}
+        </p>
+        <p>
+          <i class="bi bi-heartbreak-fill"></i>
+          <strong>Falecido(a) em </strong>
+          {{#if death.date}}{{formatDate death.date}}{{else}}Não informada{{/if}}
+          <strong> em </strong>
+          {{#if death.city}}{{death.city}}{{else}}Local desconhecido{{/if}},
+          {{#if death.state}}{{death.state}}{{else}}Estado não informado{{/if}},
+          {{#if death.country}}{{death.country}}{{else}}País não informado{{/if}}
+        </p>
       </div>
     </div>
-  </div>
-</form>
 
+    <!-- Sobre o Memorial -->
+    <div class="custom-box my-2 mx-0 text-start">
+      <h3>Sobre este Memorial</h3>
+      <p class="text-justify">
+        {{#if about}}
+          {{about}}
+        {{else}}
+          Este memorial foi criado por
+          {{#if user}} {{user.firstName}} {{user.lastName}} {{else}}
+            um usuário desconhecido
+          {{/if}}, em homenagem a
+          <strong>{{firstName}} {{lastName}}</strong>
+          que nos deixou em
+          {{#if death.date}}{{formatDate death.date}}{{else}}Não informada{{/if}}.
+          Viveu
+          {{idade}}
+          de uma história repleta de momentos especiais. Seu legado permanecerá
+          vivo nestas páginas, onde suas lembranças serão preservadas com
+          carinho e respeito.
+        {{/if}}
+      </p>
+    </div>
 
-
-      
+    <!-- Biografia -->
+    <div class="custom-box my-2 mx-0 text-start">
+      <h3>MiniBiografia</h3>
+      <p class="text-justify">
+        {{#if biography}}
+          {{biography}}
+        {{else}}
+          A biografia de
+          <strong>{{firstName}} {{lastName}}</strong>
+          ainda não foi adicionada. Convidamos você a contribuir com histórias,
+          memórias e detalhes sobre sua vida para enriquecer este memorial e
+          manter viva a sua memória.
+        {{/if}}
+      </p>
+    </div>
 
   </div>
 </main>

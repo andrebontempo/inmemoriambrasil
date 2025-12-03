@@ -15,22 +15,13 @@ const MemorialSchema = new mongoose.Schema(
     slug: { type: String, unique: true, required: true },
     gender: { type: String },
     kinship: { type: String },
-    biography: {
-      type: String,
-      default: "",
-    },
-    obituary: {
-      wakeLocation: { type: String }, // local onde será velado (capela)
-      schedule: { type: String }, // "14:00 to 17:00"
-      graveAddress: { type: String }, // endereço do túmulo
-      cemetery: { type: String }, // cemitério
-      cemeteryMap: { type: String }, // Google Maps link
-    },
+
     accessLevel: {
       type: String,
       enum: ["public_read", "private_read", "private_edit"],
       default: "public_read",
     },
+
     mainPhoto: {
       key: { type: String }, // <- Caminho do arquivo no Bucket (R2)
       url: { type: String }, // <- URL pública

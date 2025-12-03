@@ -1,55 +1,48 @@
 <main class="container my-5">
-  <!-- Sessão para Apresentação de Video Tutorial -->
-  <section class="row">
-    <div class="col-md-6">
+
+  <!-- Sessão Apresentação + Vídeo -->
+  <section class="row gy-4">
+    <div class="col-12 col-md-6">
       <div class="card p-4 h-100 bg-primary text-white rounded-4 shadow-lg">
         <h2 class="card-title fw-bold">InMemoriamBrasil</h2>
+
         <p class="text-justify">
           Preserve para sempre a memória de quem foi especial em sua vida. Crie
           um
           <strong>Memorial Virtual</strong>
-          e preste uma linda homenagem a esta pessoa querida. Com poucos passos,
-          você cria uma página personalizada, acessível a qualquer momento e de
-          qualquer lugar.
+          e preste uma linda homenagem.
           <br /><br />
-          <strong>In Memoriam Brasil</strong>
+          <strong>InMemoriamBrasil</strong>
           é um espaço de carinho e recordação para expressar seus sentimentos e
-          compartilhar com familiares e amigos. Honre aqueles que fizeram parte
-          da sua vida e mantenha suas histórias vivas para sempre.
+          compartilhar histórias.
         </p>
-        <div class="text-end">
-          <a
-            href="/memorial/create-step1"
-            class="btn btn-light btn-custom"
-          >Criar Memorial</a>
+
+        <div class="text-center text-md-end mt-3">
+          <a href="/memorial/create-step1" class="btn btn-light btn-custom">
+            Criar Memorial
+          </a>
         </div>
       </div>
     </div>
 
-    <div class="col-md-6">
-      <div class="ratio ratio-16x9 h-100 rounded-4 overflow-hidden shadow-lg">
+    <div class="col-12 col-md-6">
+      <div class="ratio ratio-16x9 rounded-4 overflow-hidden shadow-lg">
         <video controls width="100%">
           <source src="/css/main/files/tutorial_SOL.mp4" type="video/mp4" />
-          Seu navegador não suporta a reprodução deste vídeo.
+          Seu navegador não suporta vídeo.
         </video>
       </div>
     </div>
   </section>
 
-  <!-- Memoriais existentes como exemplos -->
+  <!-- Memoriais Modelo -->
   <section class="my-5">
     <h2 class="mb-4 text-center text-secondary">Memoriais Virtuais - Modelos</h2>
-    <div class="row">
-      {{! Card 1 }}
-      <div class="col-md-3">
-        <a
-          href="/memorial/machado-de-assis/about"
-          style="text-decoration: none;"
-        >
-          <div
-            class="card border-0 shadow"
-            style="background-color: #4f0e21; color: white;"
-          >
+    <div class="row g-4">
+
+      <div class="col-6 col-md-3">
+        <a href="/memorial/machado-de-assis/about" class="text-decoration-none">
+          <div class="card border-0 shadow memorial-card">
             <img
               src="/css/main/files/machado_de_assis_1.jpg"
               class="card-img-top rounded-top"
@@ -62,16 +55,12 @@
         </a>
       </div>
 
-      {{! Card 2 }}
-      <div class="col-md-3">
+      <div class="col-6 col-md-3">
         <a
           href="/memorial/chiquinha-gonzaga/about"
-          style="text-decoration: none;"
+          class="text-decoration-none"
         >
-          <div
-            class="card border-0 shadow"
-            style="background-color: #4f0e21; color: white;"
-          >
+          <div class="card border-0 shadow memorial-card">
             <img
               src="/css/main/files/chiquinha_gonzaga_1.jpg"
               class="card-img-top rounded-top"
@@ -84,16 +73,12 @@
         </a>
       </div>
 
-      {{! Card 3 }}
-      <div class="col-md-3">
+      <div class="col-6 col-md-3">
         <a
           href="/memorial/joaquim-jose-da-silva-xavier/about"
-          style="text-decoration: none;"
+          class="text-decoration-none"
         >
-          <div
-            class="card border-0 shadow"
-            style="background-color: #4f0e21; color: white;"
-          >
+          <div class="card border-0 shadow memorial-card">
             <img
               src="/css/main/files/tiradentes_1.jpg"
               class="card-img-top rounded-top"
@@ -106,13 +91,9 @@
         </a>
       </div>
 
-      {{! Card 4 }}
-      <div class="col-md-3">
-        <a href="/memorial/chica-da-silva/about" style="text-decoration: none;">
-          <div
-            class="card border-0 shadow"
-            style="background-color: #4f0e21; color: white;"
-          >
+      <div class="col-6 col-md-3">
+        <a href="/memorial/chica-da-silva/about" class="text-decoration-none">
+          <div class="card border-0 shadow memorial-card">
             <img
               src="/css/main/files/chica_da_silva_1.jpg"
               class="card-img-top rounded-top"
@@ -124,107 +105,48 @@
           </div>
         </a>
       </div>
+
     </div>
   </section>
 
-  <!-- Estatísticas do Site - Versão compacta e responsiva -->
+  <!-- Estatísticas -->
   <section class="my-5">
     <div class="container text-center">
       <h2 class="mb-4 text-secondary">Números do InMemoriamBrasil</h2>
 
-      <div
-        class="d-flex flex-wrap justify-content-center gap-3 overflow-auto px-2"
-      >
-        <!-- Card: Memoriais -->
-        <div
-          class="card border-0 shadow py-2 px-2 bg-white text-center"
-          style="width: 220px; flex: 0 0 auto;"
-        >
-          <div
-            class="card-body text-dark d-flex flex-column align-items-center p-2"
-          >
-            <i class="bi bi-person-lines-fill fs-5" style="color: #4f0e21;"></i>
-            <h6
-              class="mt-1 mb-0 fw-bold small"
-              style="color: #4f0e21;"
-            >Memoriais</h6>
-            <p class="fs-6 fw-bold mb-1">{{totalMemoriais}}</p>
-          </div>
+      <div class="d-flex flex-wrap justify-content-center gap-3">
+
+        {{! Card Template reaproveitável }}
+        <div class="stats-card">
+          <i class="bi bi-person-lines-fill fs-4"></i>
+          <h6>Memoriais</h6>
+          <p>{{totalMemoriais}}</p>
+        </div>
+        <!--
+        <div class="stats-card">
+          <i class="bi bi-eye-fill fs-4"></i>
+          <h6>Visitantes</h6>
+          <p>{{totalVisitas}}</p>
+        </div>
+        -->
+        <div class="stats-card">
+          <i class="bi bi-flower1 fs-4"></i>
+          <h6>Homenagens</h6>
+          <p>{{totalTributos}}</p>
         </div>
 
-        <!-- Card: Visitantes -->
-        <div
-          class="card border-0 shadow py-2 px-2 bg-white text-center"
-          style="width: 220px; flex: 0 0 auto;"
-        >
-          <div
-            class="card-body text-dark d-flex flex-column align-items-center p-2"
-          >
-            <i class="bi bi-eye-fill fs-5" style="color: #4f0e21;"></i>
-            <h6
-              class="mt-1 mb-0 fw-bold small"
-              style="color: #4f0e21;"
-            >Visitantes</h6>
-            <p class="fs-6 fw-bold mb-1">{{totalVisitas}}</p>
-          </div>
+        <div class="stats-card">
+          <i class="bi bi-journal-bookmark-fill fs-4"></i>
+          <h6>Histórias de Vida</h6>
+          <p>{{totalHistorias}}</p>
         </div>
 
-        <!-- Card: Tributos -->
-        <div
-          class="card border-0 shadow py-2 px-2 bg-white text-center"
-          style="width: 220px; flex: 0 0 auto;"
-        >
-          <div
-            class="card-body text-dark d-flex flex-column align-items-center p-2"
-          >
-            <i class="bi bi-flower1 fs-5" style="color: #4f0e21;"></i>
-            <h6
-              class="mt-1 mb-0 fw-bold small"
-              style="color: #4f0e21;"
-            >Tributos</h6>
-            <p class="fs-6 fw-bold mb-1">{{totalTributos}}</p>
-          </div>
+        <div class="stats-card">
+          <i class="bi bi-journal-bookmark-fill fs-4"></i>
+          <h6>Histórias Compartilhadas</h6>
+          <p>{{totalCompartilhadas}}</p>
         </div>
 
-        <!-- Card: Histórias de Vida -->
-        <div
-          class="card border-0 shadow py-2 px-2 bg-white text-center"
-          style="width: 220px; flex: 0 0 auto;"
-        >
-          <div
-            class="card-body text-dark d-flex flex-column align-items-center p-2"
-          >
-            <i
-              class="bi bi-journal-bookmark-fill fs-5"
-              style="color: #4f0e21;"
-            ></i>
-            <h6
-              class="mt-1 mb-0 fw-bold small"
-              style="color: #4f0e21;"
-            >Histórias de Vida</h6>
-            <p class="fs-6 fw-bold mb-1">{{totalHistorias}}</p>
-          </div>
-        </div>
-
-        <!-- Card: Histórias Compartilhadas -->
-        <div
-          class="card border-0 shadow py-2 px-2 bg-white text-center"
-          style="width: 220px; flex: 0 0 auto;"
-        >
-          <div
-            class="card-body text-dark d-flex flex-column align-items-center p-2"
-          >
-            <i
-              class="bi bi-journal-bookmark-fill fs-5"
-              style="color: #4f0e21;"
-            ></i>
-            <h6
-              class="mt-1 mb-0 fw-bold small"
-              style="color: #4f0e21;"
-            >Histórias Compartilhadas</h6>
-            <p class="fs-6 fw-bold mb-1">{{totalCompartilhadas}}</p>
-          </div>
-        </div>
       </div>
     </div>
   </section>

@@ -117,6 +117,8 @@ router.post(
 router.post("/:slug/lifestory/delete/:id", LifeStoryController.deleteLifeStory)
 
 //*********ROTAS PARA O TRIBUTE CONTROLLER***********
+// Rota para mostrar uma história de vida
+router.get("/:slug/tribute", TributeController.showTribute)
 router.post(
   "/:slug/tribute/create",
   authMiddleware,

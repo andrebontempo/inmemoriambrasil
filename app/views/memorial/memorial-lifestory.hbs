@@ -2,14 +2,14 @@
   <div class="custom-container my-0 p-2">
         <!-- Conteúdo Principal -->
         <div class="custom-box my-0 mx-0 text-start">
-          <h3 class="text-start"><i class="bi bi-journal-bookmark me-2"></i>Jornada de Vida em Capítulos</h3>
+          <h3 class="text-start"><i class="bi bi-journal-bookmark me-2"></i>História de Vida em Capítulos</h3>
           <p class="text-justify">Neste espaço do memorial, são reunidos relatos que preservam momentos marcantes da trajetória de <strong>{{firstName}} {{lastName}}</strong>. Em ordem cronológica, cada história registrada contribui para manter viva sua memória, revelando aspectos significativos de sua vida e legado.</p>
         </div>
 
         <!-- História de Vida -->
         <div class="custom-box my-2 mx-0 text-start">
           <h3 class="text-start">
-            Histórias de Vida:
+            {{firstName}} {{lastName}}:
             <span class="fs-5 text-muted">Acontecimentos marcantes...</span>
           </h3>
           {{#if lifeStory.length}}
@@ -53,7 +53,7 @@
           <input type="hidden" name="memorial" value="{{id}}" />
           <input type="hidden" name="slug" value="{{slug}}" />
           <div class="custom-box my-2 mx-0">
-            <h3>Compartilhe uma História</h3>
+            <h3>Escreva e Envie</h3>
             <div class="card p-3">
               <div class="mb-2">
                 <label for="storyTitle" class="form-label"><i class="bi bi-bookmark-fill"></i> Título da História</label>
