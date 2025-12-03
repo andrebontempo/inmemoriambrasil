@@ -170,7 +170,8 @@ body {
   /*background-color: var(--bs-body-bg);*/
   /*background-color: #a57a88;*/
   background-image: url("/css/memorial/files/bg_textura_1.png");
-  background-size: 600px; /* ↓ diminui o tamanho do padrão */
+  /*background: #7a142f;*/
+  background-size: 300px; /* ↓ diminui o tamanho do padrão */
   background-position: center center;
   background-attachment: fixed;
   /*background-image: url("/images/background.jpg"); /* Caminho para a imagem */
@@ -310,7 +311,7 @@ iframe {
 
 .custom-container {
   background-image: url("/css/memorial/files/bg_textura.png");
-  background-size: 230px; /* ↓ diminui o tamanho do padrão */
+  background-size: 1080px; /* ↓ diminui o tamanho do padrão */
   background-repeat: repeat;
   background-position: center center;
   /*color: #fff;*/
