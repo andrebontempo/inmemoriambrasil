@@ -1,1 +1,0 @@
-{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"},{"v":{"$numberInt":"2"},"key":{"memorial":{"$numberInt":"1"}},"name":"memorial_1","background":true}],"uuid":"1f7adbc4c2774ed094687807e8660760","collectionName":"galleries","type":"collection"}
