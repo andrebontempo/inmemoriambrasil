@@ -169,9 +169,9 @@
 body {
   /*background-color: var(--bs-body-bg);*/
   /*background-color: #a57a88;*/
-  background-image: url("/css/memorial/files/bg_textura_1.png");
+  background-image: url("/css/memorial/files/background.jpg");
   /*background: #7a142f;*/
-  background-size: 300px; /* ↓ diminui o tamanho do padrão */
+  background-size: cover; /* ↓ diminui o tamanho do padrão */
   background-position: center center;
   background-attachment: fixed;
   /*background-image: url("/images/background.jpg"); /* Caminho para a imagem */
