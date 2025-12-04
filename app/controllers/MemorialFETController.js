@@ -75,7 +75,7 @@ const MemorialFETController = {
   updateMemorialFET: async (req, res) => {
     try {
       const { slug } = req.params
-      const { epitaph, theme } = req.body
+      const { epitaph, biography, theme } = req.body
 
       const memorial = await Memorial.findOne({ slug })
 
@@ -85,6 +85,7 @@ const MemorialFETController = {
 
       const updateData = {
         epitaph,
+        biography,
         theme,
       }
 
