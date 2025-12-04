@@ -31,15 +31,25 @@
 
       <!-- Epitáfio -->
       <fieldset class="mb-3">
-        <label class="form-label"><strong>Epitáfio:</strong></label>
-        <input
-          type="text"
-          class="form-control"
-          name="epitaph"
-          value="{{epitaph}}"
-          placeholder="Exemplo: 'Sempre em nossos corações'"
-        />
-      </fieldset>
+  <label class="form-label"><strong>Epitáfio:</strong></label>
+  <textarea
+    class="form-control"
+    name="epitaph"
+    rows="3"
+    placeholder="Exemplo: 'Sempre em nossos corações'"
+  >{{epitaph}}</textarea>
+</fieldset>
+
+      <!-- Biografia -->
+      <fieldset class="mb-3">
+  <label class="form-label"><strong>Biografia:</strong></label>
+  <textarea
+    class="form-control"
+    name="biography"
+    rows="10"
+    placeholder="Escreva aqui a biografia completa"
+  >{{biography}}</textarea>
+</fieldset>
 
       <!-- Tema do Memorial -->
       <fieldset class="mb-3">

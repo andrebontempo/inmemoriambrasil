@@ -44,6 +44,7 @@ const MemorialFETController = {
         slug: memorial.slug,
         mainPhoto: memorial.mainPhoto,
         epitaph: memorial.epitaph,
+        biography: memorial.biography,
         birth: {
           date: memorial.birth?.date || "Não informada",
           city: memorial.birth?.city || "Local desconhecido",
