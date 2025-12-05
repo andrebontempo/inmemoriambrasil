@@ -570,15 +570,6 @@ iframe {
   transition: all 0.5s ease-in;
 }
 
-/* Diminuir Foto para Celular */
-@media (max-width: 768px) {
-  .memorial-photo {
-    width: 70px !important;
-    height: 70px !important;
-    object-fit: cover;
-  }
-}
-
 /* ===========================
    MOBILE HEADER
    =========================== */
@@ -598,12 +589,17 @@ iframe {
     padding: 0.4rem;
     font-size: 1.3rem;
   }
-
+  /* Reduz o header no mobile */
+  .memorial-header {
+    height: auto !important;
+    padding-bottom: 15px;
+  }
   /* Foto menor */
-  .memorial-photo {
+  .memorial-photo-mobile {
     width: 80px !important;
-    height: 80px !important;
-    border-radius: 10px;
+    height: 100px !important;
+    object-fit: cover;
+    border: 1px solid #4f0e21;
   }
 
   /* Nome e datas menores */
@@ -620,21 +616,4 @@ iframe {
 /* Efeito de sombra usado no desktop e no mobile */
 .text-shadow {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-}
-
-/* MOBILE */
-@media (max-width: 768px) {
-  /* Reduz o header no mobile */
-  .memorial-header {
-    height: auto !important;
-    padding-bottom: 15px;
-  }
-
-  /* Foto 4x menor */
-  .memorial-photo-mobile {
-    width: 80px !important;
-    height: 80px !important;
-    object-fit: cover;
-    border: 2px solid #4f0e21;
-  }
 }
