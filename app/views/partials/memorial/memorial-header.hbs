@@ -17,62 +17,68 @@
       </div>
 
       <!-- Pesquisa -->
-      <form
-        action="/memorial/pesquisa"
-        method="GET"
-        class="d-flex w-100 justify-content-start justify-content-md-center mb-3 mb-md-0 ms-3"
-      >
-        <div class="input-group" style="max-width: 350px;">
-          <input
-            type="text"
-            name="q"
-            class="form-control"
-            placeholder="Pesquisar por Memorial..."
-          />
-          <button class="btn btn-light" type="submit">
-            <i class="bi bi-search"></i>
-          </button>
-        </div>
-      </form>
+      <div class="d-none d-md-block">
+        <form
+          action="/memorial/pesquisa"
+          method="GET"
+          class="d-flex w-100 justify-content-start justify-content-md-center mb-3 mb-md-0 ms-3"
+        >
+          <div class="input-group" style="max-width: 350px;">
+            <input
+              type="text"
+              name="q"
+              class="form-control"
+              placeholder="Pesquisar por Memorial..."
+            />
+            <button class="btn btn-light" type="submit">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </form>
+      </div>
 
       <!-- Login -->
-      <div class="d-flex gap-3 justify-content-md-end justify-content-start">
+      <div class="d-none d-md-block">
+        <div class="d-flex gap-3 justify-content-md-end justify-content-start">
 
-        {{#if user}}
-          <div class="dropdown">
+          {{#if user}}
+            <div class="dropdown">
+              <a
+                class="btn btn-link text-white dropdown-toggle fs-6"
+                href="#"
+                id="dropdownMenuButton"
+                data-bs-toggle="dropdown"
+              >
+                Bem-vindo(a),
+                {{user.firstName}}
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/auth/dashboard">A Minha
+                    Conta</a></li>
+                <li><a class="dropdown-item" href="/auth/logout">Sair</a></li>
+              </ul>
+            </div>
+
+          {{else}}
             <a
-              class="btn btn-link text-white dropdown-toggle fs-6"
-              href="#"
-              id="dropdownMenuButton"
-              data-bs-toggle="dropdown"
+              href="/auth/register"
+              class="text-white text-decoration-none fs-6 text-nowrap d-flex align-items-center gap-1"
             >
-              Bem-vindo(a),
-              {{user.firstName}}
+              <i class="bi bi-person-plus text-white"></i>
+              Criar uma conta
             </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/auth/dashboard">A Minha Conta</a></li>
-              <li><a class="dropdown-item" href="/auth/logout">Sair</a></li>
-            </ul>
-          </div>
 
-        {{else}}
-          <a
-            href="/auth/register"
-            class="text-white text-decoration-none fs-6 text-nowrap d-flex align-items-center gap-1"
-          >
-            <i class="bi bi-person-plus text-white"></i>
-            Criar uma conta
-          </a>
+            <a
+              href="/auth/login"
+              class="text-white text-decoration-none fw-bold fs-6 text-nowrap d-flex align-items-center gap-1"
+            >
+              <i class="bi bi-box-arrow-in-right text-white"></i>
+              Entre
+            </a>
 
-          <a
-            href="/auth/login"
-            class="text-white text-decoration-none fw-bold fs-6 text-nowrap d-flex align-items-center gap-1"
-          >
-            <i class="bi bi-box-arrow-in-right text-white"></i>
-            Entre
-          </a>
+          {{/if}}
 
-        {{/if}}
+        </div>
 
       </div>
 

@@ -569,3 +569,72 @@ iframe {
   transform: translateY(-30px);
   transition: all 0.5s ease-in;
 }
+
+/* Diminuir Foto para Celular */
+@media (max-width: 768px) {
+  .memorial-photo {
+    width: 70px !important;
+    height: 70px !important;
+    object-fit: cover;
+  }
+}
+
+/* ===========================
+   MOBILE HEADER
+   =========================== */
+@media (max-width: 768px) {
+  /* Remove search and user menu */
+  .desktop-only {
+    display: none !important;
+  }
+
+  /* Navbar vira faixa com ícones */
+  .mobile-navbar {
+    background-color: #330011;
+    justify-content: space-around;
+  }
+
+  .mobile-navbar .nav-link {
+    padding: 0.4rem;
+    font-size: 1.3rem;
+  }
+
+  /* Foto menor */
+  .memorial-photo {
+    width: 80px !important;
+    height: 80px !important;
+    border-radius: 10px;
+  }
+
+  /* Nome e datas menores */
+  .mobile-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .mobile-dates {
+    font-size: 1rem;
+    opacity: 0.7;
+  }
+}
+/* Efeito de sombra usado no desktop e no mobile */
+.text-shadow {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  /* Reduz o header no mobile */
+  .memorial-header {
+    height: auto !important;
+    padding-bottom: 15px;
+  }
+
+  /* Foto 4x menor */
+  .memorial-photo-mobile {
+    width: 80px !important;
+    height: 80px !important;
+    object-fit: cover;
+    border: 2px solid #4f0e21;
+  }
+}

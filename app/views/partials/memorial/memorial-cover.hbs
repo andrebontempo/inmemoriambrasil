@@ -1,48 +1,83 @@
-<!-- Seção com imagem de fundo e detalhes do memorial -->
+<!-- Seção com imagem de fundo -->
 <div
+  class="memorial-header"
   style="
-      width: 100%;
-      height: 300px;
-      background-image: url('/css/memorial/files/por_do_sol.jpg');
-      background-size: cover;
-      background-position: center;
-      position: relative;
-    "
+    width: 100%;
+    height: 300px;
+    background-image: url('/css/memorial/files/por_do_sol.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  "
 >
-  <div class="container h-100">
+
+  <div class="container h-100 d-none d-md-block">
     <div class="row h-100 align-items-center">
-      <!-- Foto do memorial à esquerda -->
+
+      <!-- DESKTOP: FOTO GRANDE -->
       <div class="col-md-3 d-flex justify-content-center">
         {{#if mainPhoto.url}}
           <img
             src="{{mainPhoto.url}}"
             alt="Imagem do Memorial"
-            class="img-fluid rounded"
+            class="img-fluid memorial-photo rounded"
             style="max-width: 250px; height: 250px; object-fit: cover; border: 5px solid #4f0e21;"
           />
         {{else}}
           <img
             src="/css/memorial/files/user_default.png"
-            alt="Imagem Padrão do Memorial"
+            alt="Imagem padrão"
             class="img-fluid rounded"
             style="max-width: 250px; height: 250px; object-fit: cover; border: 5px solid #4f0e21;"
           />
         {{/if}}
       </div>
 
-      <!-- Conteúdo ao lado da foto com sombra no texto -->
-      <div
-        class="col-md-9 d-flex flex-column justify-content-center text-white text-start gap-3"
-      >
-        <h1 style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);"><strong
-          >{{firstName}} {{lastName}}</strong></h1>
-        <h4 style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">{{formatDate
-            birth.date
-            "year"
-          }}
+      <!-- DESKTOP: TÍTULO -->
+      <div class="col-md-9 text-white text-start">
+        <h1 class="text-shadow"><strong>{{firstName}} {{lastName}}</strong></h1>
+        <h4 class="text-shadow">
+          {{formatDate birth.date "year"}}
           -
-          {{formatDate death.date "year"}}</h4>
+          {{formatDate death.date "year"}}
+        </h4>
       </div>
+
+    </div>
+  </div>
+
+  <!-- ==========================
+       MOBILE VERSION
+       ========================== -->
+  <div class="container d-md-none py-3">
+    <div class="row align-items-center">
+
+      <div class="col-4 text-center">
+        {{#if mainPhoto.url}}
+          <img
+            src="{{mainPhoto.url}}"
+            class="memorial-photo-mobile rounded"
+            alt="Foto do Memorial"
+          />
+        {{else}}
+          <img
+            src="/css/memorial/files/user_default.png"
+            class="memorial-photo-mobile rounded"
+            alt="Foto padrão"
+          />
+        {{/if}}
+      </div>
+
+      <div class="col-8 text-white">
+        <h3 class="mobile-name text-shadow m-0"><strong>{{firstName}}
+            {{lastName}}</strong></h3>
+        <p class="mobile-dates text-shadow m-0">
+          {{formatDate birth.date "year"}}
+          -
+          {{formatDate death.date "year"}}
+        </p>
+      </div>
+
     </div>
   </div>
 
