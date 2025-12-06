@@ -1,86 +1,84 @@
 <main>
-  <div class="custom-container my-0 p-2">
 
-    <!-- Bloco estrutural transparente para o epitáfio -->
-    {{#if epitaph}}
-      <div class="epitaph-box text-center">
-        <p class="epitaph-content">
-          &#8220;{{epitaph}}&#8221;
-        </p>
-      </div>
-    {{else}}
-      <div class="epitaph-box text-center">
-        <p class="epitaph-content">Aqui repousa uma alma que amou e foi amada.
-          Que sua memória viva para sempre em nossos corações.</p>
-
-      </div>
-
-    {{/if}}
-
-    <!-- Informações do Memorial -->
-    <div class="custom-box mx-0">
-      <div class="birth-death-info mt-2 text-start">
-        <p><i class="bi bi-calendar-date-fill"></i><strong> Idade:</strong>
-          {{idade}}</p>
-        <p>
-          <i class="bi bi-star-fill"></i>
-          <strong>Nascido(a) em </strong>
-          {{#if birth.date}}{{formatDate birth.date}}{{else}}Não informada{{/if}}
-          <strong> em </strong>
-          {{#if birth.city}}{{birth.city}}{{else}}Local desconhecido{{/if}},
-          {{#if birth.state}}{{birth.state}}{{else}}Estado não informado{{/if}},
-          {{#if birth.country}}{{birth.country}}{{else}}País não informado{{/if}}
-        </p>
-        <p>
-          <i class="bi bi-heartbreak-fill"></i>
-          <strong>Falecido(a) em </strong>
-          {{#if death.date}}{{formatDate death.date}}{{else}}Não informada{{/if}}
-          <strong> em </strong>
-          {{#if death.city}}{{death.city}}{{else}}Local desconhecido{{/if}},
-          {{#if death.state}}{{death.state}}{{else}}Estado não informado{{/if}},
-          {{#if death.country}}{{death.country}}{{else}}País não informado{{/if}}
-        </p>
-      </div>
-    </div>
-
-    <!-- Sobre o Memorial -->
-    <div class="custom-box my-2 mx-0 text-start">
-      <h3>Sobre este Memorial</h3>
-      <p class="text-justify">
-        {{#if about}}
-          {{about}}
-        {{else}}
-          Este memorial foi criado por
-          {{#if user}} {{user.firstName}} {{user.lastName}} {{else}}
-            um usuário desconhecido
-          {{/if}}, em homenagem a
-          <strong>{{firstName}} {{lastName}}</strong>
-          que nos deixou em
-          {{#if death.date}}{{formatDate death.date}}{{else}}Não informada{{/if}}.
-          Viveu
-          {{idade}}
-          de uma história repleta de momentos especiais. Seu legado permanecerá
-          vivo nestas páginas, onde suas lembranças serão preservadas com
-          carinho e respeito.
-        {{/if}}
+  <!-- Bloco estrutural transparente para o epitáfio -->
+  {{#if epitaph}}
+    <div class="epitaph-box text-center">
+      <p class="epitaph-content">
+        &#8220;{{epitaph}}&#8221;
       </p>
     </div>
+  {{else}}
+    <div class="epitaph-box text-center">
+      <p class="epitaph-content">Aqui repousa uma alma que amou e foi amada. Que
+        sua memória viva para sempre em nossos corações.</p>
 
-    <!-- Biografia -->
-    <div class="custom-box my-2 mx-0 text-start">
-      <h3>MiniBiografia</h3>
-      <p class="text-justify">
-        {{#if biography}}
-          {{biography}}
-        {{else}}
-          A biografia de
-          <strong>{{firstName}} {{lastName}}</strong>
-          ainda não foi adicionada. Convidamos você a contribuir com histórias,
-          memórias e detalhes sobre sua vida para enriquecer este memorial e
-          manter viva a sua memória.
-        {{/if}}
-      </p>
     </div>
 
+  {{/if}}
+
+  <!-- Informações do Memorial -->
+  <div class="custom-box mx-0">
+    <div class="birth-death-info mt-2 text-start">
+      <p><i class="bi bi-calendar-date-fill"></i><strong> Idade:</strong>
+        {{idade}}</p>
+      <p>
+        <i class="bi bi-star-fill"></i>
+        <strong>Nascido(a) em </strong>
+        {{#if birth.date}}{{formatDate birth.date}}{{else}}Não informada{{/if}}
+        <strong> em </strong>
+        {{#if birth.city}}{{birth.city}}{{else}}Local desconhecido{{/if}},
+        {{#if birth.state}}{{birth.state}}{{else}}Estado não informado{{/if}},
+        {{#if birth.country}}{{birth.country}}{{else}}País não informado{{/if}}
+      </p>
+      <p>
+        <i class="bi bi-heartbreak-fill"></i>
+        <strong>Falecido(a) em </strong>
+        {{#if death.date}}{{formatDate death.date}}{{else}}Não informada{{/if}}
+        <strong> em </strong>
+        {{#if death.city}}{{death.city}}{{else}}Local desconhecido{{/if}},
+        {{#if death.state}}{{death.state}}{{else}}Estado não informado{{/if}},
+        {{#if death.country}}{{death.country}}{{else}}País não informado{{/if}}
+      </p>
+    </div>
   </div>
+
+  <!-- Sobre o Memorial -->
+  <div class="custom-box my-2 mx-0 text-start">
+    <h3>Sobre este Memorial</h3>
+    <p class="text-justify">
+      {{#if about}}
+        {{about}}
+      {{else}}
+        Este memorial foi criado por
+        {{#if user}} {{user.firstName}} {{user.lastName}} {{else}}
+          um usuário desconhecido
+        {{/if}}, em homenagem a
+        <strong>{{firstName}} {{lastName}}</strong>
+        que nos deixou em
+        {{#if death.date}}{{formatDate death.date}}{{else}}Não informada{{/if}}.
+        Viveu
+        {{idade}}
+        de uma história repleta de momentos especiais. Seu legado permanecerá
+        vivo nestas páginas, onde suas lembranças serão preservadas com carinho
+        e respeito.
+      {{/if}}
+    </p>
+  </div>
+
+  <!-- Biografia -->
+  <div class="custom-box my-2 mx-0 text-start">
+    <h3>MiniBiografia</h3>
+    <p class="text-justify">
+      {{#if biography}}
+        {{biography}}
+      {{else}}
+        A biografia de
+        <strong>{{firstName}} {{lastName}}</strong>
+        ainda não foi adicionada. Convidamos você a contribuir com histórias,
+        memórias e detalhes sobre sua vida para enriquecer este memorial e
+        manter viva a sua memória.
+      {{/if}}
+    </p>
+  </div>
+
 </main>

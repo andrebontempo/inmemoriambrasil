@@ -28,28 +28,31 @@
     {{/if}}
   </div>
 
-   {{> memorial-header}}
+  {{> memorial-header}}
   {{> memorial-cover}}
   {{> memorial-navbar}}
 
+
+
   <!-- Layout com Conteúdo e Sidebar -->
-  <main class="container my-0">
-    <div class="custom-container my-0 p-2">
-      <div class="row">
-        <!-- Coluna Principal (3/4 em md+, 12 em xs) -->
-            <div class="col-12 col-md-9 mb-4 mb-md-0 pe-md-3">
-              {{{body}}}
-            </div>
-
-            <!-- Sidebar (1/4 em md+, 12 em xs) -->
-            <aside class="col-12 col-md-3 ps-md-3">
-              {{> memorial-sidebar }}
-            </aside>
-
-
+  <main class="container-fluid container-md my-0 px-0">
+  <div class="custom-container px-2 px-md-3 py-2">
+    <div class="row g-3">
+      
+      <!-- Conteúdo principal -->
+      <div class="col-12 col-md-9">
+        {{{body}}}
       </div>
+
+      <!-- Sidebar -->
+      <aside class="col-12 col-md-3">
+        {{> memorial-sidebar }}
+      </aside>
+
     </div>
-  </main>
+  </div>
+</main>
+
 
   {{> memorial-footer}}
 
