@@ -22,7 +22,7 @@ const { generateQRCode } = require("../services/qrCode")
 const MemorialController = {
   // 👉 Renderiza o formulário da etapa 1
   renderStep1: (req, res) => {
-    res.render("memorial/create-step1")
+    res.render("memorial/create-step1", { activeCriar: true })
   },
 
   // 👉 Processa o envio do nome e sobrenome
@@ -416,6 +416,7 @@ const MemorialController = {
       return res.render("memorial/memorial-about", {
         layout: "memorial-layout",
         owner: memorial.owner,
+        activeAbout: true,
         firstName: memorial.firstName,
         lastName: memorial.lastName,
         slug: memorial.slug,

@@ -69,6 +69,12 @@ const array = function () {
   return Array.prototype.slice.call(arguments, 0, -1)
 }
 
+// Retorna parte de uma string (para detectar rota ativa)
+const substr = (str, start, length) => {
+  if (typeof str !== "string") return ""
+  return length ? str.substring(start, start + length) : str.slice(start)
+}
+
 // Exporta todas as funções
 module.exports = {
   formatDate,
@@ -77,4 +83,5 @@ module.exports = {
   eq,
   ifEquals,
   array,
+  substr,
 }

@@ -2,6 +2,7 @@ const Memorial = require("../models/Memorial")
 const Tribute = require("../models/Tribute")
 const LifeStory = require("../models/LifeStory")
 const SharedStory = require("../models/SharedStory")
+const { act } = require("react")
 
 const HomeController = {
   index: async (req, res, next) => {
@@ -19,6 +20,7 @@ const HomeController = {
       )
 
       res.render("statics/home", {
+        activeHome: true,
         totalMemoriais,
         totalTributos,
         totalHistorias,

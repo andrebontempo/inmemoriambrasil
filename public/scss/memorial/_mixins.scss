@@ -1,0 +1,13 @@
+@mixin memorial-button($bg, $color) {
+  background-color: $bg;
+  color: $color;
+  padding: 10px 20px;
+  border-radius: $border-radius-base;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}

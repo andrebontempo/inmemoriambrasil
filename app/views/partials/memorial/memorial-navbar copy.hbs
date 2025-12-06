@@ -1,0 +1,146 @@
+<nav class="navbar navbar-expand-md navbar-dark">
+  <div class="container">
+    <button
+      class="navbar-toggler d-none d-md-block"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarContent"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto" id="navbarMenu">
+        <li class="nav-item">
+          <a class="nav-link" href="/memorial/{{slug}}/about">
+            <i class="bi bi-house-door"></i>
+            Memorial
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/memorial/{{slug}}/tribute">
+            Homenagens
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/memorial/{{slug}}/lifestory">
+            Caminho Percorrido
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/memorial/{{slug}}/sharedstory">
+            Histórias Compartilhadas
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/memorial/{{slug}}/gallery">
+            Galeria
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/memorial/{{slug}}/obituary">
+            Obituário
+          </a>
+        </li>
+        <!-- Dropdown Admin -->
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="adminDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Admin
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+
+            <li>
+              <a
+                class="dropdown-item"
+                href="/memorial/{{slug}}/memorial-fet/edit"
+              >
+                <i class="bi bi-card-text me-2"></i>Editar Foto, Epitáfio,
+                Biografia e Tema
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="/memorial/{{slug}}/memorial/edit">
+                <i class="bi bi-pencil-square me-2"></i>Editar Dados do Memorial
+              </a>
+            </li>
+
+            <li>
+              <a class="dropdown-item" href="/admin/memorial/{{slug}}/visitors">
+                <i class="bi bi-people me-2"></i>Controlar Visitantes
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="/admin/memorial/{{slug}}/privacy">
+                <i class="bi bi-shield-lock me-2"></i>Privacidade e Notificações
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="/admin/memorial/{{slug}}/themes">
+                <i class="bi bi-palette me-2"></i>Temas
+              </a>
+            </li>
+          </ul>
+        </li>
+        <!--    <li class="nav-item">
+          <a class="nav-link" href="/plano-opcoes">
+            Premium
+          </a>
+        </li> -->
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- NAVBAR MOBILE COM ÍCONES -->
+<nav class="navbar navbar-dark bg-dark d-md-none py-1">
+  <ul class="navbar-nav d-flex flex-row justify-content-around w-100">
+    <li class="nav-item text-center">
+      <a class="nav-link" href="/memorial/{{slug}}/about">
+        <i class="bi bi-house fs-4"></i>
+      </a>
+    </li>
+
+    <li class="nav-item text-center">
+      <a class="nav-link" href="/memorial/{{slug}}/tribute">
+        <i class="bi bi-people fs-4"></i>
+      </a>
+    </li>
+
+    <li class="nav-item text-center">
+      <a class="nav-link" href="/memorial/{{slug}}/lifestory">
+        <i class="bi bi-map fs-4"></i>
+      </a>
+    </li>
+
+    <li class="nav-item text-center">
+      <a class="nav-link" href="/memorial/{{slug}}/sharedstory">
+        <i class="bi bi-journal-text fs-4"></i>
+      </a>
+    </li>
+
+    <li class="nav-item text-center">
+      <a class="nav-link" href="/memorial/{{slug}}/gallery">
+        <i class="bi bi-images fs-4"></i>
+      </a>
+    </li>
+
+    <li class="nav-item text-center">
+      <a class="nav-link" href="/obituario">
+        <i class="bi bi-file-text fs-4"></i>
+      </a>
+    </li>
+    <li class="nav-item text-center">
+      <a class="nav-link" href="/admin">
+        <i class="bi bi-file-text fs-4"></i>
+      </a>
+    </li>
+  </ul>
+</nav>

@@ -13,7 +13,10 @@ router.get("/dashboard", StatsController.getStatistics)
 
 // Rotas estáticas
 router.get("/sobre", (req, res) => {
-  res.render("statics/sobre", { title: "Sobre Nós - In Memoriam Brasil" })
+  res.render("statics/sobre", {
+    title: "Sobre Nós - In Memoriam Brasil",
+    activeSobre: true,
+  })
 })
 /*
 router.get("/criar-memorial", (req, res) => {
@@ -34,6 +37,7 @@ router.get("/criar-memorial", authMiddleware, (req, res) => {
 router.get("/plano-opcoes", (req, res) => {
   res.render("statics/plano-opcoes", {
     title: "Plano e Opções - In Memoriam Brasil",
+    activePlanos: true,
   })
 })
 // Rota comentada (pode ser ativada no futuro)
@@ -41,7 +45,10 @@ router.get("/plano-opcoes", (req, res) => {
 //  res.render("testemunhos", { title: "Testemunhos - In Memoriam Brasil" });
 //});
 router.get("/contato", (req, res) => {
-  res.render("statics/contato", { title: "Contato - In Memoriam Brasil" })
+  res.render("statics/contato", {
+    title: "Contato - In Memoriam Brasil",
+    activeContato: true,
+  })
 })
 // Rota comentada para envio de formulário de contato
 router.post("/contato-envio", EnvioContatoController.envioContato)

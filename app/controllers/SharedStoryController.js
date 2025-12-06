@@ -116,6 +116,7 @@ const SharedStoryController = {
           firstName: memorial.owner?.firstName || "",
           lastName: memorial.owner?.lastName || "",
         },
+        activeSharedStory: true,
         firstName: memorial.firstName,
         lastName: memorial.lastName,
         slug: memorial.slug,

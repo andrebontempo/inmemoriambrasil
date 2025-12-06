@@ -115,6 +115,7 @@ const LifeStoryController = {
           firstName: memorial.owner?.firstName || "",
           lastName: memorial.owner?.lastName || "",
         },
+        activeLifeStory: true,
         firstName: memorial.firstName,
         lastName: memorial.lastName,
         slug: memorial.slug,

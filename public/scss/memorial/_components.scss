@@ -1,0 +1,96 @@
+/* ===========================
+   Components
+   =========================== */
+
+/* Botões edit/delete */
+.btn-edit {
+  background-color: var(--bs-secondary);
+  border-color: var(--bs-secondary);
+  color: #fff;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: var(--bs-border-radius);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+  }
+
+  &:active {
+    background-color: var(--bs-dark);
+    border-color: var(--bs-dark);
+  }
+}
+
+/* Botão delete */
+.btn-delete {
+  background-color: var(--bs-danger);
+  border-color: var(--bs-danger);
+  font-weight: bold;
+  color: #fff;
+
+  &:hover {
+    background-color: #c82333;
+    border-color: #c82333;
+  }
+
+  &:active {
+    background-color: var(--bs-dark);
+    border-color: var(--bs-dark);
+  }
+}
+
+/* Customização Bootstrap */
+.btn-primary {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-secondary);
+  color: #fff;
+
+  &:hover {
+    background-color: var(--bs-secondary);
+    border-color: var(--bs-dark);
+  }
+
+  &:active {
+    background-color: var(--bs-dark);
+    border-color: var(--bs-dark);
+  }
+}
+
+/* Cards */
+.card {
+  border-radius: 10px;
+  margin-bottom: 20px;
+
+  .card-body {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+  }
+}
+
+.card-img-top {
+  height: 300px;
+  object-fit: cover;
+}
+
+/* Form */
+.form-control::placeholder {
+  color: #555;
+  font-style: italic;
+  font-size: 14px;
+  opacity: 0.8;
+}
+/*NAVBAR ATIVA*/
+.memorial-navbar .nav-link.active {
+  color: var(--bs-primary) !important;
+  font-weight: 600;
+  border-bottom: 2px solid var(--bs-primary);
+}
+/* Estilização do epitáfio */
+.epitaph-content {
+  font-size: 2rem; // Aumenta a fonte
+  line-height: 1.4;
+  font-weight: 500; // opcional
+  text-align: center; // caso queira centralização
+}

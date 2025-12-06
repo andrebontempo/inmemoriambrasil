@@ -99,6 +99,7 @@ const TributeController = {
       return res.render("memorial/memorial-tribute", {
         layout: "memorial-layout",
         owner: memorial.owner,
+        activeTribute: true,
         firstName: memorial.firstName,
         lastName: memorial.lastName,
         slug: memorial.slug,

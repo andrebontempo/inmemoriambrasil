@@ -86,6 +86,7 @@ const GalleryController = {
           firstName: memorial.owner?.firstName || "",
           lastName: memorial.owner?.lastName || "",
         },
+        activeGallery: true,
         firstName: memorial.firstName,
         lastName: memorial.lastName,
         gender: memorial.gender,

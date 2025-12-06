@@ -1,0 +1,28 @@
+/* ===========================
+   Layout
+   =========================== */
+
+.custom-container {
+  background-image: url("/css/memorial/files/bg_textura.png");
+  background-size: 1080px;
+  background-repeat: repeat;
+  background-position: center center;
+}
+
+.custom-box,
+.custom-box-sidebar {
+  background-color: white;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.custom-box-sidebar {
+  margin: 8px 6px !important;
+}
+
+.tribute-section {
+  background-color: var(--bs-body-bg);
+  border-radius: 12px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}

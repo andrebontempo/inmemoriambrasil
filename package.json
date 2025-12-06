@@ -5,7 +5,10 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test:e2e": "mocha tests/session.e2e.js --exit"
+    "test:e2e": "mocha tests/session.e2e.js --exit",
+    "scss:main": "sass public/scss/main/main.scss public/css/main/main-style.css --no-source-map",
+    "scss:memorial": "sass public/scss/memorial/memorial.scss public/css/memorial/memorial-style.css --no-source-map",
+    "watch-css": "sass --watch public/scss/main/main.scss:public/css/main/main-style.css public/scss/memorial/memorial.scss:public/css/memorial/memorial-style.css"
   },
   "engines": {
     "node": "20.x"
@@ -42,6 +45,7 @@
   "devDependencies": {
     "chai": "^4.5.0",
     "mocha": "^10.8.2",
+    "sass": "^1.94.2",
     "supertest": "^6.3.4"
   },
   "keywords": [],

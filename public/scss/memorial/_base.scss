@@ -1,0 +1,44 @@
+/* ===========================
+   Base styles
+   =========================== */
+
+body {
+  background-image: url("/css/memorial/files/background.jpg");
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  height: 100vh;
+  width: 100%;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background-color: var(--bs-dark);
+  color: #fff;
+  padding: 10px 0;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar,
+footer {
+  background-color: var(--bs-dark);
+  color: #fff;
+}
+
+footer {
+  padding: 20px 0;
+}
+
+.hero {
+  padding: 100px 0;
+  text-align: center;
+  color: #fff;
+}
+
+iframe {
+  border: none;
+  border-radius: 8px;
+}

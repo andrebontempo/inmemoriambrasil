@@ -1,0 +1,262 @@
+@charset "UTF-8";
+.center {
+  text-align: center;
+}
+
+.mt-2 {
+  margin-top: 1rem;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* =========================================
+   🎨 CUSTOMIZAÇÃO DO BOOTSTRAP VIA :root 
+   ========================================= */
+:root {
+  --bs-primary: #4f0e21;
+  --bs-primary-rgb: 79, 14, 33;
+  --bs-secondary: #7a142f;
+  --bs-secondary-rgb: 122, 20, 47;
+  --bs-success: #198754;
+  --bs-success-rgb: 25, 135, 84;
+  --bs-info: #0dcaf0;
+  --bs-info-rgb: 13, 202, 240;
+  --bs-warning: #ffc107;
+  --bs-warning-rgb: 255, 193, 7;
+  --bs-danger: #dc3545;
+  --bs-danger-rgb: 220, 53, 69;
+  --bs-light: #7a142f;
+  --bs-light-rgb: 248, 215, 218;
+  --bs-dark: #2a0a13;
+  --bs-dark-rgb: 42, 10, 19;
+  /* Corpo */
+  --bs-body-color: #212529;
+  --bs-body-color-rgb: 33, 37, 41;
+  --bs-body-bg: #f8f9fa;
+  --bs-body-bg-rgb: 248, 249, 250;
+  --bs-body-font-family: "Arial", sans-serif;
+  --bs-body-font-size: 1rem;
+  --bs-body-font-weight: 400;
+  --bs-body-line-height: 1.5;
+  /* Links */
+  --bs-link-color: #0d6efd;
+  --bs-link-color-rgb: 13, 110, 253;
+  --bs-link-decoration: underline;
+  --bs-link-hover-color: #0a58ca;
+  --bs-link-hover-color-rgb: 10, 88, 202;
+  --bs-link-hover-decoration: underline;
+  /* Foco */
+  --bs-focus-ring-opacity: 0.25;
+  --bs-focus-ring-color: rgba(13, 110, 253, 0.25);
+  /* Bordas */
+  --bs-border-width: 1px;
+  --bs-border-style: solid;
+  --bs-border-color: #dee2e6;
+  --bs-border-color-translucent: rgba(0, 0, 0, 0.175);
+  --bs-border-radius: 0.375rem;
+  --bs-border-radius-sm: 0.25rem;
+  --bs-border-radius-lg: 0.5rem;
+  --bs-border-radius-xl: 1rem;
+  --bs-border-radius-2xl: 2rem;
+  --bs-border-radius-pill: 50rem;
+  /* Sombras */
+  --bs-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  --bs-box-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  --bs-box-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+  --bs-box-shadow-inset: inset 0 1px 2px rgba(0, 0, 0, 0.075);
+  --bs-gradient: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.15),
+    rgba(0, 0, 0, 0.15)
+  );
+  /* Botões */
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--bs-primary);
+  --bs-btn-border-color: var(--bs-primary);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #3e0a19;
+  --bs-btn-hover-border-color: #3e0a19;
+  --bs-btn-focus-shadow-rgb: 79, 14, 33;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #3e0a19;
+  --bs-btn-active-border-color: #3e0a19;
+  --bs-btn-disabled-color: #6c757d;
+  --bs-btn-disabled-bg: #e9ecef;
+  --bs-btn-disabled-border-color: #e9ecef;
+  /* Formulários */
+  --bs-form-valid-color: #198754;
+  --bs-form-valid-border-color: #198754;
+  --bs-form-invalid-color: #dc3545;
+  --bs-form-invalid-border-color: #dc3545;
+  /* Componentes */
+  --bs-card-bg: #fff;
+  --bs-card-border-color: rgba(0, 0, 0, 0.125);
+  --bs-card-color: #212529;
+  --bs-modal-bg: #fff;
+  --bs-modal-border-color: rgba(0, 0, 0, 0.125);
+  --bs-modal-color: #212529;
+  --bs-tooltip-bg: #000;
+  --bs-tooltip-color: #fff;
+}
+
+/* =========================================
+   BASE — Corpo da página
+========================================= */
+body {
+  background-image: url("/css/main/files/background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100%;
+}
+
+/* =========================================
+   LAYOUT — Header, Navbar, Footer
+========================================= */
+header {
+  background-color: var(--bs-dark);
+  color: #fff;
+  padding: 10px 0;
+}
+
+.navbar {
+  background-color: var(--bs-primary);
+}
+
+footer {
+  background-color: var(--bs-dark);
+  color: #fff;
+  padding: 20px 0;
+}
+
+/* =========================================
+   COMPONENTES — Botões, Cards, Formulários, Flash
+========================================= */
+/* Botões */
+.btn-primary {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-secondary);
+  color: #ffffff;
+}
+.btn-primary:hover {
+  background-color: var(--bs-secondary);
+  border-color: var(--bs-dark);
+}
+.btn-primary:active {
+  background-color: var(--bs-dark) !important;
+  border-color: var(--bs-dark) !important;
+}
+
+/* Cards */
+.card-img-top {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.memorial-card {
+  background-color: #4f0e21;
+  color: white;
+  transition: transform 0.2s ease;
+}
+.memorial-card:hover {
+  transform: scale(1.03);
+}
+
+.stats-card {
+  width: 230px;
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  color: #4f0e21;
+}
+
+/* Formulários */
+.form-control::placeholder {
+  color: #555;
+  font-style: italic;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* Navbar ativa */
+.nav-item.active {
+  background-color: var(--bs-secondary);
+  border-radius: 5px;
+}
+.nav-item.active .nav-link {
+  color: #ffffff;
+}
+
+/* Flash messages */
+.flash-container {
+  z-index: 1055;
+  max-width: 90%;
+  animation: slide-down 0.6s ease-out forwards;
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-out-up {
+  opacity: 0;
+  transform: translateY(-30px);
+  transition: all 0.5s ease-in;
+}
+
+/*NAVBAR ATIVA*/
+.navbar .nav-link.active {
+  color: var(--bs-primary) !important;
+  font-weight: 600;
+  border-bottom: 2px solid var(--bs-primary);
+}
+
+@media (max-width: 576px) {
+  .stats-card {
+    width: 45%;
+  }
+}
+/* NAVBAR MOBILE - Ícone + texto (estilo aplicativo) */
+.mobile-item {
+  padding: 6px 0;
+  opacity: 0.8;
+  transition: 0.2s ease;
+}
+
+.mobile-item i {
+  display: block;
+  margin-bottom: 2px;
+}
+
+.mobile-item div {
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.mobile-item.active {
+  opacity: 1;
+  color: var(--bs-primary) !important;
+}
+
+.mobile-item.active i,
+.mobile-item.active div {
+  color: var(--bs-primary) !important;
+}
+
+.mobile-item:hover {
+  opacity: 1;
+}
+
+/* Regras de desktop (>= 992px) quando necessário */

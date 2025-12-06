@@ -1,0 +1,51 @@
+/* ===========================
+   Variables (Bootstrap overrides)
+   =========================== */
+
+:root {
+  /* Cores principais */
+  --bs-primary: #4f0e21;
+  --bs-primary-rgb: 79, 14, 33;
+  --bs-secondary: #7a142f;
+  --bs-secondary-rgb: 122, 20, 47;
+  --bs-success: #198754;
+  --bs-success-rgb: 25, 135, 84;
+  --bs-info: #0dcaf0;
+  --bs-info-rgb: 13, 202, 240;
+  --bs-warning: #ffc107;
+  --bs-warning-rgb: 255, 193, 7;
+  --bs-danger: #dc3545;
+  --bs-danger-rgb: 220, 53, 69;
+  --bs-light: #7a142f;
+  --bs-light-rgb: 248, 215, 218;
+  --bs-dark: #2a0a13;
+  --bs-dark-rgb: 42, 10, 19;
+
+  /* Corpo */
+  --bs-body-color: #212529;
+  --bs-body-bg: #f8f9fa;
+
+  /* Links */
+  --bs-link-color: #0d6efd;
+  --bs-link-hover-color: #0a58ca;
+
+  /* Bordas */
+  --bs-border-width: 1px;
+  --bs-border-style: solid;
+  --bs-border-color: #dee2e6;
+
+  /* Botões */
+  --bs-btn-bg: var(--bs-primary);
+  --bs-btn-hover-bg: #3e0a19;
+  --bs-btn-hover-border-color: #3e0a19;
+
+  /* Formulários */
+  --bs-form-valid-color: #198754;
+  --bs-form-invalid-color: #dc3545;
+
+  /* Cards / Modal */
+  --bs-card-bg: #fff;
+  --bs-modal-bg: #fff;
+  --bs-tooltip-bg: #000;
+  --bs-tooltip-color: #fff;
+}

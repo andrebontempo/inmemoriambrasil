@@ -1,0 +1,331 @@
+@charset "UTF-8";
+/* Utils globais */
+.center {
+  text-align: center;
+}
+
+.mt-2 {
+  margin-top: 1rem;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Memorial Styles */
+/* ===========================
+   Variables (Bootstrap overrides)
+   =========================== */
+:root {
+  /* Cores principais */
+  --bs-primary: #4f0e21;
+  --bs-primary-rgb: 79, 14, 33;
+  --bs-secondary: #7a142f;
+  --bs-secondary-rgb: 122, 20, 47;
+  --bs-success: #198754;
+  --bs-success-rgb: 25, 135, 84;
+  --bs-info: #0dcaf0;
+  --bs-info-rgb: 13, 202, 240;
+  --bs-warning: #ffc107;
+  --bs-warning-rgb: 255, 193, 7;
+  --bs-danger: #dc3545;
+  --bs-danger-rgb: 220, 53, 69;
+  --bs-light: #7a142f;
+  --bs-light-rgb: 248, 215, 218;
+  --bs-dark: #2a0a13;
+  --bs-dark-rgb: 42, 10, 19;
+  /* Corpo */
+  --bs-body-color: #212529;
+  --bs-body-bg: #f8f9fa;
+  /* Links */
+  --bs-link-color: #0d6efd;
+  --bs-link-hover-color: #0a58ca;
+  /* Bordas */
+  --bs-border-width: 1px;
+  --bs-border-style: solid;
+  --bs-border-color: #dee2e6;
+  /* Botões */
+  --bs-btn-bg: var(--bs-primary);
+  --bs-btn-hover-bg: #3e0a19;
+  --bs-btn-hover-border-color: #3e0a19;
+  /* Formulários */
+  --bs-form-valid-color: #198754;
+  --bs-form-invalid-color: #dc3545;
+  /* Cards / Modal */
+  --bs-card-bg: #fff;
+  --bs-modal-bg: #fff;
+  --bs-tooltip-bg: #000;
+  --bs-tooltip-color: #fff;
+}
+
+/* ===========================
+   Base styles
+   =========================== */
+body {
+  background-image: url("/css/memorial/files/background.jpg");
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  height: 100vh;
+  width: 100%;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background-color: var(--bs-dark);
+  color: #fff;
+  padding: 10px 0;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar,
+footer {
+  background-color: var(--bs-dark);
+  color: #fff;
+}
+
+footer {
+  padding: 20px 0;
+}
+
+.hero {
+  padding: 100px 0;
+  text-align: center;
+  color: #fff;
+}
+
+iframe {
+  border: none;
+  border-radius: 8px;
+}
+
+/* ===========================
+   Layout
+   =========================== */
+.custom-container {
+  background-image: url("/css/memorial/files/bg_textura.png");
+  background-size: 1080px;
+  background-repeat: repeat;
+  background-position: center center;
+}
+
+.custom-box,
+.custom-box-sidebar {
+  background-color: white;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.custom-box-sidebar {
+  margin: 8px 6px !important;
+}
+
+.tribute-section {
+  background-color: var(--bs-body-bg);
+  border-radius: 12px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ===========================
+   Components
+   =========================== */
+/* Botões edit/delete */
+.btn-edit {
+  background-color: var(--bs-secondary);
+  border-color: var(--bs-secondary);
+  color: #fff;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: var(--bs-border-radius);
+  transition: all 0.3s ease;
+}
+.btn-edit:hover {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+}
+.btn-edit:active {
+  background-color: var(--bs-dark);
+  border-color: var(--bs-dark);
+}
+
+/* Botão delete */
+.btn-delete {
+  background-color: var(--bs-danger);
+  border-color: var(--bs-danger);
+  font-weight: bold;
+  color: #fff;
+}
+.btn-delete:hover {
+  background-color: #c82333;
+  border-color: #c82333;
+}
+.btn-delete:active {
+  background-color: var(--bs-dark);
+  border-color: var(--bs-dark);
+}
+
+/* Customização Bootstrap */
+.btn-primary {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-secondary);
+  color: #fff;
+}
+.btn-primary:hover {
+  background-color: var(--bs-secondary);
+  border-color: var(--bs-dark);
+}
+.btn-primary:active {
+  background-color: var(--bs-dark);
+  border-color: var(--bs-dark);
+}
+
+/* Cards */
+.card {
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+.card .card-body {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+
+.card-img-top {
+  height: 300px;
+  object-fit: cover;
+}
+
+/* Form */
+.form-control::placeholder {
+  color: #555;
+  font-style: italic;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/*NAVBAR ATIVA*/
+.memorial-navbar .nav-link.active {
+  color: var(--bs-primary) !important;
+  font-weight: 600;
+  border-bottom: 2px solid var(--bs-primary);
+}
+
+/* Estilização do epitáfio */
+.epitaph-content {
+  font-size: 2rem;
+  line-height: 1.4;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* ===========================
+   Themes
+   =========================== */
+.text-justify {
+  text-align: justify;
+}
+
+.text-shadow {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.hover-shadow:hover {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+.epitaph-box {
+  background-image: url("/css/memorial/files/bg_epitaph.png");
+  background-size: 100% 100%;
+  padding: 3rem;
+  text-align: center;
+  color: black;
+  text-shadow: 2px 2px 4px white, 0 0 5px white, 0 0 10px white;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1180px;
+  }
+}
+@media (min-width: 769px) {
+  .epitaph-content {
+    font-size: 2.5rem;
+  }
+}
+/* ===========================
+   Mobile Styles
+   =========================== */
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+  .mobile-navbar {
+    background-color: #330011;
+    justify-content: space-around;
+  }
+  .mobile-navbar .nav-link {
+    padding: 0.4rem;
+    font-size: 1.3rem;
+  }
+  .memorial-header {
+    height: auto !important;
+    padding-bottom: 15px;
+  }
+  .memorial-photo-mobile {
+    width: 80px !important;
+    height: 100px !important;
+    object-fit: cover;
+    border: 1px solid #4f0e21;
+  }
+  .mobile-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+  .mobile-dates {
+    font-size: 1rem;
+    opacity: 0.7;
+  }
+}
+/* NAVBAR MOBILE - Ícone + texto estilo aplicativo */
+.mobile-item {
+  padding: 6px 0;
+  opacity: 0.8;
+  transition: 0.2s ease;
+}
+
+.mobile-item i {
+  display: block;
+  margin-bottom: 2px;
+}
+
+.mobile-item div {
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.mobile-item.active {
+  opacity: 1;
+  color: var(--bs-primary) !important;
+}
+
+.mobile-item.active i,
+.mobile-item.active div {
+  color: var(--bs-primary) !important;
+}
+
+.mobile-item:hover {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .epitaph-content {
+    font-size: 1.4rem;
+  }
+}
