@@ -293,39 +293,64 @@ iframe {
     opacity: 0.7;
   }
 }
-/* NAVBAR MOBILE - Ícone + texto estilo aplicativo */
-.mobile-item {
+/* NAVBAR MOBILE — ícone + texto; ativo fica mais claro */
+.navbar-dark .nav-link.mobile-item {
+  color: rgba(255, 255, 255, 0.75);
+  opacity: 0.85;
+  transition: color 0.18s ease, opacity 0.18s ease, transform 0.14s ease;
   padding: 6px 0;
-  opacity: 0.8;
-  transition: 0.2s ease;
+  /* remove qualquer tracejado em itens não ativos */
+  border-bottom: 2px solid transparent;
 }
 
-.mobile-item i {
+/* força o layout do ícone e do texto */
+.navbar-dark .nav-link.mobile-item i {
   display: block;
   margin-bottom: 2px;
-}
-
-.mobile-item div {
-  font-size: 0.75rem;
   line-height: 1;
 }
 
-.mobile-item.active {
+.navbar-dark .nav-link.mobile-item .small,
+.navbar-dark .nav-link.mobile-item div {
+  font-size: 0.75rem;
+  line-height: 1;
+  display: block;
+  margin-top: 2px;
+}
+
+/* itens inativos levemente apagados */
+.navbar-dark .nav-link.mobile-item:not(.active) {
+  color: rgba(255, 255, 255, 0.6);
+  opacity: 0.8;
+}
+
+/* ativa ícone, texto e underline branco */
+.navbar-dark .nav-link.mobile-item.active,
+.navbar-dark .nav-link.mobile-item.active i,
+.navbar-dark .nav-link.mobile-item.active .small,
+.navbar-dark .nav-link.mobile-item.active div {
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+/* underline branco somente no ativo */
+.navbar-dark .nav-link.mobile-item.active {
+  border-bottom: 2px solid #ffffff !important;
+  transform: translateY(-2px);
+  font-weight: 600;
+}
+
+/* hover/tap */
+.navbar-dark .nav-link.mobile-item:active,
+.navbar-dark .nav-link.mobile-item:hover {
   opacity: 1;
-  color: var(--bs-primary) !important;
+  color: #ffffff;
 }
 
-.mobile-item.active i,
-.mobile-item.active div {
-  color: var(--bs-primary) !important;
-}
-
-.mobile-item:hover {
-  opacity: 1;
-}
-
-@media (max-width: 768px) {
+/* Ajuste do epitaph para telas pequenas */
+@media (max-width: 576px) {
   .epitaph-content {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
+    line-height: 1.3;
   }
 }

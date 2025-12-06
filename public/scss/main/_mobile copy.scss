@@ -1,0 +1,37 @@
+@media (max-width: 576px) {
+  .stats-card {
+    width: 45%;
+  }
+}
+
+/* NAVBAR MOBILE - Ícone + texto (estilo aplicativo) */
+
+.mobile-item {
+  padding: 6px 0;
+  opacity: 0.8;
+  transition: 0.2s ease;
+}
+
+.mobile-item i {
+  display: block;
+  margin-bottom: 2px;
+}
+
+.mobile-item div {
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+/* NAVBAR MOBILE — item ativo mais claro */
+.mobile-item.active {
+  color: #ffffff !important; /* mais claro */
+  opacity: 1 !important; /* remove escurecido */
+}
+
+.mobile-item.active i {
+  color: #ffffff !important; /* ícone claro */
+}
+
+.mobile-item:hover {
+  opacity: 1;
+}
