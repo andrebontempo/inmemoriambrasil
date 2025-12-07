@@ -5,7 +5,7 @@ Abaixo vou te explicar **o propósito de cada arquivo e pasta**, como _deve_ ser
 
 # 📁 **Visão Geral**
 
-Você tem:
+Você tem :
 
 ```
 scss/
