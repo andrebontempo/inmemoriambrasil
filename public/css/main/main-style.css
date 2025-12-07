@@ -228,6 +228,13 @@ footer {
     width: 45%;
   }
 }
+@media (max-width: 768px) {
+  body {
+    background-image: url("/css/main/files/background-mobile.jpg");
+    background-size: cover;
+    background-position: center;
+  }
+}
 /* NAVBAR MOBILE — ícone + texto; ativo fica mais claro */
 .navbar-dark .nav-link.mobile-item {
   color: rgba(255, 255, 255, 0.75);

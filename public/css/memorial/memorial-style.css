@@ -368,6 +368,13 @@ iframe {
     font-size: 2.5rem;
   }
 }
+.memorial-photo {
+  max-width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border: 2px solid #4f0e21;
+}
+
 /* ===========================
    Mobile Styles
    =========================== */
@@ -389,7 +396,7 @@ iframe {
   }
   .memorial-photo-mobile {
     width: 80px !important;
-    height: 100px !important;
+    height: 120px !important;
     object-fit: cover;
     border: 1px solid #4f0e21;
   }
