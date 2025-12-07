@@ -19,24 +19,30 @@
   <!-- Informações do Memorial -->
   <div class="custom-box mx-0">
     <div class="birth-death-info mt-2 text-start">
-      <p><i class="bi bi-calendar-date-fill"></i><strong> Idade:</strong>
-        {{idade}}</p>
-      <p>
+      <p><i class="bi bi-calendar-date-fill"></i><strong> Idade:</strong> {{idade}}</p>
         <i class="bi bi-star-fill"></i>
-        <strong>Nascido(a) em </strong>
+        <strong>Nascido(a): </strong>
         {{#if birth.date}}{{formatDate birth.date}}{{else}}Não informada{{/if}}
-        <strong> em </strong>
-        {{#if birth.city}}{{birth.city}}{{else}}Local desconhecido{{/if}},
-        {{#if birth.state}}{{birth.state}}{{else}}Estado não informado{{/if}},
+        <br />
+        <i class="bi bi-geo-alt"></i>
+        <strong> Local: </strong>
+        {{#if birth.city}}{{birth.city}}{{else}}Local desconhecido{{/if}}
+        |
+        {{#if birth.state}}{{birth.state}}{{else}}Estado não informado{{/if}}
+        |
         {{#if birth.country}}{{birth.country}}{{else}}País não informado{{/if}}
       </p>
       <p>
         <i class="bi bi-heartbreak-fill"></i>
-        <strong>Falecido(a) em </strong>
+        <strong>Falecido(a): </strong>
         {{#if death.date}}{{formatDate death.date}}{{else}}Não informada{{/if}}
-        <strong> em </strong>
-        {{#if death.city}}{{death.city}}{{else}}Local desconhecido{{/if}},
-        {{#if death.state}}{{death.state}}{{else}}Estado não informado{{/if}},
+        <br />
+        <i class="bi bi-geo-alt"></i>
+        <strong> Local: </strong>
+        {{#if death.city}}{{death.city}}{{else}}Local desconhecido{{/if}}
+        |
+        {{#if death.state}}{{death.state}}{{else}}Estado não informado{{/if}}
+        |
         {{#if death.country}}{{death.country}}{{else}}País não informado{{/if}}
       </p>
     </div>
@@ -44,7 +50,7 @@
 
   <!-- Sobre o Memorial -->
   <div class="custom-box my-2 mx-0 text-start">
-    <h3>Sobre este Memorial</h3>
+    <p class="fs-4"><strong>Sobre Este Memorial</strong></p>
     <p class="text-justify">
       {{#if about}}
         {{about}}
@@ -53,13 +59,8 @@
         {{#if user}} {{user.firstName}} {{user.lastName}} {{else}}
           um usuário desconhecido
         {{/if}}, em homenagem a
-        <strong>{{firstName}} {{lastName}}</strong>
-        que nos deixou em
-        {{#if death.date}}{{formatDate death.date}}{{else}}Não informada{{/if}}.
-        Viveu
-        {{idade}}
-        de uma história repleta de momentos especiais. Seu legado permanecerá
-        vivo nestas páginas, onde suas lembranças serão preservadas com carinho
+        <strong>{{firstName}} {{lastName}}</strong> que nos deixou uma história repleta de momentos especiais.
+        Seu legado permanecerá vivo nestas páginas, onde suas lembranças serão preservadas com carinho
         e respeito.
       {{/if}}
     </p>
@@ -67,7 +68,7 @@
 
   <!-- Biografia -->
   <div class="custom-box my-2 mx-0 text-start">
-    <h3>MiniBiografia</h3>
+    <p class="fs-4"><strong>MiniBiografia</strong></p>
     <p class="text-justify">
       {{#if biography}}
         {{biography}}
@@ -81,4 +82,17 @@
     </p>
   </div>
 
+   <!-- Biografia -->
+  <div class="custom-box my-2 mx-0 text-start">
+    <p class="fs-4"><strong>Obituário</strong></p>
+
+    <p><i class="bi bi-geo-alt-fill"></i><strong>Cemitério: </strong>Campo de Boa Esperanças</p>
+    <p><i class="bi bi-brightness-alt-high-fill"></i><strong> Túmulo: </strong>E - 245</p>
+    <p><i class="bi bi-bank2"></i><strong> Capela: </strong>C - 10</p>
+    <p><i class="bi bi-calendar-date-fill"></i><strong> Data do Velório: </strong>10/10/2025</p>
+    <p><i class="bi bi-clock-fill"></i><strong> Hora do Velório: </strong>10:00h às 12:00h</p>
+
+  
+  </div>
+  
 </main>
