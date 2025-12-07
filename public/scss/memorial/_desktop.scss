@@ -1,10 +1,15 @@
+// _desktop.scss
+
+// Container maior em desktop full HD
 @media (min-width: 1200px) {
   .container {
     max-width: 1180px;
   }
 }
+
+// Ajustes de fontes para tablets e desktops maiores
 @media (min-width: 769px) {
   .epitaph-content {
-    font-size: 2.5rem; // ajusta no desktop
+    font-size: 2.5rem;
   }
 }

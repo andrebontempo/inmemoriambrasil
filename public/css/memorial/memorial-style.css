@@ -1,5 +1,8 @@
 @charset "UTF-8";
-/* Utils globais */
+/* ===========================
+   Arquivo principal de estilos para Memorial
+   =========================== */
+/* Utils globais - variáveis, funções, mixins comuns */
 .center {
   text-align: center;
 }
@@ -12,25 +15,26 @@
   display: none !important;
 }
 
-/* Memorial Styles */
+/* Variáveis e mixins específicos do memorial */
 /* ===========================
-   Variables (Bootstrap overrides)
+   Variables (Bootstrap overrides + custom)
    =========================== */
+/* ===========
+   Cores principais (baseadas no seu tema)
+   =========== */
 :root {
-  /* Cores principais */
+  /* Cores primárias */
   --bs-primary: #4f0e21;
   --bs-primary-rgb: 79, 14, 33;
   --bs-secondary: #7a142f;
   --bs-secondary-rgb: 122, 20, 47;
+  /* Feedback */
   --bs-success: #198754;
   --bs-success-rgb: 25, 135, 84;
-  --bs-info: #0dcaf0;
-  --bs-info-rgb: 13, 202, 240;
-  --bs-warning: #ffc107;
-  --bs-warning-rgb: 255, 193, 7;
   --bs-danger: #dc3545;
   --bs-danger-rgb: 220, 53, 69;
-  --bs-light: #7a142f;
+  /* Neutros */
+  --bs-light: #f8f9fa;
   --bs-light-rgb: 248, 215, 218;
   --bs-dark: #2a0a13;
   --bs-dark-rgb: 42, 10, 19;
@@ -49,15 +53,58 @@
   --bs-btn-hover-bg: #3e0a19;
   --bs-btn-hover-border-color: #3e0a19;
   /* Formulários */
-  --bs-form-valid-color: #198754;
-  --bs-form-invalid-color: #dc3545;
+  --bs-form-valid-color: var(--bs-success);
+  --bs-form-invalid-color: var(--bs-danger);
   /* Cards / Modal */
   --bs-card-bg: #fff;
   --bs-modal-bg: #fff;
   --bs-tooltip-bg: #000;
   --bs-tooltip-color: #fff;
+  /* ===========
+     Tipografia
+     =========== */
+  --font-family-base: "Open Sans", Arial, sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+  --font-size-base: 1rem;
+  --font-size-sm: 0.875rem;
+  --font-size-lg: 1.25rem;
+  /* ===========
+     Espaçamentos
+     =========== */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 3rem;
+  /* ===========
+     Sombras
+     =========== */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.15);
+  /* ===========
+     Temas claro e escuro
+     =========== */
+  /* Tema claro (padrão) */
+  --theme-body-bg: var(--bs-body-bg);
+  --theme-text-color: var(--bs-body-color);
+  /* Tema escuro */
+  --dark-body-bg: #121212;
+  --dark-text-color: #f1f1f1;
+  --dark-primary: #bb86fc;
+  --dark-secondary: #03dac6;
 }
 
+/* Para aplicar tema escuro via classe */
+.dark-theme {
+  --bs-body-bg: var(--dark-body-bg);
+  --bs-body-color: var(--dark-text-color);
+  --bs-primary: var(--dark-primary);
+  --bs-secondary: var(--dark-secondary);
+}
+
+/* Estilos base: resets, tipografia, normalize */
 /* ===========================
    Base styles
    =========================== */
@@ -66,7 +113,7 @@ body {
   background-size: cover;
   background-position: center center;
   background-attachment: fixed;
-  height: 100vh;
+  /*height: 100vh;*/
   width: 100%;
 }
 
@@ -81,13 +128,14 @@ header {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.navbar,
-footer {
+.navbar {
   background-color: var(--bs-dark);
   color: #fff;
 }
 
 footer {
+  background-color: var(--bs-dark);
+  color: #fff;
   padding: 20px 0;
 }
 
@@ -102,34 +150,39 @@ iframe {
   border-radius: 8px;
 }
 
+/* Layout e estrutura */
 /* ===========================
-   Layout
+   Layout Modular
    =========================== */
+.card-like, .tribute-section, .custom-box,
+.custom-box-sidebar {
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  background-color: white;
+}
+
 .custom-container {
   background-image: url("/css/memorial/files/bg_textura.png");
-  background-size: 1080px;
-  background-repeat: repeat;
-  background-position: center center;
+  background-repeat: no-repeat;
+  background-position: center center; /* ou center center, se preferir */
+  background-size: cover; /* força cada "tile" a ter 100x100 pixels */
 }
 
 .custom-box,
 .custom-box-sidebar {
-  background-color: white;
-  border-radius: 12px;
-  padding: 15px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  color: var(--bs-dark);
 }
 
 .custom-box-sidebar {
-  margin: 8px 6px !important;
+  margin: 8px 6px;
 }
 
 .tribute-section {
   background-color: var(--bs-body-bg);
-  border-radius: 12px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Componentes reutilizáveis */
 /* ===========================
    Components
    =========================== */
@@ -151,6 +204,10 @@ iframe {
   background-color: var(--bs-dark);
   border-color: var(--bs-dark);
 }
+.btn-edit:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.3);
+  outline-offset: 2px;
+}
 
 /* Botão delete */
 .btn-delete {
@@ -166,6 +223,10 @@ iframe {
 .btn-delete:active {
   background-color: var(--bs-dark);
   border-color: var(--bs-dark);
+}
+.btn-delete:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.3);
+  outline-offset: 2px;
 }
 
 /* Customização Bootstrap */
@@ -213,16 +274,18 @@ iframe {
   border-bottom: 2px solid var(--bs-primary);
 }
 
-/* Estilização do epitáfio */
-.epitaph-content {
-  font-size: 2rem;
-  line-height: 1.4;
-  font-weight: 500;
-  text-align: center;
+.custom-sidebar-photo {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  display: block;
 }
 
+/* Temas e utilitários visuais */
 /* ===========================
-   Themes
+   Themes Melhorado
    =========================== */
 .text-justify {
   text-align: justify;
@@ -232,6 +295,9 @@ iframe {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
+.hover-shadow {
+  transition: box-shadow 0.3s ease;
+}
 .hover-shadow:hover {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
@@ -248,7 +314,50 @@ iframe {
   color: black;
   text-shadow: 2px 2px 4px white, 0 0 5px white, 0 0 10px white;
 }
+@media (max-width: 768px) {
+  .epitaph-box {
+    padding: 2rem;
+  }
+}
+@media (max-width: 480px) {
+  .epitaph-box {
+    padding: 1rem;
+  }
+}
 
+.epitaph-content {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-style: italic;
+  color: var(--bs-dark);
+  line-height: 1.4;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 1.5rem;
+  -webkit-line-clamp: 5; /* default para desktop */
+}
+@media (max-width: 992px) {
+  .epitaph-content {
+    font-size: 1.3rem;
+    -webkit-line-clamp: 4;
+  }
+}
+@media (max-width: 576px) {
+  .epitaph-content {
+    font-size: 1.1rem;
+    -webkit-line-clamp: 3;
+  }
+}
+@media (max-width: 400px) {
+  .epitaph-content {
+    font-size: 1rem;
+    -webkit-line-clamp: 2;
+  }
+}
+
+/* Estilos responsivos */
 @media (min-width: 1200px) {
   .container {
     max-width: 1180px;

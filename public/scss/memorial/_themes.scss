@@ -1,23 +1,38 @@
 /* ===========================
-   Themes
+   Themes Melhorado
    =========================== */
 
+// Variáveis para cores e sombras (pode mover para um arquivo _variables.scss)
+$epitaph-bg-shadow-color: rgba(255, 255, 255, 0.8);
+$epitaph-text-color: #000;
+$text-shadow-color: rgba(0, 0, 0, 0.7);
+$box-shadow-hover: rgba(0, 0, 0, 0.2);
+
+// Texto justificado
 .text-justify {
   text-align: justify;
 }
 
+// Sombra suave no texto para destaque
 .text-shadow {
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  text-shadow: 2px 2px 4px $text-shadow-color;
 }
 
-.hover-shadow:hover {
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+// Sombra de caixa ao passar o mouse, transição suave
+.hover-shadow {
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 15px $box-shadow-hover;
+  }
 }
 
+// Transição suave para todas as propriedades
 .transition-all {
   transition: all 0.3s ease;
 }
 
+// Caixa do epitáfio com fundo texturizado e sombra no texto otimizada
 .epitaph-box {
   background-image: url("/css/memorial/files/bg_epitaph.png");
   background-size: 100% 100%;
@@ -29,4 +44,41 @@
     2px 2px 4px white,
     0 0 5px white,
     0 0 10px white;
+
+  @media (max-width: 768px) {
+    padding: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+  }
+}
+
+.epitaph-content {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-style: italic;
+  color: var(--bs-dark);
+  line-height: 1.4;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 1.5rem;
+  -webkit-line-clamp: 5; /* default para desktop */
+
+  @media (max-width: 992px) {
+    font-size: 1.3rem;
+    -webkit-line-clamp: 4;
+  }
+
+  @media (max-width: 576px) {
+    font-size: 1.1rem;
+    -webkit-line-clamp: 3;
+  }
+
+  @media (max-width: 400px) {
+    font-size: 1rem;
+    -webkit-line-clamp: 2;
+  }
 }

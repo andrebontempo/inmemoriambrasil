@@ -1,6 +1,6 @@
 <main>
   <!-- Box: Compartilhar -->
-<div class="custom-box-sidebar p-3">
+<div class="custom-box-sidebar mx-0 mt-1 p-3">
   <h4 class="fw-semibold"><i class="bi bi-share-fill me-2"></i>Compartilhe</h4>
   <form action="/memorial/{{slug}}/invite" method="POST" class="mt-2">
     <div class="mb-2">
@@ -19,33 +19,37 @@
 
 
   <!-- Box: Estatísticas -->
-  <div class="custom-box-sidebar my-0 mx-0 p-3">
-    <h4 class="fw-semibold"><i class="bi bi-bar-chart-fill me-2"></i>Estatísticas</h4>
-    <p><strong>Visitas:</strong> {{estatisticas.totalVisitas}}</p>
-    <p><strong>Tributos:</strong> {{estatisticas.totalTributos}}</p>
-    <p><strong>Histórias de Vida:</strong> {{estatisticas.totalHistorias}}</p>
-    <p><strong>Histórias Compartilhadas:</strong> {{estatisticas.totalHistoriasCom}}</p>
-  </div>
+<div class="custom-box-sidebar mx-0 mt-1 p-3">
+  <h4 class="fw-semibold"><i class="bi bi-bar-chart-fill me-2"></i>Estatísticas</h4>
+  <ul class="list-unstyled small mt-3">
+    <li><strong>Visitas:</strong> {{estatisticas.totalVisitas}}</li>
+    <li><strong>Tributos:</strong> {{estatisticas.totalTributos}}</li>
+    <li><strong>Histórias de Vida:</strong> {{estatisticas.totalHistorias}}</li>
+    <li><strong>Histórias Compartilhadas:</strong> {{estatisticas.totalHistoriasCom}}</li>
+  </ul>
+</div>
+
 
   <!-- Box: Galeria com Link -->
-  <a href="/memorial/{{slug}}/gallery" class="text-decoration-none text-dark">
-    <div class="custom-box-sidebar my-0 mx-0 p-3 hover-shadow">
-      <h4 class="fw-semibold"><i class="bi bi-images me-2"></i>Galeria</h4>
-      {{#if gallery.photos.length}}
-        <div class="row g-2">
-          {{#each gallery.photos}}
-            <div class="col-6">
-              <img src={{this.url}} class="img-fluid rounded shadow-sm custom-sidebar-photo" alt="Foto de {{../firstName}}">
-            </div>
-          {{/each}}
-        </div>
-      {{else}}
-        <p class="text-muted">Nenhuma foto disponível.</p>
-      {{/if}}
-    </div>
-  </a>
+<a href="/memorial/{{slug}}/gallery" class="text-decoration-none text-dark">
+  <div class="custom-box-sidebar my-2 mx-0 p-3 hover-shadow">
+    <h4 class="fw-semibold"><i class="bi bi-images me-2"></i>Galeria</h4>
+    {{#if gallery.photos.length}}
+      <div class="row g-2">
+        {{#each gallery.photos}}
+          <div class="col-6">
+            <img src="{{this.url}}" class="custom-sidebar-photo" alt="Foto de {{../firstName}}">
+          </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <p class="text-muted">Nenhuma foto disponível.</p>
+    {{/if}}
+  </div>
+</a>
+
   <!-- Box: QR Code -->
-<div class="custom-box-sidebar my-0 mx-0 p-3 hover-shadow mt-3">
+<div class="custom-box-sidebar mt-2 mx-0 p-3 hover-shadow">
   <h4 class="fw-semibold"><i class="bi bi-qr-code-scan me-2"></i>QR Code</h4>
 
   {{#if qrCode.url}}

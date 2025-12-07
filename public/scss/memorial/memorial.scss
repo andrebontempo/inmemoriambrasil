@@ -1,13 +1,27 @@
-/* Utils globais */
+/* ===========================
+   Arquivo principal de estilos para Memorial
+   =========================== */
+
+/* Utils globais - variáveis, funções, mixins comuns */
 @import "../utils/breakpoints";
 @import "../utils/helpers";
 
-/* Memorial Styles */
+/* Variáveis e mixins específicos do memorial */
 @import "variables";
 @import "mixins";
+
+/* Estilos base: resets, tipografia, normalize */
 @import "base";
+
+/* Layout e estrutura */
 @import "layout";
+
+/* Componentes reutilizáveis */
 @import "components";
+
+/* Temas e utilitários visuais */
 @import "themes";
+
+/* Estilos responsivos */
 @import "desktop";
 @import "mobile";

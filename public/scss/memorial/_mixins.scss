@@ -1,13 +1,37 @@
-@mixin memorial-button($bg, $color) {
+@mixin memorial-button(
+  $bg,
+  $color,
+  $padding: 10px 20px,
+  $border-radius: $border-radius-base
+) {
   background-color: $bg;
   color: $color;
-  padding: 10px 20px;
-  border-radius: $border-radius-base;
+  padding: $padding;
+  border-radius: $border-radius;
   border: none;
   cursor: pointer;
-  transition: 0.3s;
+  transition: opacity 0.3s ease;
 
   &:hover {
     opacity: 0.9;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px lighten($bg, 20%);
+  }
+}
+@mixin responsive-font($min-size, $max-size, $min-vw: 320px, $max-vw: 1200px) {
+  font-size: $min-size;
+
+  @media (min-width: $min-vw) {
+    font-size: calc(
+      #{$min-size} + (#{$max-size} - #{$min-size}) *
+        ((100vw - #{$min-vw}) / (#{$max-vw} - #{$min-vw}))
+    );
+  }
+
+  @media (min-width: $max-vw) {
+    font-size: $max-size;
   }
 }

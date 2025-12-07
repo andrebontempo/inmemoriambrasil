@@ -21,6 +21,10 @@
     background-color: var(--bs-dark);
     border-color: var(--bs-dark);
   }
+  &:focus-visible {
+    outline: 3px solid rgba(255, 255, 255, 0.3);
+    outline-offset: 2px;
+  }
 }
 
 /* Botão delete */
@@ -38,6 +42,10 @@
   &:active {
     background-color: var(--bs-dark);
     border-color: var(--bs-dark);
+  }
+  &:focus-visible {
+    outline: 3px solid rgba(255, 255, 255, 0.3);
+    outline-offset: 2px;
   }
 }
 
@@ -87,10 +95,11 @@
   font-weight: 600;
   border-bottom: 2px solid var(--bs-primary);
 }
-/* Estilização do epitáfio */
-.epitaph-content {
-  font-size: 2rem; // Aumenta a fonte
-  line-height: 1.4;
-  font-weight: 500; // opcional
-  text-align: center; // caso queira centralização
+.custom-sidebar-photo {
+  width: 100%;
+  height: 150px; // ajuste a altura se precisar
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  display: block;
 }

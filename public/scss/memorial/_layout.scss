@@ -1,28 +1,42 @@
 /* ===========================
-   Layout
+   Layout Modular
    =========================== */
 
+// Classe base para caixas com borda arredondada, sombra e padding
+.card-like {
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  background-color: white; // cor padrão, pode ser sobrescrita
+}
+
+// Container principal com textura de fundo
 .custom-container {
   background-image: url("/css/memorial/files/bg_textura.png");
-  background-size: 1080px;
-  background-repeat: repeat;
-  background-position: center center;
+  background-repeat: no-repeat;
+  background-position: center center; /* ou center center, se preferir */
+  background-size: cover; /* força cada "tile" a ter 100x100 pixels */
 }
 
+// Caixas principais e sidebar que reutilizam .card-like
 .custom-box,
 .custom-box-sidebar {
-  background-color: white;
-  border-radius: 12px;
-  padding: 15px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  @extend .card-like;
+  color: var(--bs-dark); // define a cor da fonte aqui
 }
 
+// Ajuste extra de margem para a sidebar (tente evitar !important)
 .custom-box-sidebar {
-  margin: 8px 6px !important;
+  margin: 8px 6px;
 }
 
+// Se precisar mesmo do !important (use com cuidado):
+// .custom-box-sidebar {
+//   margin: 8px 6px !important;
+// }
+
+// Seção de tributo que reaproveita .card-like, mas com cor diferente
 .tribute-section {
+  @extend .card-like;
   background-color: var(--bs-body-bg);
-  border-radius: 12px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
