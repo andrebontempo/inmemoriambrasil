@@ -1,1 +1,52 @@
 /* Regras de desktop (>= 992px) quando necessário */
+/* ============================================
+   NAVBAR DESKTOP — igual ao mobile, mas isolada
+============================================ */
+
+@media (min-width: 768px) {
+  /* estilo base desktop */
+  .navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.75);
+    opacity: 0.85;
+    padding: 0.65rem 0.9rem;
+    transition:
+      color 0.18s ease,
+      opacity 0.18s ease,
+      transform 0.14s ease;
+    border-bottom: 2px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ícone */
+  .navbar-dark .navbar-nav .nav-link i {
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+
+  /* inativos */
+  .navbar-dark .navbar-nav .nav-link:not(.active) {
+    color: rgba(255, 255, 255, 0.6);
+    opacity: 0.8;
+  }
+
+  /* ativo */
+  .navbar-dark .navbar-nav .nav-link.active {
+    color: #ffffff !important;
+    opacity: 1 !important;
+    border-bottom: 2px solid #ffffff !important;
+    transform: translateY(-2px);
+    font-weight: 600;
+  }
+
+  .navbar-dark .navbar-nav .nav-link.active i {
+    color: #ffffff !important;
+  }
+
+  /* hover */
+  .navbar-dark .navbar-nav .nav-link:hover {
+    opacity: 1;
+    color: #ffffff;
+  }
+}
