@@ -1,0 +1,58 @@
+<main class="container my-5">
+  <div
+    class="p-5 rounded-4 shadow-lg text-white"
+    style="background-color: #4f0e21;"
+  >
+    <h2 class="text-center mb-4 fw-bold">Etapa 3: Escolha do Plano</h2>
+
+    <form
+      action="/memorial/create-step3"
+      method="POST"
+      style="max-width: 60%;"
+      class="mx-auto"
+    >
+
+      <div class="form-check mb-4">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="plan"
+          value="free"
+          id="planoGratuito"
+          required
+        />
+        <label class="form-check-label fw-bold" for="planoGratuito">
+          Plano Gratuito
+        </label>
+        <p class="ms-4">Memorial com recursos básicos e permanência limitada.</p>
+      </div>
+
+      <div class="form-check mb-4">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="plan"
+          value="premium"
+          id="planoPago"
+        />
+        <label class="form-check-label fw-bold" for="planoPago">
+          Plano Premium (pago)
+        </label>
+        <p class="ms-4">Memorial com recursos avançados, personalização completa
+          e sem limite de tempo.</p>
+      </div>
+
+      <div class="d-flex justify-content-end mt-4">
+        <button
+          type="submit"
+          class="btn btn-light fw-bold px-5 py-3 rounded-pill shadow"
+          style="background-color: #ffffff; color: #4f0e21; border: 2px solid #4f0e21; transition: all 0.3s ease;"
+          onmouseover="this.style.backgroundColor='#4f0e21'; this.style.color='white';"
+          onmouseout="this.style.backgroundColor='#ffffff'; this.style.color='#4f0e21';"
+        >
+          Avançar
+        </button>
+      </div>
+    </form>
+  </div>
+</main>

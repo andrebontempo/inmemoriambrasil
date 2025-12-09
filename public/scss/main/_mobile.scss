@@ -1,8 +1,15 @@
+/* ================================
+   MOBILE — ajustes gerais
+================================ */
+
+/* Cartões do painel */
 @media (max-width: 576px) {
   .stats-card {
     width: 45%;
   }
 }
+
+/* Background mobile */
 @media (max-width: 768px) {
   body {
     background-image: url("/css/main/files/background-mobile.jpg");
@@ -11,44 +18,53 @@
   }
 }
 
-/* NAVBAR MOBILE — ícone + texto; ativo fica mais claro */
+/* ================================
+   NAVBAR MOBILE
+================================ */
 
 .navbar-dark .nav-link.mobile-item {
   color: rgba(255, 255, 255, 0.75);
   opacity: 0.85;
+  padding: 6px 0;
   transition:
     color 0.18s ease,
     opacity 0.18s ease,
     transform 0.14s ease;
-  padding: 6px 0;
-
-  /* remove qualquer tracejado em itens não ativos */
-  border-bottom: 2px solid transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* força o layout do ícone e do texto */
+/* Ícone */
 .navbar-dark .nav-link.mobile-item i {
-  display: block;
-  margin-bottom: 2px;
+  font-size: 1.1rem;
   line-height: 1;
+  margin-bottom: 2px;
 }
 
+/* Texto pequeno */
 .navbar-dark .nav-link.mobile-item .small,
 .navbar-dark .nav-link.mobile-item div {
   font-size: 0.75rem;
   line-height: 1;
-  display: block;
   margin-top: 2px;
 }
 
-/* itens inativos levemente apagados */
+/* Inativos — mais apagados */
 .navbar-dark .nav-link.mobile-item:not(.active) {
   color: rgba(255, 255, 255, 0.6);
   opacity: 0.8;
 }
 
-/* ativa ícone, texto e underline branco */
-.navbar-dark .nav-link.mobile-item.active,
+/* Ativo — tudo fica branco + destaque */
+.navbar-dark .nav-link.mobile-item.active {
+  color: #ffffff !important;
+  opacity: 1 !important;
+  font-weight: 600;
+  /*transform: translateY(-2px);*/
+}
+
+/* Ativo — ícone e texto */
 .navbar-dark .nav-link.mobile-item.active i,
 .navbar-dark .nav-link.mobile-item.active .small,
 .navbar-dark .nav-link.mobile-item.active div {
@@ -56,16 +72,12 @@
   opacity: 1 !important;
 }
 
-/* underline branco somente no ativo */
-.navbar-dark .nav-link.mobile-item.active {
-  border-bottom: 2px solid #ffffff !important;
-  transform: translateY(-2px);
-  font-weight: 600;
-}
-
-/* hover/tap */
-.navbar-dark .nav-link.mobile-item:active,
-.navbar-dark .nav-link.mobile-item:hover {
-  opacity: 1;
+/* Hover / Tap */
+.navbar-dark .nav-link.mobile-item:hover,
+.navbar-dark .nav-link.mobile-item:active {
   color: #ffffff;
+  opacity: 1;
 }
+/* ================================
+   FIM - NAVBAR
+================================ */

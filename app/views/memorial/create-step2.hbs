@@ -1,117 +1,201 @@
 <main class="container my-5">
+
   <div
-    class="p-5 rounded-4 shadow-lg text-white"
-    style="background-color: #4f0e21;"
+    class="p-4 p-md-5 rounded-4 shadow-lg"
+    style="background: #fff; border: 1px solid #eee;"
   >
-    <h2 class="text-center mb-4 fw-bold">Etapa 2: Dados Pessoais</h2>
+
+    <h2 class="text-center mb-4 fw-bold" style="color: #4f0e21;">
+      Etapa 2: Dados Pessoais
+    </h2>
 
     <form
       action="/memorial/create-step2"
       method="POST"
-      style="max-width: 80%;"
       class="mx-auto"
+      style="max-width: 600px;"
     >
 
-      <!-- Nome e Sobrenome (readonly + hidden) -->
-      <div class="row g-3">
-        <div class="col-md-6">
-          <label for="firstName" class="form-label">Nome:</label>
-          <input
-            type="text"
-            class="form-control"
-            id="firstName"
-            name="firstNameDisplay"
-            value="{{step1Data.firstName}}"
-            readonly
-          />
-          <input
-            type="hidden"
-            name="firstName"
-            value="{{step1Data.firstName}}"
-          />
-        </div>
-
-        <div class="col-md-6">
-          <label for="lastName" class="form-label">Sobrenome:</label>
-          <input
-            type="text"
-            class="form-control"
-            id="lastName"
-            name="lastNameDisplay"
-            value="{{step1Data.lastName}}"
-            readonly
-          />
-          <input type="hidden" name="lastName" value="{{step1Data.lastName}}" />
-        </div>
+      <!-- Nome e Sobrenome (readonly) -->
+      <div class="mb-4">
+        <label
+          for="firstName"
+          class="form-label fw-semibold"
+          style="color: #4f0e21;"
+        >Nome</label>
+        <input
+          type="text"
+          class="form-control form-control-lg rounded-3"
+          id="firstName"
+          name="firstNameDisplay"
+          value="{{step1Data.firstName}}"
+          readonly
+          style="background: #f2f2f2;"
+        />
+        <input type="hidden" name="firstName" value="{{step1Data.firstName}}" />
       </div>
 
-      <!-- Sexo e Parentesco -->
-      <div class="row g-3 mt-3">
-        <div class="col-md-6">
-          <label for="kinship" class="form-label">Parentesco:</label>
-          <select class="form-select" id="kinship" name="kinship" required>
-            <option value="">Selecione</option>
-            {{#each kinships}}
-              <option value="{{this.value}}">{{this.label}}</option>
-            {{/each}}
-          </select>
-        </div>
+      <div class="mb-4">
+        <label
+          for="lastName"
+          class="form-label fw-semibold"
+          style="color: #4f0e21;"
+        >Sobrenome</label>
+        <input
+          type="text"
+          class="form-control form-control-lg rounded-3"
+          id="lastName"
+          name="lastNameDisplay"
+          value="{{step1Data.lastName}}"
+          readonly
+          style="background: #f2f2f2;"
+        />
+        <input type="hidden" name="lastName" value="{{step1Data.lastName}}" />
+      </div>
+
+      <!-- Parentesco -->
+      <div class="mb-4">
+        <label
+          for="kinship"
+          class="form-label fw-semibold"
+          style="color: #4f0e21;"
+        >Parentesco</label>
+        <select
+          class="form-select form-select-lg rounded-3"
+          id="kinship"
+          name="kinship"
+          required
+          style="background: #fafafa;"
+        >
+          <option value="">Selecione</option>
+          {{#each kinships}}
+            <option value="{{this.value}}">{{this.label}}</option>
+          {{/each}}
+        </select>
       </div>
 
       <!-- Nascimento -->
-      <h4 class="mt-4 fw-bold">Nascimento</h4>
+      <h4 class="fw-bold mb-3" style="color: #4f0e21;">Nascimento</h4>
+
       <div class="row g-3">
-        <div class="col-md-3">
-          <label for="birthDate" class="form-label">Data:</label>
-          <input type="date" class="form-control" name="birth.date" required />
+        <div class="col-md-6">
+          <label
+            class="form-label fw-semibold"
+            style="color: #4f0e21;"
+          >Data</label>
+          <input
+            type="date"
+            class="form-control form-control-lg rounded-3"
+            name="birth.date"
+            required
+            style="background: #fafafa;"
+          />
         </div>
-        <div class="col-md-3">
-          <label class="form-label">Cidade:</label>
-          <input type="text" class="form-control" name="birth.city" />
+        <div class="col-md-6">
+          <label
+            class="form-label fw-semibold"
+            style="color: #4f0e21;"
+          >Cidade</label>
+          <input
+            type="text"
+            class="form-control form-control-lg rounded-3"
+            name="birth.city"
+            style="background: #fafafa;"
+          />
         </div>
-        <div class="col-md-3">
-          <label class="form-label">Estado:</label>
-          <input type="text" class="form-control" name="birth.state" />
+        <div class="col-md-6">
+          <label
+            class="form-label fw-semibold"
+            style="color: #4f0e21;"
+          >Estado</label>
+          <input
+            type="text"
+            class="form-control form-control-lg rounded-3"
+            name="birth.state"
+            style="background: #fafafa;"
+          />
         </div>
-        <div class="col-md-3">
-          <label class="form-label">País:</label>
-          <input type="text" class="form-control" name="birth.country" />
+        <div class="col-md-6">
+          <label
+            class="form-label fw-semibold"
+            style="color: #4f0e21;"
+          >País</label>
+          <input
+            type="text"
+            class="form-control form-control-lg rounded-3"
+            name="birth.country"
+            style="background: #fafafa;"
+          />
         </div>
       </div>
 
       <!-- Falecimento -->
-      <h4 class="mt-4 fw-bold">Falecimento</h4>
+      <h4 class="fw-bold mt-5 mb-3" style="color: #4f0e21;">Falecimento</h4>
+
       <div class="row g-3">
-        <div class="col-md-3">
-          <label class="form-label">Data:</label>
-          <input type="date" class="form-control" name="death.date" required />
+        <div class="col-md-6">
+          <label
+            class="form-label fw-semibold"
+            style="color: #4f0e21;"
+          >Data</label>
+          <input
+            type="date"
+            class="form-control form-control-lg rounded-3"
+            name="death.date"
+            required
+            style="background: #fafafa;"
+          />
         </div>
-        <div class="col-md-3">
-          <label class="form-label">Cidade:</label>
-          <input type="text" class="form-control" name="death.city" />
+        <div class="col-md-6">
+          <label
+            class="form-label fw-semibold"
+            style="color: #4f0e21;"
+          >Cidade</label>
+          <input
+            type="text"
+            class="form-control form-control-lg rounded-3"
+            name="death.city"
+            style="background: #fafafa;"
+          />
         </div>
-        <div class="col-md-3">
-          <label class="form-label">Estado:</label>
-          <input type="text" class="form-control" name="death.state" />
+        <div class="col-md-6">
+          <label
+            class="form-label fw-semibold"
+            style="color: #4f0e21;"
+          >Estado</label>
+          <input
+            type="text"
+            class="form-control form-control-lg rounded-3"
+            name="death.state"
+            style="background: #fafafa;"
+          />
         </div>
-        <div class="col-md-3">
-          <label class="form-label">País:</label>
-          <input type="text" class="form-control" name="death.country" />
+        <div class="col-md-6">
+          <label
+            class="form-label fw-semibold"
+            style="color: #4f0e21;"
+          >País</label>
+          <input
+            type="text"
+            class="form-control form-control-lg rounded-3"
+            name="death.country"
+            style="background: #fafafa;"
+          />
         </div>
       </div>
 
       <!-- Botão -->
-      <div class="d-flex justify-content-end mt-4">
+      <div class="d-flex justify-content-center mt-5">
         <button
           type="submit"
-          class="btn btn-light fw-bold px-5 py-3 rounded-pill shadow"
-          style="background-color: #ffffff; color: #4f0e21; border: 2px solid #4f0e21; transition: all 0.3s ease;"
-          onmouseover="this.style.backgroundColor='#4f0e21'; this.style.color='white';"
-          onmouseout="this.style.backgroundColor='#ffffff'; this.style.color='#4f0e21';"
+          class="btn fw-bold px-5 py-3 rounded-pill shadow-sm"
+          style="background-color: #4f0e21; color: #fff;"
         >
           Avançar
         </button>
       </div>
+
     </form>
   </div>
+
 </main>

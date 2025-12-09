@@ -1,57 +1,78 @@
 <main class="container my-5">
+
   <div
-    class="p-5 rounded-4 shadow-lg text-white"
-    style="background-color: #4f0e21;"
+    class="p-4 p-md-5 rounded-4 shadow-lg"
+    style="background: #fff; border: 1px solid #eee;"
   >
-    <h2 class="text-center mb-4 fw-bold">Etapa 1: Nome do Homenageado</h2>
+
+    <h2 class="text-center mb-4 fw-bold" style="color: #4f0e21;">
+      Etapa 1: Nome do Homenageado
+    </h2>
+
     {{#if error}}
-      <div class="alert alert-danger">{{error}}</div>
+      <div class="alert alert-danger text-center">{{error}}</div>
     {{/if}}
+
     <form
       action="/memorial/create-step1"
       method="POST"
       class="mx-auto"
-      style="max-width: 80%;"
+      style="max-width: 500px;"
     >
-      <div class="row g-3">
-        <div class="col-md-6">
-          <label for="firstName" class="form-label">Primeiro Nome:</label>
-          <input
-            type="text"
-            class="form-control"
-            id="firstName"
-            name="firstName"
-            required
-            pattern="[A-Za-zÀ-ú\s]+"
-            title="Somente letras são permitidas"
-            autocomplete="given-name"
-            value="{{firstName}}"
-          />
-        </div>
-        <div class="col-md-6">
-          <label for="lastName" class="form-label">Sobrenome:</label>
-          <input
-            type="text"
-            class="form-control"
-            id="lastName"
-            name="lastName"
-            required
-            pattern="[A-Za-zÀ-ú\s]+"
-            title="Somente letras são permitidas"
-            autocomplete="family-name"
-            value="{{lastName}}"
-          />
-        </div>
-      </div>
-      <div class="d-flex justify-content-end mt-4">
-        <button
-          type="submit"
-          class="btn btn-light fw-bold px-5 py-3 rounded-pill shadow"
-          style="background-color: #ffffff; color: #4f0e21;"
+
+      <!-- PRIMEIRO NOME -->
+      <div class="mb-3">
+        <label
+          for="firstName"
+          class="form-label fw-semibold"
+          style="color: #4f0e21;"
         >
+          Primeiro Nome
+        </label>
+        <input
+          type="text"
+          class="form-control form-control-lg rounded-3"
+          id="firstName"
+          name="firstName"
+          required
+          pattern="[A-Za-zÀ-ú\s]+"
+          title="Somente letras são permitidas"
+          autocomplete="given-name"
+          value="{{firstName}}"
+          style="background: #fafafa;"
+        />
+      </div>
+
+      <!-- SOBRENOME -->
+      <div class="mb-4">
+        <label
+          for="lastName"
+          class="form-label fw-semibold"
+          style="color: #4f0e21;"
+        >
+          Sobrenome
+        </label>
+        <input
+          type="text"
+          class="form-control form-control-lg rounded-3"
+          id="lastName"
+          name="lastName"
+          required
+          pattern="[A-Za-zÀ-ú\s]+"
+          title="Somente letras são permitidas"
+          autocomplete="family-name"
+          value="{{lastName}}"
+          style="background: #fafafa;"
+        />
+      </div>
+
+      <!-- BOTÃO -->
+      <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-memorial">
           Próxima Etapa
         </button>
       </div>
+
     </form>
   </div>
 </main>

@@ -2,6 +2,38 @@
    Components
    =========================== */
 
+/* Botão personalizado Memorial usado nas etapas de criação */
+.btn-memorial {
+  background-color: #ffffff !important;
+  color: #4f0e21 !important;
+  border: 2px solid #4f0e21 !important;
+  padding: 0.8rem 2.5rem;
+  font-weight: 700;
+  border-radius: 50rem; // pill
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease !important;
+
+  &:hover {
+    background-color: #4f0e21 !important;
+    color: #ffffff !important;
+    border-color: #4f0e21 !important;
+  }
+
+  &:active,
+  &.active {
+    background-color: #3a0b18 !important;
+    color: #ffffff !important;
+    border-color: #3a0b18 !important;
+    transform: scale(0.97);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  }
+
+  &:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 4px rgba(79, 14, 33, 0.3) !important;
+  }
+}
+
 /* Botões edit/delete */
 .btn-edit {
   background-color: var(--bs-secondary);
@@ -89,12 +121,7 @@
   font-size: 14px;
   opacity: 0.8;
 }
-/*NAVBAR ATIVA*/
-.memorial-navbar .nav-link.active {
-  color: var(--bs-primary) !important;
-  font-weight: 600;
-  border-bottom: 2px solid var(--bs-primary);
-}
+
 .custom-sidebar-photo {
   width: 100%;
   height: 150px; // ajuste a altura se precisar
