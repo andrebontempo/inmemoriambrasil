@@ -12,14 +12,14 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link {{#if activeTribute}}active{{/if}}" href="/memorial/{{slug}}/tribute">
-            Homenagens
+          <a class="nav-link {{#if activeLifeStory}}active{{/if}}" href="/memorial/{{slug}}/lifestory">
+            Caminho Percorrido
           </a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link {{#if activeLifeStory}}active{{/if}}" href="/memorial/{{slug}}/lifestory">
-            Caminho Percorrido
+          <a class="nav-link {{#if activeTribute}}active{{/if}}" href="/memorial/{{slug}}/tribute">
+            Homenagens
           </a>
         </li>
 
@@ -98,16 +98,16 @@
     </li>
 
     <li class="nav-item text-center flex-fill">
-      <a class="nav-link mobile-item {{#if activeTribute}}active{{/if}}" href="/memorial/{{slug}}/tribute">
-        <i class="bi bi-people fs-4"></i>
-        <div class="small">Honras</div>
-      </a>
-    </li>
-
-    <li class="nav-item text-center flex-fill">
       <a class="nav-link mobile-item {{#if activeLifeStory}}active{{/if}}" href="/memorial/{{slug}}/lifestory">
         <i class="bi bi-map fs-4"></i>
         <div class="small">Caminho</div>
+      </a>
+    </li>
+    
+    <li class="nav-item text-center flex-fill">
+      <a class="nav-link mobile-item {{#if activeTribute}}active{{/if}}" href="/memorial/{{slug}}/tribute">
+        <i class="bi bi-people fs-4"></i>
+        <div class="small">Honras</div>
       </a>
     </li>
 
