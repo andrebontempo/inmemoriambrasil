@@ -20,15 +20,14 @@ const MemorialSchema = new mongoose.Schema(
       default: "",
     },
     obituary: {
-      cemetery: { type: String }, // Nome do cemitério
-      graveAddress: { type: String }, // Endereço do túmulo
-      wakeLocation: { type: String }, // Local do velório (capela)
-      wakeDate: { type: Date }, // Data do velório
-      wakeStart: { type: String }, // Horário inicial (ex: "14:00")
-      wakeEnd: { type: String }, // Horário final (ex: "17:00")
-      cemeteryMap: { type: String }, // Link do Google Maps
+      cemetery: { type: String, default: "Não Informado" },
+      graveAddress: { type: String, default: "Não Informado" },
+      wakeLocation: { type: String, default: "Não Informado" },
+      wakeDate: { type: Date, default: null },
+      wakeStart: { type: String, default: "Não Informado" },
+      wakeEnd: { type: String, default: "Não Informado" },
+      cemeteryMap: { type: String, default: "Não Informado" },
     },
-
     accessLevel: {
       type: String,
       enum: ["public_read", "private_read", "private_edit"],

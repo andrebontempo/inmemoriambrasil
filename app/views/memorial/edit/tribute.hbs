@@ -1,72 +1,60 @@
 <main>
-  <div class="custom-container my-0 p-2">
-        <!-- Formulário de Edição do Memorial -->
-        <div class="custom-box my-0 mx-0">
-       <!--   <form action="/memorial/{{slug}}/tribute/update/{{tribute._id}}?_method=PUT" method="POST">-->
-          <form action="/memorial/{{slug}}/tribute/update/{{tribute._id}}" method="POST">
-            <!-- Método PUT para atualização -->
-            <input type="hidden" name="_method" value="PUT">
-            <input type="hidden" name="memorial" value="{{tribute.memorial}}" />
-            <input type="hidden" name="slug" value="{{slug}}" />
+    <div class="custom-box custom-light-wine my-2 mx-0">
 
-            <!-- Caixa de Edição de Tributo -->
-            <div class="custom-box my-2 mx-0">
-              <h3>Editar Tributo</h3>
-              <div class="card p-3">
+      <h3 class="mb-3 text-start">
+        <i class="bi bi-pencil-square me-2"></i> Editar Tributo
+      </h3>
 
-                <!-- Escolha do tipo de tributo -->
-                <div class="d-flex justify-content-center mb-3">
+      <form action="/memorial/{{slug}}/tribute/update/{{tribute._id}}" method="POST">
 
-                  <!-- Caneta -->
-                  <div class="text-center me-3">
-                    <img src="/css/memorial/files/tributo_caneta.png" class="edit-icon" alt="Caneta"
-                      style="width: 40px; height: 40px; object-fit: cover; pointer-events: none; margin-bottom: 10px;">
-                    <br>
-                    <input type="radio" id="tributeTypeCaneta" name="type" value="tributo_caneta.png"
-                      {{#ifEquals tribute.type "tributo_caneta.png"}}checked{{/ifEquals}}>
-                  </div>
+        <input type="hidden" name="_method" value="PUT">
+        <input type="hidden" name="memorial" value="{{tribute.memorial}}" />
+        <input type="hidden" name="slug" value="{{slug}}" />
 
-                  <!-- Flor -->
-                  <div class="text-center me-3">
-                    <img src="/css/memorial/files/tributo_flor.png" class="edit-icon" alt="Flor"
-                      style="width: 40px; height: 40px; object-fit: cover; pointer-events: none; margin-bottom: 10px;">
-                    <br>
-                    <input type="radio" id="tributeTypeFlor" name="type" value="tributo_flor.png"
-                      {{#ifEquals tribute.type "tributo_flor.png"}}checked{{/ifEquals}}>
-                  </div>
+        <div class="card p-3 custom-inner-card">
 
-                  <!-- Vela -->
-                  <div class="text-center me-3">
-                    <img src="/css/memorial/files/tributo_vela.png" class="edit-icon" alt="Vela"
-                      style="width: 40px; height: 40px; object-fit: cover; pointer-events: none; margin-bottom: 10px;">
-                    <br>
-                    <input type="radio" id="tributeTypeVela" name="type" value="tributo_vela.png"
-                      {{#ifEquals tribute.type "tributo_vela.png"}}checked{{/ifEquals}}>
-                  </div>
+          <!-- Escolha do tipo -->
+          <div class="d-flex justify-content-center mb-3">
 
-                </div>
-
-                <!-- Caixa de texto com mensagem -->
-                <div class="d-flex mb-2">
-                  <textarea class="edit-input form-control" rows="3" placeholder="Escreva sua mensagem..."
-                    name="message" required>{{tribute.message}}</textarea>
-                </div>
-
-                <!-- Informação sobre o usuário -->
-                <div class="text-muted mb-2 fs-7 text-end">
-                  Editando como usuário logado.
-                </div>
-
-                <!-- Botões -->
-                <div class="d-flex justify-content-end align-items-center gap-2">
-                  <a href="/memorial/{{slug}}" class="btn btn-secondary">Cancelar</a>
-                  <button type="submit" class="btn btn-primary">Atualizar Tributo</button>
-                </div>
-
-              </div>
+            <div class="text-center me-3">
+              <img src="/css/memorial/files/tributo_caneta.png" class="edit-icon" alt="Caneta">
+              <br>
+              <input type="radio" name="type" value="tributo_caneta.png"
+                {{#ifEquals tribute.type "tributo_caneta.png"}}checked{{/ifEquals}}>
             </div>
-          </form>
+
+            <div class="text-center me-3">
+              <img src="/css/memorial/files/tributo_flor.png" class="edit-icon" alt="Flor">
+              <br>
+              <input type="radio" name="type" value="tributo_flor.png"
+                {{#ifEquals tribute.type "tributo_flor.png"}}checked{{/ifEquals}}>
+            </div>
+
+            <div class="text-center me-3">
+              <img src="/css/memorial/files/tributo_vela.png" class="edit-icon" alt="Vela">
+              <br>
+              <input type="radio" name="type" value="tributo_vela.png"
+                {{#ifEquals tribute.type "tributo_vela.png"}}checked{{/ifEquals}}>
+            </div>
+
+          </div>
+
+          <!-- Texto -->
+          <textarea class="edit-input form-control mb-2" rows="3"
+            placeholder="Escreva sua mensagem..." name="message" required>{{tribute.message}}</textarea>
+
+          <div class="text-muted mb-2 fs-7 text-end">
+            Editando como usuário logado.
+          </div>
+
+          <div class="d-flex justify-content-end align-items-center gap-2">
+            <a href="/memorial/{{slug}}" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-primary">Atualizar Tributo</button>
+          </div>
+
         </div>
-       
-  </div>
+
+      </form>
+
+    </div>
 </main>

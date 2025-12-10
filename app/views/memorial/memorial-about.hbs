@@ -17,7 +17,7 @@
   {{/if}}
 
   <!-- Informações do Memorial -->
-  <div class="custom-box mx-0">
+  <div class="custom-box my-0 mx-0">
     <div class="birth-death-info mt-2 text-start">
       <p><i class="bi bi-calendar-date-fill"></i><strong> Idade:</strong> {{idade}}</p>
         <i class="bi bi-star-fill"></i>
@@ -82,17 +82,61 @@
     </p>
   </div>
 
-   <!-- Biografia -->
+   <!-- Obituário -->
   <div class="custom-box my-2 mx-0 text-start">
-    <p class="fs-4"><strong>Obituário</strong></p>
+  <p class="fs-4"><strong>Obituário</strong></p>
 
-    <p><i class="bi bi-geo-alt-fill"></i><strong>Cemitério: </strong>Campo de Boa Esperanças</p>
-    <p><i class="bi bi-brightness-alt-high-fill"></i><strong> Túmulo: </strong>E - 245</p>
-    <p><i class="bi bi-bank2"></i><strong> Capela: </strong>C - 10</p>
-    <p><i class="bi bi-calendar-date-fill"></i><strong> Data do Velório: </strong>10/10/2025</p>
-    <p><i class="bi bi-clock-fill"></i><strong> Hora do Velório: </strong>10:00h às 12:00h</p>
+  {{#if obituary}}
 
-  
-  </div>
+    {{#if obituary.cemetery}}
+      <p>
+        <i class="bi bi-geo-alt-fill"></i>
+        <strong>Cemitério: </strong>{{obituary.cemetery}}
+      </p>
+    {{/if}}
+
+    {{#if obituary.graveAddress}}
+      <p>
+        <i class="bi bi-brightness-alt-high-fill"></i>
+        <strong>Túmulo: </strong>{{obituary.graveAddress}}
+      </p>
+    {{/if}}
+
+    {{#if obituary.wakeLocation}}
+      <p>
+        <i class="bi bi-bank2"></i>
+        <strong>Capela: </strong>{{obituary.wakeLocation}}
+      </p>
+    {{/if}}
+
+    {{#if obituary.wakeDate}}
+      <p>
+        <i class="bi bi-calendar-date-fill"></i>
+        <strong>Data do Velório: </strong>{{formatDateTribute obituary.wakeDate "default"}}
+      </p>
+    {{/if}}
+
+    {{#if obituary.wakeStart}}
+      <p>
+        <i class="bi bi-clock-fill"></i>
+        <strong>Hora do Velório: </strong>
+        {{obituary.wakeStart}}h
+        {{#if obituary.wakeEnd}} às {{obituary.wakeEnd}}h{{/if}}
+      </p>
+    {{/if}}
+
+    {{#if obituary.cemeteryMap}}
+      <p>
+        <i class="bi bi-map"></i>
+        <strong>Mapa do Cemitério: </strong>
+        <a href="{{obituary.cemeteryMap}}" target="_blank">Ver no Google Maps</a>
+      </p>
+    {{/if}}
+
+  {{else}}
+    <p class="text-muted">Informações de obituário ainda não foram adicionadas.</p>
+  {{/if}}
+</div>
+
   
 </main>

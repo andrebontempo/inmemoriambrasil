@@ -1,47 +1,45 @@
 <main>
-  <div class="custom-container my-0 p-2">
+  <!-- Formulário de Edição do Memorial -->
+  <div class="custom-box p-2 my-2 mx-0">
+    <h3>Editar Memorial</h3>
+    <!--<form action="/memorial/{{slug}}/edit/update?_method=PUT" method="POST">-->
+    <form action="/memorial/{{slug}}/memorial/update" method="POST">
+      <input type="hidden" name="_method" value="PUT" />
 
-    <!-- Formulário de Edição do Memorial -->
-    <div class="custom-box p-2 mt-0 mx-0">
-      <h3>Editar Memorial</h3>
-      <!--<form action="/memorial/{{slug}}/edit/update?_method=PUT" method="POST">-->
-      <form action="/memorial/{{slug}}/memorial/update" method="POST">
-        <input type="hidden" name="_method" value="PUT" />
-
-        <!-- Nome e Sobrenome -->
-        <div class="mb-3">
-          <label class="form-label"><strong>Nome:</strong></label>
-          <input
-            type="text"
-            class="form-control"
-            name="firstName"
-            value="{{firstName}}"
-            readonly
-          />
-        </div>
-        <div class="mb-3">
-          <label class="form-label"><strong>Sobrenome:</strong></label>
-          <input
-            type="text"
-            class="form-control"
-            name="lastName"
-            value="{{lastName}}"
-            readonly
-          />
-        </div>
-        <div class="mb-3">
-          <label class="form-label"><strong>Endereço Web (Slug):
-              inmemoriambrasil.com.br/</strong></label>
-          <input
-            type="text"
-            class="form-control"
-            name="slug"
-            value="{{slug}}"
-            readonly
-          />
-        </div>
-        <!-- Sexo -->
-        <!--
+      <!-- Nome e Sobrenome -->
+      <div class="mb-3">
+        <label class="form-label"><strong>Nome:</strong></label>
+        <input
+          type="text"
+          class="form-control"
+          name="firstName"
+          value="{{firstName}}"
+          readonly
+        />
+      </div>
+      <div class="mb-3">
+        <label class="form-label"><strong>Sobrenome:</strong></label>
+        <input
+          type="text"
+          class="form-control"
+          name="lastName"
+          value="{{lastName}}"
+          readonly
+        />
+      </div>
+      <div class="mb-3">
+        <label class="form-label"><strong>Endereço Web (Slug):
+            inmemoriambrasil.com.br/</strong></label>
+        <input
+          type="text"
+          class="form-control"
+          name="slug"
+          value="{{slug}}"
+          readonly
+        />
+      </div>
+      <!-- Sexo -->
+      <!--
             <fieldset class="mb-3">
               <legend>Sexo</legend>
               <input type="radio" name="gender" value="Masculino" {{#ifEquals gender "Masculino"}}checked{{/ifEquals}}> Masculino
@@ -49,96 +47,94 @@
               <input type="radio" name="gender" value="Outros" {{#ifEquals gender "Outros"}}checked{{/ifEquals}}> Outros
             </fieldset>
             -->
-        <!-- Parentesco -->
-        <fieldset class="mb-3">
-          <legend>Parentesco</legend>
-          <input
-            type="text"
-            class="form-control"
-            name="kinship"
-            value="{{kinship}}"
-          />
-        </fieldset>
+      <!-- Parentesco -->
+      <fieldset class="mb-3">
+        <legend>Parentesco</legend>
+        <input
+          type="text"
+          class="form-control"
+          name="kinship"
+          value="{{kinship}}"
+        />
+      </fieldset>
 
-        <!-- Nascimento -->
-        <fieldset class="mb-3">
-          <legend>Nascimento</legend>
-          <input
-            type="date"
-            class="form-control mb-2"
-            name="birth.date"
-            value="{{birth.date}}"
-          />
-          <input
-            type="text"
-            class="form-control mb-2"
-            name="birth.city"
-            placeholder="Cidade"
-            value="{{birth.city}}"
-          />
-          <input
-            type="text"
-            class="form-control mb-2"
-            name="birth.state"
-            placeholder="Estado"
-            value="{{birth.state}}"
-          />
-          <input
-            type="text"
-            class="form-control"
-            name="birth.country"
-            placeholder="País"
-            value="{{birth.country}}"
-          />
-        </fieldset>
+      <!-- Nascimento -->
+      <fieldset class="mb-3">
+        <legend>Nascimento</legend>
+        <input
+          type="date"
+          class="form-control mb-2"
+          name="birth.date"
+          value="{{birth.date}}"
+        />
+        <input
+          type="text"
+          class="form-control mb-2"
+          name="birth.city"
+          placeholder="Cidade"
+          value="{{birth.city}}"
+        />
+        <input
+          type="text"
+          class="form-control mb-2"
+          name="birth.state"
+          placeholder="Estado"
+          value="{{birth.state}}"
+        />
+        <input
+          type="text"
+          class="form-control"
+          name="birth.country"
+          placeholder="País"
+          value="{{birth.country}}"
+        />
+      </fieldset>
 
-        <!-- Falecimento -->
-        <fieldset class="mb-3">
-          <legend>Falecimento</legend>
-          <input
-            type="date"
-            class="form-control mb-2"
-            name="death.date"
-            value="{{death.date}}"
-          />
-          <input
-            type="text"
-            class="form-control mb-2"
-            name="death.city"
-            placeholder="Cidade"
-            value="{{death.city}}"
-          />
-          <input
-            type="text"
-            class="form-control mb-2"
-            name="death.state"
-            placeholder="Estado"
-            value="{{death.state}}"
-          />
-          <input
-            type="text"
-            class="form-control"
-            name="death.country"
-            placeholder="País"
-            value="{{death.country}}"
-          />
-        </fieldset>
+      <!-- Falecimento -->
+      <fieldset class="mb-3">
+        <legend>Falecimento</legend>
+        <input
+          type="date"
+          class="form-control mb-2"
+          name="death.date"
+          value="{{death.date}}"
+        />
+        <input
+          type="text"
+          class="form-control mb-2"
+          name="death.city"
+          placeholder="Cidade"
+          value="{{death.city}}"
+        />
+        <input
+          type="text"
+          class="form-control mb-2"
+          name="death.state"
+          placeholder="Estado"
+          value="{{death.state}}"
+        />
+        <input
+          type="text"
+          class="form-control"
+          name="death.country"
+          placeholder="País"
+          value="{{death.country}}"
+        />
+      </fieldset>
 
-        <!-- Epitáfio 
+      <!-- Epitáfio 
             <fieldset class="mb-3">
               <legend for="epitaph" class="form-label">Epitáfio</legend>
               <input type="text" class="form-control" name="epitaph" value="{{epitaph}}" placeholder="Exemplo: 'Sempre em nossos corações'">
             </fieldset>  -->
 
-        <!-- Botões de Ação -->
-        <!--<div class="text-end mt-4">-->
-        <div class="d-flex justify-content-end align-items-center gap-2 mt-4">
-          <a href="/memorial/{{slug}}" class="btn btn-secondary">Cancelar</a>
-          <button type="submit" class="btn btn-primary">Atualizar</button>
-        </div>
-      </form>
-
-    </div>
+      <!-- Botões de Ação -->
+      <!--<div class="text-end mt-4">-->
+      <div class="d-flex justify-content-end align-items-center gap-2 mt-4">
+        <a href="/memorial/{{slug}}" class="btn btn-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Atualizar</button>
+      </div>
+    </form>
 
   </div>
 </main>
