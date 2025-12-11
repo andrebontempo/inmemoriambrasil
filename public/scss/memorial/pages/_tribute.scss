@@ -1,0 +1,107 @@
+/* ============================
+   🎗️ TRIBUTE CARDS
+============================ */
+
+.tribute-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.tribute-body {
+  display: flex;
+  gap: 15px;
+}
+
+/* Ícone */
+.tribute-image-box {
+  flex-shrink: 0;
+}
+
+.tribute-image {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+/* Conteúdo */
+.tribute-content {
+  flex: 1;
+}
+
+.tribute-message {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.tribute-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tribute-author {
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.tribute-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* ============================
+   📱 MOBILE AJUSTES
+============================ */
+@media (max-width: 576px) {
+
+  /* Card passa a ser vertical */
+  .tribute-body {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  /* Imagem menor */
+  .tribute-image {
+    width: 45px;
+    height: 45px;
+  }
+
+  /* Mensagem centralizada */
+  .tribute-message {
+    font-size: 0.95rem;
+    text-align: center;
+  }
+
+  /* Rodapé em coluna */
+  .tribute-footer {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  /* Botões maiores e em bloco */
+  .tribute-actions {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .tribute-actions a,
+  .tribute-actions button {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* ============================
+   🖥️ DESKTOP APRIMORADO
+============================ */
+@media (min-width: 768px) {
+  .tribute-message {
+    font-size: 1.1rem;
+  }
+}
