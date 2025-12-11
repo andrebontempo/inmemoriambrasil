@@ -79,7 +79,7 @@
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.15);
 
-  $text-shadow-color: rgba(0, 0, 0, 0.25);
+  /*$text-shadow-color: rgba(0, 0, 0, 0.25);*/
 
   /* ===========
      Temas claro e escuro
@@ -102,3 +102,8 @@
   --bs-primary: var(--dark-primary);
   --bs-secondary: var(--dark-secondary);
 }
+
+// Variáveis para cores e sombras (pode mover para um arquivo _variables.scss)
+$epitaph-bg-shadow-color: rgba(255, 255, 255, 0.8);
+$epitaph-text-color: #000;
+$box-shadow-hover: rgba(0, 0, 0, 0.2);

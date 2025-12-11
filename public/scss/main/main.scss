@@ -1,14 +1,19 @@
-/* ===========================
-   Arquivo principal de estilos para MAIN
-   =========================== */
-@import "../utils/breakpoints";
-@import "../utils/helpers";
+/* ============================================
+   📦 MAIN.SCSS — ARQUIVO PRINCIPAL
+   Importa e organiza todo o SCSS do site principal
+   ============================================ */
 
-@import "variables";
-@import "mixins";
-@import "base";
-@import "layout";
-@import "layout-navbars";
-@import "components";
-@import "mobile";
-@import "desktop";
+/* ------------------------------
+   🔧 Utils (funções e mixins)
+   ------------------------------ */
+@use "utils/breakpoints";
+@use "utils/helpers";
+@use "utils/mixins";
+
+/* ------------------------------
+   🎨 Base global
+   ------------------------------ */
+@use "variables";
+@use "base";
+@use "layout";
+@use "components";

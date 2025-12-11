@@ -1,16 +1,28 @@
-/* ===========================
-   Arquivo principal de estilos para Memorial
-   =========================== */
-@import "../utils/breakpoints";
-@import "../utils/helpers";
+/* ============================================
+   📦 MEMORIAL.SCSS — ARQUIVO PRINCIPAL
+   Importa e organiza todo o SCSS do projeto
+   ============================================ */
 
-@import "variables";
-@import "mixins";
-@import "base";
-@import "layout";
-@import "layout-navbars";
-@import "components";
-@import "themes";
-@import "lifestory";
-@import "desktop";
-@import "mobile";
+/* ------------------------------
+   🔧 Utils (funções e mixins)
+   ------------------------------ */
+@use "utils/breakpoints";
+@use "utils/helpers";
+@use "utils/mixins";
+
+/* ------------------------------
+   🎨 Base global
+   ------------------------------ */
+@use "base/variables";
+@use "base/base";
+@use "base/layout";
+@use "base/components";
+
+/* ------------------------------
+   📄 Estilos específicos de páginas
+   ------------------------------ */
+@use "pages/epitaph";
+@use "pages/gallery";
+@use "pages/lifestory";
+@use "pages/sharedstory";
+@use "pages/tribute";

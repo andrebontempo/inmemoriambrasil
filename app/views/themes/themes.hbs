@@ -1,0 +1,44 @@
+<div class="container py-4">
+
+  <h2 class="mb-4">🎨 Escolha o Tema do Memorial</h2>
+
+  <!-- PRÉ-VISUALIZAÇÃO -->
+  <div id="themePreview" class="theme-preview mb-4 p-4 rounded shadow">
+    <h4 class="text-center mb-3">Pré-visualização</h4>
+    <p class="text-center">Este é um exemplo de como o memorial ficará usando o
+      tema selecionado.</p>
+  </div>
+
+  <!-- BOTÕES DE TEMA -->
+  <div class="d-flex gap-3 mb-4">
+    <button class="btn btn-theme vinho" data-theme="Vinho">Vinho</button>
+    <button class="btn btn-theme roxo" data-theme="Roxo">Roxo</button>
+    <button class="btn btn-theme azul" data-theme="Azul">Azul</button>
+  </div>
+
+  <!-- FORM QUE SALVA DEFINITIVAMENTE -->
+  <form action="/admin/memorial/{{slug}}/theme" method="POST">
+    <input type="hidden" id="themeInput" name="theme" value="{{theme}}" />
+
+    <button class="btn btn-primary">
+      💾 Salvar Tema
+    </button>
+  </form>
+
+</div>
+
+<script>
+  // Tema atual vindo do servidor const currentTheme = "{{theme}}"; // Atualiza
+  preview direto ao carregar applyTheme(currentTheme); // Define botão ativo
+  document.querySelectorAll(".btn-theme").forEach(btn => { if (btn.dataset.theme
+  === currentTheme) { btn.classList.add("active"); } }); // Clique para
+  pré-visualizar document.querySelectorAll(".btn-theme").forEach(button => {
+  button.addEventListener("click", () => { const theme = button.dataset.theme;
+  document.getElementById("themeInput").value = theme;
+  document.querySelectorAll(".btn-theme").forEach(b =>
+  b.classList.remove("active")); button.classList.add("active");
+  applyTheme(theme); }); }); // Aplica o tema dinamicamente function
+  applyTheme(theme) { const preview = document.getElementById("themePreview");
+  preview.classList.remove("theme-Vinho", "theme-Roxo", "theme-Azul");
+  preview.classList.add("theme-" + theme); }
+</script>

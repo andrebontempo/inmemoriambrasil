@@ -1,3 +1,95 @@
+/* ============================================================
+   LAYOUT — Container, Header, Cover, Navbar, Sidebar, Footer
+============================================================ */
+
+// Container maior em desktop full HD
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1180px;
+  }
+}
+
+// Ajustes de fontes para tablets e desktops maiores
+@media (min-width: 769px) {
+  .epitaph-content {
+    font-size: 2.5rem;
+  }
+}
+
+.memorial-photo {
+  max-width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border: 2px solid #4f0e21;
+}
+
+// Container principal com textura de fundo
+.custom-container {
+  background-image: url("/css/memorial/files/bg_textura.png");
+  background-repeat: no-repeat;
+  background-position: center center; /* ou center center, se preferir */
+  background-size: cover; /* força cada "tile" a ter 100x100 pixels */
+}
+
+// Caixas principais e sidebar que reutilizam .card-like
+.custom-box,
+.custom-box-sidebar {
+  @extend .card-like;
+  color: var(--bs-dark); // define a cor da fonte aqui
+}
+
+// Ajuste extra de margem para a sidebar (tente evitar !important)
+.custom-box-sidebar {
+  margin: 8px 6px;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background-color: var(--bs-dark);
+  color: #fff;
+  padding: 10px 0;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.memorial-header {
+  height: auto !important;
+  padding-bottom: 15px;
+}
+
+footer {
+  background-color: var(--bs-dark);
+  color: #fff;
+  padding: 20px 0;
+}
+
+.hero {
+  padding: 100px 0;
+  text-align: center;
+  color: #fff;
+}
+
+iframe {
+  border: none;
+  border-radius: 8px;
+}
+
+// Classe base para caixas com borda arredondada, sombra e padding
+.card-like {
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  background-color: white; // cor padrão, pode ser sobrescrita
+}
+
+// Seção de tributo que reaproveita .card-like, mas com cor diferente
+.tribute-section {
+  @extend .card-like;
+  background-color: var(--bs-body-bg);
+}
+
 /* ================================
    NAVBAR — Desktop (>=768px)
 ================================ */
@@ -139,3 +231,47 @@
 /* ================================
    FIM - NAVBAR
 ================================ */
+
+/* ===========================
+   Mobile Styles
+   =========================== */
+
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+
+  .mobile-navbar {
+    background-color: #330011;
+    justify-content: space-around;
+
+    .nav-link {
+      padding: 0.4rem;
+      font-size: 1.3rem;
+    }
+  }
+  /* Ajuste do epitaph para telas pequenas */
+  @media (max-width: 576px) {
+    .epitaph-content {
+      font-size: 1.3rem; // ajuste ideal para mobile
+      line-height: 1.3;
+    }
+  }
+
+  .memorial-photo-mobile {
+    width: 80px !important;
+    height: 120px !important;
+    object-fit: cover;
+    border: 1px solid #4f0e21;
+  }
+
+  .mobile-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .mobile-dates {
+    font-size: 1rem;
+    opacity: 0.7;
+  }
+}

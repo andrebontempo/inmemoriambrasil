@@ -1,7 +1,11 @@
 @charset "UTF-8";
-/* ===========================
-   Arquivo principal de estilos para Memorial
-   =========================== */
+/* ============================================
+   📦 MEMORIAL.SCSS — ARQUIVO PRINCIPAL
+   Importa e organiza todo o SCSS do projeto
+   ============================================ */
+/* ------------------------------
+   🔧 Utils (funções e mixins)
+   ------------------------------ */
 .center {
   text-align: center;
 }
@@ -14,6 +18,9 @@
   display: none !important;
 }
 
+/* ------------------------------
+   🎨 Base global
+   ------------------------------ */
 /* ===========================
    Variables (Bootstrap overrides + custom)
    =========================== */
@@ -81,6 +88,7 @@
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.15);
+  /*$text-shadow-color: rgba(0, 0, 0, 0.25);*/
   /* ===========
      Temas claro e escuro
      =========== */
@@ -102,9 +110,9 @@
   --bs-secondary: var(--dark-secondary);
 }
 
-/* =========================================
-   BASE — Corpo da página
-========================================= */
+/* ===============================================
+   BASE — Corpo da página Background, Format Text
+=============================================== */
 body {
   background-image: url("/css/memorial/files/background.jpg");
   background-size: cover;
@@ -122,9 +130,102 @@ body {
   transition: all 0.3s ease;
 }
 
-/* =========================================
-   LAYOUT — Container, Header, Sidebar, Footer
-========================================= */
+/* ==============================================
+   text-shadow — glow branco (com versão mobile)
+   =========================================== */
+.text-shadow-glow {
+  /* Efeito glow branco (desktop) */
+  text-shadow: 2px 2px 4px white, 0 0 5px white, 0 0 10px white;
+}
+@media (max-width: 576px) {
+  .text-shadow-glow {
+    text-shadow: 1px 1px 3px white, 0 0 3px white, 0 0 6px white;
+  }
+}
+
+/* ==============================================
+   text-shadow-dark — sombra escura (opcional)
+   ============================================ */
+.text-shadow-dark {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+@media (max-width: 576px) {
+  .text-shadow-dark {
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+  }
+}
+
+.epitaph-box {
+  background-image: url("/css/memorial/files/bg_epitaph.png");
+  background-size: 100% 100%;
+  padding: 3rem;
+  text-align: center;
+  color: black;
+  text-shadow: 2px 2px 4px white, 0 0 5px white, 0 0 10px white;
+}
+@media (max-width: 768px) {
+  .epitaph-box {
+    padding: 2rem;
+  }
+}
+@media (max-width: 480px) {
+  .epitaph-box {
+    padding: 1rem;
+  }
+}
+
+.epitaph-content {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-style: italic;
+  color: var(--bs-dark);
+  line-height: 1.4;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 1.5rem;
+  -webkit-line-clamp: 5; /* default para desktop */
+}
+@media (max-width: 992px) {
+  .epitaph-content {
+    font-size: 1.3rem;
+    -webkit-line-clamp: 4;
+  }
+}
+@media (max-width: 576px) {
+  .epitaph-content {
+    font-size: 1.1rem;
+    -webkit-line-clamp: 3;
+  }
+}
+@media (max-width: 400px) {
+  .epitaph-content {
+    font-size: 1rem;
+    -webkit-line-clamp: 2;
+  }
+}
+
+/* ============================================================
+   LAYOUT — Container, Header, Cover, Navbar, Sidebar, Footer
+============================================================ */
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1180px;
+  }
+}
+@media (min-width: 769px) {
+  .epitaph-content {
+    font-size: 2.5rem;
+  }
+}
+.memorial-photo {
+  max-width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border: 2px solid #4f0e21;
+}
+
 .custom-container {
   background-image: url("/css/memorial/files/bg_textura.png");
   background-repeat: no-repeat;
@@ -312,8 +413,47 @@ iframe {
    FIM - NAVBAR
 ================================ */
 /* ===========================
-   Components
+   Mobile Styles
    =========================== */
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+  .mobile-navbar {
+    background-color: #330011;
+    justify-content: space-around;
+  }
+  .mobile-navbar .nav-link {
+    padding: 0.4rem;
+    font-size: 1.3rem;
+  }
+  /* Ajuste do epitaph para telas pequenas */
+}
+@media (max-width: 768px) and (max-width: 576px) {
+  .epitaph-content {
+    font-size: 1.3rem;
+    line-height: 1.3;
+  }
+}
+@media (max-width: 768px) {
+  .memorial-photo-mobile {
+    width: 80px !important;
+    height: 120px !important;
+    object-fit: cover;
+    border: 1px solid #4f0e21;
+  }
+  .mobile-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+  .mobile-dates {
+    font-size: 1rem;
+    opacity: 0.7;
+  }
+}
+/* ================================================
+   COMPONENTES — Botões, Cards, Formulários, Flash
+================================================ */
 /* =============================
    Botão padrão do Memorial
    ============================= */
@@ -481,58 +621,85 @@ iframe {
   display: block;
 }
 
-/* ===========================
-   Themes Melhorado
-   =========================== */
-.epitaph-box {
-  background-image: url("/css/memorial/files/bg_epitaph.png");
-  background-size: 100% 100%;
-  padding: 3rem;
-  text-align: center;
-  color: black;
-  text-shadow: 2px 2px 4px white, 0 0 5px white, 0 0 10px white;
-}
-@media (max-width: 768px) {
-  .epitaph-box {
-    padding: 2rem;
-  }
-}
-@media (max-width: 480px) {
-  .epitaph-box {
-    padding: 1rem;
-  }
+/* ------------------------------
+   📄 Estilos específicos de páginas
+   ------------------------------ */
+/* ================================
+    - GALLERY
+================================ */
+ga .nav-tabs .nav-link {
+  border-radius: 8px 8px 0 0;
+  background: #fff;
+  margin-right: 4px;
 }
 
-.epitaph-content {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-style: italic;
-  color: var(--bs-dark);
-  line-height: 1.4;
+.nav-tabs .nav-link.active {
+  background: #f3dce2;
   font-weight: bold;
-  text-decoration: none;
-  font-size: 1.5rem;
-  -webkit-line-clamp: 5; /* default para desktop */
 }
-@media (max-width: 992px) {
-  .epitaph-content {
-    font-size: 1.3rem;
-    -webkit-line-clamp: 4;
-  }
+
+.btn-edit {
+  background-color: var(--bs-primary);
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.25s ease-in-out;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
-@media (max-width: 576px) {
-  .epitaph-content {
-    font-size: 1.1rem;
-    -webkit-line-clamp: 3;
-  }
+.btn-edit:hover {
+  background-color: #380919;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.22);
 }
-@media (max-width: 400px) {
-  .epitaph-content {
-    font-size: 1rem;
-    -webkit-line-clamp: 2;
-  }
+.btn-edit:active {
+  transform: scale(0.96);
+}
+.btn-edit i {
+  font-size: 1.1rem;
+}
+
+.btn-edit-outline {
+  border: 1px solid var(--bs-primary);
+  color: var(--bs-primary);
+  background: transparent;
+  padding: 8px 16px;
+  border-radius: var(--bs-border-radius);
+  font-weight: 500;
+  transition: 0.3s ease;
+}
+
+.btn-edit-outline:hover {
+  background: var(--bs-primary);
+  color: #fff;
+}
+
+/* 🔳 Galeria em 2 colunas */
+.gallery-grid .col-6 {
+  padding: 8px;
+}
+
+/* 📷 Fotos com tamanho padronizado */
+.galeria-foto {
+  width: 100%;
+  height: 440px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Fotos pequenas no modo edição */
+.edit-galeria-foto {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 8px;
 }
 
 /* ==============================
@@ -884,188 +1051,4 @@ iframe {
 /* Campos de texto */
 .edit-input {
   border-radius: 12px;
-}
-
-@media (min-width: 1200px) {
-  .container {
-    max-width: 1180px;
-  }
-}
-@media (min-width: 769px) {
-  .epitaph-content {
-    font-size: 2.5rem;
-  }
-}
-.memorial-photo {
-  max-width: 250px;
-  height: 250px;
-  object-fit: cover;
-  border: 2px solid #4f0e21;
-}
-
-/* ================================
-   NAVBAR — Desktop (>=768px)
-================================ */
-@media (min-width: 768px) {
-  /* estilo base desktop */
-  .navbar {
-    background-color: var(--bs-dark);
-    color: #fff;
-  }
-  .navbar-dark .navbar-nav .nav-link {
-    color: rgba(255, 255, 255, 0.75);
-    opacity: 0.85;
-    padding: 0.65rem 0.9rem;
-    transition: color 0.18s ease, opacity 0.18s ease, transform 0.14s ease;
-    border-bottom: 2px solid transparent;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  /* ícone */
-  .navbar-dark .navbar-nav .nav-link i {
-    font-size: 1.1rem;
-    line-height: 1;
-  }
-  /* inativos */
-  .navbar-dark .navbar-nav .nav-link:not(.active) {
-    color: rgba(255, 255, 255, 0.6);
-    opacity: 0.8;
-  }
-  /* ativo */
-  .navbar-dark .navbar-nav .nav-link.active {
-    color: #ffffff !important;
-    opacity: 1 !important;
-    border-bottom: 2px solid #ffffff !important;
-    transform: translateY(-2px);
-    font-weight: 600;
-  }
-  .navbar-dark .navbar-nav .nav-link.active i {
-    color: #ffffff !important;
-  }
-  /* hover */
-  .navbar-dark .navbar-nav .nav-link:hover {
-    opacity: 1;
-    color: #ffffff;
-  }
-}
-/* ================================
-   FIM - NAVBAR
-================================ */
-/* ================================
-    - GALLERY
-================================ */
-ga .nav-tabs .nav-link {
-  border-radius: 8px 8px 0 0;
-  background: #fff;
-  margin-right: 4px;
-}
-
-.nav-tabs .nav-link.active {
-  background: #f3dce2;
-  font-weight: bold;
-}
-
-.btn-edit {
-  background-color: var(--bs-primary);
-  border: none;
-  color: #fff;
-  font-weight: 600;
-  padding: 8px 18px;
-  border-radius: 10px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.25s ease-in-out;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-}
-.btn-edit:hover {
-  background-color: #380919;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.22);
-}
-.btn-edit:active {
-  transform: scale(0.96);
-}
-.btn-edit i {
-  font-size: 1.1rem;
-}
-
-.btn-edit-outline {
-  border: 1px solid var(--bs-primary);
-  color: var(--bs-primary);
-  background: transparent;
-  padding: 8px 16px;
-  border-radius: var(--bs-border-radius);
-  font-weight: 500;
-  transition: 0.3s ease;
-}
-
-.btn-edit-outline:hover {
-  background: var(--bs-primary);
-  color: #fff;
-}
-
-/* 🔳 Galeria em 2 colunas */
-.gallery-grid .col-6 {
-  padding: 8px;
-}
-
-/* 📷 Fotos com tamanho padronizado */
-.galeria-foto {
-  width: 100%;
-  height: 440px;
-  object-fit: cover;
-  object-position: center;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-}
-
-/* Fotos pequenas no modo edição */
-.edit-galeria-foto {
-  width: 100%;
-  height: 140px;
-  object-fit: cover;
-  object-position: center;
-  border-radius: 8px;
-}
-
-/* ===========================
-   Mobile Styles
-   =========================== */
-@media (max-width: 768px) {
-  .desktop-only {
-    display: none !important;
-  }
-  .mobile-navbar {
-    background-color: #330011;
-    justify-content: space-around;
-  }
-  .mobile-navbar .nav-link {
-    padding: 0.4rem;
-    font-size: 1.3rem;
-  }
-  /* Ajuste do epitaph para telas pequenas */
-}
-@media (max-width: 768px) and (max-width: 576px) {
-  .epitaph-content {
-    font-size: 1.3rem;
-    line-height: 1.3;
-  }
-}
-@media (max-width: 768px) {
-  .memorial-photo-mobile {
-    width: 80px !important;
-    height: 120px !important;
-    object-fit: cover;
-    border: 1px solid #4f0e21;
-  }
-  .mobile-name {
-    font-size: 1.2rem;
-    font-weight: 700;
-  }
-  .mobile-dates {
-    font-size: 1rem;
-    opacity: 0.7;
-  }
 }

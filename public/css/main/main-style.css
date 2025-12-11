@@ -1,7 +1,11 @@
 @charset "UTF-8";
-/* ===========================
-   Arquivo principal de estilos para MAIN
-   =========================== */
+/* ============================================
+   📦 MAIN.SCSS — ARQUIVO PRINCIPAL
+   Importa e organiza todo o SCSS do site principal
+   ============================================ */
+/* ------------------------------
+   🔧 Utils (funções e mixins)
+   ------------------------------ */
 .center {
   text-align: center;
 }
@@ -14,6 +18,9 @@
   display: none !important;
 }
 
+/* ------------------------------
+   🎨 Base global
+   ------------------------------ */
 /* =========================================
    🎨 CUSTOMIZAÇÃO DO BOOTSTRAP VIA :root 
    ========================================= */
@@ -104,9 +111,9 @@
   --bs-tooltip-color: #fff;
 }
 
-/* =========================================
-   BASE — Corpo da página
-========================================= */
+/* ===============================================
+   BASE — Corpo da página Background, Format Text
+=============================================== */
 body {
   background-image: url("/css/main/files/background.jpg");
   background-size: cover;
@@ -127,9 +134,9 @@ body {
     background-position: center;
   }
 }
-/* =========================================
-   LAYOUT — Container, Header, Sidebar, Footer
-========================================= */
+/* ============================================================
+   LAYOUT — Container, Header, Cover, Navbar, Sidebar, Footer
+============================================================ */
 header {
   background-color: var(--bs-dark);
   color: #fff;
@@ -251,6 +258,15 @@ footer {
 /* ================================
    FIM - NAVBAR
 ================================ */
+/* ================================
+   MOBILE — ajustes gerais
+================================ */
+/* Cartões do painel */
+@media (max-width: 576px) {
+  .stats-card {
+    width: 45%;
+  }
+}
 /* ================================================
    COMPONENTES — Botões, Cards, Formulários, Flash
 ================================================ */
@@ -352,14 +368,4 @@ footer {
   opacity: 0;
   transform: translateY(-30px);
   transition: all 0.5s ease-in;
-}
-
-/* ================================
-   MOBILE — ajustes gerais
-================================ */
-/* Cartões do painel */
-@media (max-width: 576px) {
-  .stats-card {
-    width: 45%;
-  }
 }

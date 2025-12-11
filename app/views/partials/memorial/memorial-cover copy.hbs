@@ -23,20 +23,21 @@
           <img
             src="{{mainPhoto.url}}"
             alt="Imagem do Memorial"
-            class="memorial-photo mt-3 rounded"
+            class="memorial-photo memorial-photo-mobile rounded"
           />
         {{else}}
           <img
             src="/css/memorial/files/user_default.png"
             alt="Imagem padrão"
-            class="memorial-photo mt-3 rounded"
+            class="memorial-photo memorial-photo-mobile rounded"
           />
         {{/if}}
       </div>
 
       <!-- DESKTOP: TÍTULO -->
       <div class="col-md-9 text-white text-start">
-        <h1 class="text-shadow-dark">{{firstName}} {{lastName}}</h1>
+        <h1 class="text-shadow-dark"><strong>{{firstName}}
+            {{lastName}}</strong></h1>
         <h4 class="text-shadow-dark">
           {{formatDate birth.date "year"}}
           -
@@ -70,8 +71,8 @@
       </div>
 
       <div class="col-8 text-white">
-        <h3 class="mobile-name text-shadow-dark m-0">{{firstName}}
-          {{lastName}}</h3>
+        <h3 class="mobile-name text-shadow-dark m-0"><strong>{{firstName}}
+            {{lastName}}</strong></h3>
         <p class="mobile-dates text-shadow-dark m-0">
           {{formatDate birth.date "year"}}
           -
