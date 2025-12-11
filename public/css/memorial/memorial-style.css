@@ -2,7 +2,6 @@
 /* ===========================
    Arquivo principal de estilos para Memorial
    =========================== */
-/* Utils globais - variáveis, funções, mixins comuns */
 .center {
   text-align: center;
 }
@@ -15,7 +14,6 @@
   display: none !important;
 }
 
-/* Variáveis e mixins específicos do memorial */
 /* ===========================
    Variables (Bootstrap overrides + custom)
    =========================== */
@@ -104,10 +102,9 @@
   --bs-secondary: var(--dark-secondary);
 }
 
-/* Estilos base: resets, tipografia, normalize */
-/* ===========================
-   Base styles
-   =========================== */
+/* =========================================
+   BASE — Corpo da página
+========================================= */
 body {
   background-image: url("/css/memorial/files/background.jpg");
   background-size: cover;
@@ -115,6 +112,33 @@ body {
   background-attachment: fixed;
   /*height:  100vh;*/
   width: 100%;
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+/* =========================================
+   LAYOUT — Container, Header, Sidebar, Footer
+========================================= */
+.custom-container {
+  background-image: url("/css/memorial/files/bg_textura.png");
+  background-repeat: no-repeat;
+  background-position: center center; /* ou center center, se preferir */
+  background-size: cover; /* força cada "tile" a ter 100x100 pixels */
+}
+
+.custom-box,
+.custom-box-sidebar {
+  color: var(--bs-dark);
+}
+
+.custom-box-sidebar {
+  margin: 8px 6px;
 }
 
 header {
@@ -126,6 +150,11 @@ header {
   padding: 10px 0;
   transition: all 0.3s ease-in-out;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.memorial-header {
+  height: auto !important;
+  padding-bottom: 15px;
 }
 
 footer {
@@ -145,10 +174,6 @@ iframe {
   border-radius: 8px;
 }
 
-/* Layout e estrutura */
-/* ===========================
-   Layout Modular
-   =========================== */
 .card-like, .tribute-section, .custom-box,
 .custom-box-sidebar {
   border-radius: 12px;
@@ -157,31 +182,169 @@ iframe {
   background-color: white;
 }
 
-.custom-container {
-  background-image: url("/css/memorial/files/bg_textura.png");
-  background-repeat: no-repeat;
-  background-position: center center; /* ou center center, se preferir */
-  background-size: cover; /* força cada "tile" a ter 100x100 pixels */
-}
-
-.custom-box,
-.custom-box-sidebar {
-  color: var(--bs-dark);
-}
-
-.custom-box-sidebar {
-  margin: 8px 6px;
-}
-
 .tribute-section {
   background-color: var(--bs-body-bg);
 }
 
-/* Componentes reutilizáveis */
+/* ================================
+   NAVBAR — Desktop (>=768px)
+================================ */
+@media (min-width: 768px) {
+  /* estilo base desktop */
+  .navbar {
+    background-color: var(--bs-dark);
+    color: #fff;
+  }
+  .navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.75);
+    opacity: 0.85;
+    padding: 0.65rem 0.9rem;
+    transition: color 0.18s ease, opacity 0.18s ease, transform 0.14s ease;
+    border-bottom: 2px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  /* ícone */
+  .navbar-dark .navbar-nav .nav-link i {
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+  /* inativos */
+  .navbar-dark .navbar-nav .nav-link:not(.active) {
+    color: rgba(255, 255, 255, 0.6);
+    opacity: 0.8;
+  }
+  /* ativo */
+  .navbar-dark .navbar-nav .nav-link.active {
+    color: #ffffff !important;
+    opacity: 1 !important;
+    border-bottom: 2px solid #ffffff !important;
+    transform: translateY(-2px);
+    font-weight: 600;
+  }
+  .navbar-dark .navbar-nav .nav-link.active i {
+    color: #ffffff !important;
+  }
+  /* hover */
+  .navbar-dark .navbar-nav .nav-link:hover {
+    opacity: 1;
+    color: #ffffff;
+  }
+}
+/* ================================
+   FIM - NAVBAR
+================================ */
+/* ================================
+   NAVBAR MOBILE
+================================ */
+.navbar-dark .nav-link.mobile-item {
+  color: rgba(255, 255, 255, 0.75);
+  opacity: 0.85;
+  padding: 6px 0;
+  transition: color 0.18s ease, opacity 0.18s ease, transform 0.14s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Ícone */
+.navbar-dark .nav-link.mobile-item i {
+  font-size: 1.1rem;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+/* Texto pequeno */
+.navbar-dark .nav-link.mobile-item .small,
+.navbar-dark .nav-link.mobile-item div {
+  font-size: 0.75rem;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+/* Inativos — mais apagados */
+.navbar-dark .nav-link.mobile-item:not(.active) {
+  color: rgba(255, 255, 255, 0.6);
+  opacity: 0.8;
+}
+
+/* Ativo — tudo fica branco + destaque */
+.navbar-dark .nav-link.mobile-item.active {
+  color: #ffffff !important;
+  opacity: 1 !important;
+  font-weight: 600;
+  /*transform: translateY(-2px);*/
+}
+
+/* Ativo — ícone e texto */
+.navbar-dark .nav-link.mobile-item.active i,
+.navbar-dark .nav-link.mobile-item.active .small,
+.navbar-dark .nav-link.mobile-item.active div {
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+/* Hover / Tap */
+.navbar-dark .nav-link.mobile-item:hover,
+.navbar-dark .nav-link.mobile-item:active {
+  color: #ffffff;
+  opacity: 1;
+}
+
+/* Corrigir dropdown no mobile: não empurrar conteúdo */
+@media (max-width: 576px) {
+  .mobile-admin .dropdown-menu {
+    position: absolute !important;
+    top: 50px; /* ajustável */
+    right: 0;
+    left: auto;
+    transform: none !important;
+    z-index: 9999;
+    min-width: 200px;
+  }
+  /* Impedir que o dropdown aumente a altura do navbar */
+  .mobile-admin {
+    position: relative;
+  }
+}
+/* ================================
+   FIM - NAVBAR
+================================ */
 /* ===========================
    Components
    =========================== */
-/* Botão personalizado Memorial usado nas etapas de criação */
+/* =============================
+   Botão padrão do Memorial
+   ============================= */
+.btn-default-memorial {
+  background: #ffffff;
+  color: var(--bs-primary);
+  border: 2px solid var(--bs-primary);
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  text-decoration: none !important;
+}
+.btn-default-memorial:hover {
+  background: var(--bs-primary);
+  color: #fff;
+}
+.btn-default-memorial {
+  /* 📱 Versão Mobile */
+}
+@media (max-width: 576px) {
+  .btn-default-memorial {
+    padding: 10px 22px;
+    border-radius: 40px;
+    font-size: 0.95rem;
+    width: 100%; /* se quiser o botão ocupando toda a largura */
+  }
+}
+
 .btn-memorial {
   background-color: #ffffff !important;
   color: #4f0e21 !important;
@@ -207,6 +370,25 @@ iframe {
 .btn-memorial:focus {
   outline: none !important;
   box-shadow: 0 0 0 4px rgba(79, 14, 33, 0.3) !important;
+}
+
+/* Botões de ação */
+.custom-btn-primary {
+  background-color: #4f0e21;
+  color: #fff;
+  border: 2px solid #4f0e21;
+  border-radius: 50px;
+  padding: 10px 30px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+.custom-btn-primary:hover {
+  background-color: #fff;
+  color: #4f0e21;
+}
+
+.custom-box.bg-soft-wine {
+  background: #f7eaed;
 }
 
 /* Botões edit/delete */
@@ -299,29 +481,9 @@ iframe {
   display: block;
 }
 
-/* Temas e utilitários visuais */
 /* ===========================
    Themes Melhorado
    =========================== */
-.text-justify {
-  text-align: justify;
-}
-
-.text-shadow {
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-}
-
-.hover-shadow {
-  transition: box-shadow 0.3s ease;
-}
-.hover-shadow:hover {
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-.transition-all {
-  transition: all 0.3s ease;
-}
-
 .epitaph-box {
   background-image: url("/css/memorial/files/bg_epitaph.png");
   background-size: 100% 100%;
@@ -373,7 +535,6 @@ iframe {
   }
 }
 
-/* Temas e utilitários visuais */
 /* ==============================
    Life Story Cards
    ============================== */
@@ -725,26 +886,6 @@ iframe {
   border-radius: 12px;
 }
 
-/* Botões de ação */
-.custom-btn-primary {
-  background-color: #4f0e21;
-  color: #fff;
-  border: 2px solid #4f0e21;
-  border-radius: 50px;
-  padding: 10px 30px;
-  font-weight: bold;
-  transition: all 0.3s ease;
-}
-.custom-btn-primary:hover {
-  background-color: #fff;
-  color: #4f0e21;
-}
-
-.custom-box.bg-soft-wine {
-  background: #f7eaed;
-}
-
-/* Estilos responsivos */
 @media (min-width: 1200px) {
   .container {
     max-width: 1180px;
@@ -811,6 +952,84 @@ iframe {
 /* ================================
    FIM - NAVBAR
 ================================ */
+/* ================================
+    - GALLERY
+================================ */
+ga .nav-tabs .nav-link {
+  border-radius: 8px 8px 0 0;
+  background: #fff;
+  margin-right: 4px;
+}
+
+.nav-tabs .nav-link.active {
+  background: #f3dce2;
+  font-weight: bold;
+}
+
+.btn-edit {
+  background-color: var(--bs-primary);
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.25s ease-in-out;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+.btn-edit:hover {
+  background-color: #380919;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.22);
+}
+.btn-edit:active {
+  transform: scale(0.96);
+}
+.btn-edit i {
+  font-size: 1.1rem;
+}
+
+.btn-edit-outline {
+  border: 1px solid var(--bs-primary);
+  color: var(--bs-primary);
+  background: transparent;
+  padding: 8px 16px;
+  border-radius: var(--bs-border-radius);
+  font-weight: 500;
+  transition: 0.3s ease;
+}
+
+.btn-edit-outline:hover {
+  background: var(--bs-primary);
+  color: #fff;
+}
+
+/* 🔳 Galeria em 2 colunas */
+.gallery-grid .col-6 {
+  padding: 8px;
+}
+
+/* 📷 Fotos com tamanho padronizado */
+.galeria-foto {
+  width: 100%;
+  height: 440px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Fotos pequenas no modo edição */
+.edit-galeria-foto {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 8px;
+}
+
 /* ===========================
    Mobile Styles
    =========================== */
@@ -835,10 +1054,6 @@ iframe {
   }
 }
 @media (max-width: 768px) {
-  .memorial-header {
-    height: auto !important;
-    padding-bottom: 15px;
-  }
   .memorial-photo-mobile {
     width: 80px !important;
     height: 120px !important;
@@ -854,63 +1069,3 @@ iframe {
     opacity: 0.7;
   }
 }
-/* ================================
-   NAVBAR MOBILE
-================================ */
-.navbar-dark .nav-link.mobile-item {
-  color: rgba(255, 255, 255, 0.75);
-  opacity: 0.85;
-  padding: 6px 0;
-  transition: color 0.18s ease, opacity 0.18s ease, transform 0.14s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* Ícone */
-.navbar-dark .nav-link.mobile-item i {
-  font-size: 1.1rem;
-  line-height: 1;
-  margin-bottom: 2px;
-}
-
-/* Texto pequeno */
-.navbar-dark .nav-link.mobile-item .small,
-.navbar-dark .nav-link.mobile-item div {
-  font-size: 0.75rem;
-  line-height: 1;
-  margin-top: 2px;
-}
-
-/* Inativos — mais apagados */
-.navbar-dark .nav-link.mobile-item:not(.active) {
-  color: rgba(255, 255, 255, 0.6);
-  opacity: 0.8;
-}
-
-/* Ativo — tudo fica branco + destaque */
-.navbar-dark .nav-link.mobile-item.active {
-  color: #ffffff !important;
-  opacity: 1 !important;
-  font-weight: 600;
-  /*transform: translateY(-2px);*/
-}
-
-/* Ativo — ícone e texto */
-.navbar-dark .nav-link.mobile-item.active i,
-.navbar-dark .nav-link.mobile-item.active .small,
-.navbar-dark .nav-link.mobile-item.active div {
-  color: #ffffff !important;
-  opacity: 1 !important;
-}
-
-/* Hover / Tap */
-.navbar-dark .nav-link.mobile-item:hover,
-.navbar-dark .nav-link.mobile-item:active {
-  color: #ffffff;
-  opacity: 1;
-}
-
-/* ================================
-   FIM - NAVBAR
-================================ */

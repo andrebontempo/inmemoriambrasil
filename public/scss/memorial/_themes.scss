@@ -5,32 +5,7 @@
 // Variáveis para cores e sombras (pode mover para um arquivo _variables.scss)
 $epitaph-bg-shadow-color: rgba(255, 255, 255, 0.8);
 $epitaph-text-color: #000;
-$text-shadow-color: rgba(0, 0, 0, 0.7);
 $box-shadow-hover: rgba(0, 0, 0, 0.2);
-
-// Texto justificado
-.text-justify {
-  text-align: justify;
-}
-
-// Sombra suave no texto para destaque
-.text-shadow {
-  text-shadow: 2px 2px 4px $text-shadow-color;
-}
-
-// Sombra de caixa ao passar o mouse, transição suave
-.hover-shadow {
-  transition: box-shadow 0.3s ease;
-
-  &:hover {
-    box-shadow: 0 4px 15px $box-shadow-hover;
-  }
-}
-
-// Transição suave para todas as propriedades
-.transition-all {
-  transition: all 0.3s ease;
-}
 
 // Caixa do epitáfio com fundo texturizado e sombra no texto otimizada
 .epitaph-box {

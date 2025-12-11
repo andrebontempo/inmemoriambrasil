@@ -1,3 +1,6 @@
+/* ===========================
+   Arquivo principal de estilos para MAIN
+   =========================== */
 @import "../utils/breakpoints";
 @import "../utils/helpers";
 
@@ -5,6 +8,7 @@
 @import "mixins";
 @import "base";
 @import "layout";
+@import "layout-navbars";
 @import "components";
 @import "mobile";
 @import "desktop";

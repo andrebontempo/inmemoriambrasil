@@ -35,14 +35,14 @@
               </span>
 
               <div class="tribute-actions">
-                <a href="/memorial/{{../slug}}/tribute/edit/{{this._id}}" class="life-mini-btn">
-                  <i class="bi bi-pencil-fill"></i>
+                <a href="/memorial/{{../slug}}/tribute/edit/{{this._id}}" class="btn-default-memorial">
+                  Editar
                 </a>
 
                 <form action="/memorial/{{../slug}}/tribute/delete/{{this._id}}" method="POST"
                       onsubmit="return confirm('Tem certeza que deseja apagar este tributo?');">
-                  <button type="submit" class="life-mini-btn">
-                    <i class="bi bi-trash-fill"></i>
+                  <button type="submit" class="btn-default-memorial">
+                    Deletar
                   </button>
                 </form>
               </div>
@@ -100,8 +100,8 @@
       <div class="life-form-footer mt-2">
         <span class="life-author small">Por usuário logado.</span>
 
-        <button type="submit" class="life-submit-btn">
-          <i class="bi bi-send-fill me-1"></i> Enviar
+        <button type="submit" class="btn-default-memorial">
+          <i class="bi bi-send-fill me-1"></i> Enviar Homenagem
         </button>
       </div>
 

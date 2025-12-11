@@ -51,10 +51,10 @@
           <div class="life-actions">
             <a 
               href="/memorial/{{../slug}}/lifestory/edit/{{this._id}}" 
-              class="life-icon edit"
+              class="btn-default-memorial"
               title="Editar"
             >
-              <i class="bi bi-pencil"></i>
+              Editar
             </a>
 
             <form 
@@ -62,8 +62,8 @@
               method="POST"
               onsubmit="return confirm('Deseja realmente excluir esta história?');"
             >
-              <button type="submit" class="life-icon delete" title="Apagar">
-                <i class="bi bi-trash"></i>
+              <button type="submit" class="btn-default-memorial" title="Deletar">
+                Deletar
               </button>
             </form>
           </div>

@@ -1,4 +1,7 @@
 @charset "UTF-8";
+/* ===========================
+   Arquivo principal de estilos para MAIN
+   =========================== */
 .center {
   text-align: center;
 }
@@ -115,7 +118,17 @@ body {
 }
 
 /* =========================================
-   LAYOUT — Header, Navbar, Footer
+   BASE — Corpo da página - MOBILE
+========================================= */
+@media (max-width: 768px) {
+  body {
+    background-image: url("/css/main/files/background-mobile.jpg");
+    background-size: cover;
+    background-position: center;
+  }
+}
+/* =========================================
+   LAYOUT — Container, Header, Sidebar, Footer
 ========================================= */
 header {
   background-color: var(--bs-dark);
@@ -129,9 +142,147 @@ footer {
   padding: 20px 0;
 }
 
-/* =========================================
+/* ================================
+   NAVBAR — Desktop (>=768px)
+================================ */
+@media (min-width: 768px) {
+  /* estilo base desktop */
+  .navbar {
+    background-color: var(--bs-dark);
+    color: #fff;
+  }
+  .navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.75);
+    opacity: 0.85;
+    padding: 0.65rem 0.9rem;
+    transition: color 0.18s ease, opacity 0.18s ease, transform 0.14s ease;
+    border-bottom: 2px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  /* ícone */
+  .navbar-dark .navbar-nav .nav-link i {
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+  /* inativos */
+  .navbar-dark .navbar-nav .nav-link:not(.active) {
+    color: rgba(255, 255, 255, 0.6);
+    opacity: 0.8;
+  }
+  /* ativo */
+  .navbar-dark .navbar-nav .nav-link.active {
+    color: #ffffff !important;
+    opacity: 1 !important;
+    border-bottom: 2px solid #ffffff !important;
+    transform: translateY(-2px);
+    font-weight: 600;
+  }
+  .navbar-dark .navbar-nav .nav-link.active i {
+    color: #ffffff !important;
+  }
+  /* hover */
+  .navbar-dark .navbar-nav .nav-link:hover {
+    opacity: 1;
+    color: #ffffff;
+  }
+}
+/* ================================
+   FIM - NAVBAR
+================================ */
+/* ================================
+   NAVBAR MOBILE
+================================ */
+.navbar-dark .nav-link.mobile-item {
+  color: rgba(255, 255, 255, 0.75);
+  opacity: 0.85;
+  padding: 6px 0;
+  transition: color 0.18s ease, opacity 0.18s ease, transform 0.14s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Ícone */
+.navbar-dark .nav-link.mobile-item i {
+  font-size: 1.1rem;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+/* Texto pequeno */
+.navbar-dark .nav-link.mobile-item .small,
+.navbar-dark .nav-link.mobile-item div {
+  font-size: 0.75rem;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+/* Inativos — mais apagados */
+.navbar-dark .nav-link.mobile-item:not(.active) {
+  color: rgba(255, 255, 255, 0.6);
+  opacity: 0.8;
+}
+
+/* Ativo — tudo fica branco + destaque */
+.navbar-dark .nav-link.mobile-item.active {
+  color: #ffffff !important;
+  opacity: 1 !important;
+  font-weight: 600;
+  /*transform: translateY(-2px);*/
+}
+
+/* Ativo — ícone e texto */
+.navbar-dark .nav-link.mobile-item.active i,
+.navbar-dark .nav-link.mobile-item.active .small,
+.navbar-dark .nav-link.mobile-item.active div {
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+/* Hover / Tap */
+.navbar-dark .nav-link.mobile-item:hover,
+.navbar-dark .nav-link.mobile-item:active {
+  color: #ffffff;
+  opacity: 1;
+}
+
+/* ================================
+   FIM - NAVBAR
+================================ */
+/* ================================================
    COMPONENTES — Botões, Cards, Formulários, Flash
-========================================= */
+================================================ */
+.btn-default-main {
+  background: #ffffff;
+  color: var(--bs-primary);
+  border: 2px solid var(--bs-primary);
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  text-decoration: none !important;
+}
+.btn-default-main:hover, .btn-default-main:focus, .btn-default-main:active {
+  background: var(--bs-dark); /* 🔥 muda para dark */
+  border-color: var(--bs-dark); /* combina a borda com o fundo */
+  color: #fff;
+}
+.btn-default-main {
+  /* 📱 Mobile */
+}
+@media (max-width: 576px) {
+  .btn-default-main {
+    padding: 10px 22px;
+    border-radius: 40px;
+    font-size: 0.95rem;
+    width: 100%;
+  }
+}
+
 /* Botões */
 .btn-primary {
   background-color: var(--bs-primary);
@@ -212,120 +363,3 @@ footer {
     width: 45%;
   }
 }
-/* Background mobile */
-@media (max-width: 768px) {
-  body {
-    background-image: url("/css/main/files/background-mobile.jpg");
-    background-size: cover;
-    background-position: center;
-  }
-}
-/* ================================
-   NAVBAR MOBILE
-================================ */
-.navbar-dark .nav-link.mobile-item {
-  color: rgba(255, 255, 255, 0.75);
-  opacity: 0.85;
-  padding: 6px 0;
-  transition: color 0.18s ease, opacity 0.18s ease, transform 0.14s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* Ícone */
-.navbar-dark .nav-link.mobile-item i {
-  font-size: 1.1rem;
-  line-height: 1;
-  margin-bottom: 2px;
-}
-
-/* Texto pequeno */
-.navbar-dark .nav-link.mobile-item .small,
-.navbar-dark .nav-link.mobile-item div {
-  font-size: 0.75rem;
-  line-height: 1;
-  margin-top: 2px;
-}
-
-/* Inativos — mais apagados */
-.navbar-dark .nav-link.mobile-item:not(.active) {
-  color: rgba(255, 255, 255, 0.6);
-  opacity: 0.8;
-}
-
-/* Ativo — tudo fica branco + destaque */
-.navbar-dark .nav-link.mobile-item.active {
-  color: #ffffff !important;
-  opacity: 1 !important;
-  font-weight: 600;
-  /*transform: translateY(-2px);*/
-}
-
-/* Ativo — ícone e texto */
-.navbar-dark .nav-link.mobile-item.active i,
-.navbar-dark .nav-link.mobile-item.active .small,
-.navbar-dark .nav-link.mobile-item.active div {
-  color: #ffffff !important;
-  opacity: 1 !important;
-}
-
-/* Hover / Tap */
-.navbar-dark .nav-link.mobile-item:hover,
-.navbar-dark .nav-link.mobile-item:active {
-  color: #ffffff;
-  opacity: 1;
-}
-
-/* ================================
-   FIM - NAVBAR
-================================ */
-/* ================================
-   NAVBAR — Desktop (>=768px)
-================================ */
-@media (min-width: 768px) {
-  /* estilo base desktop */
-  .navbar {
-    background-color: var(--bs-dark);
-    color: #fff;
-  }
-  .navbar-dark .navbar-nav .nav-link {
-    color: rgba(255, 255, 255, 0.75);
-    opacity: 0.85;
-    padding: 0.65rem 0.9rem;
-    transition: color 0.18s ease, opacity 0.18s ease, transform 0.14s ease;
-    border-bottom: 2px solid transparent;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  /* ícone */
-  .navbar-dark .navbar-nav .nav-link i {
-    font-size: 1.1rem;
-    line-height: 1;
-  }
-  /* inativos */
-  .navbar-dark .navbar-nav .nav-link:not(.active) {
-    color: rgba(255, 255, 255, 0.6);
-    opacity: 0.8;
-  }
-  /* ativo */
-  .navbar-dark .navbar-nav .nav-link.active {
-    color: #ffffff !important;
-    opacity: 1 !important;
-    border-bottom: 2px solid #ffffff !important;
-    transform: translateY(-2px);
-    font-weight: 600;
-  }
-  .navbar-dark .navbar-nav .nav-link.active i {
-    color: #ffffff !important;
-  }
-  /* hover */
-  .navbar-dark .navbar-nav .nav-link:hover {
-    opacity: 1;
-    color: #ffffff;
-  }
-}
-/* ================================
-   FIM - NAVBAR
-================================ */

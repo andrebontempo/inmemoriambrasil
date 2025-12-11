@@ -1,14 +1,6 @@
-/* ===========================
-   Layout Modular
-   =========================== */
-
-// Classe base para caixas com borda arredondada, sombra e padding
-.card-like {
-  border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 15px;
-  background-color: white; // cor padrão, pode ser sobrescrita
-}
+/* =========================================
+   LAYOUT — Container, Header, Sidebar, Footer
+========================================= */
 
 // Container principal com textura de fundo
 .custom-container {
@@ -30,10 +22,46 @@
   margin: 8px 6px;
 }
 
-// Se precisar mesmo do !important (use com cuidado):
-// .custom-box-sidebar {
-//   margin: 8px 6px !important;
-// }
+header {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background-color: var(--bs-dark);
+  color: #fff;
+  padding: 10px 0;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.memorial-header {
+  height: auto !important;
+  padding-bottom: 15px;
+}
+
+footer {
+  background-color: var(--bs-dark);
+  color: #fff;
+  padding: 20px 0;
+}
+
+.hero {
+  padding: 100px 0;
+  text-align: center;
+  color: #fff;
+}
+
+iframe {
+  border: none;
+  border-radius: 8px;
+}
+
+// Classe base para caixas com borda arredondada, sombra e padding
+.card-like {
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  background-color: white; // cor padrão, pode ser sobrescrita
+}
 
 // Seção de tributo que reaproveita .card-like, mas com cor diferente
 .tribute-section {

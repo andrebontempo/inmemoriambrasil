@@ -45,9 +45,7 @@
     <!-- Conteúdo das abas -->
     <div class="tab-content mt-3" id="myTabContent">
 
-      <!-- ============================
-           📸 FOTOS
-      ============================ -->
+      <!-- Fotos -->
       <div class="tab-pane fade show active" id="fotos" role="tabpanel">
         <div class="card p-3">
 
@@ -55,7 +53,7 @@
           <div class="row gallery-grid">
             {{#if gallery.photos.length}}
               {{#each gallery.photos}}
-                <div class="col-6 mb-4">
+                <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
                   <a href="{{this.url}}" target="_blank">
                     <img
                       src="{{this.url}}"
@@ -70,21 +68,20 @@
             {{/if}}
           </div>
 
-          <!-- Botão Editar Galeria -->
+          <!-- Botão Editar Galeria (abaixo e à direita) -->
           <div class="d-flex justify-content-end mt-3">
             <a
               href="/memorial/{{slug}}/gallery/edit/{{id}}"
-              class="btn-default-memorial"
+              class="btn-edit-outline"
             >
               <i class="bi bi-pencil-square me-2"></i>Editar Galeria
             </a>
           </div>
-        </div>
-      </di
 
-      <!-- ============================
-           🎧 ÁUDIOS
-      ============================ -->
+        </div>
+      </div>
+
+      <!-- Áudios -->
       <div class="tab-pane fade" id="audios" role="tabpanel">
         <div class="card p-3">
           <div class="row">
@@ -105,7 +102,7 @@
             {{/if}}
           </div>
 
-          <!-- Botão -->
+          <!-- Botão abaixo também (para consistência) -->
           <div class="d-flex justify-content-end mt-3">
             <a
               href="/memorial/{{slug}}/gallery/edit/{{id}}"
@@ -118,9 +115,7 @@
         </div>
       </div>
 
-      <!-- ============================
-           🎬 VÍDEOS
-      ============================ -->
+      <!-- Vídeos -->
       <div class="tab-pane fade" id="videos" role="tabpanel">
         <div class="card p-3">
           <div class="row">
@@ -138,7 +133,7 @@
             {{/if}}
           </div>
 
-          <!-- Botão -->
+          <!-- Botão abaixo -->
           <div class="d-flex justify-content-end mt-3">
             <a
               href="/memorial/{{slug}}/gallery/edit/{{id}}"

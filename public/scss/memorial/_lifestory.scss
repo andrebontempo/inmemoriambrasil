@@ -356,22 +356,3 @@
 .edit-input {
   border-radius: 12px;
 }
-
-/* Botões de ação */
-.custom-btn-primary {
-  background-color: #4f0e21;
-  color: #fff;
-  border: 2px solid #4f0e21;
-  border-radius: 50px;
-  padding: 10px 30px;
-  font-weight: bold;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background-color: #fff;
-    color: #4f0e21;
-  }
-}
-.custom-box.bg-soft-wine {
-  background: #f7eaed;
-}

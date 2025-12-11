@@ -79,3 +79,80 @@
 /* ================================
    FIM - NAVBAR
 ================================ */
+
+/* ================================
+    - GALLERY
+================================ */
+ga .nav-tabs .nav-link {
+  border-radius: 8px 8px 0 0;
+  background: #fff;
+  margin-right: 4px;
+}
+
+.nav-tabs .nav-link.active {
+  background: #f3dce2;
+  font-weight: bold;
+}
+.btn-edit {
+  background-color: var(--bs-primary); // vinho escuro do tema
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.25s ease-in-out;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+
+  &:hover {
+    background-color: #380919; // vinho mais escuro, elegante
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.22);
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+
+  i {
+    font-size: 1.1rem; // deixa o ícone proporcional
+  }
+}
+.btn-edit-outline {
+  border: 1px solid var(--bs-primary);
+  color: var(--bs-primary);
+  background: transparent;
+  padding: 8px 16px;
+  border-radius: var(--bs-border-radius);
+  font-weight: 500;
+  transition: 0.3s ease;
+}
+
+.btn-edit-outline:hover {
+  background: var(--bs-primary);
+  color: #fff;
+}
+/* 🔳 Galeria em 2 colunas */
+.gallery-grid .col-6 {
+  padding: 8px;
+}
+
+/* 📷 Fotos com tamanho padronizado */
+.galeria-foto {
+  width: 100%;
+  height: 440px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+/* Fotos pequenas no modo edição */
+.edit-galeria-foto {
+  width: 100%;
+  height: 140px; // você pode ajustar
+  object-fit: cover;
+  object-position: center;
+  border-radius: 8px;
+}

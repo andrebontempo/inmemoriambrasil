@@ -1,6 +1,6 @@
-/* ===========================
-   Base styles
-   =========================== */
+/* =========================================
+   BASE — Corpo da página
+========================================= */
 
 body {
   background-image: url("/css/memorial/files/background.jpg");
@@ -11,30 +11,12 @@ body {
   width: 100%;
 }
 
-header {
-  position: sticky;
-  top: 0;
-  z-index: 999;
-  background-color: var(--bs-dark);
-  color: #fff;
-  padding: 10px 0;
-  transition: all 0.3s ease-in-out;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+// Texto justificado
+.text-justify {
+  text-align: justify;
 }
 
-footer {
-  background-color: var(--bs-dark);
-  color: #fff;
-  padding: 20px 0;
-}
-
-.hero {
-  padding: 100px 0;
-  text-align: center;
-  color: #fff;
-}
-
-iframe {
-  border: none;
-  border-radius: 8px;
+// Transição suave para todas as propriedades
+.transition-all {
+  transition: all 0.3s ease;
 }

@@ -11,3 +11,14 @@ body {
   height: 100vh;
   width: 100%;
 }
+/* =========================================
+   BASE — Corpo da página - MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+  body {
+    background-image: url("/css/main/files/background-mobile.jpg");
+    background-size: cover;
+    background-position: center;
+  }
+}
