@@ -22,3 +22,98 @@ body {
     background-position: center;
   }
 }
+
+/* =========================================
+   🎨 Estilos das Etapas do Processo Main
+========================================= */
+
+.main-card {
+  background: #d1c8ca;
+  border: 1px solid #4f0e21;
+  border-radius: 1.5rem;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.main-title {
+  color: #4f0e21;
+}
+
+.main-label {
+  color: #4f0e21;
+}
+
+.main-input {
+  background: #fafafa;
+  border: 1px solid #4f0e21;
+  transition: all 0.2s ease;
+
+  &:focus {
+    border-color: #4f0e21;
+    box-shadow: 0 0 8px rgba(79, 14, 33, 0.25);
+  }
+}
+
+.main-button {
+  background: #4f0e21;
+  color: #fff;
+  border: none;
+
+  &:hover {
+    background: #3c0b19;
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+/* Cartão geral */
+.main-card {
+  background: #fff;
+  padding: 2.5rem;
+  border-radius: 1.5rem;
+  border: 1px solid #eee;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Título */
+.main-title {
+  color: var(--bs-primary);
+}
+
+/* Formulário */
+.main-form {
+  max-width: 700px;
+}
+
+/* Planos */
+.main-plan-card {
+  padding: 1.5rem;
+  border-radius: 1.25rem;
+  background: #fff;
+  border: 1px solid #eee;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.25s ease;
+  cursor: pointer;
+  margin-bottom: 1.25rem;
+}
+
+.main-plan-card:hover {
+  border-color: var(--bs-primary);
+  box-shadow: 0 6px 20px rgba(79, 14, 33, 0.12);
+  transform: translateY(-2px);
+}
+
+.main-plan-title {
+  color: var(--bs-primary);
+}
+
+.main-plan-text {
+  font-size: 0.95rem;
+}
+/* =========================================
+   🎨 FIM - Estilos das Etapas do Processo Main
+========================================= */

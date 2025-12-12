@@ -1,92 +1,72 @@
 <main class="container my-5">
 
-  <div
-    class="p-4 p-md-5 rounded-4 shadow-lg"
-    style="background: #fff; border: 1px solid #eee;"
-  >
-
-    <h2 class="text-center mb-4 fw-bold" style="color: #4f0e21;">
-      Etapa 4: Personalização Final
-    </h2>
-
+  <!-- WRAPPER CENTRALIZADO -->
+  <div class="d-flex justify-content-center">
     <form
       action="/memorial/create-step4"
       method="POST"
       enctype="multipart/form-data"
-      class="mx-auto"
-      style="max-width: 600px;"
+      class="main-form main-form-box main-card p-4 rounded-4 shadow-sm"
     >
+
+      <h2 class="main-title text-center mb-4 fw-bold">
+        Foto Principal &amp; Epitáfio(4/4)
+      </h2>
+
       <input type="hidden" name="slug" value="{{slug}}" />
 
       <!-- Foto de capa -->
       <div class="mb-4">
-        <label
-          for="coverPhoto"
-          class="form-label fw-semibold"
-          style="color: #4f0e21;"
-        >
-          Foto de Capa
+        <label for="coverPhoto" class="form-label fw-semibold main-label">
+          Foto Principal
         </label>
         <input
           type="file"
           name="file"
-          class="form-control form-control-lg rounded-3"
+          id="coverPhoto"
+          class="form-control form-control-lg rounded-3 main-input"
           accept="image/*"
           required
-          style="background: #fafafa;"
         />
         <div class="form-text">Envie uma imagem para destacar o memorial.</div>
       </div>
 
       <!-- Epitáfio -->
       <div class="mb-4">
-        <label
-          for="epitaph"
-          class="form-label fw-semibold"
-          style="color: #4f0e21;"
-        >
+        <label for="epitaph" class="form-label fw-semibold main-label">
           Epitáfio
         </label>
         <input
           type="text"
           name="epitaph"
           id="epitaph"
-          class="form-control form-control-lg rounded-3"
+          class="form-control form-control-lg rounded-3 main-input"
           maxlength="120"
           required
-          style="background: #fafafa;"
         />
         <div class="form-text">Frase que será exibida no topo do memorial.</div>
       </div>
 
-      <!-- Escolha do tema -->
+      <!-- Tema
       <div class="mb-4">
-        <label
-          for="theme"
-          class="form-label fw-semibold"
-          style="color: #4f0e21;"
-        >
+        <label for="theme" class="form-label fw-semibold main-label">
           Tema Visual
         </label>
         <select
           name="theme"
           id="theme"
-          class="form-select form-select-lg rounded-3"
+          class="form-select form-select-lg rounded-3 main-input"
           required
-          style="background: #fafafa;"
         >
           <option value="Azul">Azul</option>
           <option value="Roxo">Roxo</option>
           <option value="Vinho" selected>Vinho</option>
         </select>
       </div>
-
+      -->
       <!-- Botão -->
-      <div class="d-flex justify-content-center mt-4">
-        <button
-          type="submit"
-          class="btn-default-main fw-bold px-5 py-3 rounded-pill shadow-sm"
-        >
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary btn-lg px-5">
           Finalizar
         </button>
       </div>

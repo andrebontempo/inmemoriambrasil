@@ -1,81 +1,59 @@
 <main class="container my-5">
 
-  <div
-    class="p-4 p-md-5 rounded-4 shadow-lg"
-    style="background: #fff; border: 1px solid #eee;"
-  >
-
-    <h2 class="text-center mb-4 fw-bold" style="color: #4f0e21;">
-      Etapa 1: Nome do Homenageado
-    </h2>
-
-    {{#if error}}
-      <div class="alert alert-danger text-center">{{error}}</div>
-    {{/if}}
-
+  <!-- WRAPPER CENTRALIZADO -->
+  <div class="d-flex justify-content-center">
     <form
       action="/memorial/create-step1"
       method="POST"
-      class="mx-auto"
-      style="max-width: 500px;"
+      class="main-form main-form-box main-card p-4 rounded-4 shadow-sm"
     >
 
+      <h2 class="main-title text-center mb-4 fw-bold">
+        Nome do Homenageado(1/4)
+      </h2>
+
+      {{#if error}}
+        <div class="alert alert-danger text-center">{{error}}</div>
+      {{/if}}
+
       <!-- PRIMEIRO NOME -->
-      <div class="mb-3">
-        <label
-          for="firstName"
-          class="form-label fw-semibold"
-          style="color: #4f0e21;"
-        >
-          Primeiro Nome
-        </label>
+      <div class="mb-4">
+        <label for="firstName" class="form-label fw-bold">Primeiro Nome</label>
         <input
           type="text"
-          class="form-control form-control-lg rounded-3"
+          class="form-control"
           id="firstName"
           name="firstName"
           required
           pattern="[A-Za-zÀ-ú\s]+"
-          title="Somente letras são permitidas"
           autocomplete="given-name"
           value="{{firstName}}"
-          style="background: #fafafa;"
         />
       </div>
 
       <!-- SOBRENOME -->
       <div class="mb-4">
-        <label
-          for="lastName"
-          class="form-label fw-semibold"
-          style="color: #4f0e21;"
-        >
-          Sobrenome
-        </label>
+        <label for="lastName" class="form-label fw-bold">Sobrenome</label>
         <input
           type="text"
-          class="form-control form-control-lg rounded-3"
+          class="form-control"
           id="lastName"
           name="lastName"
           required
           pattern="[A-Za-zÀ-ú\s]+"
-          title="Somente letras são permitidas"
           autocomplete="family-name"
           value="{{lastName}}"
-          style="background: #fafafa;"
         />
       </div>
 
       <!-- BOTÃO -->
-      <div class="d-flex justify-content-center">
-        <button
-          type="submit"
-          class="btn-default-main fw-bold px-5 py-3 rounded-pill shadow-sm"
-        >
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary btn-lg px-5">
           Próxima Etapa
         </button>
       </div>
 
     </form>
   </div>
+
 </main>

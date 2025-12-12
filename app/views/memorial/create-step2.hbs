@@ -1,196 +1,93 @@
 <main class="container my-5">
 
-  <div
-    class="p-4 p-md-5 rounded-4 shadow-lg"
-    style="background: #fff; border: 1px solid #eee;"
-  >
-
-    <h2 class="text-center mb-4 fw-bold" style="color: #4f0e21;">
-      Etapa 2: Dados Pessoais
-    </h2>
-
+  <!-- WRAPPER CENTRALIZADO -->
+  <div class="d-flex justify-content-center">
     <form
       action="/memorial/create-step2"
       method="POST"
-      class="mx-auto"
-      style="max-width: 600px;"
+      class="main-form main-form-box main-card p-4 rounded-4 shadow-sm"
     >
-
-      <!-- Nome e Sobrenome (readonly) -->
+    <h2 class="main-title text-center mb-4 fw-bold">
+        Detalhes do Homenageado(2/4)
+      </h2>
+      <!-- 🟦 Gênero 
       <div class="mb-4">
-        <label
-          for="firstName"
-          class="form-label fw-semibold"
-          style="color: #4f0e21;"
-        >Nome</label>
-        <input
-          type="text"
-          class="form-control form-control-lg rounded-3"
-          id="firstName"
-          name="firstNameDisplay"
-          value="{{step1Data.firstName}}"
-          readonly
-          style="background: #f2f2f2;"
-        />
-        <input type="hidden" name="firstName" value="{{step1Data.firstName}}" />
+        <label class="form-label fw-bold">Gênero</label>
+        <select name="gender" class="form-select" required>
+          <option value="">Selecione</option>
+          <option value="male" {{#if (eq step1Data.gender "male")}}selected{{/if}}>Masculino</option>
+          <option value="female" {{#if (eq step1Data.gender "female")}}selected{{/if}}>Feminino</option>
+        </select>
       </div>
-
+      -->
+      <!-- 🟦 Parentesco -->
       <div class="mb-4">
-        <label
-          for="lastName"
-          class="form-label fw-semibold"
-          style="color: #4f0e21;"
-        >Sobrenome</label>
-        <input
-          type="text"
-          class="form-control form-control-lg rounded-3"
-          id="lastName"
-          name="lastNameDisplay"
-          value="{{step1Data.lastName}}"
-          readonly
-          style="background: #f2f2f2;"
-        />
-        <input type="hidden" name="lastName" value="{{step1Data.lastName}}" />
-      </div>
-
-      <!-- Parentesco -->
-      <div class="mb-4">
-        <label
-          for="kinship"
-          class="form-label fw-semibold"
-          style="color: #4f0e21;"
-        >Parentesco</label>
-        <select
-          class="form-select form-select-lg rounded-3"
-          id="kinship"
-          name="kinship"
-          required
-          style="background: #fafafa;"
-        >
+        <label class="form-label fw-bold">Parentesco</label>
+        <select name="kinship" class="form-select" required>
           <option value="">Selecione</option>
           {{#each kinships}}
-            <option value="{{this.value}}">{{this.label}}</option>
+          <option value="{{value}}" {{#if (eq ../step1Data.kinship value)}}selected{{/if}}>
+            {{label}}
+          </option>
           {{/each}}
         </select>
       </div>
 
-      <!-- Nascimento -->
-      <h4 class="fw-bold mb-3" style="color: #4f0e21;">Nascimento</h4>
+      <hr class="my-4">
 
-      <div class="row g-3">
-        <div class="col-md-6">
-          <label
-            class="form-label fw-semibold"
-            style="color: #4f0e21;"
-          >Data</label>
-          <input
-            type="date"
-            class="form-control form-control-lg rounded-3"
-            name="birth.date"
-            required
-            style="background: #fafafa;"
-          />
+      <!-- 🌱 NASCIMENTO -->
+      <h4 class="text-primary fw-bold mb-3">📍 Data e Local de Nascimento</h4>
+
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Data</label>
+          <input type="date" name="birth.date" class="form-control" value="{{step1Data.birth.date}}" required>
         </div>
-        <div class="col-md-6">
-          <label
-            class="form-label fw-semibold"
-            style="color: #4f0e21;"
-          >Cidade</label>
-          <input
-            type="text"
-            class="form-control form-control-lg rounded-3"
-            name="birth.city"
-            style="background: #fafafa;"
-          />
+
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Estado (UF)</label>
+          <select id="birthState" name="birth.state" class="form-select" required>
+            <option value="">Selecione o estado</option>
+          </select>
         </div>
-        <div class="col-md-6">
-          <label
-            class="form-label fw-semibold"
-            style="color: #4f0e21;"
-          >Estado</label>
-          <input
-            type="text"
-            class="form-control form-control-lg rounded-3"
-            name="birth.state"
-            style="background: #fafafa;"
-          />
-        </div>
-        <div class="col-md-6">
-          <label
-            class="form-label fw-semibold"
-            style="color: #4f0e21;"
-          >País</label>
-          <input
-            type="text"
-            class="form-control form-control-lg rounded-3"
-            name="birth.country"
-            style="background: #fafafa;"
-          />
+
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Cidade</label>
+          <select id="birthCity" name="birth.city" class="form-select" required>
+            <option value="">Selecione o estado primeiro</option>
+          </select>
         </div>
       </div>
 
-      <!-- Falecimento -->
-      <h4 class="fw-bold mt-5 mb-3" style="color: #4f0e21;">Falecimento</h4>
+      <hr class="my-4">
 
-      <div class="row g-3">
-        <div class="col-md-6">
-          <label
-            class="form-label fw-semibold"
-            style="color: #4f0e21;"
-          >Data</label>
-          <input
-            type="date"
-            class="form-control form-control-lg rounded-3"
-            name="death.date"
-            required
-            style="background: #fafafa;"
-          />
+      <!-- 🕊️ FALECIMENTO -->
+      <h4 class="text-primary fw-bold mb-3">🕊️ Data e Local de Falecimento</h4>
+
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Data</label>
+          <input type="date" name="death.date" class="form-control" value="{{step1Data.death.date}}" required>
         </div>
-        <div class="col-md-6">
-          <label
-            class="form-label fw-semibold"
-            style="color: #4f0e21;"
-          >Cidade</label>
-          <input
-            type="text"
-            class="form-control form-control-lg rounded-3"
-            name="death.city"
-            style="background: #fafafa;"
-          />
+
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Estado (UF)</label>
+          <select id="deathState" name="death.state" class="form-select" required>
+            <option value="">Selecione o estado</option>
+          </select>
         </div>
-        <div class="col-md-6">
-          <label
-            class="form-label fw-semibold"
-            style="color: #4f0e21;"
-          >Estado</label>
-          <input
-            type="text"
-            class="form-control form-control-lg rounded-3"
-            name="death.state"
-            style="background: #fafafa;"
-          />
-        </div>
-        <div class="col-md-6">
-          <label
-            class="form-label fw-semibold"
-            style="color: #4f0e21;"
-          >País</label>
-          <input
-            type="text"
-            class="form-control form-control-lg rounded-3"
-            name="death.country"
-            style="background: #fafafa;"
-          />
+
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Cidade</label>
+          <select id="deathCity" name="death.city" class="form-select" required>
+            <option value="">Selecione o estado primeiro</option>
+          </select>
         </div>
       </div>
 
-      <!-- Botão -->
-      <div class="d-flex justify-content-center mt-5">
-        <button
-          type="submit"
-          class="btn-default-main fw-bold px-5 py-3 rounded-pill shadow-sm"
-        >
-          Avançar
+      <div class="text-center mt-5">
+        <button type="submit" class="btn btn-primary btn-lg px-5">
+          Continuar
         </button>
       </div>
 
@@ -198,3 +95,52 @@
   </div>
 
 </main>
+
+<script>
+// Função para carregar estados
+function loadStates(selectId) {
+  const select = document.getElementById(selectId);
+
+  fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome")
+    .then(res => res.json())
+    .then(states => {
+      states.forEach(state => {
+        const opt = document.createElement("option");
+        opt.value = state.sigla;
+        opt.textContent = `${state.nome} (${state.sigla})`;
+        select.appendChild(opt);
+      });
+    });
+}
+
+// Função para carregar cidades com base no UF
+function loadCities(stateSelectId, citySelectId) {
+  const stateSelect = document.getElementById(stateSelectId);
+  const citySelect = document.getElementById(citySelectId);
+
+  stateSelect.addEventListener("change", () => {
+    const uf = stateSelect.value;
+    citySelect.innerHTML = `<option value="">Carregando...</option>`;
+
+    fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`)
+      .then(res => res.json())
+      .then(cities => {
+        citySelect.innerHTML = `<option value="">Selecione a cidade</option>`;
+        cities.forEach(city => {
+          const opt = document.createElement("option");
+          opt.value = city.nome;
+          opt.textContent = city.nome;
+          citySelect.appendChild(opt);
+        });
+      });
+  });
+}
+
+// Inicializa (nascimento)
+loadStates("birthState");
+loadCities("birthState", "birthCity");
+
+// Inicializa (falecimento)
+loadStates("deathState");
+loadCities("deathState", "deathCity");
+</script>

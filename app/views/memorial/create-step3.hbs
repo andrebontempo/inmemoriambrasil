@@ -1,26 +1,22 @@
 <main class="container my-5">
 
-  <div
-    class="p-4 p-md-5 rounded-4 shadow-lg"
-    style="background: #fff; border: 1px solid #eee;"
-  >
-
-    <h2 class="text-center mb-4 fw-bold" style="color: #4f0e21;">
-      Etapa 3: Escolha do Plano
-    </h2>
-
+  <!-- WRAPPER CENTRALIZADO -->
+  <div class="d-flex justify-content-center">
     <form
       action="/memorial/create-step3"
       method="POST"
-      class="mx-auto"
-      style="max-width: 600px;"
+      class="main-form main-form-box main-card p-4 rounded-4 shadow-sm"
     >
 
+      <h2 class="main-title text-center mb-4 fw-bold">
+        Escolha do Plano(3/4)
+      </h2>
+
       <!-- Plano Gratuito -->
-      <label for="planoGratuito" class="w-100">
+      <label for="planoGratuito" class="w-100 mb-4">
         <div
-          class="card shadow-sm mb-4 border-0 rounded-4 p-3"
-          style="cursor: pointer; transition: 0.3s;"
+          class="card shadow-sm border-0 rounded-4 p-3"
+          style="cursor: pointer;"
         >
           <div class="d-flex align-items-start">
             <input
@@ -32,8 +28,8 @@
               required
             />
             <div>
-              <h5 class="fw-bold" style="color: #4f0e21;">Plano Gratuito</h5>
-              <p class="mb-0 text-muted">
+              <h5 class="fw-bold text-primary">Plano Gratuito</h5>
+              <p class="text-muted mb-0">
                 Memorial com recursos básicos e permanência limitada.
               </p>
             </div>
@@ -42,22 +38,22 @@
       </label>
 
       <!-- Plano Premium -->
-      <label for="planoPago" class="w-100">
+      <label for="planoPremium" class="w-100 mb-4">
         <div
-          class="card shadow-sm mb-4 border-0 rounded-4 p-3"
-          style="cursor: pointer; transition: 0.3s;"
+          class="card shadow-sm border-0 rounded-4 p-3"
+          style="cursor: pointer;"
         >
           <div class="d-flex align-items-start">
             <input
               class="form-check-input mt-1 me-3"
               type="radio"
               name="plan"
-              id="planoPago"
+              id="planoPremium"
               value="premium"
             />
             <div>
-              <h5 class="fw-bold" style="color: #4f0e21;">Plano Premium (pago)</h5>
-              <p class="mb-0 text-muted">
+              <h5 class="fw-bold text-primary">Plano Premium (pago)</h5>
+              <p class="text-muted mb-0">
                 Memorial com recursos avançados, personalização completa e sem
                 limite de tempo.
               </p>
@@ -67,11 +63,8 @@
       </label>
 
       <!-- Botão -->
-      <div class="d-flex justify-content-center mt-4">
-        <button
-          type="submit"
-          class="btn-default-main fw-bold px-5 py-3 rounded-pill shadow-sm"
-        >
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary btn-lg px-5">
           Avançar
         </button>
       </div>
