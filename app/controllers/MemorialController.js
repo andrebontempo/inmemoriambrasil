@@ -124,7 +124,7 @@ const MemorialController = {
       date: req.body["birth.date"] || null,
       city: req.body["birth.city"] || "Local desconhecido",
       state: req.body["birth.state"] || "Estado não informado",
-      country: req.body["birth.country"] || "País não informado",
+      country: req.body["birth.country"] || "Brasil",
     }
 
     // Ajusta o objeto `death` garantindo valores padrões
@@ -132,7 +132,7 @@ const MemorialController = {
       date: req.body["death.date"] || null,
       city: req.body["death.city"] || "Local desconhecido",
       state: req.body["death.state"] || "Estado não informado",
-      country: req.body["death.country"] || "País não informado",
+      country: req.body["death.country"] || "Brasil",
     }
 
     // Ajusta a galeria para garantir um array mesmo que esteja vazio
