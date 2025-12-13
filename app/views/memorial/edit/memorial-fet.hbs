@@ -1,9 +1,13 @@
 <main>
   <!-- Formulário de Edição do Memorial -->
   <div class="custom-box p-2 my-2 mx-0">
-    <h3>Editar Foto Principal, Epitáfio e Tema</h3>
+    <h3>Editar: Foto Principal | Epitáfio | MiniBiografia</h3>
 
-    <form action="/memorial/{{slug}}/memorial-fet/update" method="POST" enctype="multipart/form-data">
+    <form
+      action="/memorial/{{slug}}/memorial-fet/update"
+      method="POST"
+      enctype="multipart/form-data"
+    >
       <input type="hidden" name="_method" value="PUT" />
       <!-- Foto Principal -->
       <fieldset class="mb-3">
@@ -12,7 +16,11 @@
         <div class="d-flex align-items-center gap-3">
           {{#if mainPhoto.url}}
             <div>
-              <img src="{{mainPhoto.url}}" alt="Foto Principal" style="width: 80px; height: 80px; object-fit: cover; border-radius: 10px;">
+              <img
+                src="{{mainPhoto.url}}"
+                alt="Foto Principal"
+                style="width: 80px; height: 80px; object-fit: cover; border-radius: 10px;"
+              />
             </div>
           {{/if}}
 
@@ -29,36 +37,37 @@
 
       <!-- Epitáfio -->
       <fieldset class="mb-3">
-  <label class="form-label"><strong>Epitáfio:</strong></label>
-  <textarea
-    class="form-control"
-    name="epitaph"
-    rows="3"
-    placeholder="Exemplo: 'Sempre em nossos corações'"
-  >{{epitaph}}</textarea>
-</fieldset>
+        <label class="form-label"><strong>Epitáfio:</strong></label>
+        <textarea
+          class="form-control"
+          name="epitaph"
+          rows="3"
+          placeholder="Exemplo: 'Sempre em nossos corações'"
+        >{{epitaph}}</textarea>
+      </fieldset>
 
       <!-- Biografia -->
       <fieldset class="mb-3">
-  <label class="form-label"><strong>Biografia:</strong></label>
-  <textarea
-    class="form-control"
-    name="biography"
-    rows="10"
-    placeholder="Escreva aqui a biografia completa"
-  >{{biography}}</textarea>
-</fieldset>
+        <label class="form-label"><strong>Biografia:</strong></label>
+        <textarea
+          class="form-control"
+          name="biography"
+          rows="10"
+          placeholder="Escreva aqui a biografia completa"
+        >{{biography}}</textarea>
+      </fieldset>
 
-      <!-- Tema do Memorial -->
+      <!-- Tema do Memorial 
       <fieldset class="mb-3">
         <label class="form-label"><strong>Tema do Memorial:</strong></label>
         <select class="form-select" name="theme">
           <option value="Azul" {{#ifEquals theme "Azul"}}selected{{/ifEquals}}>Azul</option>
           <option value="Roxo" {{#ifEquals theme "Roxo"}}selected{{/ifEquals}}>Roxo</option>
           <option value="Vinho" {{#ifEquals theme "Vinho"}}selected{{/ifEquals}} selected>Vinho</option>
-          <!-- Pode adicionar mais temas aqui -->
+          <!-- Pode adicionar mais temas aqui
         </select>
       </fieldset>
+      -->
 
       <!-- Botões de Ação -->
       <div class="d-flex justify-content-end align-items-center gap-2 mt-4">
