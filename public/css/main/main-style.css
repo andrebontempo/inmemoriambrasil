@@ -461,3 +461,65 @@ footer {
   transform: translateY(-30px);
   transition: all 0.5s ease-in;
 }
+
+/*/ ================================================
+   cards de estatísticas
+================================================ /*/
+/* 🔒 garante que nada estoure */
+* {
+  box-sizing: border-box;
+}
+
+/* GRID DAS ESTATÍSTICAS */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 📱 2 colunas */
+  gap: 8px; /* 🔴 gap pequeno */
+}
+
+/* CARD */
+.stats-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px 6px; /* 🔴 compacto */
+  text-align: center;
+  min-width: 0;
+  width: 100%;
+}
+
+/* Tipografia compacta */
+.stats-card i {
+  font-size: 1.2rem;
+}
+
+.stats-card h6 {
+  font-size: 0.75rem;
+  margin: 4px 0;
+  line-height: 1.1;
+}
+
+.stats-card p {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* 💻 Desktop */
+@media (min-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .stats-card {
+    padding: 18px 14px;
+  }
+  .stats-card h6 {
+    font-size: 0.9rem;
+  }
+  .stats-card p {
+    font-size: 1.1rem;
+  }
+}
+/*/ ================================================
+   Fim dos componentes
+================================================ /*/
