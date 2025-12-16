@@ -111,34 +111,38 @@
 
   <!-- Estatísticas -->
   <section class="my-5">
-    <div class="stats-grid">
+    <div class="container text-center">
+      <h2 class="mb-4 text-secondary">Números do InMemoriamBrasil</h2>
 
-      <div class="stats-card">
-        <i class="bi bi-person-lines-fill"></i>
-        <h6>Memoriais</h6>
-        <p>{{totalMemoriais}}</p>
+      <div class="stats-card mx-auto">
+
+        <div class="stats-row">
+          <i class="bi bi-person-lines-fill"></i>
+          <span class="stats-label">Memoriais</span>
+          <span class="stats-value">{{totalMemoriais}}</span>
+        </div>
+
+        <div class="stats-row">
+          <i class="bi bi-flower1"></i>
+          <span class="stats-label">Homenagens</span>
+          <span class="stats-value">{{totalTributos}}</span>
+        </div>
+
+        <div class="stats-row">
+          <i class="bi bi-journal-bookmark-fill"></i>
+          <span class="stats-label">Histórias de Vida</span>
+          <span class="stats-value">{{totalHistorias}}</span>
+        </div>
+
+        <div class="stats-row">
+          <!-- Ícone novo para compartilhadas -->
+          <i class="bi bi-share-fill"></i>
+          <span class="stats-label">Histórias Compartilhadas</span>
+          <span class="stats-value">{{totalCompartilhadas}}</span>
+        </div>
+
       </div>
-
-      <div class="stats-card">
-        <i class="bi bi-flower1"></i>
-        <h6>Homenagens</h6>
-        <p>{{totalTributos}}</p>
-      </div>
-
-      <div class="stats-card">
-        <i class="bi bi-journal-bookmark-fill"></i>
-        <h6>Histórias de Vida</h6>
-        <p>{{totalHistorias}}</p>
-      </div>
-
-      <div class="stats-card">
-        <i class="bi bi-journal-bookmark-fill"></i>
-        <h6>Histórias Compartilhadas</h6>
-        <p>{{totalCompartilhadas}}</p>
-      </div>
-
     </div>
-
   </section>
 
 </main>

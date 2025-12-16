@@ -104,67 +104,51 @@
   transform: translateY(-30px);
   transition: all 0.5s ease-in;
 }
+/* ===========================
+   Estatísticas - Card Único
+   =========================== */
 
-/*/ ================================================
-   cards de estatísticas
-================================================ /*/
-/* 🔒 garante que nada estoure */
-* {
-  box-sizing: border-box;
-}
-
-/* GRID DAS ESTATÍSTICAS */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 📱 2 colunas */
-  gap: 8px; /* 🔴 gap pequeno */
-}
-
-/* CARD */
 .stats-card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 10px 6px; /* 🔴 compacto */
-  text-align: center;
-  min-width: 0;
   width: 100%;
+  max-width: 520px;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  text-align: left;
 }
 
-/* Tipografia compacta */
-.stats-card i {
-  font-size: 1.2rem;
+/* Linha de cada estatística */
+.stats-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
 }
 
-.stats-card h6 {
-  font-size: 0.75rem;
-  margin: 4px 0;
-  line-height: 1.1;
+/* Divisor suave */
+.stats-row:not(:last-child) {
+  border-bottom: 1px solid #eee;
 }
 
-.stats-card p {
-  font-size: 0.95rem;
+/* Ícones */
+.stats-row i {
+  font-size: 1.3rem;
+  color: var(--bs-primary);
+}
+
+/* Nome do dado */
+.stats-label {
   font-weight: 600;
-  margin: 0;
+  color: var(--bs-primary);
 }
 
-/* 💻 Desktop */
-@media (min-width: 768px) {
-  .stats-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-  }
-
-  .stats-card {
-    padding: 18px 14px;
-  }
-
-  .stats-card h6 {
-    font-size: 0.9rem;
-  }
-
-  .stats-card p {
-    font-size: 1.1rem;
-  }
+/* Valor numérico */
+.stats-value {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #333;
 }
 
 /*/ ================================================
