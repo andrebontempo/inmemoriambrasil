@@ -16,7 +16,7 @@ No arquivo Handlebars onde você edita ou cria a biografia, coloque no `<head>`:
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
 ```
 
-E no final da página:
+E no final da página :
 
 ```html
 <!-- QUILL JS -->
