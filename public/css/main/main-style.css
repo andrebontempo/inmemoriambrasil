@@ -84,8 +84,7 @@
   /* Botões */
   --bs-btn-color: #fff;
   --bs-btn-bg: var(--bs-primary);
-  /*--bs-btn-border-color: var(--bs-primary);*/
-  --bs-btn-border-color: var(--bs-white);
+  --bs-btn-border-color: var(--bs-primary);
   --bs-btn-hover-color: #fff;
   --bs-btn-hover-bg: #3e0a19;
   --bs-btn-hover-border-color: #3e0a19;
@@ -123,6 +122,10 @@ body {
   background-repeat: no-repeat;
   height: 100vh;
   width: 100%;
+}
+
+.text-justify {
+  text-align: justify;
 }
 
 /* =========================================

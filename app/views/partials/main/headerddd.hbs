@@ -1,0 +1,70 @@
+<header class="bs-primary text-white py-3">
+  <div class="container">
+
+    <div
+      class="d-flex flex-column flex-md-row justify-content-between align-items-md-center"
+    >
+
+      <!-- Logo -->
+      <div class="text-center text-md-start mb-3 mb-md-0">
+        <a href="/">
+          <img
+            src="/css/main/files/Logo_InMemoriamBrasil_1.png"
+            alt="Logo In Memoriam Brasil"
+            style="height: 55px;"
+          />
+        </a>
+      </div>
+
+      <!-- Pesquisa -->
+      <form
+        action="/memorial/pesquisa"
+        method="GET"
+        class="d-flex w-100 justify-content-center mb-3 ms-md-auto"
+      >
+        <div class="input-group" style="max-width: 320px;">
+          <input
+            type="text"
+            name="q"
+            class="form-control"
+            placeholder="Pesquisar por Memorial..."
+          />
+          <button class="btn btn-light" type="submit">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+      </form>
+
+      <!-- Login -->
+      <div class="login-wrapper d-flex justify-content-end">
+
+        {{#if user}}
+          <div class="dropdown">
+            <a
+              class="btn btn-login dropdown-toggle"
+              href="#"
+              id="dropdownMenuButton"
+              data-bs-toggle="dropdown"
+            >
+              <i class="bi bi-person-circle me-1"></i>
+              {{user.firstName}}
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="/auth/dashboard">A Minha Conta</a></li>
+              <li><a class="dropdown-item" href="/auth/logout">Sair</a></li>
+            </ul>
+          </div>
+
+        {{else}}
+          <a href="/auth/login" class="btn btn-login">
+            <i class="bi bi-box-arrow-in-right me-1"></i>
+            Entrar
+          </a>
+        {{/if}}
+
+      </div>
+
+    </div>
+  </div>
+</header>
