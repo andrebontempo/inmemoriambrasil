@@ -230,6 +230,55 @@ body {
 /* =========================================
    🎨 FIM - Estilos das Etapas do Processo Main
 ========================================= */
+/* =========================================
+  Ajustes para a página dos Planos
+========================================= */
+.plan-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.plan-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* =========================================
+  Ajustes para a página de Contato
+========================================= */
+.contact-card {
+  background-color: var(--bs-primary);
+}
+
+.contact-card .form-control {
+  border-radius: 0.75rem;
+  border: 1px solid #ddd;
+}
+
+.contact-card .form-control:focus {
+  border-color: var(--bs-secondary);
+  box-shadow: 0 0 0 0.2rem rgba(var(--bs-secondary-rgb), 0.25);
+}
+
+.contact-card .btn {
+  border-radius: 0.75rem;
+  font-weight: 600;
+}
+
+/* =========================================
+  Ajustes para a página Sobre Nós
+========================================= */
+.about-image {
+  width: 100%;
+  height: 380px;
+  background-image: url("/css/main/files/time.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+@media (max-width: 576px) {
+  .about-image {
+    height: 260px;
+  }
+}
 /* ============================================================
    LAYOUT — Container, Header, Cover, Navbar, Sidebar, Footer
 ============================================================ */

@@ -1,79 +1,76 @@
 <main class="container my-5">
-  <div
-    class="p-5 rounded-4 shadow-lg text-white"
-    style="background-color: #4f0e21;"
-  >
-    <!-- Título centralizado -->
-    <h3 class="text-center mb-4 fw-bold">| Dúvidas | Sugestões | Elogios |
-      Críticas |</h3>
-    <!-- Formulário com largura reduzida -->
+  <!-- Card principal -->
+  <div class="contact-card p-4 p-md-5 rounded-4 shadow-lg text-white">
+
+    <!-- Título -->
+    <div class="text-center mb-4">
+      <h2 class="fw-bold mb-2">Fale Conosco</h2>
+      <p class="opacity-75 mb-0">
+        Dúvidas, sugestões, elogios ou críticas — será um prazer ouvir você.
+      </p>
+    </div>
+
+    <!-- Formulário -->
     <form
       action="/contato-envio"
       method="post"
       class="mx-auto"
-      style="max-width: 80%;"
+      style="max-width: 640px;"
     >
 
-      <!-- Dados Pessoais -->
-      <!--<h3 class="mt-4 fw-bold">Informações de Contato</h3>-->
-      <div
-        class="border rounded p-4 mb-4"
-        style="background-color: #4f0e21; color: white;"
-      >
-
-        <!-- Campo Nome -->
-        <div class="mb-3">
-          <label for="nome" class="form-label">Nome:</label>
-          <input
-            type="text"
-            class="form-control"
-            id="nome"
-            name="nome"
-            required
-          />
-        </div>
-
-        <!-- Campo E-mail -->
-        <div class="mb-3">
-          <label for="email" class="form-label">E-mail:</label>
-          <input
-            type="email"
-            class="form-control"
-            id="email"
-            name="email"
-            required
-          />
-        </div>
-
-        <!-- Campo Assunto -->
-        <div class="mb-3">
-          <label for="assunto" class="form-label">Assunto:</label>
-          <input
-            type="text"
-            class="form-control"
-            id="assunto"
-            name="assunto"
-            required
-          />
-        </div>
-
-        <!-- Campo Mensagem -->
-        <div class="mb-3">
-          <label for="mensagem" class="form-label">Mensagem:</label>
-          <textarea
-            class="form-control"
-            id="mensagem"
-            name="mensagem"
-            rows="4"
-            required
-          ></textarea>
-        </div>
-
+      <!-- Nome -->
+      <div class="mb-3">
+        <label for="nome" class="form-label fw-semibold">Nome</label>
+        <input
+          type="text"
+          class="form-control form-control-lg"
+          id="nome"
+          name="nome"
+          required
+        />
       </div>
 
-      <!-- Botão de Envio alinhado à direita -->
-      <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-light">Enviar</button>
+      <!-- E-mail -->
+      <div class="mb-3">
+        <label for="email" class="form-label fw-semibold">E-mail</label>
+        <input
+          type="email"
+          class="form-control form-control-lg"
+          id="email"
+          name="email"
+          required
+        />
+      </div>
+
+      <!-- Assunto -->
+      <div class="mb-3">
+        <label for="assunto" class="form-label fw-semibold">Assunto</label>
+        <input
+          type="text"
+          class="form-control form-control-lg"
+          id="assunto"
+          name="assunto"
+          required
+        />
+      </div>
+
+      <!-- Mensagem -->
+      <div class="mb-4">
+        <label for="mensagem" class="form-label fw-semibold">Mensagem</label>
+        <textarea
+          class="form-control form-control-lg"
+          id="mensagem"
+          name="mensagem"
+          rows="5"
+          required
+        ></textarea>
+      </div>
+
+      <!-- Botão -->
+      <div class="d-grid d-md-flex justify-content-md-end">
+        <button type="submit" class="btn btn-light btn-lg px-5">
+          Enviar mensagem
+        </button>
       </div>
     </form>
   </div>
