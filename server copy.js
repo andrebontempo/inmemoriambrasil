@@ -32,32 +32,35 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(express.static(path.join(__dirname, "public")))
 
+// ----- Configurar Sessão -----
+const cookieOptions = {
+  maxAge: 1000 * 60 * 60 * 24 * 7, // 7 dias
+  secure: isProduction,
+  sameSite: "lax",
+  httpOnly: true,
+}
+
 app.set("trust proxy", isProduction)
 
 app.use(
   session({
     name: process.env.SESSION_NAME || "connect.sid",
     secret: process.env.SESSION_SECRET,
-
     resave: false,
     saveUninitialized: false,
-
-    rolling: true, // 🔑 reinicia o tempo a cada request
-
     store: MongoStore.create({
       mongoUrl: process.env.MONGO_URI,
-      ttl: 60 * 30, // 30 minutos (em segundos)
-      touchAfter: 60, // atualiza no banco no máximo a cada 1 min
+      ttl: 60 * 60 * 24 * 7, // 7 dias
     }),
-
-    cookie: {
-      maxAge: 1000 * 60 * 30, // 30 minutos
-      secure: isProduction,
-      sameSite: "lax",
-      httpOnly: true,
-    },
+    cookie: cookieOptions,
   })
 )
+
+//app.use((req, res, next) => {
+//  console.log("Sessão atual:", req.session)
+//  next()
+//})
+
 // Ajusta secure conforme HTTPS real (via proxy)
 app.use((req, res, next) => {
   const forwardedProto = (req.headers["x-forwarded-proto"] || "").toLowerCase()
