@@ -73,5 +73,15 @@ router.get("/mapa-site", (req, res) => {
     title: "Mapa do Site - In Memoriam Brasil",
   })
 })
+router.get("/faq", (req, res) => {
+  res.render("statics/faq", {
+    title: "Perguntas e Respostas - In Memoriam Brasil",
+  })
+})
+router.get("/tutorial", (req, res) => {
+  res.render("statics/tutorial", {
+    title: "Tutorial - In Memoriam Brasil",
+  })
+})
 
 module.exports = router
