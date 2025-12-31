@@ -8,6 +8,8 @@ const flash = require("connect-flash")
 const setUserMiddleware = require("./app/middlewares/setUserMiddleware")
 const helpers = require("./app/utils/helpers")
 require("dotenv").config()
+const maintenanceMiddleware = require("./app/middlewares/maintenance")
+const routes = require("./app/routes")
 
 const app = express()
 
@@ -94,17 +96,9 @@ app.engine(".hbs", hbs.engine)
 app.set("view engine", ".hbs")
 app.set("views", path.join(__dirname, "app/views"))
 
-// ----- Modo Manutenção PADRÃO = EM DESENVOLVIMENTO TRUE NA VPS-----
-const emManutencao = String(process.env.MAINTENANCE).toLowerCase() === "true"
-
-if (emManutencao) {
-  app.get("*", (req, res) => {
-    res.status(503).render("manutencao")
-  })
-} else {
-  const routes = require("./app/routes")
-  app.use("/", routes)
-}
+// ----- Modo Manutenção -----
+app.use(maintenanceMiddleware)
+app.use("/", routes) //
 
 // ----- Handler de Erro -----
 app.use((err, req, res, next) => {

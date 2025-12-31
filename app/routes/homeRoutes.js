@@ -18,6 +18,10 @@ router.get("/sobre", (req, res) => {
     activeSobre: true,
   })
 })
+router.get("/manutencao", (req, res) => {
+  res.status(503).render("manutencao")
+})
+
 /*
 router.get("/criar-memorial", (req, res) => {
   res.render("statics/criar-memorial", {
