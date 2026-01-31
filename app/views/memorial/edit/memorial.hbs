@@ -9,22 +9,12 @@
       <div class="row">
         <div class="col-md-4 mb-3">
           <label class="form-label"><strong>Nome</strong></label>
-          <input
-            type="text"
-            class="form-control"
-            value="{{firstName}}"
-            readonly
-          />
+          <input type="text" class="form-control" value="{{firstName}}" readonly />
         </div>
 
         <div class="col-md-4 mb-3">
           <label class="form-label"><strong>Sobrenome</strong></label>
-          <input
-            type="text"
-            class="form-control"
-            value="{{lastName}}"
-            readonly
-          />
+          <input type="text" class="form-control" value="{{lastName}}" readonly />
         </div>
 
         <div class="col-md-4 mb-3">
@@ -39,12 +29,7 @@
       <!-- Parentesco -->
       <fieldset class="mb-4">
         <legend>Parentesco</legend>
-        <input
-          type="text"
-          class="form-control"
-          name="kinship"
-          value="{{kinship}}"
-        />
+        <input type="text" class="form-control" name="kinship" value="{{kinship}}" />
       </fieldset>
 
       <!-- Nascimento -->
@@ -54,34 +39,19 @@
         <div class="row">
           <div class="col-md-4 mb-3">
             <label class="form-label">Data</label>
-            <input
-              type="date"
-              class="form-control"
-              name="birth[date]"
-              value="{{birth.date}}"
-            />
+            <input type="date" class="form-control" name="birth[date]" value="{{birth.date}}" />
           </div>
 
           <div class="col-md-4 mb-3">
             <label class="form-label">Estado (UF)</label>
-            <select
-              class="form-select"
-              id="birthState"
-              name="birth[state]"
-              data-selected="{{birth.state}}"
-            >
+            <select class="form-select" id="birthState" name="birth[state]" data-selected="{{birth.state}}">
               <option value="">Selecione o estado</option>
             </select>
           </div>
 
           <div class="col-md-4 mb-3">
             <label class="form-label">Cidade</label>
-            <select
-              class="form-select"
-              id="birthCity"
-              name="birth[city]"
-              data-selected="{{birth.city}}"
-            >
+            <select class="form-select" id="birthCity" name="birth[city]" data-selected="{{birth.city}}">
               <option value="">Selecione a cidade</option>
             </select>
           </div>
@@ -95,34 +65,19 @@
         <div class="row">
           <div class="col-md-4 mb-3">
             <label class="form-label">Data</label>
-            <input
-              type="date"
-              class="form-control"
-              name="death[date]"
-              value="{{death.date}}"
-            />
+            <input type="date" class="form-control" name="death[date]" value="{{death.date}}" />
           </div>
 
           <div class="col-md-4 mb-3">
             <label class="form-label">Estado (UF)</label>
-            <select
-              class="form-select"
-              id="deathState"
-              name="death[state]"
-              data-selected="{{death.state}}"
-            >
+            <select class="form-select" id="deathState" name="death[state]" data-selected="{{death.state}}">
               <option value="">Selecione o estado</option>
             </select>
           </div>
 
           <div class="col-md-4 mb-3">
             <label class="form-label">Cidade</label>
-            <select
-              class="form-select"
-              id="deathCity"
-              name="death[city]"
-              data-selected="{{death.city}}"
-            >
+            <select class="form-select" id="deathCity" name="death[city]" data-selected="{{death.city}}">
               <option value="">Selecione a cidade</option>
             </select>
           </div>
@@ -134,74 +89,49 @@
         <legend class="fw-bold">Obituário</legend>
 
         <div class="row">
+          <!-- Cemitério -->
           <div class="col-md-6 mb-3">
             <label class="form-label">Cemitério</label>
-            <input
-              type="text"
-              class="form-control"
-              name="obituary[cemetery]"
-              value="{{obituary.cemetery}}"
-            />
+            <input type="text" class="form-control" name="obituary[cemetery]" value="{{obituary.cemetery}}" />
           </div>
 
+          <!-- Endereço -->
           <div class="col-md-6 mb-3">
             <label class="form-label">Endereço da Sepultura</label>
-            <input
-              type="text"
-              class="form-control"
-              name="obituary[graveAddress]"
-              value="{{obituary.graveAddress}}"
-            />
+            <input type="text" class="form-control" name="obituary[graveAddress]" value="{{obituary.graveAddress}}" />
           </div>
 
+          <!-- Local do Velório -->
           <div class="col-md-6 mb-3">
             <label class="form-label">Local do Velório</label>
-            <input
-              type="text"
-              class="form-control"
-              name="obituary[wakeLocation]"
-              value="{{obituary.wakeLocation}}"
-            />
+            <input type="text" class="form-control" name="obituary[wakeLocation]" value="{{obituary.wakeLocation}}" />
           </div>
 
-          <div class="col-md-3 mb-3">
-            <label class="form-label">Data</label>
-            <input
-              type="date"
-              class="form-control"
-              name="obituary[wakeDate]"
-              value="{{formatDate obituary.wakeDate}}"
-            />
+          <!-- Data + Horários (compacto) -->
+          <div class="col-md-6 mb-3">
+            <label class="form-label d-block">Velório</label>
+            <div class="row g-2">
+              <div class="col-6 col-md-6">
+                <input type="date" class="form-control" name="obituary[wakeDate]"
+                  value="{{formatDate obituary.wakeDate}}" />
+              </div>
+
+              <div class="col-3 col-md-3">
+                <input type="time" class="form-control" name="obituary[wakeStart]" value="{{obituary.wakeStart}}" />
+              </div>
+
+              <div class="col-3 col-md-3">
+                <input type="time" class="form-control" name="obituary[wakeEnd]" value="{{obituary.wakeEnd}}" />
+              </div>
+            </div>
+            <small class="text-muted">Data, início e término</small>
           </div>
 
-          <div class="col-md-1 mb-3">
-            <label class="form-label">Início</label>
-            <input
-              type="text"
-              class="form-control"
-              name="obituary[wakeStart]"
-              value="{{obituary.wakeStart}}"
-            />
-          </div>
-
-          <div class="col-md-2 mb-3">
-            <label class="form-label">Término</label>
-            <input
-              type="text"
-              class="form-control"
-              name="obituary[wakeEnd]"
-              value="{{obituary.wakeEnd}}"
-            />
-          </div>
-
+          <!-- Mapa -->
           <div class="col-12 mb-3">
             <label class="form-label">Mapa do Cemitério</label>
-            <input
-              type="url"
-              class="form-control"
-              name="obituary[cemeteryMap]"
-              value="{{obituary.cemeteryMap}}"
-            />
+            <input type="url" class="form-control" name="obituary[cemeteryMap]" value="{{obituary.cemeteryMap}}"
+              placeholder="Link do Google Maps" />
           </div>
         </div>
       </fieldset>
@@ -215,27 +145,64 @@
   </div>
 </main>
 <script>
-  async function loadStates(selectId) { const select =
-  document.getElementById(selectId); const selected = select.dataset.selected;
-  const res = await fetch(
-  "https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome" );
-  const states = await res.json(); states.forEach(state => { const opt =
-  document.createElement("option"); opt.value = state.sigla; opt.textContent =
-  `${state.nome} (${state.sigla})`; if (state.sigla === selected) opt.selected =
-  true; select.appendChild(opt); }); } async function loadCities(stateId,
-  cityId) { const stateSelect = document.getElementById(stateId); const
-  citySelect = document.getElementById(cityId); const selectedCity =
-  citySelect.dataset.selected; async function fetchCities(uf) {
-  citySelect.innerHTML = `<option value="">Carregando...</option>`; const res =
-  await fetch(
-  `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`
-  ); const cities = await res.json(); citySelect.innerHTML = `<option
-  value="">Selecione a cidade</option>`; cities.forEach(city => { const opt =
-  document.createElement("option"); opt.value = city.nome; opt.textContent =
-  city.nome; if (city.nome === selectedCity) opt.selected = true;
-  citySelect.appendChild(opt); }); } if (stateSelect.value)
-  fetchCities(stateSelect.value); stateSelect.addEventListener("change", () => {
-  if (stateSelect.value) fetchCities(stateSelect.value); }); } // Inicialização
-  loadStates("birthState"); loadStates("deathState"); loadCities("birthState",
-  "birthCity"); loadCities("deathState", "deathCity");
+  async function loadStates(selectId, cityId) {
+    const select = document.getElementById(selectId);
+    const selected = select.dataset.selected;
+
+    const res = await fetch(
+      "https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome"
+    );
+    const states = await res.json();
+
+    states.forEach(state => {
+      const opt = document.createElement("option");
+      opt.value = state.sigla;
+      opt.textContent = `${state.nome} (${state.sigla})`;
+
+      if (state.sigla === selected) {
+        opt.selected = true;
+      }
+
+      select.appendChild(opt);
+    });
+
+    if (select.value) {
+      loadCities(selectId, cityId);
+    }
+
+    select.addEventListener("change", () => {
+      loadCities(selectId, cityId);
+    });
+  }
+
+  async function loadCities(stateId, cityId) {
+    const stateSelect = document.getElementById(stateId);
+    const citySelect = document.getElementById(cityId);
+    const selectedCity = citySelect.dataset.selected;
+
+    citySelect.innerHTML = `<option value="">Carregando...</option>`;
+
+    const res = await fetch(
+      `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateSelect.value}/municipios`
+    );
+    const cities = await res.json();
+
+    citySelect.innerHTML = `<option value="">Selecione a cidade</option>`;
+
+    cities.forEach(city => {
+      const opt = document.createElement("option");
+      opt.value = city.nome;
+      opt.textContent = city.nome;
+
+      if (city.nome === selectedCity) {
+        opt.selected = true;
+      }
+
+      citySelect.appendChild(opt);
+    });
+  }
+
+  // Inicialização correta
+  loadStates("birthState", "birthCity");
+  loadStates("deathState", "deathCity");
 </script>

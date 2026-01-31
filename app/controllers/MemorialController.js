@@ -378,14 +378,16 @@ const MemorialController = {
         gender: memorial.gender,
         mainPhoto: memorial.mainPhoto,
         kinship: memorial.kinship,
+        biography: memorial.biography,
+        obituary: memorial.obituary || {},
         birth: {
           date: memorial.birth?.date
             ? new Date(memorial.birth.date).toISOString().split("T")[0]
             : "",
           //date: memorial.birth?.date || "Não informada", // Passa a data sem formatar
-          city: memorial.birth?.city || "Local desconhecido",
+          city: memorial.birth?.city || "Cidade não informada",
           state: memorial.birth?.state || "Estado não informado",
-          country: memorial.birth?.country || "País não informado",
+          country: memorial.birth?.country || "Brasil",
         },
         death: {
           date: memorial.death?.date
@@ -393,9 +395,9 @@ const MemorialController = {
             : "",
 
           //date: memorial.death?.date || "Não informada", // Passa a data sem formatar
-          city: memorial.death?.city || "Local desconhecido",
+          city: memorial.death?.city || "Cidade não informada",
           state: memorial.death?.state || "Estado não informado",
-          country: memorial.death?.country || "País não informado",
+          country: memorial.death?.country || "Brasil",
         },
         about: memorial.about, // || "Informação não disponível.",
         epitaph: memorial.epitaph, // || "Nenhum epitáfio fornecido.",
@@ -426,28 +428,52 @@ const MemorialController = {
   // Atualizar memorial
   updateMemorial: async (req, res) => {
     try {
-      const { slug } = req.params
-      //const { gender, relationship, birth, death } = req.body // Aqui você pode pegar os dados do formulário
-      const updateData = req.body
+      const { slug } = req.params;
 
-      await Memorial.findOneAndUpdate({ slug: slug }, updateData, { new: true })
+      const {
+        kinship,
+        biography,
+        epitaph,
+        theme,
+        birth = {},
+        death = {},
+        obituary = {}
+      } = req.body;
 
-      /*
-      // Lógica para encontrar e atualizar o memorial no banco
-      const memorial = await Memorial.findOneAndUpdate(
-        { slug: slug },
-        { gender, relationship, birth, death },
-        { new: true } // Retorna o memorial atualizado
-      )
-      */
+      await Memorial.findOneAndUpdate(
+        { slug },
+        {
+          $set: {
+            kinship,
+            biography,
+            epitaph,
+            theme,
+            obituary,
 
-      // Redirecionar ou exibir o memorial atualizado
-      res.redirect(`/memorial/${slug}`) // Ou qualquer outro redirecionamento que faça sentido
+            // 🔒 Nascimento (sem country)
+            "birth.date": birth.date || null,
+            "birth.city": birth.city || null,
+            "birth.state": birth.state || null,
+
+            // 🔒 Falecimento (sem country)
+            "death.date": death.date || null,
+            "death.city": death.city || null,
+            "death.state": death.state || null,
+          }
+        },
+        {
+          new: true,
+          runValidators: true
+        }
+      );
+
+      res.redirect(`/memorial/${slug}`);
     } catch (err) {
-      console.error(err)
-      res.status(500).send("Erro ao atualizar memorial")
+      console.error(err);
+      res.status(500).send("Erro ao atualizar memorial");
     }
   },
+
 
   // Método para exibir a página de pesquisa por memorial
   // Método para exibir a página de pesquisa por memorial

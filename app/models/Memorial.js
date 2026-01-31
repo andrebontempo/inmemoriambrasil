@@ -81,7 +81,7 @@ const MemorialSchema = new mongoose.Schema(
       date: { type: Date, required: true },
       city: { type: String },
       state: { type: String },
-      country: { type: String },
+      country: { type: String, default: "Brasil" },
     },
 
     // **Informações de falecimento**
@@ -89,8 +89,9 @@ const MemorialSchema = new mongoose.Schema(
       date: { type: Date, required: true },
       city: { type: String },
       state: { type: String },
-      country: { type: String },
+      country: { type: String, default: "Brasil" },
     },
+
 
     // **Campo tribute**: Referência para a coleção Tribute
     tribute: [
