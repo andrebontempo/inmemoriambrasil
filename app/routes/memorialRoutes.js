@@ -186,11 +186,7 @@ router.post(
 
 router.get("/pesquisa", MemorialController.searchMemorial)
 
-router.post(
-  "/create-memorial",
-  authMiddleware,
-  MemorialController.createMemorial
-) // Criar um novo memorial
+
 router.get("/create-memorial", MemorialController.createStep1)
 router.get("/:slug/about", MemorialController.showMemorial)
 router.get("/:slug/memorial/edit", MemorialController.editMemorial)

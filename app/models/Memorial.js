@@ -138,6 +138,12 @@ const MemorialSchema = new mongoose.Schema(
   { timestamps: true }
 )
 
+// Índice de Texto para busca performática (com suporte a português para ignorar acentos)
+MemorialSchema.index(
+  { firstName: "text", lastName: "text" },
+  { default_language: "portuguese" }
+)
+
 // Middleware para registrar atualizações no memorial
 MemorialSchema.pre("save", function (next) {
   // Se é novo -> não loga nada

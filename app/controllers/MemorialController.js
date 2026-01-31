@@ -18,6 +18,7 @@ const session = require("express-session")
 const { r2, PutObjectCommand, DeleteObjectCommand } = require("../../config/r2")
 const { deleteFromR2 } = require("../services/r2Delete")
 const { generateQRCode } = require("../services/qrCode")
+const memorialService = require("../services/memorialService")
 
 const MemorialController = {
   // 👉 Renderiza o formulário da etapa 1
@@ -45,25 +46,7 @@ const MemorialController = {
         })
       }
       // ⚙️ Gera slug
-      const slug = `${firstName.trim()}-${lastName.trim()}`
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "") // remove acentos
-        .replace(/ç/g, "c")
-        .replace(/\s+/g, "-") // troca espaços internos por -
-        .replace(/[^a-z0-9-]/g, "") // opcional: remove caracteres especiais extra
-        .replace(/-+/g, "-") // reduz múltiplos "----" para apenas "-"
-        .replace(/^-|-$/g, "") // remove "-" no começo ou no final
-
-      /* ⚙️ Gera slug (usando sua função)
-      const slug = `${firstName}-${lastName}`
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[̀-ͯ]/g, "") // remove acentos
-        .replace(/ç/g, "c")
-        .replace(/\s+/g, "-")
-
-      */
+      const slug = await memorialService.generateUniqueSlug(firstName, lastName)
       // 🔎 Verifica se já existe
       const exists = await Memorial.findOne({ slug })
       if (exists) {
@@ -220,66 +203,8 @@ const MemorialController = {
       //)
 
       // Agora cria oficialmente no banco
-      const novoMemorial = await Memorial.create({
-        ...req.session.memorial,
-        owner: userId, // ✔️ CORRETO
-      })
-
-      // 🖼️ Criar galeria vazia automaticamente
-      const novaGaleria = await Gallery.create({
-        memorial: novoMemorial._id,
-        user: userId,
-        photos: [],
-        audios: [],
-        videos: [],
-      })
-
-      // 3️⃣ Atualizar memorial colocando a galeria
-      await Memorial.findByIdAndUpdate(novoMemorial._id, {
-        gallery: novaGaleria._id,
-      })
-      // gerar e salvar o QR Code automaticamente
-      await generateQRCode(novoMemorial)
-      // Guarda ID do memorial criado
-      req.session.memorialId = novoMemorial._id
-
-      // Envia e-mail para o usuário
-      await MailService.sendEmail({
-        to: userCurrent.email,
-        subject: "Seu memorial foi criado com sucesso",
-        html: `
-  <div style="font-family: sans-serif; max-width: 600px; margin: auto; background: #f9f9f9; border-radius: 8px; padding: 20px; border: 1px solid #ddd;">
-    <h2 style="color: #004085; text-align: center; margin-bottom: 20px;">
-      🎉 Memorial criado com sucesso!
-    </h2>
-
-    <p style="font-size: 15px; color: #333;">
-      Olá, <strong>${userCurrent.firstName}</strong>!
-    </p>
-
-    <p style="font-size: 15px; color: #333;">
-      O memorial de <strong>${novoMemorial.firstName} ${novoMemorial.lastName}</strong> foi criado com sucesso no <strong>In Memoriam Brasil</strong>.
-    </p>
-
-    <p style="text-align: center; margin: 25px 0;">
-      <a href="https://inmemoriambrasil.com.br/memorial/${novoMemorial.slug}"
-        style="display: inline-block; background-color: #004085; color: #fff; padding: 12px 22px; text-decoration: none; border-radius: 5px; font-weight: bold;">
-        ➤ Acessar o memorial
-      </a>
-    </p>
-
-    <p style="font-size: 15px; color: #333;">
-      Cuide das memórias de quem você ama com carinho e eternize histórias emocionantes.
-    </p>
-
-    <hr style="border: none; border-top: 1px solid #ddd; margin: 25px 0;">
-
-    <p style="font-size: 13px; color: #666; text-align: center;">
-      Este e-mail foi enviado automaticamente pelo site In Memoriam Brasil.
-    </p>
-  </div>
-`,
-      })
+      // Cria memorial usando o Service (inclui galeria, QR Code e e-mail)
+      const novoMemorial = await memorialService.createMemorialContext(req.session.memorial, userCurrent)
       // Atualizar sessão
       req.session.memorialId = novoMemorial._id
       req.session.memorialSlug = novoMemorial.slug
@@ -295,71 +220,7 @@ const MemorialController = {
     }
   },
 
-  //ESTE MÉTODO NÃO ESTÁ SENDO USADO NO MOMENTO A CRIAÇÃO ESTÁ NO STEP4
-  createMemorial: async (req, res) => {
-    try {
-      const user = req.session.user
-      const data = req.session.memorial
 
-      if (!user || !data) return res.redirect("/memorial/create-step1")
-
-      // ⚙️ Gera slug
-      const slug = `${firstName.trim()}-${lastName.trim()}`
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "") // remove acentos
-        .replace(/ç/g, "c")
-        .replace(/\s+/g, "-") // troca espaços internos por -
-        .replace(/[^a-z0-9-]/g, "") // opcional: remove caracteres especiais extra
-        .replace(/-+/g, "-") // reduz múltiplos "----" para apenas "-"
-        .replace(/^-|-$/g, "") // remove "-" no começo ou no final
-
-      // Verifica duplicidade
-      const exists = await Memorial.findOne({ slug })
-      if (exists) {
-        return res.status(400).render("errors/400", {
-          message: "Já existe um memorial com esse nome.",
-        })
-      }
-
-      // Cria memorial completo
-      const memorial = new Memorial({
-        user: user._id,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        slug,
-        plan: data.plan,
-        gender: data.gender,
-        kinship: data.kinship,
-        visibility: data.visibility || "public",
-        birth: data.birth,
-        death: data.death,
-        mainPhoto: data.mainPhoto || null,
-        epitaph: data.epitaph,
-        theme: data.theme,
-      })
-
-      await memorial.save()
-
-      // E-mail de confirmação
-      await MailService.sendEmail({
-        to: user.email,
-        subject: "Seu memorial foi criado com sucesso",
-        html: `<p>O memorial de <strong>${data.firstName} ${data.lastName}</strong> foi criado!</p>`,
-      })
-
-      // Limpa sessão
-      req.session.memorial = null
-      req.session.memorialId = memorial._id
-
-      return res.redirect(`/memorial/${slug}/memorial-fet/edit`)
-    } catch (err) {
-      console.error("Erro ao criar memorial:", err)
-      return res
-        .status(500)
-        .render("errors/500", { message: "Erro ao criar memorial." })
-    }
-  },
 
   // Método para exibir o memorial
   showMemorial: async (req, res) => {
@@ -610,13 +471,27 @@ const MemorialController = {
       if (termo === "*") {
         resultados = await Memorial.find().lean()
       } else {
-        // Busca por nome/ sobrenome
+        // Tenta busca textual (requer índice criado no modelo)
+        // Se falhar ou não retornar nada, poderíamos tentar regex como fallback,
+        // mas o índice text é superior.
+        // Opção híbrida: $text se possível, ou regex se preferir manter o comportamento antigo para parciais não indexados.
+
+        // Vamos usar $text para palavras completas/stemmed e regex para match parcial no meio da string se necessário.
+        // Para máxima performance: $text.
+
         resultados = await Memorial.find({
-          $or: [
-            { firstName: { $regex: termo, $options: "i" } },
-            { lastName: { $regex: termo, $options: "i" } },
-          ],
+          $text: { $search: termo }
         }).lean()
+
+        // Se $text não retornar nada (ex: termo parcial "Andr"), tenta regex como fallback
+        if (resultados.length === 0) {
+          resultados = await Memorial.find({
+            $or: [
+              { firstName: { $regex: termo, $options: "i" } },
+              { lastName: { $regex: termo, $options: "i" } },
+            ],
+          }).lean()
+        }
       }
 
       // Converter IDs para string (garante comparação)
@@ -649,65 +524,8 @@ const MemorialController = {
       const memorial = await Memorial.findOne({ slug })
       if (!memorial) return res.status(404).send("Memorial não encontrado.")
 
-      const memorialId = memorial._id
-
-      /* 🖼️ 1) Deletar imagem principal no R2 */
-      if (memorial.mainPhoto?.key) {
-        await deleteFromR2(memorial.mainPhoto.key)
-      }
-      /* 🧾 1b) Deletar QR Code no R2 */
-      if (memorial.qrCode?.key) {
-        await deleteFromR2(memorial.qrCode.key)
-      }
-
-      /* 📚 2) Deletar todas as LifeStories */
-      const lifeStories = await LifeStory.find({ memorial: memorialId })
-      for (const life of lifeStories) {
-        if (life.image?.key) await deleteFromR2(life.image.key)
-      }
-      await LifeStory.deleteMany({ memorial: memorialId })
-
-      /* 🤝 3) Deletar todas as SharedStories */
-      const sharedStories = await SharedStory.find({ memorial: memorialId })
-      for (const shared of sharedStories) {
-        if (shared.image?.key) await deleteFromR2(shared.image.key)
-      }
-      await SharedStory.deleteMany({ memorial: memorialId })
-
-      /* 🖼️📸 4) Deletar Galeria COMPLETA (fotos, áudios e vídeos) */
-      const gallery = await Gallery.findOne({ memorial: memorialId })
-
-      if (gallery) {
-        // Fotos
-        if (gallery.photos?.length) {
-          for (const photo of gallery.photos) {
-            if (photo?.key) await deleteFromR2(photo.key)
-          }
-        }
-
-        // Áudios
-        if (gallery.audios?.length) {
-          for (const audio of gallery.audios) {
-            if (audio?.key) await deleteFromR2(audio.key)
-          }
-        }
-
-        // Vídeos
-        if (gallery.videos?.length) {
-          for (const video of gallery.videos) {
-            if (video?.key) await deleteFromR2(video.key)
-          }
-        }
-
-        // Deletar documento da Gallery
-        await Gallery.deleteOne({ _id: gallery._id })
-      }
-
-      /* 💐 5) Apagar tributos */
-      await Tribute.deleteMany({ memorial: memorialId })
-
-      /* 🪦 6) Finalmente apagar o memorial */
-      await Memorial.deleteOne({ _id: memorialId })
+      /* 👉 Usando Service para apagar tudo */
+      await memorialService.deleteMemorialResources(slug)
 
       /* 🎉 Finalizar */
       req.flash("success_msg", "Memorial apagado com sucesso.")
