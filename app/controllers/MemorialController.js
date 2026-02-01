@@ -379,7 +379,7 @@ const MemorialController = {
         mainPhoto: memorial.mainPhoto,
         kinship: memorial.kinship,
         biography: memorial.biography,
-        obituary: memorial.obituary || {},
+        obituary: memorial.obituary,
         birth: {
           date: memorial.birth?.date
             ? new Date(memorial.birth.date).toISOString().split("T")[0]
