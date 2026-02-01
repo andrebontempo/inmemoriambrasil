@@ -1,60 +1,60 @@
 <main>
-    <div class="custom-box my-2 mx-0">
+  <div class="custom-box my-2 mx-0">
 
-      <h3 class="mb-3 text-start">
-        <i class="bi bi-pencil-square me-2"></i> Editar Tributo
-      </h3>
+    <h3 class="mb-3 text-start">
+      <i class="bi bi-pencil-square me-2"></i> Editar Tributo
+    </h3>
 
-      <form action="/memorial/{{slug}}/tribute/update/{{tribute._id}}" method="POST">
+    <form action="/memorial/{{slug}}/tribute/update/{{tribute._id}}" method="POST">
 
-        <input type="hidden" name="_method" value="PUT">
-        <input type="hidden" name="memorial" value="{{tribute.memorial}}" />
-        <input type="hidden" name="slug" value="{{slug}}" />
+      <input type="hidden" name="_method" value="PUT">
+      <input type="hidden" name="memorial" value="{{tribute.memorial}}" />
+      <input type="hidden" name="slug" value="{{slug}}" />
 
-        <div class="card p-3 custom-inner-card">
+      <div class="card p-3 custom-inner-card">
 
-          <!-- Escolha do tipo -->
-          <div class="d-flex justify-content-center mb-3">
+        <!-- Escolha do tipo -->
+        <div class="d-flex justify-content-center mb-3">
 
-            <div class="text-center me-3">
-              <img src="/css/memorial/files/tributo_caneta.png" class="edit-icon" alt="Caneta">
-              <br>
-              <input type="radio" name="type" value="tributo_caneta.png"
-                {{#ifEquals tribute.type "tributo_caneta.png"}}checked{{/ifEquals}}>
-            </div>
-
-            <div class="text-center me-3">
-              <img src="/css/memorial/files/tributo_flor.png" class="edit-icon" alt="Flor">
-              <br>
-              <input type="radio" name="type" value="tributo_flor.png"
-                {{#ifEquals tribute.type "tributo_flor.png"}}checked{{/ifEquals}}>
-            </div>
-
-            <div class="text-center me-3">
-              <img src="/css/memorial/files/tributo_vela.png" class="edit-icon" alt="Vela">
-              <br>
-              <input type="radio" name="type" value="tributo_vela.png"
-                {{#ifEquals tribute.type "tributo_vela.png"}}checked{{/ifEquals}}>
-            </div>
-
+          <div class="text-center me-3">
+            <img src="/css/memorial/files/tributo_caneta.png" class="edit-icon" alt="Caneta">
+            <br>
+            <input type="radio" name="type" value="tributo_caneta.png" {{#ifEquals tribute.type "tributo_caneta.png"
+              }}checked{{/ifEquals}}>
           </div>
 
-          <!-- Texto -->
-          <textarea class="edit-input form-control mb-2" rows="3"
-            placeholder="Escreva sua mensagem..." name="message" required>{{tribute.message}}</textarea>
-
-          <div class="text-muted mb-2 fs-7 text-end">
-            Editando como usuário logado.
+          <div class="text-center me-3">
+            <img src="/css/memorial/files/tributo_flor.png" class="edit-icon" alt="Flor">
+            <br>
+            <input type="radio" name="type" value="tributo_flor.png" {{#ifEquals tribute.type "tributo_flor.png"
+              }}checked{{/ifEquals}}>
           </div>
 
-          <div class="d-flex justify-content-end align-items-center gap-2">
-            <a href="/memorial/{{slug}}" class="btn-default-memorial">Cancelar</a>
-            <button type="submit" class="btn-default-memorial">Atualizar Homenagem</button>
+          <div class="text-center me-3">
+            <img src="/css/memorial/files/tributo_vela.png" class="edit-icon" alt="Vela">
+            <br>
+            <input type="radio" name="type" value="tributo_vela.png" {{#ifEquals tribute.type "tributo_vela.png"
+              }}checked{{/ifEquals}}>
           </div>
 
         </div>
 
-      </form>
+        <!-- Texto -->
+        <textarea class="edit-input form-control mb-2" rows="3" placeholder="Escreva sua mensagem..." name="message"
+          required>{{tribute.message}}</textarea>
 
-    </div>
+        <div class="text-muted mb-2 fs-7 text-end">
+          Editando como usuário logado.
+        </div>
+
+        <div class="d-flex justify-content-end align-items-center gap-2">
+          <a href="/memorial/{{slug}}" class="btn-default-memorial">Cancelar</a>
+          <button type="submit" class="btn-default-memorial">Atualizar</button>
+        </div>
+
+      </div>
+
+    </form>
+
+  </div>
 </main>
