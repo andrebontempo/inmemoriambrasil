@@ -119,13 +119,6 @@
     </p>
     {{/if}}
 
-    {{#if obituary.wakeLocation}}
-    <p>
-      <i class="bi bi-bank2"></i>
-      <strong>Capela: </strong>{{obituary.wakeLocation}}
-    </p>
-    {{/if}}
-
     {{#if obituary.wakeDate}}
     <p>
       <i class="bi bi-calendar-date-fill"></i>
@@ -139,6 +132,12 @@
       <strong>Hora do Velório: </strong>
       {{obituary.wakeStart}}h
       {{#if obituary.wakeEnd}} às {{obituary.wakeEnd}}h{{/if}}
+    </p>
+    {{/if}}
+    {{#if obituary.wakeLocation}}
+    <p>
+      <i class="bi bi-bank2"></i>
+      <strong>Capela: </strong>{{obituary.wakeLocation}}
     </p>
     {{/if}}
 
