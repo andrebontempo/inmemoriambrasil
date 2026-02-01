@@ -623,11 +623,17 @@ iframe {
 }
 
 /* Ajuste de scroll para links internos */
+/* Padrão (desktop) */
 #form-tributo {
   scroll-margin-top: 100px;
-  /* ajuste conforme a altura do header */
 }
 
+/* Celulares */
+@media (max-width: 768px) {
+  #form-tributo {
+    scroll-margin-top: 120px;
+  }
+}
 /* ------------------------------
    📄 Estilos específicos de páginas
    ------------------------------ */
