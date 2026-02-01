@@ -19,6 +19,7 @@ const { r2, PutObjectCommand, DeleteObjectCommand } = require("../../config/r2")
 const { deleteFromR2 } = require("../services/r2Delete")
 const { generateQRCode } = require("../services/qrCode")
 const memorialService = require("../services/memorialService")
+const kinships = require("../constants/kinships")
 
 const MemorialController = {
   // 👉 Renderiza o formulário da etapa 1
@@ -73,29 +74,6 @@ const MemorialController = {
   },
   renderStep2: (req, res) => {
     const step1Data = req.session.memorial || {}
-
-    //Lista de parentesco
-    const kinships = [
-      { value: "amiga", label: "Amiga" },
-      { value: "amigo", label: "Amigo" },
-      { value: "avo", label: "Avô" },
-      { value: "avó", label: "Avó" },
-      { value: "filha", label: "Filha" },
-      { value: "filho", label: "Filho" },
-      { value: "irma", label: "Irmã" },
-      { value: "irmao", label: "Irmão" },
-      { value: "mae", label: "Mãe" },
-      { value: "marido", label: "Marido" },
-      { value: "esposa", label: "Esposa" },
-      { value: "pai", label: "Pai" },
-      { value: "tia", label: "Tia" },
-      { value: "tio", label: "Tio" },
-      { value: "sogro", label: "Sogro" },
-      { value: "sogra", label: "Sogra" },
-    ]
-
-    // Ordena por ordem alfabética do label
-    kinships.sort((a, b) => a.label.localeCompare(b.label))
 
     res.render("memorial/create-step2", { step1Data, kinships }) // Renderiza a view do passo 2 (Dados de Nascimento e Falecimento)
   },
@@ -377,9 +355,16 @@ const MemorialController = {
         slug: memorial.slug,
         gender: memorial.gender,
         mainPhoto: memorial.mainPhoto,
-        kinship: memorial.kinship,
+        kinship: memorial.kinship, // valor salvo
+        kinships,                  // <<< ISSO FALTAVA
         biography: memorial.biography,
-        obituary: memorial.obituary || {},
+        obituary: {
+          ...memorial.obituary,
+
+          wakeDate: memorial.obituary?.wakeDate
+            ? new Date(memorial.obituary.wakeDate).toISOString().split("T")[0]
+            : "",
+        },
         birth: {
           date: memorial.birth?.date
             ? new Date(memorial.birth.date).toISOString().split("T")[0]

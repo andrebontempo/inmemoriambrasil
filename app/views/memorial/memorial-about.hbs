@@ -27,7 +27,7 @@
 
       <p>
         <i class="bi bi-star-fill"></i>
-        <strong> Nascido(a): </strong>
+        <strong> Nascido(a) em: </strong>
         {{#if birth.date}}{{formatDate birth.date}}{{else}}Não informada{{/if}}<br>
 
         <i class="bi bi-building"></i>
@@ -45,7 +45,7 @@
 
       <p>
         <i class="bi bi-heartbreak-fill"></i>
-        <strong> Falecido(a): </strong>
+        <strong> Falecido(a) em: </strong>
         {{#if death.date}}{{formatDate death.date}}{{else}}Não informada{{/if}}<br>
 
         <i class="bi bi-building"></i>
@@ -122,7 +122,7 @@
     {{#if obituary.wakeDate}}
     <p>
       <i class="bi bi-calendar-date-fill"></i>
-      <strong>Data do Velório: </strong>{{formatDateTribute obituary.wakeDate "default"}}
+      <strong>Data do Velório: </strong>{{formatDate obituary.wakeDate "default"}}
     </p>
     {{/if}}
 

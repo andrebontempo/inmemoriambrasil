@@ -23,7 +23,6 @@
 
       </div>
 
-
       <!-- ACCORDION -->
       <div class="accordion" id="accordionMemorial">
 
@@ -38,11 +37,18 @@
 
           <div id="accParentesco" class="accordion-collapse collapse">
             <div class="accordion-body">
-              <input type="text" class="form-control" name="kinship" value="{{kinship}}">
+              <select class="form-select" name="kinship" required>
+                <option value="">Selecione o parentesco</option>
+
+                {{#each kinships}}
+                <option value="{{value}}" {{#ifEquals value ../kinship}}selected{{/ifEquals}}>
+                  {{label}}
+                </option>
+                {{/each}}
+              </select>
             </div>
           </div>
         </div>
-
 
         <!-- 2. Epitáfio -->
         <div class="accordion-item">
@@ -158,8 +164,7 @@
 
                 <div class="col-md-3 mb-3">
                   <label class="form-label">Data</label>
-                  <input type="date" class="form-control" name="obituary[wakeDate]"
-                    value="{{formatDate obituary.wakeDate}}">
+                  <input type="date" class="form-control" name="obituary[wakeDate]" value="{{obituary.wakeDate}}">
                 </div>
 
                 <div class="col-md-2 mb-3">

@@ -1,5 +1,7 @@
 .
 ├── app
+│   ├── constants
+│   │   └── kinships.js
 │   ├── controllers
 │   │   ├── AuthController.js
 │   │   ├── EnvioContatoController.js
@@ -19,6 +21,7 @@
 │   │   ├── ensureAuth.js
 │   │   ├── isAdmin.js
 │   │   ├── loadMemorial.js
+│   │   ├── maintenance.js
 │   │   ├── setUserMiddleware.js
 │   │   └── uploadMiddleware.js
 │   ├── models
@@ -70,6 +73,8 @@
 │       │   ├── main.hbs
 │       │   └── memorial-layout.hbs
 │       ├── manutencao.hbs
+│       ├── manutencao_producao.hbs
+│       ├── manutencao_simples.hbs
 │       ├── memorial
 │       │   ├── create-step1.hbs
 │       │   ├── create-step2.hbs
@@ -78,8 +83,6 @@
 │       │   ├── edit
 │       │   │   ├── about.hbs
 │       │   │   ├── epitaph.hbs
-│       │   │   ├── epitaphNOVO.hbs
-│       │   │   ├── gallery copy.hbs
 │       │   │   ├── gallery.hbs
 │       │   │   ├── lifestory.hbs
 │       │   │   ├── memorial-fet.hbs
@@ -90,10 +93,12 @@
 │       │   ├── memorial-gallery.hbs
 │       │   ├── memorial-lifestory.hbs
 │       │   ├── memorial-pesquisa.hbs
-│       │   └── memorial-sharedstory.hbs
+│       │   ├── memorial-sharedstory.hbs
+│       │   └── memorial-tribute.hbs
 │       ├── partials
 │       │   ├── main
 │       │   │   ├── footer.hbs
+│       │   │   ├── headerddd.hbs
 │       │   │   ├── header.hbs
 │       │   │   └── navbar.hbs
 │       │   └── memorial
@@ -102,18 +107,22 @@
 │       │       ├── memorial-header.hbs
 │       │       ├── memorial-navbar.hbs
 │       │       └── memorial-sidebar.hbs
-│       └── statics
-│           ├── condicoes-utilizacao.hbs
-│           ├── contato.hbs
-│           ├── criar-memorial.hbs
-│           ├── dashboard.hbs
-│           ├── home.hbs
-│           ├── mapa-site.hbs
-│           ├── memoriais-virtuais.hbs
-│           ├── plano-opcoes.hbs
-│           ├── politica-privacidade.hbs
-│           ├── sobre.hbs
-│           └── testemunhos.hbs
+│       ├── statics
+│       │   ├── condicoes-utilizacao.hbs
+│       │   ├── contato.hbs
+│       │   ├── criar-memorial.hbs
+│       │   ├── dashboard.hbs
+│       │   ├── faq.hbs
+│       │   ├── home.hbs
+│       │   ├── mapa-site.hbs
+│       │   ├── memoriais-virtuais.hbs
+│       │   ├── plano-opcoes.hbs
+│       │   ├── politica-privacidade.hbs
+│       │   ├── sobre.hbs
+│       │   ├── testemunhos.hbs
+│       │   └── tutorial.hbs
+│       └── themes
+│           └── themes.hbs
 ├── config
 │   ├── db.js
 │   ├── playground-1.mongodb.js
@@ -123,21 +132,14 @@
 ├── docker-compose.dev.yml
 ├── docker-compose.yml
 ├── Dockerfile
-├── dumpAtlas
-│   └── inmemoriambrasilBD
-│       ├── galleries.bson
-│       ├── galleries.metadata.json
-│       ├── lifestories.bson
-│       ├── lifestories.metadata.json
-│       ├── memorials.bson
-│       ├── memorials.metadata.json
-│       ├── prelude.json
-│       ├── sharedstories.bson
-│       ├── sharedstories.metadata.json
-│       ├── tributes.bson
-│       ├── tributes.metadata.json
-│       ├── users.bson
-│       └── users.metadata.json
+├── docs
+│   ├── editor_html.md
+│   ├── Para Mobile.md
+│   ├── scss.md
+│   └── themes
+│       ├── _theme-azul.scss
+│       ├── _theme-roxo.scss
+│       └── _theme-vinho.scss
 ├── estrutura_001
 ├── estrutura_002
 ├── nodemon.json
@@ -147,8 +149,10 @@
 │   ├── css
 │   │   ├── main
 │   │   │   ├── files
+│   │   │   │   ├── background11.jpg
 │   │   │   │   ├── background1.jpg
 │   │   │   │   ├── background.jpg
+│   │   │   │   ├── background-mobile.jpg
 │   │   │   │   ├── chica_da_silva_1.jpg
 │   │   │   │   ├── chiquinha_gonzaga_1.jpg
 │   │   │   │   ├── chiquinha_gonzaga_2.png
@@ -162,12 +166,14 @@
 │   │   │   │   ├── tiradentes_1.jpg
 │   │   │   │   ├── tutorial_SOL.mp4
 │   │   │   │   └── user_default.png
-│   │   │   └── main-styles.css
+│   │   │   └── main-style.css
 │   │   ├── memorial
 │   │   │   ├── files
-│   │   │   │   ├── bg_epitaph_2.png
-│   │   │   │   ├── bg_epitaph_3.png
-│   │   │   │   ├── bg_epitaph_8.png
+│   │   │   │   ├── backgrounddd.jpg
+│   │   │   │   ├── backgroundd.jpg
+│   │   │   │   ├── background.jpg
+│   │   │   │   ├── backgrounds.jpg
+│   │   │   │   ├── bg_epitaph_OLD.png
 │   │   │   │   ├── bg_epitaph.png
 │   │   │   │   ├── bg_textura_1.png
 │   │   │   │   ├── bg_textura.png
@@ -180,18 +186,46 @@
 │   │   │   │   ├── tributo_caneta.png
 │   │   │   │   ├── tributo_flor.png
 │   │   │   │   └── tributo_vela.png
-│   │   │   └── memorial-styles.css
+│   │   │   └── memorial-style.css
 │   │   └── templates
 │   │       ├── azul
 │   │       └── violeta
-│   └── js
-│       ├── calcula_idade.js
-│       ├── navbar.js
-│       └── scripts.js
+│   ├── js
+│   │   ├── calcula_idade.js
+│   │   ├── navbar999.js
+│   │   └── utils.js
+│   └── scss
+│       ├── main
+│       │   ├── _base.scss
+│       │   ├── _components.scss
+│       │   ├── _layout.scss
+│       │   ├── main.scss
+│       │   ├── utils
+│       │   │   ├── _breakpoints.scss
+│       │   │   ├── _helpers.scss
+│       │   │   └── _mixins.scss
+│       │   └── _variables.scss
+│       └── memorial
+│           ├── base
+│           │   ├── _base.scss
+│           │   ├── _components.scss
+│           │   ├── _layout.scss
+│           │   └── _variables.scss
+│           ├── memorial.scss
+│           ├── pages
+│           │   ├── _epitaph.scss
+│           │   ├── _gallery.scss
+│           │   ├── _lifestory.scss
+│           │   ├── _sharedstory.scss
+│           │   └── _tribute.scss
+│           └── utils
+│               ├── _breakpoints.scss
+│               ├── _helpers.scss
+│               └── _mixins.scss
 ├── scripts
 ├── server.js
 └── tools
     ├── findSession.js
     └── inspectSessions.js
 
-35 directories, 160 files
+44 directories, 185 files
