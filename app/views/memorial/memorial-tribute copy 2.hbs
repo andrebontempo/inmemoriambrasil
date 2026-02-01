@@ -9,9 +9,9 @@
         Deixe a sua homenagem para <strong>{{firstName}} {{lastName}}</strong>
       </span><br>
     </h3>
-    <a href="#form-tributo" class="btn-default-memorial">
+    <button type="button" class="btn-default-memorial">
       <i class="bi bi-plus-circle me-1"></i> Escrever Homenagem
-    </a>
+    </button>
   </div>
 
   <div class="custom-box my-2 mx-0 text-start">
@@ -72,7 +72,7 @@
 
 
   <!-- Formulário de Envio de Tributo -->
-  <form id="form-tributo" action="/memorial/{{slug}}/tribute/create" method="POST">
+  <form action="/memorial/{{slug}}/tribute/create" method="POST">
     <input type="hidden" name="memorial" value="{{id}}">
     <input type="hidden" name="slug" value="{{slug}}">
 
@@ -80,7 +80,7 @@
       <div class="life-form-card">
 
         <h3 class="life-form-title">
-          <i class="bi bi-gift-heart me-2"></i>Escreva sua Homenagem
+          <i class="bi bi-gift-heart me-2"></i>Escreva e envie sua Homenagem
         </h3>
 
         <!-- Opções de ícone -->

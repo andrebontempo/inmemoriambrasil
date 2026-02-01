@@ -27,7 +27,8 @@
     padding: 10px 22px;
     border-radius: 40px;
     font-size: 0.95rem;
-    width: 100%; /* se quiser o botão ocupando toda a largura */
+    width: 100%;
+    /* se quiser o botão ocupando toda a largura */
   }
 }
 
@@ -77,9 +78,11 @@
     color: #4f0e21;
   }
 }
+
 .custom-box.bg-soft-wine {
   background: #f7eaed;
 }
+
 /* Botões edit/delete */
 .btn-edit {
   background-color: var(--bs-secondary);
@@ -99,6 +102,7 @@
     background-color: var(--bs-dark);
     border-color: var(--bs-dark);
   }
+
   &:focus-visible {
     outline: 3px solid rgba(255, 255, 255, 0.3);
     outline-offset: 2px;
@@ -121,6 +125,7 @@
     background-color: var(--bs-dark);
     border-color: var(--bs-dark);
   }
+
   &:focus-visible {
     outline: 3px solid rgba(255, 255, 255, 0.3);
     outline-offset: 2px;
@@ -175,4 +180,10 @@
   border-radius: 6px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   display: block;
+}
+
+/* Ajuste de scroll para links internos */
+#form-tributo {
+  scroll-margin-top: 100px;
+  /* ajuste conforme a altura do header */
 }
