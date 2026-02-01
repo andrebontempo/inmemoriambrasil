@@ -1,144 +1,142 @@
 <main>
-  <div class="custom-box p-3 my-3 mx-0">
-
-    <!-- Título -->
-    <h3 class="mb-2">Editar Memorial</h3>
-
-    <!-- Dados básicos (fora do accordion) -->
-    <div class="mb-4 text-muted">
-      <strong>{{firstName}} {{lastName}}</strong><br>
-      <small>inmemoriambrasil.com.br/{{slug}}</small>
-    </div>
+  <!-- Formulário de Edição do Memorial -->
+  <div class="custom-box p-2 my-2 mx-0">
+    <h3 class="mb-4">Editar Memorial</h3>
 
     <form action="/memorial/{{slug}}/memorial/update" method="POST">
       <input type="hidden" name="_method" value="PUT" />
 
+      <!-- Cabeçalho do Memorial (dados fixos) -->
+      <div class="mb-4 pb-3 border-bottom">
+
+        <h3 class="fw-bold mb-1">
+          🕊️ {{firstName}} {{lastName}}
+        </h3>
+
+
+        <div class="text-muted small">
+          Link do memorial:<br>
+          <a href="/memorial/{{slug}}" target="_blank" class="text-decoration-none">
+            https://inmemoriambrasil.com.br/{{slug}}
+          </a>
+        </div>
+
+      </div>
+
+
+      <!-- ACCORDION -->
       <div class="accordion" id="accordionMemorial">
 
-        <!-- 2. Parentesco -->
+        <!-- 1. Parentesco -->
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-              data-bs-target="#parentesco">
-              👨‍👩‍👧 Parentesco
+              data-bs-target="#accParentesco" aria-expanded="false">
+              Parentesco
             </button>
           </h2>
 
-          <div id="parentesco" class="accordion-collapse collapse">
+          <div id="accParentesco" class="accordion-collapse collapse">
             <div class="accordion-body">
               <input type="text" class="form-control" name="kinship" value="{{kinship}}">
             </div>
           </div>
         </div>
 
-        <!-- 3. Epitáfio -->
+
+        <!-- 2. Epitáfio -->
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-              data-bs-target="#epitafio">
-              🕯️ Epitáfio
+              data-bs-target="#accEpitafio">
+              Epitáfio
             </button>
           </h2>
-
-          <div id="epitafio" class="accordion-collapse collapse">
+          <div id="accEpitafio" class="accordion-collapse collapse">
             <div class="accordion-body">
               <textarea class="form-control" name="epitaph" rows="3">{{epitaph}}</textarea>
             </div>
           </div>
         </div>
 
-        <!-- 4. Datas e Locais -->
+        <!-- 3. Datas e Locais -->
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-              data-bs-target="#datasLocais">
-              📍 Datas e Locais
+              data-bs-target="#accDatas">
+              Datas e Locais
             </button>
           </h2>
-
-          <div id="datasLocais" class="accordion-collapse collapse">
+          <div id="accDatas" class="accordion-collapse collapse">
             <div class="accordion-body">
 
-              <h6 class="fw-bold mb-3">Nascimento</h6>
+              <h6 class="fw-bold mb-3">📍 Nascimento</h6>
               <div class="row mb-4">
-                <div class="col-md-4 mb-2">
+                <div class="col-md-4 mb-3">
                   <label class="form-label">Data</label>
                   <input type="date" class="form-control" name="birth[date]" value="{{birth.date}}">
                 </div>
-                <div class="col-md-4 mb-2">
+                <div class="col-md-4 mb-3">
                   <label class="form-label">Estado</label>
                   <select class="form-select" id="birthState" name="birth[state]" data-selected="{{birth.state}}">
-                    <option value="">Selecione</option>
+                    <option value="">Selecione o estado</option>
                   </select>
                 </div>
-                <div class="col-md-4 mb-2">
+                <div class="col-md-4 mb-3">
                   <label class="form-label">Cidade</label>
                   <select class="form-select" id="birthCity" name="birth[city]" data-selected="{{birth.city}}">
-                    <option value="">Selecione</option>
+                    <option value="">Selecione a cidade</option>
                   </select>
                 </div>
-                <div class="col-md-4 mb-2">
-                  <label class="form-label">País</label>
-                  <input type="text" class="form-control" value="Brasil" disabled>
-                </div>
-
               </div>
 
-              <h6 class="fw-bold mb-3">Falecimento</h6>
+              <h6 class="fw-bold mb-3">🕊️ Falecimento</h6>
               <div class="row">
-                <div class="col-md-4 mb-2">
+                <div class="col-md-4 mb-3">
                   <label class="form-label">Data</label>
                   <input type="date" class="form-control" name="death[date]" value="{{death.date}}">
                 </div>
-                <div class="col-md-4 mb-2">
+                <div class="col-md-4 mb-3">
                   <label class="form-label">Estado</label>
                   <select class="form-select" id="deathState" name="death[state]" data-selected="{{death.state}}">
-                    <option value="">Selecione</option>
+                    <option value="">Selecione o estado</option>
                   </select>
                 </div>
-                <div class="col-md-4 mb-2">
+                <div class="col-md-4 mb-3">
                   <label class="form-label">Cidade</label>
                   <select class="form-select" id="deathCity" name="death[city]" data-selected="{{death.city}}">
-                    <option value="">Selecione</option>
+                    <option value="">Selecione a cidade</option>
                   </select>
                 </div>
-                <div class="col-md-4 mb-2">
-                  <label class="form-label">País</label>
-                  <input type="text" class="form-control" value="Brasil" disabled>
-                </div>
-
               </div>
 
             </div>
           </div>
         </div>
 
-        <!-- 5. Mini Biografia -->
+        <!-- 4. Mini Biografia -->
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-              data-bs-target="#biografia">
-              📝 Mini Biografia
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accBio">
+              Mini Biografia
             </button>
           </h2>
-
-          <div id="biografia" class="accordion-collapse collapse">
+          <div id="accBio" class="accordion-collapse collapse">
             <div class="accordion-body">
               <textarea class="form-control" name="biography" rows="7">{{biography}}</textarea>
             </div>
           </div>
         </div>
 
-        <!-- 6. Obituário -->
+        <!-- 5. Obituário -->
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-              data-bs-target="#obituario">
-              🕊️ Obituário
+              data-bs-target="#accObito">
+              Obituário
             </button>
           </h2>
-
-          <div id="obituario" class="accordion-collapse collapse">
+          <div id="accObito" class="accordion-collapse collapse">
             <div class="accordion-body">
               <div class="row">
                 <div class="col-md-6 mb-3">
@@ -152,27 +150,30 @@
                     value="{{obituary.graveAddress}}">
                 </div>
 
-                <div class="col-md-6 mb-3">
+                <div class="col-md-5 mb-3">
                   <label class="form-label">Local do Velório</label>
                   <input type="text" class="form-control" name="obituary[wakeLocation]"
                     value="{{obituary.wakeLocation}}">
                 </div>
 
-                <div class="col-md-6 mb-3">
-                  <label class="form-label d-block">Velório</label>
-                  <div class="row g-2">
-                    <div class="col-6">
-                      <input type="date" class="form-control" name="obituary[wakeDate]"
-                        value="{{formatDate obituary.wakeDate}}">
-                    </div>
-                    <div class="col-3">
-                      <input type="time" class="form-control" name="obituary[wakeStart]" value="{{obituary.wakeStart}}">
-                    </div>
-                    <div class="col-3">
-                      <input type="time" class="form-control" name="obituary[wakeEnd]" value="{{obituary.wakeEnd}}">
-                    </div>
-                  </div>
+                <div class="col-md-3 mb-3">
+                  <label class="form-label">Data</label>
+                  <input type="date" class="form-control" name="obituary[wakeDate]"
+                    value="{{formatDate obituary.wakeDate}}">
                 </div>
+
+                <div class="col-md-2 mb-3">
+                  <label class="form-label">Início</label>
+                  <input type="time" class="form-control" name="obituary[wakeStart]" value="{{obituary.wakeStart}}">
+                </div>
+
+                <div class="col-md-2 mb-3">
+                  <label class="form-label">Término</label>
+                  <input type="time" class="form-control" name="obituary[wakeEnd]" value="{{obituary.wakeEnd}}">
+                </div>
+
+
+
 
                 <div class="col-12 mb-3">
                   <label class="form-label">Mapa do Cemitério</label>
@@ -194,54 +195,50 @@
     </form>
   </div>
 </main>
-<script>
-  async function loadStates(selectId, cityId) {
-    const stateSelect = document.getElementById(selectId);
-    const selectedState = stateSelect.dataset.selected;
 
-    if (!stateSelect) return;
+<!-- SCRIPT IBGE -->
+<script>
+  async function loadStates(stateSelectId, citySelectId) {
+    const stateSelect = document.getElementById(stateSelectId);
+    const citySelect = document.getElementById(citySelectId);
+    if (!stateSelect || !citySelect) return;
+
+    const selectedState = stateSelect.dataset.selected;
+    const selectedCity = citySelect.dataset.selected;
 
     const res = await fetch(
       "https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome"
     );
     const states = await res.json();
 
+    stateSelect.innerHTML = `<option value="">Selecione o estado</option>`;
+
     states.forEach(state => {
       const option = document.createElement("option");
       option.value = state.sigla;
       option.textContent = `${state.nome} (${state.sigla})`;
-
-      if (state.sigla === selectedState) {
-        option.selected = true;
-      }
-
+      if (state.sigla === selectedState) option.selected = true;
       stateSelect.appendChild(option);
     });
 
-    // Se já existe estado salvo, carrega cidades automaticamente
     if (stateSelect.value) {
-      loadCities(selectId, cityId);
+      await loadCities(stateSelect.value, citySelect, selectedCity);
     }
 
-    stateSelect.addEventListener("change", () => {
-      loadCities(selectId, cityId);
+    stateSelect.addEventListener("change", async () => {
+      if (!stateSelect.value) {
+        citySelect.innerHTML = `<option value="">Selecione a cidade</option>`;
+        return;
+      }
+      await loadCities(stateSelect.value, citySelect, null);
     });
   }
 
-  async function loadCities(stateId, cityId) {
-    const stateSelect = document.getElementById(stateId);
-    const citySelect = document.getElementById(cityId);
-    const selectedCity = citySelect.dataset.selected;
-
-    if (!stateSelect.value) {
-      citySelect.innerHTML = `<option value="">Selecione a cidade</option>`;
-      return;
-    }
-
-    citySelect.innerHTML = `<option value="">Carregando...</option>`;
+  async function loadCities(uf, citySelect, selectedCity) {
+    citySelect.innerHTML = `<option value="">Carregando cidades...</option>`;
 
     const res = await fetch(
-      `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateSelect.value}/municipios`
+      `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`
     );
     const cities = await res.json();
 
@@ -251,16 +248,11 @@
       const option = document.createElement("option");
       option.value = city.nome;
       option.textContent = city.nome;
-
-      if (city.nome === selectedCity) {
-        option.selected = true;
-      }
-
+      if (city.nome === selectedCity) option.selected = true;
       citySelect.appendChild(option);
     });
   }
 
-  // Inicialização (nascimento e falecimento)
   document.addEventListener("DOMContentLoaded", () => {
     loadStates("birthState", "birthCity");
     loadStates("deathState", "deathCity");

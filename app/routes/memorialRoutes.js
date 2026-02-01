@@ -190,6 +190,8 @@ router.get("/pesquisa", MemorialController.searchMemorial)
 router.get("/create-memorial", MemorialController.createStep1)
 router.get("/:slug/about", MemorialController.showMemorial)
 router.get("/:slug/memorial/edit", MemorialController.editMemorial)
+//router.post("/:slug/memorial/update", MemorialController.updateMemorial)
+
 router.post(
   "/:slug/memorial/update",
   (req, res) => {
@@ -203,6 +205,7 @@ router.post(
   },
   MemorialController.updateMemorial
 )
+
 router.post("/:slug/delete", (req, res) => {
   if (req.body._method && req.body._method === "DELETE") {
     return MemorialController.deleteMemorial(req, res)

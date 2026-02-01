@@ -427,6 +427,7 @@ const MemorialController = {
 
   // Atualizar memorial
   updateMemorial: async (req, res) => {
+    console.log("UPDATE MEMORIAL >>>")
     try {
       const { slug } = req.params;
 
