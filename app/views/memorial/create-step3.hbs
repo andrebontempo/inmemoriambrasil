@@ -2,35 +2,23 @@
 
   <!-- WRAPPER CENTRALIZADO -->
   <div class="d-flex justify-content-center">
-    <form
-      action="/memorial/create-step3"
-      method="POST"
-      class="main-form main-form-box main-card p-4 rounded-4 shadow-sm"
-    >
+    <form action="/memorial/create-step3" method="POST"
+      class="main-form main-form-box main-card p-4 rounded-4 shadow-sm">
 
       <h2 class="main-title text-center mb-4 fw-bold">
-        Escolha do Plano(3/4)
+        Privacidade do Memorial (3/4)
       </h2>
 
       <!-- Plano Gratuito -->
       <label for="planoGratuito" class="w-100 mb-4">
-        <div
-          class="card shadow-sm border-0 rounded-4 p-3"
-          style="cursor: pointer;"
-        >
+        <div class="card shadow-sm border-0 rounded-4 p-3" style="cursor: pointer;">
           <div class="d-flex align-items-start">
-            <input
-              class="form-check-input mt-1 me-3"
-              type="radio"
-              name="plan"
-              id="planoGratuito"
-              value="free"
-              required
-            />
+            <input class="form-check-input mt-1 me-3" type="radio" name="accessLevel" id="public_read"
+              value="public_read" required />
             <div>
-              <h5 class="fw-bold text-primary">Plano Gratuito</h5>
+              <h5 class="fw-bold text-primary">Público</h5>
               <p class="text-muted mb-0">
-                Memorial com recursos básicos e permanência limitada.
+                Qualquer pessoa pode visualizar o memorial.
               </p>
             </div>
           </div>
@@ -39,23 +27,28 @@
 
       <!-- Plano Premium -->
       <label for="planoPremium" class="w-100 mb-4">
-        <div
-          class="card shadow-sm border-0 rounded-4 p-3"
-          style="cursor: pointer;"
-        >
+        <div class="card shadow-sm border-0 rounded-4 p-3" style="cursor: pointer;">
           <div class="d-flex align-items-start">
-            <input
-              class="form-check-input mt-1 me-3"
-              type="radio"
-              name="plan"
-              id="planoPremium"
-              value="premium"
-            />
+            <input class="form-check-input mt-1 me-3" type="radio" name="accessLevel" id="private_edit"
+              value="private_edit" />
             <div>
-              <h5 class="fw-bold text-primary">Plano Premium (pago)</h5>
+              <h5 class="fw-bold text-primary">Privado</h5>
               <p class="text-muted mb-0">
-                Memorial com recursos avançados, personalização completa e sem
-                limite de tempo.
+                Somente você pode visualizar o memorial.
+              </p>
+            </div>
+          </div>
+        </div>
+      </label>
+      <!-- Observações -->
+      <label for="planoPremium" class="w-100 mb-4">
+        <div class="card shadow-sm border-0 rounded-4 p-3" style="cursor: pointer;">
+          <div class="d-flex align-items-start">
+            <div>
+              <h5 class="fw-bold text-primary">Observações</h5>
+              <p class="text-muted mb-0">
+                Após a criação do memorial, você poderá redefinir o acesso para público, privado, ou somente convidados
+                no plano premium.
               </p>
             </div>
           </div>

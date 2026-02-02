@@ -8,17 +8,40 @@ function canViewMemorial(req, res, next) {
     })
   }
 
-  if (memorial.accessLevel === "public_read") return next()
+  // Público: qualquer um
+  if (memorial.accessLevel === "public_read") {
+    return next()
+  }
 
+  // A partir daqui, convidados e relações explícitas
   if (!user) {
     return res.status(401).json({ error: "Login necessário" })
   }
 
-  if (user.role === "admin") return next()
-  if (String(memorial.owner) === String(user._id)) return next()
-  if (memorial.collaborators.includes(user._id)) return next()
+  // Admin vê tudo
+  if (user.role === "admin") {
+    return next()
+  }
 
-  if (memorial.accessLevel === "private_read") return next()
+  const userId = String(user._id)
+
+  // Owner
+  if (String(memorial.owner) === userId) {
+    return next()
+  }
+
+  // Collaborator
+  if (memorial.collaborators?.some(id => String(id) === userId)) {
+    return next()
+  }
+
+  // Invited → SOMENTE private_read
+  if (
+    memorial.accessLevel === "private_read" &&
+    memorial.invited?.some(id => String(id) === userId)
+  ) {
+    return next()
+  }
 
   return res.status(403).json({ error: "Sem permissão para visualizar" })
 }

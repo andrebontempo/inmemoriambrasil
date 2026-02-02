@@ -8,7 +8,13 @@ const MemorialSchema = new mongoose.Schema(
       required: true,
     }, // Criador do memorial
 
-    collaborators: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], // Colaboradores com permissão de edição
+    collaborators: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "User" }
+    ], // edição
+
+    invited: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "User" }
+    ], // leitura (private_read)
 
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
@@ -20,13 +26,13 @@ const MemorialSchema = new mongoose.Schema(
       default: "",
     },
     obituary: {
-      cemetery: { type: String, default: "Não Informado" },
-      graveAddress: { type: String, default: "Não Informado" },
-      wakeLocation: { type: String, default: "Não Informado" },
+      cemetery: { type: String, default: null },
+      graveAddress: { type: String, default: null },
+      wakeLocation: { type: String, default: null },
       wakeDate: { type: Date, default: null },
-      wakeStart: { type: String, default: "Não Informado" },
-      wakeEnd: { type: String, default: "Não Informado" },
-      cemeteryMap: { type: String, default: "Não Informado" },
+      wakeStart: { type: String, default: null },
+      wakeEnd: { type: String, default: null },
+      cemeteryMap: { type: String, default: null },
     },
     accessLevel: {
       type: String,

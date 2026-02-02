@@ -122,10 +122,10 @@ const MemorialController = {
   createStep3: async (req, res) => {
     //console.log("Recebido do formulário:", req.body)
 
-    const { plan } = req.body
+    const { accessLevel } = req.body
     if (!req.session.memorial) return res.redirect("/memorial/create-step1")
 
-    req.session.memorial.plan = plan
+    req.session.memorial.accessLevel = accessLevel
 
     return res.redirect("/memorial/create-step4")
   },
