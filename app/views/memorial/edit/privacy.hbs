@@ -24,7 +24,7 @@
         <h5 class="fw-bold mb-3">Opções de privacidade:</h5>
 
         <!-- Público -->
-        <label class="w-100 p-3 mb-3 rounded border bg-light cursor-pointer">
+        <label class="w-100 p-3 mb-3 rounded border cursor-pointer">
           <div class="form-check">
             <input class="form-check-input" type="radio" name="accessLevel" value="public_read" {{#ifEquals
               accessLevel "public_read" }}checked{{/ifEquals}}>
@@ -39,7 +39,7 @@
         </label>
 
         <!-- Privado -->
-        <label class="w-100 p-3 mb-3 rounded border bg-light cursor-pointer">
+        <label class="w-100 p-3 mb-3 rounded border cursor-pointer">
           <div class="form-check">
             <input class="form-check-input" type="radio" name="accessLevel" value="private_read" {{#ifEquals
               accessLevel "private_read" }}checked{{/ifEquals}}>

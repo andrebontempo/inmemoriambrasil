@@ -145,7 +145,7 @@ router.get("/pesquisa", MemorialController.searchMemorial)
 router.get("/create-memorial", MemorialController.createStep1)
 router.get("/:slug/about", loadMemorial, canViewMemorial, MemorialController.showMemorial)
 router.get("/:slug/memorial/edit", MemorialController.editMemorial)
-router.get("/:slug/memorial/privacy", MemorialController.editPrivacy)
+router.get("/:slug/memorial/privacy/edit", MemorialController.editPrivacy)
 
 router.post(
   "/:slug/memorial/update",
@@ -161,8 +161,12 @@ router.post(
   MemorialController.updateMemorial
 )
 
+
+router.post("/:slug/privacy/update", MemorialController.updatePrivacy
+)
+/*
 router.post(
-  "/:slug/memorial/privacy",
+  "/:slug/memorial/privacy/update",
   (req, res) => {
     // Verificar se o campo _method existe e se é 'PUT'
     if (req.body._method && req.body._method === "PUT") {
@@ -174,7 +178,7 @@ router.post(
   },
   MemorialController.updatePrivacy
 )
-
+*/
 router.post("/:slug/delete", (req, res) => {
   if (req.body._method && req.body._method === "DELETE") {
     return MemorialController.deleteMemorial(req, res)

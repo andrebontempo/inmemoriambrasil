@@ -582,33 +582,21 @@ const MemorialController = {
         obituary = {}
       } = req.body;
 
+
       await Memorial.findOneAndUpdate(
         { slug },
         {
           $set: {
-            accessLevel,
-            kinship,
-            biography,
-            epitaph,
-            theme,
-            obituary,
-
-            // 🔒 Nascimento (sem country)
-            "birth.date": birth.date || null,
-            "birth.city": birth.city || null,
-            "birth.state": birth.state || null,
-
-            // 🔒 Falecimento (sem country)
-            "death.date": death.date || null,
-            "death.city": death.city || null,
-            "death.state": death.state || null,
-          }
+            accessLevel: req.body.accessLevel,
+          },
         },
         {
           new: true,
-          runValidators: true
+          runValidators: true,
+          context: "query",
         }
-      );
+      )
+
 
       res.redirect(`/memorial/${slug}`);
     } catch (err) {

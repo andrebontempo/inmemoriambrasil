@@ -43,7 +43,7 @@ function canViewMemorial(req, res, next) {
     return next()
   }
 
-  return res.status(403).json({ error: "Sem permissão para visualizar" })
+  return res.status(403).render("alerts/private_memorial")
 }
 
 module.exports = canViewMemorial

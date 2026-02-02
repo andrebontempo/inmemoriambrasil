@@ -1,10 +1,23 @@
 <main>
   <!-- Formulário de Edição do Memorial -->
   <div class="custom-box p-2 my-2 mx-0">
-    <h3>Editar: Foto Principal | Epitáfio | MiniBiografia</h3>
+    <h3 class="mb-4">Editar: Trocar a Foto Principal</h3>
 
     <form action="/memorial/{{slug}}/memorial-fet/update" method="POST" enctype="multipart/form-data">
       <input type="hidden" name="_method" value="PUT" />
+      <!-- Cabeçalho -->
+      <div class="mb-4 pb-3 border-bottom">
+        <h3 class="fw-bold mb-1">
+          🕊️ {{firstName}} {{lastName}}
+        </h3>
+
+        <div class="text-muted small">
+          Link do memorial:<br>
+          <a href="/memorial/{{slug}}" target="_blank" class="text-decoration-none">
+            https://inmemoriambrasil.com.br/{{slug}}
+          </a>
+        </div>
+      </div>
       <!-- Foto Principal -->
       <fieldset class="mb-3">
         <label class="form-label"><strong>Foto Principal:</strong></label>
