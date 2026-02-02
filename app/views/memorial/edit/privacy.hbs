@@ -1,0 +1,83 @@
+<main>
+  <div class="custom-box p-2 my-2 mx-0">
+    <h3 class="mb-4">Privacidade do Memorial</h3>
+
+    <form action="/memorial/{{slug}}/privacy/update" method="POST">
+      <input type="hidden" name="_method" value="PUT" />
+
+      <!-- Cabeçalho -->
+      <div class="mb-4 pb-3 border-bottom">
+        <h3 class="fw-bold mb-1">
+          🕊️ {{firstName}} {{lastName}}
+        </h3>
+
+        <div class="text-muted small">
+          Link do memorial:<br>
+          <a href="/memorial/{{slug}}" target="_blank" class="text-decoration-none">
+            https://inmemoriambrasil.com.br/{{slug}}
+          </a>
+        </div>
+      </div>
+
+      <!-- OPÇÕES DE PRIVACIDADE -->
+      <div class="mb-4">
+        <h5 class="fw-bold mb-3">Opções de privacidade:</h5>
+
+        <!-- Público -->
+        <label class="w-100 p-3 mb-3 rounded border bg-light cursor-pointer">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="accessLevel" value="public_read" {{#ifEquals
+              accessLevel "public_read" }}checked{{/ifEquals}}>
+            <span class="fw-bold ms-2">
+              Todos os visitantes podem ver e contribuir.
+            </span>
+          </div>
+
+          <div class="small text-muted mt-2 ms-4">
+            Recomendado. Esta opção permite acesso fácil ao memorial e colaboração pública.
+          </div>
+        </label>
+
+        <!-- Privado -->
+        <label class="w-100 p-3 mb-3 rounded border bg-light cursor-pointer">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="accessLevel" value="private_read" {{#ifEquals
+              accessLevel "private_read" }}checked{{/ifEquals}}>
+            <span class="fw-bold ms-2">
+              Visível apenas para mim.
+            </span>
+          </div>
+
+          <div class="small text-muted mt-2 ms-4">
+            Esta opção garante total privacidade. Somente você poderá visualizar o memorial.
+          </div>
+        </label>
+
+        <!-- Compartilhado -->
+        <label class="w-100 p-3 mb-3 rounded border cursor-pointer">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="accessLevel" value="private_edit" {{#ifEquals
+              accessLevel "private_edit" }}checked{{/ifEquals}}>
+            <span class="fw-bold ms-2">
+              Partilhado com família e amigos.
+            </span>
+          </div>
+
+          <div class="small text-muted mt-2 ms-4">
+            Apenas pessoas convidadas poderão acessar o memorial.
+          </div>
+        </label>
+      </div>
+
+      <!-- BOTÕES -->
+      <div class="d-flex justify-content-end gap-2 mt-4">
+        <a href="/memorial/{{slug}}" class="btn-default-memorial">
+          Cancelar
+        </a>
+        <button type="submit" class="btn-default-memorial">
+          Salvar privacidade
+        </button>
+      </div>
+    </form>
+  </div>
+</main>

@@ -409,6 +409,113 @@ const MemorialController = {
       res.status(500).send("Erro interno do servidorrrrr")
     }
   },
+  editPrivacy: async (req, res) => {
+    try {
+      //console.log("Recebendo requisição para editar memorial:", req.params.slug)
+
+      const memorial = await Memorial.findOne({ slug: req.params.slug })
+        .populate({ path: "owner", select: "firstName lastName" })
+        .populate({ path: "lifeStory", select: "title content" }) // Populate para lifeStory
+        .populate({ path: "sharedStory", select: "title content" }) // Populate para sharedstory
+        .lean() // Converte o documento em um objeto simples
+
+      if (!memorial) {
+        //console.log("Nenhum memorial encontrado com este slug")
+        return res.status(404).send("Memorial não encontrado")
+      }
+
+      // Buscar as photos relacionados ao memorial
+      const galeria = await Gallery.findOne({ memorial: memorial._id })
+        .populate({ path: "user", select: "firstName lastName" })
+        .select("photos audios videos")
+        .lean() // Garantir que o resultado seja simples (não um documento Mongoose)
+
+      // Se não houver galeria, inicializa com arrays vazios
+      const galleryData = {
+        memorial: galeria?.memorial || null,
+        user: galeria?.user || null,
+        photos: galeria?.photos || [],
+        audios: galeria?.audios || [],
+        videos: galeria?.videos || [],
+      }
+
+      // Buscar contagem de tributos (caso tenha múltiplas associadas a esse memorial)
+      const totalTributos = await Tribute.countDocuments({
+        memorial: memorial._id,
+      })
+      // Buscar contagem de histórias de vida (caso tenha múltiplas associadas a esse memorial)
+      const totalHistorias = await LifeStory.countDocuments({
+        memorial: memorial._id,
+      })
+      // Buscar contagem de histórias compartilhadas (caso tenha múltiplas associadas a esse memorial)
+      const totalHistoriasCom = await SharedStory.countDocuments({
+        memorial: memorial._id,
+      })
+
+      //console.log("Memorial encontrado:", memorial)
+      //res.render("memorial/edit/personal", { memorial })
+      return res.render("memorial/edit/privacy", {
+        layout: "memorial-layout",
+        firstName: memorial.firstName,
+        lastName: memorial.lastName,
+        slug: memorial.slug,
+        accessLevel: memorial.accessLevel,
+        gender: memorial.gender,
+        mainPhoto: memorial.mainPhoto,
+        kinship: memorial.kinship, // valor salvo
+        kinships,                  // <<< ISSO FALTAVA
+        biography: memorial.biography,
+        obituary: {
+          ...memorial.obituary,
+
+          wakeDate: memorial.obituary?.wakeDate
+            ? new Date(memorial.obituary.wakeDate).toISOString().split("T")[0]
+            : "",
+        },
+        birth: {
+          date: memorial.birth?.date
+            ? new Date(memorial.birth.date).toISOString().split("T")[0]
+            : "",
+          //date: memorial.birth?.date || "Não informada", // Passa a data sem formatar
+          city: memorial.birth?.city || "Cidade não informada",
+          state: memorial.birth?.state || "Estado não informado",
+          country: memorial.birth?.country || "Brasil",
+        },
+        death: {
+          date: memorial.death?.date
+            ? new Date(memorial.death.date).toISOString().split("T")[0]
+            : "",
+
+          //date: memorial.death?.date || "Não informada", // Passa a data sem formatar
+          city: memorial.death?.city || "Cidade não informada",
+          state: memorial.death?.state || "Estado não informado",
+          country: memorial.death?.country || "Brasil",
+        },
+        about: memorial.about, // || "Informação não disponível.",
+        epitaph: memorial.epitaph, // || "Nenhum epitáfio fornecido.",
+        //tribute: memorial.tribute || [], // Passando os tributos para o template
+        //lifeStory: Array.isArray(memorial.lifeStory) ? memorial.lifeStory : [],
+        //stories: Array.isArray(memorial.stories) ? memorial.stories : [],
+        //gallery: memorial.gallery || {
+        //  photos: [],
+        //  audios: [],
+        //  videos: [],
+        //},
+        theme: memorial.theme || "Flores",
+        gallery: galleryData,
+        // Envia estatísticas específicas para a view
+        estatisticas: {
+          totalVisitas: memorial.visits || 0,
+          totalTributos,
+          totalHistorias,
+          totalHistoriasCom,
+        },
+      })
+    } catch (error) {
+      //console.error("Erro ao carregar memorial para edição:", error)
+      res.status(500).send("Erro interno do servidorrrrr")
+    }
+  },
 
   // Atualizar memorial
   updateMemorial: async (req, res) => {
@@ -429,6 +536,57 @@ const MemorialController = {
         { slug },
         {
           $set: {
+            kinship,
+            biography,
+            epitaph,
+            theme,
+            obituary,
+
+            // 🔒 Nascimento (sem country)
+            "birth.date": birth.date || null,
+            "birth.city": birth.city || null,
+            "birth.state": birth.state || null,
+
+            // 🔒 Falecimento (sem country)
+            "death.date": death.date || null,
+            "death.city": death.city || null,
+            "death.state": death.state || null,
+          }
+        },
+        {
+          new: true,
+          runValidators: true
+        }
+      );
+
+      res.redirect(`/memorial/${slug}`);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Erro ao atualizar memorial");
+    }
+  },
+
+  // Atualizar memorial
+  updatePrivacy: async (req, res) => {
+    try {
+      const { slug } = req.params;
+
+      const {
+        accessLevel,
+        kinship,
+        biography,
+        epitaph,
+        theme,
+        birth = {},
+        death = {},
+        obituary = {}
+      } = req.body;
+
+      await Memorial.findOneAndUpdate(
+        { slug },
+        {
+          $set: {
+            accessLevel,
             kinship,
             biography,
             epitaph,

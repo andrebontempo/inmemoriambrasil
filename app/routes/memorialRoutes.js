@@ -145,6 +145,8 @@ router.get("/pesquisa", MemorialController.searchMemorial)
 router.get("/create-memorial", MemorialController.createStep1)
 router.get("/:slug/about", loadMemorial, canViewMemorial, MemorialController.showMemorial)
 router.get("/:slug/memorial/edit", MemorialController.editMemorial)
+router.get("/:slug/memorial/privacy", MemorialController.editPrivacy)
+
 router.post(
   "/:slug/memorial/update",
   (req, res) => {
@@ -158,6 +160,21 @@ router.post(
   },
   MemorialController.updateMemorial
 )
+
+router.post(
+  "/:slug/memorial/privacy",
+  (req, res) => {
+    // Verificar se o campo _method existe e se é 'PUT'
+    if (req.body._method && req.body._method === "PUT") {
+      // Chama o controller de atualização se o _method for PUT
+      return MemorialController.updatePrivacy(req, res)
+    }
+    // Caso contrário, retorna um erro de método não permitido
+    res.status(400).send("Método não permitido")
+  },
+  MemorialController.updatePrivacy
+)
+
 router.post("/:slug/delete", (req, res) => {
   if (req.body._method && req.body._method === "DELETE") {
     return MemorialController.deleteMemorial(req, res)
