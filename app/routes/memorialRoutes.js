@@ -7,41 +7,30 @@ const LifeStoryController = require("../controllers/LifeStoryController")
 const SharedStoryController = require("../controllers/SharedStoryController")
 const GalleryController = require("../controllers/GalleryController")
 const authMiddleware = require("../middlewares/authMiddleware")
-//const { ensureAuthenticated } = require("../middlewares/authMiddleware")
-//const upload = require("../middlewares/uploadMiddleware")
 const { upload, uploadToR2 } = require("../middlewares/uploadMiddleware")
 const { r2, PutObjectCommand, DeleteObjectCommand } = require("../../config/r2")
-
 const InviteController = require("../controllers/InviteController")
 
-/*
-router.use((req, res, next) => {
-  console.log("📍 Middleware de rota executado:", req.method, req.originalUrl)
-  next()
-})
-*/
+//Middlewares para o Permissionamento dos Memoriais
+const loadMemorial = require("../middlewares/loadMemorial")
+const canViewMemorial = require("../middlewares/canViewMemorial")
 
 //*********ROTAS PARA O ENVIO DE EMAIL***********
-
-// Rota para envio de convite por e-mail
 router.post("/:slug/invite", InviteController.sendInvite)
 
 //*********ROTAS PARA O GALELRY CONTROLLER***********
 router.get("/:slug/gallery", GalleryController.showGallery)
-// Rotas para editar a galeria
 router.post(
   "/:slug/gallery/update/:tipo",
   upload.single("file"),
   authMiddleware,
   GalleryController.updateGallery
 )
-
 router.get(
   "/:slug/gallery/edit/:id",
   authMiddleware,
   GalleryController.editGallery
 )
-
 router.post(
   "/:slug/gallery/delete/:tipo",
   authMiddleware,
@@ -49,7 +38,6 @@ router.post(
 )
 
 //*********ROTAS PARA O SHAREDSTORY CONTROLLER***********
-// Rota para criar uma nova história de vida
 router.post(
   "/:slug/sharedstory/create",
   authMiddleware,
@@ -57,12 +45,8 @@ router.post(
   uploadToR2, // 3) Envia o arquivo para o Cloudflare R2
   SharedStoryController.createSharedStory
 )
-// Rota para mostrar uma história compartilhada
 router.get("/:slug/sharedstory", SharedStoryController.showSharedStory)
-// Rota para editar uma história de vida
 router.get("/:slug/sharedstory/edit/:id", SharedStoryController.editSharedStory)
-// Rota para atualizar uma história COmpartilhada com POST
-
 router.post(
   "/:slug/sharedstory/update/:id",
   authMiddleware,
@@ -70,8 +54,6 @@ router.post(
   uploadToR2, // 3) Envia o arquivo para o Cloudflare R2
   SharedStoryController.updateSharedStory
 )
-
-// Rota para excluir uma história compartilhada
 router.post(
   "/:slug/sharedstory/delete/:id",
   SharedStoryController.deleteSharedStory
@@ -85,12 +67,8 @@ router.post(
   uploadToR2, // 3) Envia o arquivo para o Cloudflare R2
   LifeStoryController.createLifeStory
 )
-// Rota para mostrar uma história de vida
-router.get("/:slug/lifestory", LifeStoryController.showLifeStory)
-// Rota para editar uma história de vida
+router.get("/:slug/lifestory", loadMemorial, canViewMemorial, LifeStoryController.showLifeStory)
 router.get("/:slug/lifestory/edit/:id", LifeStoryController.editLifeStory)
-
-// Rota para atualizar uma história de vida com POST
 router.post(
   "/:slug/lifestory/update/:id",
   authMiddleware,
@@ -98,27 +76,10 @@ router.post(
   uploadToR2, // 3) Envia o arquivo para o Cloudflare R2
   LifeStoryController.updateLifeStory
 )
-/*
-router.post(
-  "/:slug/lifestory/update/:id",
-  upload.single("file"),
-  (req, res) => {
-    // Verificar se o campo _method existe e se é 'PUT'
-    if (req.body._method && req.body._method === "PUT") {
-      // Chama o controller de atualização se o _method for PUT
-      return LifeStoryController.updateLifeStory(req, res)
-    }
-    // Caso contrário, retorna um erro de método não permitido
-    res.status(400).send("Método não permitido")
-  }
-)
- */
-// Rota para excluir uma história de vida
 router.post("/:slug/lifestory/delete/:id", LifeStoryController.deleteLifeStory)
 
 //*********ROTAS PARA O TRIBUTE CONTROLLER***********
-// Rota para mostrar uma história de vida
-router.get("/:slug/tribute", TributeController.showTribute)
+router.get("/:slug/tribute", loadMemorial, canViewMemorial, TributeController.showTribute)
 router.post(
   "/:slug/tribute/create",
   authMiddleware,
@@ -150,9 +111,7 @@ router.post(
 )
 
 //*********ROTAS PARA O MEMORIAL - FOTO, EPITÁFIO E TEMA CONTROLLER***********
-// Rota para editar o epitáfio
 router.get("/:slug/memorial-fet/edit", MemorialFETController.editMemorialFET)
-// Rota para atualizar o epitáfio
 router.post(
   "/:slug/memorial-fet/update",
   upload.single("file"),
@@ -181,17 +140,11 @@ router.post(
   authMiddleware, // 1) Garante login
   upload.single("file"), // 2) Captura o arquivo via multer
   uploadToR2, // 3) Envia o arquivo para o Cloudflare R2
-  MemorialController.createStep4 // 4) Salva no banco e finaliza
-)
-
+  MemorialController.createStep4) // 4) Salva no banco e finaliza
 router.get("/pesquisa", MemorialController.searchMemorial)
-
-
 router.get("/create-memorial", MemorialController.createStep1)
-router.get("/:slug/about", MemorialController.showMemorial)
+router.get("/:slug/about", loadMemorial, canViewMemorial, MemorialController.showMemorial)
 router.get("/:slug/memorial/edit", MemorialController.editMemorial)
-//router.post("/:slug/memorial/update", MemorialController.updateMemorial)
-
 router.post(
   "/:slug/memorial/update",
   (req, res) => {
@@ -205,7 +158,6 @@ router.post(
   },
   MemorialController.updateMemorial
 )
-
 router.post("/:slug/delete", (req, res) => {
   if (req.body._method && req.body._method === "DELETE") {
     return MemorialController.deleteMemorial(req, res)

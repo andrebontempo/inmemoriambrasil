@@ -10,6 +10,7 @@ const memorialRoutes = require("./memorialRoutes")
 //const sharedStoryRoutes = require("./sharedStoryRoutes")
 //const galleryRoutes = require("./galleryRoutes")
 
+
 // Usa as rotas nos caminhos apropriados
 router.use("/", homeRoutes) // para exibição da página inicial
 router.use("/auth", authRoutes) // para autenticação e registro de usuários

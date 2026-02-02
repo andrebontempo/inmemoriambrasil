@@ -2,23 +2,29 @@ const Memorial = require("../models/Memorial")
 
 async function loadMemorial(req, res, next) {
   try {
-    const id = req.params.id || req.body.memorialId
+    const { slug } = req.params
 
-    if (!id) {
-      return res.status(400).json({ error: "ID do memorial não fornecido" })
+    if (!slug) {
+      return res.status(400).json({
+        error: "Slug do memorial não fornecido"
+      })
     }
 
-    const memorial = await Memorial.findById(id)
+    const memorial = await Memorial.findOne({ slug })
 
     if (!memorial) {
-      return res.status(404).json({ error: "Memorial não encontrado" })
+      return res.status(404).json({
+        error: "Memorial não encontrado"
+      })
     }
 
     req.memorial = memorial
     next()
-  } catch (err) {
-    console.error("Erro ao carregar memorial:", err)
-    return res.status(500).json({ error: "Erro interno" })
+  } catch (error) {
+    console.error("Erro no loadMemorial:", error)
+    return res.status(500).json({
+      error: "Erro ao carregar memorial"
+    })
   }
 }
 
