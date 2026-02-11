@@ -14,12 +14,13 @@ const InviteController = require("../controllers/InviteController")
 //Middlewares para o Permissionamento dos Memoriais
 const loadMemorial = require("../middlewares/loadMemorial")
 const canViewMemorial = require("../middlewares/canViewMemorial")
+const setAdminMenuPermission = require("../middlewares/setAdminMenuPermission")
 
 //*********ROTAS PARA O ENVIO DE EMAIL***********
 router.post("/:slug/invite", InviteController.sendInvite)
 
 //*********ROTAS PARA O GALELRY CONTROLLER***********
-router.get("/:slug/gallery", GalleryController.showGallery)
+router.get("/:slug/gallery", loadMemorial, canViewMemorial, GalleryController.showGallery)
 router.post(
   "/:slug/gallery/update/:tipo",
   upload.single("file"),
@@ -45,7 +46,7 @@ router.post(
   uploadToR2, // 3) Envia o arquivo para o Cloudflare R2
   SharedStoryController.createSharedStory
 )
-router.get("/:slug/sharedstory", SharedStoryController.showSharedStory)
+router.get("/:slug/sharedstory", loadMemorial, canViewMemorial, SharedStoryController.showSharedStory)
 router.get("/:slug/sharedstory/edit/:id", SharedStoryController.editSharedStory)
 router.post(
   "/:slug/sharedstory/update/:id",
@@ -110,10 +111,10 @@ router.post(
   TributeController.deleteTribute
 )
 
-//*********ROTAS PARA O MEMORIAL - FOTO, EPITÁFIO E TEMA CONTROLLER***********
-router.get("/:slug/memorial-fet/edit", MemorialFETController.editMemorialFET)
+//*********ROTAS PARA O MEMORIAL - FOTO PRINCIPAL***********
+router.get("/:slug/memorial-fet/edit", loadMemorial, canViewMemorial, MemorialFETController.editMemorialFET)
 router.post(
-  "/:slug/memorial-fet/update",
+  "/:slug/memorial-fet/update", loadMemorial, canViewMemorial,
   upload.single("file"),
   uploadToR2,
   MemorialFETController.updateMemorialFET
@@ -124,11 +125,11 @@ router.post(
 router.get("/create-step1", authMiddleware, MemorialController.renderStep1) // Mostrar o formulário da etapa 1
 router.post("/create-step1", authMiddleware, MemorialController.createStep1) // Processar os dados da etapa 1
 
-// Etapa 2: Dados de Nascimento, Falecimento, Sexo e Parentesco
+// Etapa 2: Dados de Nascimento, Falecimento
 router.get("/create-step2", authMiddleware, MemorialController.renderStep2) // Mostrar o formulário da etapa 2
 router.post("/create-step2", authMiddleware, MemorialController.createStep2) // Processar os dados da etapa 2
 
-// Etapa 3: Escolha do Plano
+// Etapa 3: Privacidade
 router.get("/create-step3", authMiddleware, MemorialController.renderStep3) // Mostrar o formulário da etapa 3 (escolha do plano)
 router.post("/create-step3", authMiddleware, MemorialController.createStep3) // Processar a escolha do plano e criar o memorial
 
@@ -143,9 +144,9 @@ router.post(
   MemorialController.createStep4) // 4) Salva no banco e finaliza
 router.get("/pesquisa", MemorialController.searchMemorial)
 router.get("/create-memorial", MemorialController.createStep1)
-router.get("/:slug/about", loadMemorial, canViewMemorial, MemorialController.showMemorial)
-router.get("/:slug/memorial/edit", MemorialController.editMemorial)
-router.get("/:slug/memorial/privacy/edit", MemorialController.editPrivacy)
+router.get("/:slug/about", loadMemorial, setAdminMenuPermission, canViewMemorial, MemorialController.showMemorial)
+router.get("/:slug/memorial/edit", loadMemorial, canViewMemorial, MemorialController.editMemorial)
+router.get("/:slug/memorial/privacy/edit", loadMemorial, canViewMemorial, MemorialController.editPrivacy)
 
 router.post(
   "/:slug/memorial/update",
@@ -161,30 +162,18 @@ router.post(
   MemorialController.updateMemorial
 )
 
+// Rota para atualilzar a privacidade
+router.post("/:slug/privacy/update", loadMemorial, canViewMemorial, MemorialController.updatePrivacy
+)
 
-router.post("/:slug/privacy/update", MemorialController.updatePrivacy
-)
-/*
-router.post(
-  "/:slug/memorial/privacy/update",
-  (req, res) => {
-    // Verificar se o campo _method existe e se é 'PUT'
-    if (req.body._method && req.body._method === "PUT") {
-      // Chama o controller de atualização se o _method for PUT
-      return MemorialController.updatePrivacy(req, res)
-    }
-    // Caso contrário, retorna um erro de método não permitido
-    res.status(400).send("Método não permitido")
-  },
-  MemorialController.updatePrivacy
-)
-*/
-router.post("/:slug/delete", (req, res) => {
+// Rota para DELETAR MEMORIAL
+router.post("/:slug/delete", loadMemorial, canViewMemorial, (req, res) => {
   if (req.body._method && req.body._method === "DELETE") {
     return MemorialController.deleteMemorial(req, res)
   }
   res.status(400).send("Método não permitido")
 })
+
 // Rota genérica para /memorial/:slug/about"
 router.get("/:slug", (req, res) => {
   res.redirect(`/memorial/${req.params.slug}/about`)

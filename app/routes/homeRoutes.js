@@ -21,23 +21,6 @@ router.get("/sobre", (req, res) => {
 router.get("/manutencao", (req, res) => {
   res.status(503).render("manutencao")
 })
-
-/*
-router.get("/criar-memorial", (req, res) => {
-  res.render("statics/criar-memorial", {
-    title: "Criar Memorial - In Memoriam Brasil",
-  })
-})
-*/
-/*
-// Rota para exibir o formulário de criação do memorial
-router.get("/criar-memorial", authMiddleware, (req, res) => {
-  const formData = req.session.formData || {} // Recupera os dados ou mantém vazio
-  delete req.session.formData // Limpa a sessão para evitar reuso indevido
-
-  res.render("statics/criar-memorial", { formData })
-})
-*/
 router.get("/plano-opcoes", (req, res) => {
   res.render("statics/plano-opcoes", {
     title: "Plano e Opções - In Memoriam Brasil",
@@ -54,7 +37,7 @@ router.get("/contato", (req, res) => {
     activeContato: true,
   })
 })
-// Rota comentada para envio de formulário de contato
+// Rota para envio de formulário de contato
 router.post("/contato-envio", EnvioContatoController.envioContato)
 
 router.get("/memoriais-virtuais", (req, res) => {

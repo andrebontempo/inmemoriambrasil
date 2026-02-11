@@ -12,65 +12,49 @@
   <p class="text-center"><strong>Aqui estão os memoriais que você criou:</strong></p>
 
   {{#if memoriais.length}}
-    <div class="list-group">
-      {{#each memoriais}}
-        <div
-          class="list-group-item d-flex align-items-center justify-content-between flex-wrap"
-        >
-          <!-- Imagem e Informações -->
-          <div class="d-flex align-items-center">
-            <img
-              src="{{this.mainPhoto.url}}"
-              alt="Foto de {{this.firstName}}"
-              class="rounded me-3"
-              style="width: 80px; height: 80px; object-fit: cover; border: 2px solid #4f0e21;"
-            />
-            <div>
-              <h5 class="mb-1">{{this.firstName}} {{this.lastName}}</h5>
-              <p class="mb-1">
-                <strong>Nascimento:</strong>
-                {{formatDate this.birth.date}}<br />
-                <strong>Falecimento:</strong>
-                {{formatDate this.death.date}}
-              </p>
-            </div>
-          </div>
-
-          <!-- Botões de Ação -->
-          <div class="d-flex flex-wrap gap-2 mt-2 mt-md-0">
-            <!-- Botão Visitar -->
-            <a
-              href="/memorial/{{this.slug}}"
-              class="btn btn-primary"
-            >Visitar</a>
-
-            <!-- Botão Editar Dados -->
-            <a
-              href="/memorial/{{this.slug}}/memorial/edit"
-              class="btn btn-primary"
-            >Editar Dados</a>
-
-            <!-- Botão Editar Foto/Epitáfio/Tema -->
-            <a
-              href="/memorial/{{this.slug}}/memorial-fet/edit"
-              class="btn btn-primary"
-            >Editar Foto/Epitáfio/Tema</a>
-
-            <!-- Botão Apagar -->
-            <form
-              action="/memorial/{{this.slug}}/delete"
-              method="POST"
-              onsubmit="return confirm('Tem certeza que deseja apagar este memorial? Esta ação não poderá ser desfeita!')"
-            >
-              <input type="hidden" name="_method" value="DELETE" />
-              <button type="submit" class="btn btn-danger">Apagar</button>
-            </form>
-
-          </div>
+  <div class="list-group">
+    {{#each memoriais}}
+    <div class="list-group-item d-flex align-items-center justify-content-between flex-wrap">
+      <!-- Imagem e Informações -->
+      <div class="d-flex align-items-center">
+        <a href="/memorial/{{this.slug}}">
+          <img src="{{this.mainPhoto.url}}" alt="Foto de {{this.firstName}}" class="rounded me-3"
+            style="width: 80px; height: 80px; object-fit: cover; border: 2px solid #4f0e21;" />
+        </a>
+        <div>
+          <h5 class="mb-1">{{this.firstName}} {{this.lastName}}</h5>
+          <p class="mb-1">
+            <strong>Nascimento:</strong>
+            {{formatDate this.birth.date}}<br />
+            <strong>Falecimento:</strong>
+            {{formatDate this.death.date}}
+          </p>
         </div>
-      {{/each}}
+      </div>
+
+      <!-- Botões de Ação -->
+      <div class="d-flex flex-wrap gap-2 mt-2 mt-md-0">
+        <!-- Botão Visitar -->
+        <a href="/memorial/{{this.slug}}" class="btn btn-primary">Visitar</a>
+
+        <!-- Botão Editar Dados -->
+        <a href="/memorial/{{this.slug}}/memorial/edit" class="btn btn-primary">Editar Dados do Memorial</a>
+
+        <!-- Botão Editar Foto/Epitáfio/Tema -->
+        <a href="/memorial/{{this.slug}}/memorial-fet/edit" class="btn btn-primary">Editar Foto Principal</a>
+
+        <!-- Botão Apagar -->
+        <form action="/memorial/{{this.slug}}/delete" method="POST"
+          onsubmit="return confirm('Tem certeza que deseja apagar este memorial? Esta ação não poderá ser desfeita!')">
+          <input type="hidden" name="_method" value="DELETE" />
+          <button type="submit" class="btn btn-danger">Excluir</button>
+        </form>
+
+      </div>
     </div>
+    {{/each}}
+  </div>
   {{else}}
-    <p class="text-center text-muted">Você ainda não criou nenhum memorial.</p>
+  <p class="text-center text-muted">Você ainda não criou nenhum memorial.</p>
   {{/if}}
 </main>

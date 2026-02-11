@@ -15,7 +15,8 @@ function canViewMemorial(req, res, next) {
 
   // A partir daqui, convidados e relações explícitas
   if (!user) {
-    return res.status(401).json({ error: "Login necessário" })
+    //  return res.status(401).json({ error: "Login necessário" })
+    return res.status(403).render("alerts/private_memorial")
   }
 
   // Admin vê tudo
