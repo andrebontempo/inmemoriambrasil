@@ -20,7 +20,7 @@ const setAdminMenuPermission = require("../middlewares/setAdminMenuPermission")
 router.post("/:slug/invite", InviteController.sendInvite)
 
 //*********ROTAS PARA O GALELRY CONTROLLER***********
-router.get("/:slug/gallery", loadMemorial, canViewMemorial, GalleryController.showGallery)
+router.get("/:slug/gallery", loadMemorial, setAdminMenuPermission, canViewMemorial, GalleryController.showGallery)
 router.post(
   "/:slug/gallery/update/:tipo",
   upload.single("file"),
@@ -28,7 +28,7 @@ router.post(
   GalleryController.updateGallery
 )
 router.get(
-  "/:slug/gallery/edit/:id",
+  "/:slug/gallery/edit/:id", loadMemorial, setAdminMenuPermission, canViewMemorial,
   authMiddleware,
   GalleryController.editGallery
 )
@@ -46,8 +46,8 @@ router.post(
   uploadToR2, // 3) Envia o arquivo para o Cloudflare R2
   SharedStoryController.createSharedStory
 )
-router.get("/:slug/sharedstory", loadMemorial, canViewMemorial, SharedStoryController.showSharedStory)
-router.get("/:slug/sharedstory/edit/:id", SharedStoryController.editSharedStory)
+router.get("/:slug/sharedstory", loadMemorial, setAdminMenuPermission, canViewMemorial, SharedStoryController.showSharedStory)
+router.get("/:slug/sharedstory/edit/:id", loadMemorial, setAdminMenuPermission, canViewMemorial, SharedStoryController.editSharedStory)
 router.post(
   "/:slug/sharedstory/update/:id",
   authMiddleware,
@@ -68,8 +68,8 @@ router.post(
   uploadToR2, // 3) Envia o arquivo para o Cloudflare R2
   LifeStoryController.createLifeStory
 )
-router.get("/:slug/lifestory", loadMemorial, canViewMemorial, LifeStoryController.showLifeStory)
-router.get("/:slug/lifestory/edit/:id", LifeStoryController.editLifeStory)
+router.get("/:slug/lifestory", loadMemorial, setAdminMenuPermission, canViewMemorial, LifeStoryController.showLifeStory)
+router.get("/:slug/lifestory/edit/:id", loadMemorial, setAdminMenuPermission, canViewMemorial, LifeStoryController.editLifeStory)
 router.post(
   "/:slug/lifestory/update/:id",
   authMiddleware,
@@ -80,7 +80,7 @@ router.post(
 router.post("/:slug/lifestory/delete/:id", LifeStoryController.deleteLifeStory)
 
 //*********ROTAS PARA O TRIBUTE CONTROLLER***********
-router.get("/:slug/tribute", loadMemorial, canViewMemorial, TributeController.showTribute)
+router.get("/:slug/tribute", loadMemorial, setAdminMenuPermission, canViewMemorial, TributeController.showTribute)
 router.post(
   "/:slug/tribute/create",
   authMiddleware,
@@ -112,7 +112,7 @@ router.post(
 )
 
 //*********ROTAS PARA O MEMORIAL - FOTO PRINCIPAL***********
-router.get("/:slug/memorial-fet/edit", loadMemorial, canViewMemorial, MemorialFETController.editMemorialFET)
+router.get("/:slug/memorial-fet/edit", loadMemorial, setAdminMenuPermission, canViewMemorial, MemorialFETController.editMemorialFET)
 router.post(
   "/:slug/memorial-fet/update", loadMemorial, canViewMemorial,
   upload.single("file"),
@@ -145,8 +145,8 @@ router.post(
 router.get("/pesquisa", MemorialController.searchMemorial)
 router.get("/create-memorial", MemorialController.createStep1)
 router.get("/:slug/about", loadMemorial, setAdminMenuPermission, canViewMemorial, MemorialController.showMemorial)
-router.get("/:slug/memorial/edit", loadMemorial, canViewMemorial, MemorialController.editMemorial)
-router.get("/:slug/memorial/privacy/edit", loadMemorial, canViewMemorial, MemorialController.editPrivacy)
+router.get("/:slug/memorial/edit", loadMemorial, setAdminMenuPermission, canViewMemorial, MemorialController.editMemorial)
+router.get("/:slug/memorial/privacy/edit", loadMemorial, setAdminMenuPermission, canViewMemorial, MemorialController.editPrivacy)
 
 router.post(
   "/:slug/memorial/update",
