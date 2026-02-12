@@ -73,20 +73,15 @@
       {{about}}
       {{else}}
       Este memorial foi criado por
-      {{#if owner}}
-      <strong>{{owner.firstName}} {{owner.lastName}}</strong>
-      {{else}}
+      {{#if user}} {{user.firstName}} {{user.lastName}} {{else}}
       um usuário desconhecido
-      {{/if}},
-      em homenagem a
-      <strong>{{firstName}} {{lastName}}</strong>
-      que nos deixou uma história repleta de momentos especiais.
+      {{/if}}, em homenagem a
+      <strong>{{firstName}} {{lastName}}</strong> que nos deixou uma história repleta de momentos especiais.
       Seu legado permanecerá vivo nestas páginas, onde suas lembranças serão preservadas com carinho
       e respeito.
       {{/if}}
     </p>
   </div>
-
 
   <!-- Biografia -->
   <div class="custom-box my-2 mx-0 text-start">
