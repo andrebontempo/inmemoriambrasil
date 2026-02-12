@@ -22,5 +22,5 @@ module.exports = function maintenanceMiddleware(req, res, next) {
   }
 
   // Bloqueia todo o resto
-  return res.status(503).render("manutencao")
+  return res.status(503).render("alerts/manutencao")
 }
