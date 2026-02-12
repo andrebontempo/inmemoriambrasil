@@ -183,20 +183,37 @@ const AccountsController = {
     logs: async (req, res) => {
         try {
 
+            const page = parseInt(req.query.page) || 1
+            const limit = 20
+            const skip = (page - 1) * limit
+
+            const total = await AdminLog.countDocuments()
+            const totalPages = Math.ceil(total / limit)
+
             const logs = await AdminLog.find()
                 .populate("adminId", "name email")
                 .populate("targetUserId", "name email")
                 .sort({ createdAt: -1 })
-                .limit(100)
+                .skip(skip)
+                .limit(limit)
                 .lean()
 
-            res.render("statics/accounts/logs", { logs })
+            res.render("statics/accounts/logs", {
+                logs,
+                currentPage: page,
+                totalPages,
+                hasPrev: page > 1,
+                hasNext: page < totalPages,
+                prevPage: page - 1,
+                nextPage: page + 1
+            })
 
         } catch (err) {
             console.error(err)
             res.status(500).send("Erro ao carregar logs")
         }
     }
+
 
 
 }

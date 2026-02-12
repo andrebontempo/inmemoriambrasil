@@ -109,52 +109,7 @@
 
             </tbody>
         </table>
-    </div> <!-- fecha table-responsive -->
-
-    <!-- 🔢 PAGINAÇÃO -->
-    {{#if totalPages}}
-    <nav class="mt-4">
-        <ul class="pagination justify-content-center">
-
-            <!-- Anterior -->
-            {{#if hasPrev}}
-            <li class="page-item">
-                <a class="page-link" href="?page={{prevPage}}">
-                    Anterior
-                </a>
-            </li>
-            {{else}}
-            <li class="page-item disabled">
-                <span class="page-link">Anterior</span>
-            </li>
-            {{/if}}
-
-            <!-- Página Atual -->
-            <li class="page-item active">
-                <span class="page-link">
-                    Página {{currentPage}} de {{totalPages}}
-                </span>
-            </li>
-
-            <!-- Próxima -->
-            {{#if hasNext}}
-            <li class="page-item">
-                <a class="page-link" href="?page={{nextPage}}">
-                    Próxima
-                </a>
-            </li>
-            {{else}}
-            <li class="page-item disabled">
-                <span class="page-link">Próxima</span>
-            </li>
-            {{/if}}
-
-        </ul>
-    </nav>
-    {{/if}}
-
-
-
+    </div>
 
 
 
