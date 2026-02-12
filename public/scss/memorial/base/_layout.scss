@@ -20,15 +20,17 @@
   max-width: 250px;
   height: 250px;
   object-fit: cover;
-  border: 2px solid #4f0e21;
+  border: 2px solid #ffffff;
 }
 
 // Container principal com textura de fundo
 .custom-container {
   background-image: url("/css/memorial/files/bg_textura.png");
   background-repeat: no-repeat;
-  background-position: center center; /* ou center center, se preferir */
-  background-size: cover; /* força cada "tile" a ter 100x100 pixels */
+  background-position: center center;
+  /* ou center center, se preferir */
+  background-size: cover;
+  /* força cada "tile" a ter 100x100 pixels */
 }
 
 // Caixas principais e sidebar que reutilizam .card-like
@@ -94,6 +96,7 @@ iframe {
    NAVBAR — Desktop (>=768px)
 ================================ */
 @media (min-width: 768px) {
+
   /* estilo base desktop */
   .navbar {
     background-color: var(--bs-dark);
@@ -145,6 +148,7 @@ iframe {
     color: #ffffff;
   }
 }
+
 /* ================================
    FIM - NAVBAR
 ================================ */
@@ -214,7 +218,8 @@ iframe {
 @media (max-width: 576px) {
   .mobile-admin .dropdown-menu {
     position: absolute !important;
-    top: 50px; /* ajustável */
+    top: 50px;
+    /* ajustável */
     right: 0;
     left: auto;
     transform: none !important;
@@ -250,6 +255,7 @@ iframe {
       font-size: 1.3rem;
     }
   }
+
   /* Ajuste do epitaph para telas pequenas */
   @media (max-width: 576px) {
     .epitaph-content {
@@ -262,7 +268,7 @@ iframe {
     width: 80px !important;
     height: 120px !important;
     object-fit: cover;
-    border: 1px solid #4f0e21;
+    border: 1px solid #ffffff;
   }
 
   .mobile-name {

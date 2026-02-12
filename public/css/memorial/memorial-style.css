@@ -223,14 +223,16 @@ body {
   max-width: 250px;
   height: 250px;
   object-fit: cover;
-  border: 2px solid #4f0e21;
+  border: 2px solid #ffffff;
 }
 
 .custom-container {
   background-image: url("/css/memorial/files/bg_textura.png");
   background-repeat: no-repeat;
-  background-position: center center; /* ou center center, se preferir */
-  background-size: cover; /* força cada "tile" a ter 100x100 pixels */
+  background-position: center center;
+  /* ou center center, se preferir */
+  background-size: cover;
+  /* força cada "tile" a ter 100x100 pixels */
 }
 
 .custom-box,
@@ -397,7 +399,8 @@ iframe {
 @media (max-width: 576px) {
   .mobile-admin .dropdown-menu {
     position: absolute !important;
-    top: 50px; /* ajustável */
+    top: 50px;
+    /* ajustável */
     right: 0;
     left: auto;
     transform: none !important;
@@ -440,7 +443,7 @@ iframe {
     width: 80px !important;
     height: 120px !important;
     object-fit: cover;
-    border: 1px solid #4f0e21;
+    border: 1px solid #ffffff;
   }
   .mobile-name {
     font-size: 1.2rem;
