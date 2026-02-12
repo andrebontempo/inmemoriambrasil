@@ -3,6 +3,7 @@
 │   ├── constants
 │   │   └── kinships.js
 │   ├── controllers
+│   │   ├── AccountsController.js
 │   │   ├── AuthController.js
 │   │   ├── EnvioContatoController.js
 │   │   ├── GalleryController.js
@@ -22,9 +23,12 @@
 │   │   ├── isAdmin.js
 │   │   ├── loadMemorial.js
 │   │   ├── maintenance.js
+│   │   ├── requireGlobalAdmin.js
+│   │   ├── setAdminMenuPermission.js
 │   │   ├── setUserMiddleware.js
 │   │   └── uploadMiddleware.js
 │   ├── models
+│   │   ├── AdminLog.js
 │   │   ├── Gallery.js
 │   │   ├── LifeStory.js
 │   │   ├── Memorial.js
@@ -58,6 +62,10 @@
 │   │   ├── playground-1.mongodb.js
 │   │   └── r2Uploader.js
 │   └── views
+│       ├── alerts
+│       │   ├── forbidden.hbs
+│       │   ├── login_required.hbs
+│       │   └── private_memorial.hbs
 │       ├── auth
 │       │   ├── dashboard.hbs
 │       │   ├── login.hbs
@@ -87,6 +95,7 @@
 │       │   │   ├── lifestory.hbs
 │       │   │   ├── memorial-fet.hbs
 │       │   │   ├── memorial.hbs
+│       │   │   ├── privacy.hbs
 │       │   │   ├── sharedstory.hbs
 │       │   │   └── tribute.hbs
 │       │   ├── memorial-about.hbs
@@ -108,6 +117,12 @@
 │       │       ├── memorial-navbar.hbs
 │       │       └── memorial-sidebar.hbs
 │       ├── statics
+│       │   ├── accounts
+│       │   │   ├── edit.hbs
+│       │   │   ├── index copy.hbs
+│       │   │   ├── index.hbs
+│       │   │   ├── logs copy.hbs
+│       │   │   └── logs.hbs
 │       │   ├── condicoes-utilizacao.hbs
 │       │   ├── contato.hbs
 │       │   ├── criar-memorial.hbs
@@ -135,6 +150,8 @@
 ├── docs
 │   ├── editor_html.md
 │   ├── Para Mobile.md
+│   ├── permissionamento_1.md
+│   ├── permissionamento_2.md
 │   ├── scss.md
 │   └── themes
 │       ├── _theme-azul.scss
@@ -228,4 +245,4 @@
     ├── findSession.js
     └── inspectSessions.js
 
-44 directories, 185 files
+46 directories, 200 files

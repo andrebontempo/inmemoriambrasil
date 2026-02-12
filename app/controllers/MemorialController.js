@@ -620,35 +620,18 @@ const MemorialController = {
         termo,
         user,
         currentPage: 1,
-        totalPages: 0
+        totalPages: 0,
+        hasPrev: false,
+        hasNext: false
       })
     }
 
     try {
 
-      // 🔐 Controle de visibilidade
-      let filtroAcesso = {}
-
-      if (user && user.role === "admin") {
-        filtroAcesso = {}
-      } else if (user) {
-        filtroAcesso = {
-          $or: [
-            { accessLevel: "public_read" },
-            { owner: user._id },
-            { collaborators: user._id },
-            { invited: user._id }
-          ]
-        }
-      } else {
-        filtroAcesso = { accessLevel: "public_read" }
-      }
-
-      // 🔎 Filtro de busca
-      let filtroBusca = {}
+      let query = {}
 
       if (termo !== "*") {
-        filtroBusca = {
+        query = {
           $or: [
             { firstName: { $regex: termo, $options: "i" } },
             { lastName: { $regex: termo, $options: "i" } }
@@ -656,18 +639,9 @@ const MemorialController = {
         }
       }
 
-      const query = {
-        $and: [
-          filtroAcesso,
-          filtroBusca
-        ]
-      }
-
-      // 🔢 Total de registros
       const total = await Memorial.countDocuments(query)
       const totalPages = Math.ceil(total / limit)
 
-      // 📄 Resultados paginados
       const resultados = await Memorial.find(query)
         .populate("owner", "firstName lastName email")
         .sort({ plan: -1, createdAt: -1 })
@@ -694,6 +668,8 @@ const MemorialController = {
       })
     }
   },
+
+
 
   // Método para deletar memorial
   // 👉 Apaga memorial e todos os recursos associados
