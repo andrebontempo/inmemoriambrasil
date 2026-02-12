@@ -1,60 +1,131 @@
 <main class="container my-5">
-  <h2 class="text-center">Bem-vindo(a),
-    {{user.firstName}}
-    {{user.lastName}}!</h2>
+  <h2 class="text-center">
+    Bem-vindo(a), {{user.firstName}} {{user.lastName}}!
+  </h2>
   <p class="text-center">Você está logado(a).</p>
 
-  <!-- Botão "Sair" alinhado à direita -->
+  <!-- Botão Sair -->
   <div class="text-end mb-4">
     <a href="/auth/logout" class="btn btn-primary">Sair</a>
   </div>
 
-  <p class="text-center"><strong>Aqui estão os memoriais que você criou:</strong></p>
+  <p class="text-center">
+    <strong>Aqui estão os memoriais que você criou:</strong>
+  </p>
 
   {{#if memoriais.length}}
   <div class="list-group">
+
     {{#each memoriais}}
-    <div class="list-group-item d-flex align-items-center justify-content-between flex-wrap">
-      <!-- Imagem e Informações -->
-      <div class="d-flex align-items-center">
-        <a href="/memorial/{{this.slug}}">
-          <img src="{{this.mainPhoto.url}}" alt="Foto de {{this.firstName}}" class="rounded me-3"
-            style="width: 80px; height: 80px; object-fit: cover; border: 2px solid #4f0e21;" />
+    <div class="list-group-item d-flex align-items-start justify-content-between flex-wrap position-relative">
+
+      <!-- ⭐ Selo Premium -->
+      {{#if (eq this.plan "premium")}}
+      <span class="badge bg-warning text-dark position-absolute top-0 end-0 m-2">
+        ⭐ Premium
+      </span>
+      {{/if}}
+
+      <!-- BLOCO PRINCIPAL -->
+      <div class="d-flex align-items-start w-100">
+
+        <!-- FOTO -->
+        <a href="/memorial/{{this.slug}}" class="me-3">
+          {{#if this.mainPhoto.url}}
+          <img src="{{this.mainPhoto.url}}" alt="Foto de {{this.firstName}}" class="rounded"
+            style="width: 110px; height: 110px; object-fit: cover; border: 2px solid #4f0e21;" />
+          {{else}}
+          <img src="/images/default-profile.png" alt="Sem foto" class="rounded"
+            style="width: 110px; height: 110px; object-fit: cover; border: 2px solid #ccc;" />
+          {{/if}}
         </a>
-        <div>
-          <h5 class="mb-1">{{this.firstName}} {{this.lastName}}</h5>
-          <p class="mb-1">
+
+        <!-- INFORMAÇÕES -->
+        <div class="flex-grow-1">
+
+          <h5 class="mb-2">
+            {{this.firstName}} {{this.lastName}}
+          </h5>
+
+          <p class="mb-2 small">
             <strong>Nascimento:</strong>
-            {{formatDate this.birth.date}}<br />
+            {{formatDate this.birth.date}}
+            <br />
             <strong>Falecimento:</strong>
             {{formatDate this.death.date}}
           </p>
+
+          <!-- LINHA: Visibilidade + Plano -->
+          <div class="d-flex flex-wrap align-items-center gap-3 small">
+
+            <!-- 🔐 Visibilidade -->
+            <div>
+              <strong>Visibilidade:</strong>
+
+              {{#if (eq this.accessLevel "public_read")}}
+              <span class="badge bg-success">Público</span>
+              {{/if}}
+
+              {{#if (eq this.accessLevel "private_read")}}
+              <span class="badge bg-secondary">Privado (leitura)</span>
+              {{/if}}
+
+              {{#if (eq this.accessLevel "private_edit")}}
+              <span class="badge bg-dark">Privado (edição)</span>
+              {{/if}}
+            </div>
+
+            <!-- 💎 Plano -->
+            <div>
+              <strong>Plano:</strong>
+
+              {{#if (eq this.plan "premium")}}
+              <span class="badge bg-warning text-dark">Premium</span>
+              {{else}}
+              <span class="badge bg-light text-dark border">Free</span>
+              {{/if}}
+            </div>
+
+          </div>
+
         </div>
+
+        <!-- BOTÕES -->
+        <div class="ms-auto mt-3 mt-md-0 d-flex flex-wrap gap-2">
+
+          <a href="/memorial/{{this.slug}}" class="btn btn-primary">
+            Visitar
+          </a>
+
+          <a href="/memorial/{{this.slug}}/memorial/edit" class="btn btn-outline-primary">
+            Editar Dados
+          </a>
+
+          <a href="/memorial/{{this.slug}}/memorial-fet/edit" class="btn btn-outline-primary">
+            Editar Foto
+          </a>
+
+          <form action="/memorial/{{this.slug}}/delete" method="POST"
+            onsubmit="return confirm('Tem certeza que deseja apagar este memorial? Esta ação não poderá ser desfeita!')">
+            <input type="hidden" name="_method" value="DELETE" />
+            <button type="submit" class="btn btn-danger">
+              Excluir
+            </button>
+          </form>
+
+        </div>
+
       </div>
 
-      <!-- Botões de Ação -->
-      <div class="d-flex flex-wrap gap-2 mt-2 mt-md-0">
-        <!-- Botão Visitar -->
-        <a href="/memorial/{{this.slug}}" class="btn btn-primary">Visitar</a>
-
-        <!-- Botão Editar Dados -->
-        <a href="/memorial/{{this.slug}}/memorial/edit" class="btn btn-primary">Editar Dados do Memorial</a>
-
-        <!-- Botão Editar Foto/Epitáfio/Tema -->
-        <a href="/memorial/{{this.slug}}/memorial-fet/edit" class="btn btn-primary">Editar Foto Principal</a>
-
-        <!-- Botão Apagar -->
-        <form action="/memorial/{{this.slug}}/delete" method="POST"
-          onsubmit="return confirm('Tem certeza que deseja apagar este memorial? Esta ação não poderá ser desfeita!')">
-          <input type="hidden" name="_method" value="DELETE" />
-          <button type="submit" class="btn btn-danger">Excluir</button>
-        </form>
-
-      </div>
     </div>
     {{/each}}
+
   </div>
+
   {{else}}
-  <p class="text-center text-muted">Você ainda não criou nenhum memorial.</p>
+  <p class="text-center text-muted">
+    Você ainda não criou nenhum memorial.
+  </p>
   {{/if}}
+
 </main>

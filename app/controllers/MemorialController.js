@@ -607,72 +607,94 @@ const MemorialController = {
 
 
   // Método para exibir a página de pesquisa por memorial
-  // Método para exibir a página de pesquisa por memorial
   searchMemorial: async (req, res) => {
-    const termo = req.query.q // termo digitado
+    const termo = req.query.q
     const user = req.session.user
+    const page = parseInt(req.query.page) || 1
+    const limit = 5
+    const skip = (page - 1) * limit
 
-    // Se não houver termo e nem "*", não busca nada ainda
     if (!termo) {
       return res.render("memorial/memorial-pesquisa", {
         resultados: [],
         termo,
         user,
+        currentPage: 1,
+        totalPages: 0
       })
     }
 
     try {
-      let resultados = []
 
-      // 🔎 Se termo for "*", busca TODOS
-      if (termo === "*") {
-        resultados = await Memorial.find().lean()
+      // 🔐 Controle de visibilidade
+      let filtroAcesso = {}
+
+      if (user && user.role === "admin") {
+        filtroAcesso = {}
+      } else if (user) {
+        filtroAcesso = {
+          $or: [
+            { accessLevel: "public_read" },
+            { owner: user._id },
+            { collaborators: user._id },
+            { invited: user._id }
+          ]
+        }
       } else {
-        // Tenta busca textual (requer índice criado no modelo)
-        // Se falhar ou não retornar nada, poderíamos tentar regex como fallback,
-        // mas o índice text é superior.
-        // Opção híbrida: $text se possível, ou regex se preferir manter o comportamento antigo para parciais não indexados.
+        filtroAcesso = { accessLevel: "public_read" }
+      }
 
-        // Vamos usar $text para palavras completas/stemmed e regex para match parcial no meio da string se necessário.
-        // Para máxima performance: $text.
+      // 🔎 Filtro de busca
+      let filtroBusca = {}
 
-        resultados = await Memorial.find({
-          $text: { $search: termo }
-        }).lean()
-
-        // Se $text não retornar nada (ex: termo parcial "Andr"), tenta regex como fallback
-        if (resultados.length === 0) {
-          resultados = await Memorial.find({
-            $or: [
-              { firstName: { $regex: termo, $options: "i" } },
-              { lastName: { $regex: termo, $options: "i" } },
-            ],
-          }).lean()
+      if (termo !== "*") {
+        filtroBusca = {
+          $or: [
+            { firstName: { $regex: termo, $options: "i" } },
+            { lastName: { $regex: termo, $options: "i" } }
+          ]
         }
       }
 
-      // Converter IDs para string (garante comparação)
-      if (user && user._id) {
-        user._id = user._id.toString()
+      const query = {
+        $and: [
+          filtroAcesso,
+          filtroBusca
+        ]
       }
-      resultados.forEach((memorial) => {
-        if (memorial.userId) {
-          memorial.userId = memorial.userId.toString()
-        }
-      })
+
+      // 🔢 Total de registros
+      const total = await Memorial.countDocuments(query)
+      const totalPages = Math.ceil(total / limit)
+
+      // 📄 Resultados paginados
+      const resultados = await Memorial.find(query)
+        .populate("owner", "firstName lastName email")
+        .sort({ plan: -1, createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean()
 
       res.render("memorial/memorial-pesquisa", {
         resultados,
         termo,
         user,
+        currentPage: page,
+        totalPages,
+        hasPrev: page > 1,
+        hasNext: page < totalPages,
+        prevPage: page - 1,
+        nextPage: page + 1
       })
+
     } catch (error) {
       console.error("Erro na pesquisa:", error)
-      res
-        .status(500)
-        .render("errors/500", { message: "Erro ao realizar a pesquisa." })
+      res.status(500).render("errors/500", {
+        message: "Erro ao realizar a pesquisa."
+      })
     }
   },
+
   // Método para deletar memorial
   // 👉 Apaga memorial e todos os recursos associados
   deleteMemorial: async (req, res) => {

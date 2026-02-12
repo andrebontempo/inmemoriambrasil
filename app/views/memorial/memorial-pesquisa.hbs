@@ -7,46 +7,149 @@
 
   {{#if resultados.length}}
   <div class="list-group">
+
     {{#each resultados}}
-    <div class="list-group-item d-flex align-items-center justify-content-between flex-wrap">
-      <!-- Imagem e Informações -->
-      <div class="d-flex align-items-center">
-        <a href="/memorial/{{this.slug}}">
-          <img src="{{this.mainPhoto.url}}" alt="Foto de {{this.firstName}}" class="rounded me-3"
-            style="width: 80px; height: 80px; object-fit: cover; border: 2px solid #4f0e21;" />
+    <div class="list-group-item d-flex align-items-center justify-content-between flex-wrap position-relative">
+
+      <!-- ⭐ Selo Premium -->
+      {{#if (eq this.plan "premium")}}
+      <span class="badge bg-warning text-dark position-absolute top-0 end-0 m-2">
+        ⭐ Premium
+      </span>
+      {{/if}}
+
+      <!-- Bloco Principal -->
+      <div class="d-flex align-items-start w-100">
+
+        <!-- FOTO -->
+        <a href="/memorial/{{this.slug}}" class="me-3">
+          {{#if this.mainPhoto.url}}
+          <img src="{{this.mainPhoto.url}}" alt="Foto de {{this.firstName}}" class="rounded"
+            style="width: 110px; height: 110px; object-fit: cover; border: 2px solid #4f0e21;" />
+          {{else}}
+          <img src="/images/default-profile.png" alt="Sem foto" class="rounded"
+            style="width: 110px; height: 110px; object-fit: cover; border: 2px solid #ccc;" />
+          {{/if}}
         </a>
-        <div>
-          <h5 class="mb-1">{{this.firstName}} {{this.lastName}}</h5>
-          <p class="mb-1">
+
+        <!-- INFORMAÇÕES -->
+        <div class="flex-grow-1">
+
+          <h5 class="mb-2">
+            {{this.firstName}} {{this.lastName}}
+          </h5>
+
+          <p class="mb-2 small">
             <strong>Nascimento:</strong>
-            {{formatDate this.birth.date}}<br />
+            {{formatDate this.birth.date}}
+            <br />
             <strong>Falecimento:</strong>
             {{formatDate this.death.date}}
           </p>
+
+          <!-- LINHA ÚNICA -->
+          <div class="d-flex flex-wrap align-items-center gap-3 small">
+
+            <!-- 👤 Criador -->
+            <div>
+              <strong>Criado por:</strong>
+              {{#if this.owner}}
+              {{this.owner.firstName}} {{this.owner.lastName}}
+              {{else}}
+              —
+              {{/if}}
+            </div>
+
+            <!-- 🔐 Visibilidade -->
+            <div>
+              <strong>Visibilidade:</strong>
+
+              {{#if (eq this.accessLevel "public_read")}}
+              <span class="badge bg-success">Público</span>
+              {{/if}}
+
+              {{#if (eq this.accessLevel "private_read")}}
+              <span class="badge bg-secondary">Privado (leitura)</span>
+              {{/if}}
+
+              {{#if (eq this.accessLevel "private_edit")}}
+              <span class="badge bg-dark">Privado (edição)</span>
+              {{/if}}
+            </div>
+
+            <!-- 💎 Plano -->
+            <div>
+              <strong>Plano:</strong>
+
+              {{#if (eq this.plan "premium")}}
+              <span class="badge bg-warning text-dark">Premium</span>
+              {{else}}
+              <span class="badge bg-light text-dark border">Free</span>
+              {{/if}}
+            </div>
+
+          </div>
+
         </div>
-      </div>
 
-      <!-- Botões de Ação -->
-      <div class="d-flex flex-wrap gap-2 mt-2 mt-md-0">
+        <!-- BOTÃO -->
+        <div class="ms-auto mt-3 mt-md-0">
+          <a href="/memorial/{{this.slug}}" class="btn btn-primary">
+            Visitar
+          </a>
+        </div>
 
-        <!-- Botão Visitar -->
-        <a href="/memorial/{{this.slug}}" class="btn btn-primary">Visitar</a>
-
-
-
-        <!-- Botão Apagar 
-        <form action="/memorial/{{this.slug}}/delete" method="POST"
-          onsubmit="return confirm('Tem certeza que deseja apagar este memorial? Esta ação não poderá ser desfeita!')">
-          <input type="hidden" name="_method" value="DELETE" />
-          <button type="submit" class="btn btn-danger">Apagar</button>
-        </form>
-        -->
       </div>
 
     </div>
     {{/each}}
+
   </div>
+
+  <!-- 🔢 PAGINAÇÃO -->
+  {{#if totalPages}}
+  <nav class="mt-4">
+    <ul class="pagination justify-content-center">
+
+      <!-- Anterior -->
+      {{#if hasPrev}}
+      <li class="page-item">
+        <a class="page-link" href="?q={{termo}}&page={{prevPage}}">
+          Anterior
+        </a>
+      </li>
+      {{else}}
+      <li class="page-item disabled">
+        <span class="page-link">Anterior</span>
+      </li>
+      {{/if}}
+
+      <!-- Página Atual -->
+      <li class="page-item active">
+        <span class="page-link">
+          Página {{currentPage}} de {{totalPages}}
+        </span>
+      </li>
+
+      <!-- Próxima -->
+      {{#if hasNext}}
+      <li class="page-item">
+        <a class="page-link" href="?q={{termo}}&page={{nextPage}}">
+          Próxima
+        </a>
+      </li>
+      {{else}}
+      <li class="page-item disabled">
+        <span class="page-link">Próxima</span>
+      </li>
+      {{/if}}
+
+    </ul>
+  </nav>
+  {{/if}}
+
   {{else}}
   <p class="text-center text-muted">Nenhum memorial encontrado.</p>
   {{/if}}
+
 </div>

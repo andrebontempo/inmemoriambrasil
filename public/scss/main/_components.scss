@@ -17,8 +17,10 @@
   &:hover,
   &:focus,
   &:active {
-    background: var(--bs-dark); /* 🔥 muda para dark */
-    border-color: var(--bs-dark); /* combina a borda com o fundo */
+    background: var(--bs-dark);
+    /* 🔥 muda para dark */
+    border-color: var(--bs-dark);
+    /* combina a borda com o fundo */
     color: #fff;
   }
 
@@ -81,6 +83,7 @@
   font-size: 14px;
   opacity: 0.8;
 }
+
 /* Flash messages */
 .flash-container {
   z-index: 1055;
@@ -93,6 +96,7 @@
     opacity: 0;
     transform: translateY(-30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -104,6 +108,7 @@
   transform: translateY(-30px);
   transition: all 0.5s ease-in;
 }
+
 /* ===========================
    Estatísticas - Card Único
    =========================== */
@@ -150,6 +155,29 @@
   font-size: 1.1rem;
   color: #333;
 }
+
+/* Paginação */
+.pagination .page-link {
+  color: #4f0e21;
+  border-color: #4f0e21;
+}
+
+.pagination .page-link:hover {
+  background-color: #4f0e21;
+  color: #fff;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #4f0e21;
+  border-color: #4f0e21;
+  color: #fff;
+}
+
+.pagination .page-item.disabled .page-link {
+  color: #999;
+}
+
+
 
 /*/ ================================================
    Fim dos componentes

@@ -428,8 +428,10 @@ footer {
   text-decoration: none !important;
 }
 .btn-default-main:hover, .btn-default-main:focus, .btn-default-main:active {
-  background: var(--bs-dark); /* 🔥 muda para dark */
-  border-color: var(--bs-dark); /* combina a borda com o fundo */
+  background: var(--bs-dark);
+  /* 🔥 muda para dark */
+  border-color: var(--bs-dark);
+  /* combina a borda com o fundo */
   color: #fff;
 }
 .btn-default-main {
@@ -559,6 +561,27 @@ footer {
   font-weight: 700;
   font-size: 1.1rem;
   color: #333;
+}
+
+/* Paginação */
+.pagination .page-link {
+  color: #4f0e21;
+  border-color: #4f0e21;
+}
+
+.pagination .page-link:hover {
+  background-color: #4f0e21;
+  color: #fff;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #4f0e21;
+  border-color: #4f0e21;
+  color: #fff;
+}
+
+.pagination .page-item.disabled .page-link {
+  color: #999;
 }
 
 /*/ ================================================
