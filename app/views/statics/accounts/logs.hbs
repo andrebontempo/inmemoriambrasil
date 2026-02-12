@@ -1,0 +1,122 @@
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Logs Administrativos</h2>
+        <a href="/accounts" class="btn btn-secondary">
+            Voltar
+        </a>
+    </div>
+
+    {{#if logs.length}}
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+
+            <thead class="table-dark">
+                <tr>
+                    <th>Ação</th>
+                    <th>Administrador</th>
+                    <th>Usuário Afetado</th>
+                    <th>IP</th>
+                    <th>Data</th>
+                    <th>Detalhes</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {{#each logs}}
+
+                <tr>
+                    <td>
+                        {{#if (eq this.action "UPDATE_USER")}}
+                        <span class="badge bg-warning text-dark">Atualização</span>
+                        {{else if (eq this.action "DELETE_USER")}}
+                        <span class="badge bg-danger">Exclusão</span>
+                        {{else if (eq this.action "VIEW_ACCOUNTS_LIST")}}
+                        <span class="badge bg-info text-dark">Visualização</span>
+                        {{else}}
+                        <span class="badge bg-secondary">{{this.action}}</span>
+                        {{/if}}
+                    </td>
+
+                    <td>
+                        {{this.adminId.name}}<br>
+                        <small class="text-muted">{{this.adminId.email}}</small>
+                    </td>
+
+                    <td>
+                        {{#if this.targetUserId}}
+                        {{this.targetUserId.name}}<br>
+                        <small class="text-muted">{{this.targetUserId.email}}</small>
+                        {{else}}
+                        <span class="text-muted">Usuário removido</span>
+                        {{/if}}
+                    </td>
+
+                    <td>
+                        <small>{{this.ip}}</small>
+                    </td>
+
+                    <td>
+                        {{formatDate this.createdAt}}
+                    </td>
+
+                    <td>
+                        {{#if this.changes}}
+                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="collapse"
+                            data-bs-target="#changes-{{this._id}}">
+                            Ver
+                        </button>
+                        {{/if}}
+                    </td>
+                </tr>
+
+                {{#if this.changes}}
+                <tr class="collapse bg-light" id="changes-{{this._id}}">
+                    <td colspan="6">
+
+                        <div class="p-3">
+
+                            {{#each this.changes}}
+                            <div class="mb-2">
+                                <strong>{{@key}}</strong>:
+
+                                {{#if this.before}}
+                                <div>
+                                    <span class="text-danger">Antes:</span>
+                                    {{this.before}}
+                                </div>
+                                <div>
+                                    <span class="text-success">Depois:</span>
+                                    {{this.after}}
+                                </div>
+                                {{else}}
+                                <pre class="bg-white p-2 rounded border">
+{{json this}}
+                    </pre>
+                                {{/if}}
+                            </div>
+                            {{/each}}
+
+                        </div>
+
+                    </td>
+                </tr>
+                {{/if}}
+
+                {{/each}}
+
+            </tbody>
+        </table>
+    </div>
+
+    {{else}}
+
+    <div class="alert alert-info">
+        Nenhum log encontrado.
+    </div>
+
+    {{/if}}
+
+</div>

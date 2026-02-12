@@ -1,0 +1,33 @@
+<div class="container py-4">
+    <h2 class="mb-4">Editar Usuário</h2>
+
+    <form action="/accounts/edit/{{user._id}}" method="POST">
+
+        <div class="mb-3">
+            <label class="form-label">Nome</label>
+            <input type="text" name="name" class="form-control" value="{{user.name}}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" value="{{user.email}}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Perfil</label>
+            <select name="role" class="form-select">
+                <option value="user" {{#if (eq user.role "user" )}}selected{{/if}}>Usuário</option>
+                <option value="admin" {{#if (eq user.role "admin" )}}selected{{/if}}>Admin</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-success">
+            Salvar
+        </button>
+
+        <a href="/accounts" class="btn btn-secondary">
+            Cancelar
+        </a>
+
+    </form>
+</div>

@@ -5,6 +5,21 @@ const authMiddleware = require("../middlewares/authMiddleware")
 const StatsController = require("../controllers/StatsController")
 const EnvioContatoController = require("../controllers/EnvioContatoController")
 
+const requireGlobalAdmin = require("../middlewares/requireGlobalAdmin")
+const AccountsController = require("../controllers/AccountsController")
+
+
+
+// Rota para o controle de Usuários
+router.get("/accounts", requireGlobalAdmin, AccountsController.list)
+router.get("/accounts/edit/:id", requireGlobalAdmin, AccountsController.editForm)
+router.post("/accounts/edit/:id", requireGlobalAdmin, AccountsController.update)
+router.post("/accounts/delete/:id", requireGlobalAdmin, AccountsController.delete)
+// Rota para logs
+router.get("/accounts/logs", requireGlobalAdmin, AccountsController.logs)
+
+
+
 // Rota raiz do site
 router.get("/", HomeController.index)
 

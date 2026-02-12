@@ -1,6 +1,8 @@
 const bcrypt = require("bcrypt")
 const User = require("../models/User")
 const Memorial = require("../models/Memorial")
+const AdminLog = require("../models/AdminLog")
+
 
 const AuthController = {
   // Exibir formulário de cadastro
@@ -135,6 +137,20 @@ const AuthController = {
       })
 
       await newUser.save()
+
+
+      // Registrar log
+      await AdminLog.create({
+        adminId: null,
+        action: "USER_REGISTER",
+        targetUserId: newUser._id,
+        details: {
+          firstName: newUser.firstName,
+          lastName: newUser.lastName,
+          email: newUser.email,
+          authProvider: "local"
+        }
+      })
 
       // Login automático após cadastro
       req.session.user = {

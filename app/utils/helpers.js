@@ -51,9 +51,8 @@ const calcularIdade = (dataNascimento, dataFalecimento) => {
   } else if (anos === 0) {
     return `${meses} ${meses === 1 ? "mês" : "meses"}`
   } else {
-    return `${anos} ano${anos !== 1 ? "s" : ""} e ${meses} ${
-      meses === 1 ? "mês" : "meses"
-    }`
+    return `${anos} ano${anos !== 1 ? "s" : ""} e ${meses} ${meses === 1 ? "mês" : "meses"
+      }`
   }
 }
 
@@ -74,6 +73,10 @@ const substr = (str, start, length) => {
   if (typeof str !== "string") return ""
   return length ? str.substring(start, start + length) : str.slice(start)
 }
+const json = (context) => {
+  return JSON.stringify(context, null, 2)
+}
+
 
 // Exporta todas as funções
 module.exports = {
@@ -84,4 +87,5 @@ module.exports = {
   ifEquals,
   array,
   substr,
+  json
 }
