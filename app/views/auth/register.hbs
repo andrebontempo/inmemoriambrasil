@@ -1,76 +1,90 @@
 <main class="container my-5">
   <section class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card p-4">
-        <h2 class="text-center mb-4">Criar Conta</h2>
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow-sm border-0 p-4">
+
+        <div class="text-center mb-4">
+          <h2 class="fw-semibold">Criar Conta</h2>
+          <p class="text-muted small mb-0">
+            Crie sua conta para preservar memórias com carinho e respeito.
+          </p>
+        </div>
 
         {{#if error}}
-          <div class="alert alert-danger">{{error}}</div>
+        <div class="alert alert-danger small">
+          {{error}}
+        </div>
         {{/if}}
 
-        <form action="/auth/register" method="POST" id="registerForm">
+        <form action="/auth/register" method="POST" id="registerForm" novalidate>
+
+          <!-- Nome -->
           <div class="mb-3">
-            <input
-              type="text"
-              name="firstName"
-              class="form-control"
-              placeholder="Nome"
-              value="{{firstName}}"
-              required
-            />
+            <label class="form-label small fw-semibold">Nome</label>
+            <input type="text" name="firstName" class="form-control" value="{{firstName}}" placeholder="Seu nome"
+              required />
           </div>
+
+          <!-- Sobrenome -->
           <div class="mb-3">
-            <input
-              type="text"
-              name="lastName"
-              class="form-control"
-              placeholder="Sobrenome"
-              value="{{lastName}}"
-              required
-            />
+            <label class="form-label small fw-semibold">Sobrenome</label>
+            <input type="text" name="lastName" class="form-control" value="{{lastName}}" placeholder="Seu sobrenome"
+              required />
           </div>
+
+          <!-- Email -->
           <div class="mb-3">
-            <input
-              type="email"
-              name="email"
-              class="form-control"
-              placeholder="Email"
-              value="{{email}}"
-              required
-            />
+            <label class="form-label small fw-semibold">
+              Endereço de e-mail
+            </label>
+            <input type="email" name="email" class="form-control" value="{{email}}" placeholder="exemplo@email.com"
+              required autocomplete="email" />
           </div>
+
+          <!-- Senha -->
           <div class="mb-3">
-            <input
-              type="password"
-              name="password"
-              id="password"
-              class="form-control"
-              placeholder="Senha"
-              required
-            />
+            <label class="form-label small fw-semibold">Senha</label>
+            <input type="password" name="password" id="password" class="form-control"
+              placeholder="Crie uma senha segura" required autocomplete="new-password" />
           </div>
+
+          <!-- Confirmar Senha -->
           <div class="mb-3">
-            <input
-              type="password"
-              name="confirmPassword"
-              id="confirmPassword"
-              class="form-control"
-              placeholder="Repetir Senha"
-              required
-            />
-            <div
-              id="passwordError"
-              class="text-danger mt-2"
-              style="display: none;"
-            >As senhas não coincidem!</div>
+            <label class="form-label small fw-semibold">
+              Confirmar senha
+            </label>
+            <input type="password" name="confirmPassword" id="confirmPassword" class="form-control"
+              placeholder="Repita a senha" required />
+            <div id="passwordError" class="text-danger small mt-2" style="display: none;">
+              As senhas não coincidem.
+            </div>
           </div>
-          <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
+
+          <button type="submit" class="btn btn-primary w-100 fw-semibold">
+            Criar Conta
+          </button>
+
         </form>
 
-        <p class="text-center mt-3">
-          Já tem uma conta?
-          <a href="/auth/login">Entrar</a>
+        <!-- Divisor -->
+        <div class="text-center my-4">
+          <small class="text-muted">ou</small>
+        </div>
+
+        <!-- Google -->
+        <a href="/auth/google"
+          class="btn btn-outline-dark w-100 d-flex align-items-center justify-content-center gap-2">
+          <img src="/css/main/files/google-logo-50.png" alt="Google" width="18">
+          Criar conta com Google
+        </a>
+
+        <p class="text-center mt-4 small">
+          Já possui conta?
+          <a href="/auth/login" class="fw-semibold text-decoration-none">
+            Entrar
+          </a>
         </p>
+
       </div>
     </div>
   </section>

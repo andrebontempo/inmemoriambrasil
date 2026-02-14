@@ -1,4 +1,3 @@
-const bcrypt = require("bcrypt")
 const crypto = require("crypto")
 const { sendEmail } = require("../services/MailService")
 
@@ -46,7 +45,7 @@ const AuthController = {
         })
       }
 
-      const passwordMatch = await bcrypt.compare(password.trim(), user.password)
+      const passwordMatch = await user.comparePassword(password.trim())
 
       if (!passwordMatch) {
         return res.status(400).render("auth/login", {
@@ -142,11 +141,12 @@ const AuthController = {
         })
       }
 
+      // 🔥 NÃO FAZ MAIS HASH AQUI
       const newUser = new User({
         firstName,
         lastName,
         email,
-        password: password.trim(), // hash será feito no Model
+        password: password.trim(),
         authProvider: "local",
       })
 
@@ -157,21 +157,6 @@ const AuthController = {
         action: "USER_REGISTER",
         targetUserId: newUser._id,
         details: { email: newUser.email }
-      })
-
-      // 🔥 ENVIO DE E-MAIL DE BOAS-VINDAS
-      await sendEmail({
-        to: newUser.email,
-        subject: "Bem-vindo ao In Memoriam Brasil",
-        html: `
-        <h2>Olá, ${newUser.firstName}!</h2>
-        <p>Sua conta foi criada com sucesso.</p>
-        <p>Agora você pode criar memoriais, gerenciar homenagens e acessar seu painel.</p>
-        <br/>
-        <p>Se você não criou esta conta, entre em contato conosco imediatamente.</p>
-        <br/>
-        <p>Equipe In Memoriam Brasil</p>
-      `,
       })
 
       req.session.user = {
@@ -241,7 +226,8 @@ const AuthController = {
       }
 
       res.render("auth/forgot-password", {
-        success: "Se o e-mail estiver cadastrado, você receberá instruções.",
+        success:
+          "Se o e-mail estiver cadastrado, você receberá instruções.",
       })
 
     } catch (err) {
@@ -270,7 +256,7 @@ const AuthController = {
 
       res.render("auth/reset-password", { token })
 
-    } catch {
+    } catch (err) {
       res.redirect("/auth/forgot-password")
     }
   },
@@ -313,7 +299,7 @@ const AuthController = {
         return res.redirect("/auth/forgot-password")
       }
 
-      // ⚠️ NÃO FAZ HASH AQUI
+      // 🔥 NÃO FAZ MAIS HASH AQUI
       user.password = password.trim()
       user.resetPasswordToken = undefined
       user.resetPasswordExpires = undefined

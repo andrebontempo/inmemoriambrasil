@@ -142,11 +142,12 @@ const AuthController = {
         })
       }
 
+      // ⚠️ NÃO FAZ HASH AQUI
       const newUser = new User({
         firstName,
         lastName,
         email,
-        password: password.trim(), // hash será feito no Model
+        password: password.trim(),
         authProvider: "local",
       })
 
@@ -157,21 +158,6 @@ const AuthController = {
         action: "USER_REGISTER",
         targetUserId: newUser._id,
         details: { email: newUser.email }
-      })
-
-      // 🔥 ENVIO DE E-MAIL DE BOAS-VINDAS
-      await sendEmail({
-        to: newUser.email,
-        subject: "Bem-vindo ao In Memoriam Brasil",
-        html: `
-        <h2>Olá, ${newUser.firstName}!</h2>
-        <p>Sua conta foi criada com sucesso.</p>
-        <p>Agora você pode criar memoriais, gerenciar homenagens e acessar seu painel.</p>
-        <br/>
-        <p>Se você não criou esta conta, entre em contato conosco imediatamente.</p>
-        <br/>
-        <p>Equipe In Memoriam Brasil</p>
-      `,
       })
 
       req.session.user = {

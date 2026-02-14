@@ -9,14 +9,14 @@ const AdminLog = require("../models/AdminLog")
 const AuthController = {
 
   // ================================
-  // REGISTER (GET)
+  // Exibir formulário de cadastro
   // ================================
   showRegisterForm: (req, res) => {
     res.render("auth/register")
   },
 
   // ================================
-  // LOGIN (GET)
+  // Exibir formulário de login
   // ================================
   showLoginForm: (req, res) => {
     const redirectTo = req.session.redirectAfterLogin || null
@@ -24,7 +24,7 @@ const AuthController = {
   },
 
   // ================================
-  // LOGIN (POST)
+  // Processar login
   // ================================
   loginUser: async (req, res) => {
     try {
@@ -78,7 +78,7 @@ const AuthController = {
   },
 
   // ================================
-  // DASHBOARD
+  // Dashboard
   // ================================
   showDashboard: async (req, res) => {
     if (!req.session.user) {
@@ -100,7 +100,7 @@ const AuthController = {
   },
 
   // ================================
-  // REGISTER (POST)
+  // Processar cadastro
   // ================================
   registerUser: async (req, res) => {
     try {
@@ -142,11 +142,13 @@ const AuthController = {
         })
       }
 
+      const hashedPassword = await bcrypt.hash(password, 10)
+
       const newUser = new User({
         firstName,
         lastName,
         email,
-        password: password.trim(), // hash será feito no Model
+        password: hashedPassword,
         authProvider: "local",
       })
 
@@ -156,22 +158,9 @@ const AuthController = {
         adminId: null,
         action: "USER_REGISTER",
         targetUserId: newUser._id,
-        details: { email: newUser.email }
-      })
-
-      // 🔥 ENVIO DE E-MAIL DE BOAS-VINDAS
-      await sendEmail({
-        to: newUser.email,
-        subject: "Bem-vindo ao In Memoriam Brasil",
-        html: `
-        <h2>Olá, ${newUser.firstName}!</h2>
-        <p>Sua conta foi criada com sucesso.</p>
-        <p>Agora você pode criar memoriais, gerenciar homenagens e acessar seu painel.</p>
-        <br/>
-        <p>Se você não criou esta conta, entre em contato conosco imediatamente.</p>
-        <br/>
-        <p>Equipe In Memoriam Brasil</p>
-      `,
+        details: {
+          email: newUser.email,
+        }
       })
 
       req.session.user = {
@@ -215,17 +204,18 @@ const AuthController = {
       }
 
       email = email.trim().toLowerCase()
+
       const user = await User.findOne({ email })
 
       if (user) {
         const token = crypto.randomBytes(32).toString("hex")
 
         user.resetPasswordToken = token
-        user.resetPasswordExpires = Date.now() + 3600000
+        user.resetPasswordExpires = Date.now() + 3600000 // 1 hora
 
         await user.save()
 
-        const baseUrl = (process.env.BASE_URL || "http://localhost:3000").replace(/\/$/, "")
+        const baseUrl = process.env.BASE_URL || "http://localhost:3000"
         const resetLink = `${baseUrl}/auth/reset-password/${token}`
 
         await sendEmail({
@@ -233,15 +223,17 @@ const AuthController = {
           subject: "Redefinição de senha",
           html: `
             <h2>Redefinição de senha</h2>
-            <p>Clique no link abaixo para redefinir sua senha:</p>
+            <p>Você solicitou a redefinição da sua senha.</p>
+            <p>Clique no link abaixo:</p>
             <a href="${resetLink}">${resetLink}</a>
-            <p>O link expira em 1 hora.</p>
+            <p>Este link expira em 1 hora.</p>
           `,
         })
       }
 
       res.render("auth/forgot-password", {
-        success: "Se o e-mail estiver cadastrado, você receberá instruções.",
+        success:
+          "Se o e-mail estiver cadastrado, você receberá instruções para redefinir sua senha.",
       })
 
     } catch (err) {
@@ -270,7 +262,7 @@ const AuthController = {
 
       res.render("auth/reset-password", { token })
 
-    } catch {
+    } catch (err) {
       res.redirect("/auth/forgot-password")
     }
   },
@@ -313,8 +305,7 @@ const AuthController = {
         return res.redirect("/auth/forgot-password")
       }
 
-      // ⚠️ NÃO FAZ HASH AQUI
-      user.password = password.trim()
+      user.password = await bcrypt.hash(password, 10)
       user.resetPasswordToken = undefined
       user.resetPasswordExpires = undefined
 
@@ -327,9 +318,7 @@ const AuthController = {
         details: { email: user.email }
       })
 
-      res.render("auth/reset-password", {
-        success: "Senha redefinida com sucesso."
-      })
+      res.redirect("/auth/login")
 
     } catch (err) {
       console.error("Erro no reset-password:", err)
@@ -338,7 +327,7 @@ const AuthController = {
   },
 
   // ================================
-  // LOGOUT
+  // Logout
   // ================================
   logout: (req, res) => {
     req.session.destroy(() => {

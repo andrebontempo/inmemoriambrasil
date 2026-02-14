@@ -1,39 +1,72 @@
 <main class="container my-5">
   <section class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card p-4">
-        <h2 class="text-center mb-4">Entrar</h2>
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow-sm border-0 p-4">
+
+        <div class="text-center mb-4">
+          <h2 class="fw-semibold">Acessar sua Conta</h2>
+          <p class="text-muted small mb-0">
+            Entre para gerenciar seus memoriais e homenagens.
+          </p>
+        </div>
 
         {{#if error}}
-          <div class="alert alert-danger">{{error}}</div>
+        <div class="alert alert-danger small">
+          {{error}}
+        </div>
         {{/if}}
 
-        <form action="/auth/login" method="POST">
+        <form action="/auth/login" method="POST" novalidate>
+
+          <!-- Email -->
           <div class="mb-3">
-            <input
-              type="email"
-              name="email"
-              class="form-control"
-              placeholder="Email"
-              required
-            />
+            <label for="email" class="form-label small fw-semibold">
+              Endereço de e-mail
+            </label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="exemplo@email.com" required
+              autocomplete="email" />
           </div>
+
+          <!-- Senha -->
           <div class="mb-3">
-            <input
-              type="password"
-              name="password"
-              class="form-control"
-              placeholder="Senha"
-              required
-            />
+            <label for="password" class="form-label small fw-semibold">
+              Senha
+            </label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Digite sua senha"
+              required autocomplete="current-password" />
           </div>
-          <button type="submit" class="btn btn-primary w-100">Entrar</button>
+
+          <div class="d-flex justify-content-end mb-3">
+            <a href="/auth/forgot-password" class="small text-decoration-none">
+              Esqueceu sua senha?
+            </a>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100 fw-semibold">
+            Entrar
+          </button>
+
         </form>
 
-        <p class="text-center mt-3">
-          Ainda não tem uma conta?
-          <a href="/auth/register">Cadastre-se</a>
+        <!-- Divisor -->
+        <div class="text-center my-4">
+          <small class="text-muted">ou continue com</small>
+        </div>
+
+        <!-- Google (preparado para backend depois) -->
+        <a href="/auth/google"
+          class="btn btn-outline-dark w-100 d-flex align-items-center justify-content-center gap-2">
+          <img src="/css/main/files/google-logo-50.png" alt="Google" width="18">
+          Entrar com Google
+        </a>
+
+        <p class="text-center mt-4 small">
+          Ainda não possui conta?
+          <a href="/auth/register" class="fw-semibold text-decoration-none">
+            Criar conta
+          </a>
         </p>
+
       </div>
     </div>
   </section>
