@@ -26,7 +26,7 @@ router.get("/admin/accounts/logs", requireGlobalAdmin, AccountsController.logs)
 router.get("/", HomeController.index)
 
 // Rota para estatísticas
-router.get("/admin/dashboard", StatsController.getStatistics)
+router.get("/admin/dashboard", requireGlobalAdmin, StatsController.getStatistics)
 
 // Rotas estáticas
 router.get("/sobre", (req, res) => {
