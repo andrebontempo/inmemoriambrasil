@@ -50,6 +50,16 @@
   }
 }
 
+.btn-link {
+  color: var(--bs-primary);
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: var(--bs-secondary) !important;
+    text-decoration: none;
+  }
+}
+
 /* Cards */
 .card-img-top {
   width: 100%;
@@ -178,6 +188,36 @@
 }
 
 
+
+/* Glassmorphism Utility */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--bs-border-radius-xl);
+}
+
+.glass-panel-dark {
+  background: #4f0e21 !important;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--bs-border-radius-xl);
+  color: #fff !important;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  span,
+  .lead {
+    color: #fff !important;
+  }
+}
 
 /*/ ================================================
    Fim dos componentes

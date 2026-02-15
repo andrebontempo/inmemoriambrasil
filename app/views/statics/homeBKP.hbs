@@ -1,0 +1,160 @@
+<main class="container my-2 my-md-5">
+
+  <!-- Sessão Apresentação + Vídeo -->
+  <section class="row gy-2 align-items-stretch">
+
+    <div class="col-12 col-md-6 d-flex">
+      <div
+        class="card p-4 h-100 bg-primary text-white rounded-4 shadow-lg w-100"
+      >
+        <h2 class="card-title fw-bold">InMemoriamBrasil</h2>
+        <p class="text-justify">
+          Preserve para sempre a memória de quem foi especial em sua vida. Crie
+          um
+          <strong>Memorial Virtual</strong>
+          e preste uma linda homenagem a esta pessoa querida. Com poucos passos,
+          você cria uma página personalizada, acessível a qualquer momento e de
+          qualquer lugar.
+          <br />
+          <br />
+          <strong>InMemoriamBrasil</strong>
+          é um espaço de carinho e recordação para expressar seus sentimentos e
+          compartilhar com familiares e amigos. Honre aqueles que fizeram parte
+          da sua vida e mantenha suas histórias vivas para sempre.
+        </p>
+
+        <!-- BOTÃO CENTRALIZADO -->
+        <div class="text-center mt-3">
+          <a
+            href="/memorial/create-step1"
+            class="btn btn-primary btn-lg px-5 border-white shadow-lg"
+          >
+            Criar Memorial
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6 d-flex mt-2 mt-md-0">
+      <div class="w-100 h-100 rounded-4 overflow-hidden shadow-lg">
+        <video controls style="width:100%; height:100%;">
+          <source src="/css/main/files/tutorial_SOL.mp4" type="video/mp4" />
+          Seu navegador não suporta vídeo.
+        </video>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Memoriais Modelo -->
+  <section class="my-5">
+    <h2 class="mb-4 text-center text-secondary">Memoriais Virtuais - Exemplos</h2>
+    <div class="row g-4 justify-content-center">
+
+      <div class="col-6 col-md-3">
+        <a href="/memorial/machado-de-assis/about" class="text-decoration-none">
+          <div class="card border-0 shadow memorial-card">
+            <img
+              src="/css/main/files/machado_de_assis_1.jpg"
+              class="card-img-top rounded-top"
+              alt="Machado de Assis"
+            />
+            <div class="card-body">
+              <p class="card-text text-center fw-bold">Machado de Assis</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-6 col-md-3">
+        <a
+          href="/memorial/chiquinha-gonzaga/about"
+          class="text-decoration-none"
+        >
+          <div class="card border-0 shadow memorial-card">
+            <img
+              src="/css/main/files/chiquinha_gonzaga_1.jpg"
+              class="card-img-top rounded-top"
+              alt="Chiquinha Gonzaga"
+            />
+            <div class="card-body">
+              <p class="card-text text-center fw-bold">Chiquinha Gonzaga</p>
+            </div>
+          </div>
+        </a>
+      </div>
+      <!--
+      <div class="col-6 col-md-3">
+        <a
+          href="/memorial/joaquim-jose-da-silva-xavier/about"
+          class="text-decoration-none"
+        >
+          <div class="card border-0 shadow memorial-card">
+            <img
+              src="/css/main/files/tiradentes_1.jpg"
+              class="card-img-top rounded-top"
+              alt="Tiradentes"
+            />
+            <div class="card-body">
+              <p class="card-text text-center fw-bold">Tiradentes</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-6 col-md-3">
+        <a href="/memorial/chica-da-silva/about" class="text-decoration-none">
+          <div class="card border-0 shadow memorial-card">
+            <img
+              src="/css/main/files/chica_da_silva_1.jpg"
+              class="card-img-top rounded-top"
+              alt="Chica da Silva"
+            />
+            <div class="card-body">
+              <p class="card-text text-center fw-bold">Chica da Silva</p>
+            </div>
+          </div>
+        </a>
+      </div>
+-->
+    </div>
+  </section>
+
+  <!-- Estatísticas -->
+  <section class="my-5">
+    <div class="container text-center">
+      <h2 class="mb-4 text-secondary">Números do InMemoriamBrasil</h2>
+
+      <div class="stats-card mx-auto">
+
+        <div class="stats-row">
+          <i class="bi bi-person-lines-fill"></i>
+          <span class="stats-label">Memoriais</span>
+          <span class="stats-value">{{totalMemoriais}}</span>
+        </div>
+
+        <div class="stats-row">
+          <i class="bi bi-flower1"></i>
+          <span class="stats-label">Homenagens</span>
+          <span class="stats-value">{{totalTributos}}</span>
+        </div>
+
+        <div class="stats-row">
+          <i class="bi bi-journal-bookmark-fill"></i>
+          <span class="stats-label">Histórias de Vida</span>
+          <span class="stats-value">{{totalHistorias}}</span>
+        </div>
+
+        <div class="stats-row">
+          <!-- Ícone novo para compartilhadas -->
+          <i class="bi bi-share-fill"></i>
+          <span class="stats-label">Histórias Compartilhadas</span>
+          <span class="stats-value">{{totalCompartilhadas}}</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>

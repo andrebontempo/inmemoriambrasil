@@ -16,6 +16,10 @@ const loadMemorial = require("../middlewares/loadMemorial")
 const canViewMemorial = require("../middlewares/canViewMemorial")
 const setAdminMenuPermission = require("../middlewares/setAdminMenuPermission")
 
+//*********ROTAS DE BUSCA***********
+router.get("/pesquisa", MemorialController.searchMemorial)
+router.get("/search", MemorialController.searchMemorial)
+
 //*********ROTAS PARA O ENVIO DE EMAIL***********
 router.post("/:slug/invite", InviteController.sendInvite)
 
@@ -142,7 +146,6 @@ router.post(
   upload.single("file"), // 2) Captura o arquivo via multer
   uploadToR2, // 3) Envia o arquivo para o Cloudflare R2
   MemorialController.createStep4) // 4) Salva no banco e finaliza
-router.get("/pesquisa", MemorialController.searchMemorial)
 router.get("/create-memorial", MemorialController.createStep1)
 router.get("/:slug/about", loadMemorial, setAdminMenuPermission, canViewMemorial, MemorialController.showMemorial)
 router.get("/:slug/memorial/edit", loadMemorial, setAdminMenuPermission, canViewMemorial, MemorialController.editMemorial)

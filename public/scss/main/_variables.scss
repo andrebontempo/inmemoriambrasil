@@ -28,14 +28,21 @@
   --bs-dark-rgb: 42, 10, 19;
 
   /* Corpo */
-  --bs-body-color: #212529;
-  --bs-body-color-rgb: 33, 37, 41;
-  --bs-body-bg: #f8f9fa;
-  --bs-body-bg-rgb: 248, 249, 250;
-  --bs-body-font-family: "Arial", sans-serif;
+  --bs-body-color: #2b1d1f;
+  --bs-body-color-rgb: 43, 29, 31;
+  --bs-body-bg: #fdfaf9;
+  --bs-body-bg-rgb: 253, 250, 249;
+  --bs-body-font-family: 'Inter', sans-serif;
+  --bs-title-font-family: 'Playfair Display', serif;
   --bs-body-font-size: 1rem;
   --bs-body-font-weight: 400;
-  --bs-body-line-height: 1.5;
+  --bs-body-line-height: 1.6;
+
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --glass-shadow: 0 8px 32px 0 rgba(79, 14, 33, 0.15);
+  --glass-blur: blur(8px);
 
   /* Links */
   --bs-link-color: #0d6efd;
@@ -66,11 +73,9 @@
   --bs-box-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
   --bs-box-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
   --bs-box-shadow-inset: inset 0 1px 2px rgba(0, 0, 0, 0.075);
-  --bs-gradient: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.15),
-    rgba(0, 0, 0, 0.15)
-  );
+  --bs-gradient: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.15),
+      rgba(0, 0, 0, 0.15));
 
   /* Botões */
   --bs-btn-color: #fff;
