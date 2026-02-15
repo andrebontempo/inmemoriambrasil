@@ -68,7 +68,7 @@ app.use((req, res, next) => {
   next()
 })
 
-// ----- Flash Messages ------
+// ----- Flash Messages --------
 app.use(flash())
 app.use((req, res, next) => {
   res.locals.success_msg = req.flash("success_msg")
