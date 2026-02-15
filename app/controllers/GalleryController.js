@@ -122,7 +122,7 @@ const GalleryController = {
   // Editar galeria de um memorial
   editGallery: async (req, res) => {
     const { id } = req.params
-    const userCurrent = req.session.user
+    const userCurrent = req.user
     //console.log("ESTOU EM Edit GALERIA - ID recebido:", id)
 
     try {
@@ -186,7 +186,7 @@ const GalleryController = {
     // Verificar se o arquivo foi enviado
     //console.log("ESTOU EM UPDATE GALERIA - Slug recebido:", req.params.slug)
     const { slug } = req.params
-    const userCurrent = req.session.user
+    const userCurrent = req.user
     if (!req.file) {
       return res.status(400).send("Nenhum arquivo enviado.")
     }
@@ -201,7 +201,7 @@ const GalleryController = {
   updateGallery: async (req, res) => {
     const { slug, tipo } = req.params
     const file = req.file
-    const userCurrent = req.session.user
+    const userCurrent = req.user
 
     if (!file) return res.status(400).send("Nenhum arquivo enviado")
 

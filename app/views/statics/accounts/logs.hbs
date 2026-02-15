@@ -10,103 +10,113 @@
     {{#if logs.length}}
 
     <div class="table-responsive">
-        <table class="table table-striped table-hover align-middle">
-
+        <table class="table table-hover align-middle border">
             <thead class="table-dark">
                 <tr>
-                    <th>Ação</th>
-                    <th>Administrador</th>
-                    <th>Usuário Afetado</th>
-                    <th>IP</th>
-                    <th>Data</th>
-                    <th>Detalhes</th>
+                    <th style="width: 15%">Ação</th>
+                    <th style="width: 20%">Administrador</th>
+                    <th style="width: 20%">Usuário Afetado</th>
+                    <th style="width: 15%">IP</th>
+                    <th style="width: 20%">Data/Hora</th>
+                    <th class="text-center" style="width: 10%">Detalhes</th>
                 </tr>
             </thead>
-
             <tbody>
-
                 {{#each logs}}
-
                 <tr>
                     <td>
                         {{#if (eq this.action "UPDATE_USER")}}
-                        <span class="badge bg-warning text-dark">Atualização</span>
+                        <span class="badge bg-warning text-dark"><i class="fas fa-edit me-1"></i> Atualização</span>
                         {{else if (eq this.action "DELETE_USER")}}
-                        <span class="badge bg-danger">Exclusão</span>
+                        <span class="badge bg-danger"><i class="fas fa-trash-alt me-1"></i> Exclusão</span>
                         {{else if (eq this.action "VIEW_ACCOUNTS_LIST")}}
-                        <span class="badge bg-info text-dark">Visualização</span>
+                        <span class="badge bg-info text-dark"><i class="fas fa-eye me-1"></i> Listagem</span>
                         {{else}}
                         <span class="badge bg-secondary">{{this.action}}</span>
                         {{/if}}
                     </td>
 
                     <td>
-                        {{this.adminId.name}}<br>
-                        <small class="text-muted">{{this.adminId.email}}</small>
+                        <div class="fw-bold">{{this.adminId.firstName}} {{this.adminId.lastName}}</div>
+                        <small class="text-muted d-block">{{this.adminId.email}}</small>
                     </td>
 
                     <td>
                         {{#if this.targetUserId}}
-                        {{this.targetUserId.name}}<br>
-                        <small class="text-muted">{{this.targetUserId.email}}</small>
+                        <div class="fw-bold">{{this.targetUserId.firstName}} {{this.targetUserId.lastName}}</div>
+                        <small class="text-muted d-block">{{this.targetUserId.email}}</small>
                         {{else}}
-                        <span class="text-muted">Usuário removido</span>
+                        <span class="text-muted italic"><i class="fas fa-user-slash me-1"></i> Conta removida</span>
                         {{/if}}
                     </td>
 
                     <td>
-                        <small>{{this.ip}}</small>
+                        <code class="text-primary bg-light px-1 rounded">{{this.ip}}</code>
+                        {{#if this.userAgent}}
+                        <i class="fas fa-info-circle text-muted ms-1" title="{{this.userAgent}}"
+                            style="cursor: help;"></i>
+                        {{/if}}
                     </td>
 
                     <td>
-                        {{formatDate this.createdAt}}
+                        <span class="text-secondary small fw-bold">{{formatFullDateTime this.createdAt}}</span>
                     </td>
 
-                    <td>
+                    <td class="text-center">
                         {{#if this.changes}}
                         <button class="btn btn-sm btn-outline-primary" data-bs-toggle="collapse"
                             data-bs-target="#changes-{{this._id}}">
-                            Ver
+                            <i class="fas fa-search-plus"></i> Ver
                         </button>
                         {{/if}}
                     </td>
                 </tr>
 
                 {{#if this.changes}}
-                <tr class="collapse bg-light" id="changes-{{this._id}}">
-                    <td colspan="6">
-
-                        <div class="p-3">
-
-                            {{#each this.changes}}
-                            <div class="mb-2">
-                                <strong>{{@key}}</strong>:
-
-                                {{#if this.before}}
-                                <div>
-                                    <span class="text-danger">Antes:</span>
-                                    {{this.before}}
+                <tr class="collapse" id="changes-{{this._id}}">
+                    <td colspan="6" class="p-0">
+                        <div class="bg-light p-4 border-start border-4 border-primary shadow-sm mx-3 my-2 rounded">
+                            <h6 class="mb-3"><i class="fas fa-exchange-alt me-2"></i> Detalhes da Alteração:</h6>
+                            <div class="row">
+                                {{#each this.changes}}
+                                <div class="col-md-4 mb-3">
+                                    <div class="card card-body h-100 py-2 border-0 shadow-sm">
+                                        <div class="text-uppercase small fw-bold text-muted mb-2 border-bottom pb-1">
+                                            {{@key}}</div>
+                                        {{#if this.before}}
+                                        <div class="mb-1">
+                                            <small class="text-danger fw-bold">DE:</small>
+                                            <span class="ms-1">{{this.before}}</span>
+                                        </div>
+                                        <div>
+                                            <small class="text-success fw-bold">PARA:</small>
+                                            <span class="ms-1">{{this.after}}</span>
+                                        </div>
+                                        {{else}}
+                                        <div class="bg-white p-2 border rounded small">
+                                            {{#if (eq @key "deletedUser")}}
+                                            <span class="text-danger fw-bold"><i class="fas fa-info-circle"></i> Dados
+                                                Excluídos:</span>
+                                            <ul class="mb-0 mt-1 list-unstyled">
+                                                <li><strong>Nome:</strong> {{this.name}}</li>
+                                                <li><strong>Email:</strong> {{this.email}}</li>
+                                                <li><strong>Perfil:</strong> {{this.role}}</li>
+                                            </ul>
+                                            {{else}}
+                                            <pre class="mb-0">{{json this}}</pre>
+                                            {{/if}}
+                                        </div>
+                                        {{/if}}
+                                    </div>
                                 </div>
-                                <div>
-                                    <span class="text-success">Depois:</span>
-                                    {{this.after}}
-                                </div>
-                                {{else}}
-                                <pre class="bg-white p-2 rounded border">
-{{json this}}
-                    </pre>
-                                {{/if}}
+                                {{/each}}
                             </div>
-                            {{/each}}
-
                         </div>
-
                     </td>
                 </tr>
                 {{/if}}
 
                 {{/each}}
-
             </tbody>
         </table>
     </div> <!-- fecha table-responsive -->

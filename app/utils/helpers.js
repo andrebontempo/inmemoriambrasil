@@ -19,6 +19,13 @@ const formatDate = (date, format) => {
   return `${dia} de ${mes} de ${ano}`
 }
 
+// Função para formatar data e hora completa (para logs)
+const formatFullDateTime = (date) => {
+  if (!date || isNaN(new Date(date))) return "Data inválida"
+  const data = moment.utc(date).tz("America/Sao_Paulo", true)
+  return data.format("DD/MM/YYYY HH:mm:ss")
+}
+
 // Função para formatar datas
 const formatDateTribute = (date, format) => {
   if (!date || isNaN(new Date(date))) return "Data inválida"
@@ -82,6 +89,7 @@ const json = (context) => {
 module.exports = {
   formatDate,
   formatDateTribute,
+  formatFullDateTime,
   calcularIdade,
   eq,
   ifEquals,

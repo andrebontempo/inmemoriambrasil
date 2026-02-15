@@ -8,7 +8,7 @@ const AccountsController = {
     // 📌 Listar todos os usuários
     list: async (req, res) => {
         try {
-            const userCurrent = req.session.user
+            const userCurrent = req.user
 
             const page = parseInt(req.query.page) || 1
             const limit = 10
@@ -19,7 +19,8 @@ const AccountsController = {
             const filter = search
                 ? {
                     $or: [
-                        { name: { $regex: search, $options: "i" } },
+                        { firstName: { $regex: search, $options: "i" } },
+                        { lastName: { $regex: search, $options: "i" } },
                         { email: { $regex: search, $options: "i" } }
                     ]
                 }
@@ -57,7 +58,7 @@ const AccountsController = {
     editForm: async (req, res) => {
         try {
 
-            const userCurrent = req.session.user
+            const userCurrent = req.user
 
             if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
                 return res.status(400).send("ID inválido")
@@ -83,9 +84,7 @@ const AccountsController = {
     // 📌 Atualizar usuário
     update: async (req, res) => {
         try {
-
-            const { name, email, role } = req.body
-            const adminUser = req.session.user
+            const adminUser = req.user
 
             if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
                 return res.status(400).send("ID inválido")
@@ -97,8 +96,10 @@ const AccountsController = {
                 return res.status(404).send("Usuário não encontrado")
             }
 
+            const { email, role } = req.body
             await User.findByIdAndUpdate(req.params.id, {
-                name,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
                 email,
                 role
             })
@@ -106,7 +107,8 @@ const AccountsController = {
             // 🔎 Detectar mudanças
             const changes = {}
 
-            if (oldUser.name !== name) changes.name = { before: oldUser.name, after: name }
+            if (oldUser.firstName !== req.body.firstName) changes.firstName = { before: oldUser.firstName, after: req.body.firstName }
+            if (oldUser.lastName !== req.body.lastName) changes.lastName = { before: oldUser.lastName, after: req.body.lastName }
             if (oldUser.email !== email) changes.email = { before: oldUser.email, after: email }
             if (oldUser.role !== role) changes.role = { before: oldUser.role, after: role }
 
@@ -132,7 +134,7 @@ const AccountsController = {
     delete: async (req, res) => {
         try {
 
-            const adminUser = req.session.user
+            const adminUser = req.user
 
             if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
                 return res.status(400).send("ID inválido")
@@ -163,7 +165,8 @@ const AccountsController = {
                 targetUserId: req.params.id,
                 changes: {
                     deletedUser: {
-                        name: userToDelete.name,
+                        firstName: userToDelete.firstName,
+                        lastName: userToDelete.lastName,
                         email: userToDelete.email,
                         role: userToDelete.role
                     }
@@ -191,8 +194,8 @@ const AccountsController = {
             const totalPages = Math.ceil(total / limit)
 
             const logs = await AdminLog.find()
-                .populate("adminId", "name email")
-                .populate("targetUserId", "name email")
+                .populate("adminId", "firstName lastName email")
+                .populate("targetUserId", "firstName lastName email")
                 .sort({ createdAt: -1 })
                 .skip(skip)
                 .limit(limit)

@@ -11,7 +11,7 @@ const { DeleteObjectCommand } = require("@aws-sdk/client-s3")
 
 const LifeStoryController = {
   createLifeStory: async (req, res) => {
-    const userCurrent = req.session.user
+    const userCurrent = req.user
 
     try {
       let mediaKey = ""
@@ -49,11 +49,11 @@ const LifeStoryController = {
         eventDate: req.body.eventDate,
         image: req.file
           ? {
-              key: mediaKey,
-              url: fileUrl,
-              originalName: req.file.originalname,
-              mimeType: req.file.mimetype,
-            }
+            key: mediaKey,
+            url: fileUrl,
+            originalName: req.file.originalname,
+            mimeType: req.file.mimetype,
+          }
           : null,
       })
 
@@ -275,8 +275,8 @@ const LifeStoryController = {
 
       // Verifica se o usuário tem permissão (criador do memorial)
       if (
-        !req.session.user ||
-        lifeStory.memorial.owner.toString() !== req.session.user._id.toString()
+        !req.user ||
+        lifeStory.memorial.owner.toString() !== req.user._id.toString()
       ) {
         req.flash(
           "error_msg",

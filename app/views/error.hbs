@@ -1,0 +1,15 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h1 class="display-4 text-danger">Oops!</h1>
+            <h2 class="mb-4">{{message}}</h2>
+            {{#if error.status}}
+            <p class="lead">Status Code: {{error.status}}</p>
+            {{/if}}
+            {{#if error.stack}}
+            <pre class="text-start bg-light p-3 border rounded"><code>{{error.stack}}</code></pre>
+            {{/if}}
+            <a href="/" class="btn btn-primary mt-3">Voltar para a Home</a>
+        </div>
+    </div>
+</div>

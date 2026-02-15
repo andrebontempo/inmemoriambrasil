@@ -5,6 +5,7 @@
         <thead class="table-dark">
             <tr>
                 <th>Nome</th>
+                <th>Autenticação</th>
                 <th>Email</th>
                 <th>Perfil</th>
                 <th>Criado em</th>
@@ -14,7 +15,14 @@
         <tbody>
             {{#each users}}
             <tr>
-                <td>{{this.name}}</td>
+                <td>{{this.firstName}} {{this.lastName}}</td>
+                <td>
+                    {{#if (eq this.authProvider "google")}}
+                    <span class="badge bg-info text-dark"><i class="fab fa-google"></i> Google</span>
+                    {{else}}
+                    <span class="badge bg-light text-dark border">Chave Local</span>
+                    {{/if}}
+                </td>
                 <td>{{this.email}}</td>
                 <td>
                     {{#if (eq this.role "admin")}}

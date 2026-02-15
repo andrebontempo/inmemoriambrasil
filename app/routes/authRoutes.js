@@ -1,5 +1,6 @@
 const express = require("express")
 const router = express.Router()
+const passport = require("passport")
 const AuthController = require("../controllers/AuthController")
 const authMiddleware = require("../middlewares/authMiddleware")
 
@@ -24,5 +25,26 @@ router.get("/dashboard", AuthController.showDashboard)
 
 // Logout
 router.get("/logout", AuthController.logout)
+
+// ========== Google OAuth ==========
+router.get(
+    "/google",
+    passport.authenticate("google", { scope: ["profile", "email"] })
+)
+
+router.get(
+    "/google/callback",
+    passport.authenticate("google", {
+        failureRedirect: "/auth/login",
+        failureFlash: "Erro ao fazer login com Google.",
+    }),
+    (req, res) => {
+        const redirectTo = req.session.redirectAfterLogin || "/auth/dashboard"
+        delete req.session.redirectAfterLogin
+        req.session.save(() => {
+            res.redirect(redirectTo)
+        })
+    }
+)
 
 module.exports = router

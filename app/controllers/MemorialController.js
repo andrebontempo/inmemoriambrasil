@@ -30,8 +30,8 @@ const MemorialController = {
   // 👉 Processa o envio do nome e sobrenome
   createStep1: async (req, res) => {
     try {
-      //console.log(req.session.user)
-      const userCurrent = req.session.user
+      //console.log(req.user)
+      const userCurrent = req.user
       const { firstName, lastName } = req.body
 
       // ⚠️ (Opcional) Se quiser bloquear usuário não logado:
@@ -142,7 +142,7 @@ const MemorialController = {
   },
   createStep4: async (req, res) => {
     // Garantir login
-    if (!req.session.user) {
+    if (!req.user) {
       req.flash("error_msg", "Faça login para concluir a criação do memorial.")
       return res.redirect("/auth/login")
     }
@@ -153,10 +153,10 @@ const MemorialController = {
       return res.redirect("/memorial/create-step1")
     }
 
-    const userId = req.session.user._id
+    const userId = req.user._id
     const data = req.session.memorial
-    //const user = req.session.user
-    const userCurrent = req.session.user
+    //const user = req.user
+    const userCurrent = req.user
 
     try {
       const { epitaph, theme } = req.body
@@ -609,7 +609,7 @@ const MemorialController = {
   // Método para exibir a página de pesquisa por memorial
   searchMemorial: async (req, res) => {
     const termo = req.query.q
-    const user = req.session.user
+    const user = req.user
     const page = parseInt(req.query.page) || 1
     const limit = 5
     const skip = (page - 1) * limit

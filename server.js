@@ -5,11 +5,14 @@ const conectarDB = require("./config/db")
 const session = require("express-session")
 const MongoStore = require("connect-mongo")
 const flash = require("connect-flash")
-const setUserMiddleware = require("./app/middlewares/setUserMiddleware")
+const passport = require("passport")
 const helpers = require("./app/utils/helpers")
 require("dotenv").config()
 const maintenanceMiddleware = require("./app/middlewares/maintenance")
 const routes = require("./app/routes")
+
+// Configuração do Passport (estratégias Local + Google)
+require("./config/passport")(passport)
 
 const app = express()
 
@@ -54,19 +57,16 @@ app.use(
 
     cookie: {
       maxAge: 1000 * 60 * 30, // 30 minutos
-      secure: isProduction,
+      secure: isProduction, // Em produção (HTTPS) é true, em dev (HTTP) é false
       sameSite: "lax",
       httpOnly: true,
     },
   })
 )
-// Ajusta secure conforme HTTPS real (via proxy)
-app.use((req, res, next) => {
-  const forwardedProto = (req.headers["x-forwarded-proto"] || "").toLowerCase()
-  const isSecure = req.secure || forwardedProto.includes("https")
-  if (req.session?.cookie) req.session.cookie.secure = isSecure
-  next()
-})
+
+// ----- Passport -----
+app.use(passport.initialize())
+app.use(passport.session())
 
 // ----- Flash Messages --------
 app.use(flash())
@@ -76,8 +76,11 @@ app.use((req, res, next) => {
   next()
 })
 
-// Middleware de usuário logado
-app.use(setUserMiddleware)
+// Disponibiliza o usuário logado para todas as views
+app.use((req, res, next) => {
+  res.locals.user = req.user || null
+  next()
+})
 
 // ----- View Engine -----
 const hbs = exphbs.create({

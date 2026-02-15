@@ -11,7 +11,7 @@ const TributeController = {
   // Exibir o formulário de cadastro
   createTribute: async (req, res) => {
     // Garantir que o usuário autenticado esteja presente
-    const userCurrent = req.session.user
+    const userCurrent = req.user
     try {
       //console.log(req.body)
       // Verifique se 'memorial' está no corpo da requisição

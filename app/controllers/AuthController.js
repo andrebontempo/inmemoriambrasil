@@ -1,5 +1,5 @@
-const bcrypt = require("bcrypt")
 const crypto = require("crypto")
+const passport = require("passport")
 const { sendEmail } = require("../services/MailService")
 
 const User = require("../models/User")
@@ -24,73 +24,53 @@ const AuthController = {
   },
 
   // ================================
-  // LOGIN (POST)
+  // LOGIN (POST) — via Passport Local
   // ================================
-  loginUser: async (req, res) => {
-    try {
-      let { email, password } = req.body
-
-      if (!email || !password) {
-        return res.status(400).render("auth/login", {
-          error: "E-mail e senha são obrigatórios.",
-        })
+  loginUser: (req, res, next) => {
+    passport.authenticate('local', (err, user, info) => {
+      if (err) {
+        return next(err);
       }
-
-      email = email.trim().toLowerCase()
-
-      const user = await User.findOne({ email })
-
       if (!user) {
         return res.status(400).render("auth/login", {
-          error: "E-mail ou senha inválidos.",
-        })
+          error: info?.message || "E-mail ou senha inválidos.",
+        });
       }
+      req.logIn(user, (err) => {
+        if (err) {
+          return next(err);
+        }
 
-      const passwordMatch = await bcrypt.compare(password.trim(), user.password)
-
-      if (!passwordMatch) {
-        return res.status(400).render("auth/login", {
-          error: "E-mail ou senha inválidos.",
-        })
-      }
-
-      req.session.user = {
-        _id: user._id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        role: user.role,
-      }
-
-      const redirectTo = req.session.redirectAfterLogin || "/auth/dashboard"
-
-      req.session.save(() => {
-        delete req.session.redirectAfterLogin
-        res.redirect(redirectTo)
-      })
-
-    } catch (err) {
-      console.error("Erro no login:", err)
-      res.status(500).render("auth/login", {
-        error: "Erro ao fazer login. Tente novamente.",
-      })
-    }
+        // Força o salvamento da sessão antes de redirecionar
+        req.session.save((err) => {
+          if (err) {
+            console.error("Erro ao salvar sessão:", err);
+            return next(err);
+          }
+          const redirectTo = req.session.redirectAfterLogin || "/auth/dashboard";
+          delete req.session.redirectAfterLogin;
+          return res.redirect(redirectTo);
+        });
+      });
+    })(req, res, next);
   },
 
   // ================================
   // DASHBOARD
   // ================================
   showDashboard: async (req, res) => {
-    if (!req.session.user) {
+    // Agora configurado via middleware ensureAuthenticated
+    // Mas se quiser checar aqui também:
+    if (!req.isAuthenticated()) {
       return res.redirect("/auth/login")
     }
 
     try {
-      const userId = req.session.user._id
+      const userId = req.user._id
       const memoriais = await Memorial.find({ owner: userId }).lean()
 
       res.render("auth/dashboard", {
-        user: req.session.user,
+        user: req.user,
         memoriais,
       })
     } catch (err) {
@@ -126,9 +106,9 @@ const AuthController = {
         })
       }
 
-      if (password.length < 8) {
+      if (password.length < 4) {
         return res.render("auth/register", {
-          error: "A senha deve ter pelo menos 8 caracteres.",
+          error: "A senha deve ter pelo menos 4 caracteres.",
           firstName,
           lastName,
           email,
@@ -160,29 +140,30 @@ const AuthController = {
       })
 
       // 🔥 ENVIO DE E-MAIL DE BOAS-VINDAS
-      await sendEmail({
-        to: newUser.email,
-        subject: "Bem-vindo ao In Memoriam Brasil",
-        html: `
-        <h2>Olá, ${newUser.firstName}!</h2>
-        <p>Sua conta foi criada com sucesso.</p>
-        <p>Agora você pode criar memoriais, gerenciar homenagens e acessar seu painel.</p>
-        <br/>
-        <p>Se você não criou esta conta, entre em contato conosco imediatamente.</p>
-        <br/>
-        <p>Equipe In Memoriam Brasil</p>
-      `,
-      })
-
-      req.session.user = {
-        _id: newUser._id,
-        firstName: newUser.firstName,
-        lastName: newUser.lastName,
-        email: newUser.email,
-        role: newUser.role,
+      try {
+        await sendEmail({
+          to: newUser.email,
+          subject: "Bem-vindo ao In Memoriam Brasil",
+          html: `
+          <h2>Olá, ${newUser.firstName}!</h2>
+          <p>Sua conta foi criada com sucesso.</p>
+          <p>Agora você pode criar memoriais, gerenciar homenagens e acessar seu painel.</p>
+          <br/>
+          <p>Se você não criou esta conta, entre em contato conosco imediatamente.</p>
+          <br/>
+          <p>Equipe In Memoriam Brasil</p>
+        `,
+        })
+      } catch (emailErr) {
+        console.error("Erro ao enviar email de boas vindas (não crítico):", emailErr)
       }
 
-      req.session.save(() => {
+      // Login automático via Passport após registro
+      req.logIn(newUser, (err) => {
+        if (err) {
+          console.error("Erro ao logar após registro:", err)
+          return res.redirect("/auth/login")
+        }
         res.redirect("/auth/dashboard")
       })
 
@@ -297,10 +278,10 @@ const AuthController = {
         })
       }
 
-      if (password.length < 8) {
+      if (password.length < 4) { // Mantendo o requisito de 4 caracteres que o usuário pediu
         return res.render("auth/reset-password", {
           token,
-          error: "A senha deve ter pelo menos 8 caracteres.",
+          error: "A senha deve ter pelo menos 4 caracteres.",
         })
       }
 
@@ -313,7 +294,7 @@ const AuthController = {
         return res.redirect("/auth/forgot-password")
       }
 
-      // ⚠️ NÃO FAZ HASH AQUI
+      // ⚠️ NÃO FAZ HASH AQUI se o hook pre-save do mongoose estiver ativo
       user.password = password.trim()
       user.resetPasswordToken = undefined
       user.resetPasswordExpires = undefined
@@ -340,10 +321,13 @@ const AuthController = {
   // ================================
   // LOGOUT
   // ================================
-  logout: (req, res) => {
-    req.session.destroy(() => {
-      res.redirect("/")
-    })
+  logout: (req, res, next) => {
+    req.logout((err) => {
+      if (err) { return next(err); }
+      req.session.destroy((err) => {
+        res.redirect('/');
+      });
+    });
   },
 }
 
