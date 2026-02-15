@@ -1,0 +1,84 @@
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+    <h2 class="fw-bold fs-3 mb-0 text-dark">
+      <i class="fas fa-chart-bar me-2 text-primary"></i> Estatísticas Avançadas
+    </h2>
+    <a href="/admin" class="btn btn-outline-dark btn-sm shadow-sm">
+      <i class="fas fa-th-large me-1"></i> Painel Geral Admin
+    </a>
+  </div>
+
+  <div class="row justify-content-center mt-5">
+    <div class="col-lg-7">
+      <div class="card border-0 shadow-lg overflow-hidden">
+        <div class="card-header bg-dark text-white py-3">
+          <h5 class="card-title mb-0 d-flex align-items-center">
+            <i class="fas fa-database me-2 opacity-50"></i> Resumo de Dados do Sistema
+          </h5>
+        </div>
+        <div class="card-body p-4 bg-light bg-opacity-25">
+          <div class="vstack gap-4">
+            <div
+              class="d-flex justify-content-between align-items-center p-3 bg-white rounded shadow-sm border-start border-4 border-primary">
+              <div class="d-flex align-items-center">
+                <div class="bg-primary bg-opacity-10 p-2 rounded-circle me-3">
+                  <i class="fas fa-monument text-primary"></i>
+                </div>
+                <span class="fw-bold text-muted">Memoriais Criados</span>
+              </div>
+              <span class="fs-4 fw-bold text-primary">{{totalMemoriais}}</span>
+            </div>
+
+            <div
+              class="d-flex justify-content-between align-items-center p-3 bg-white rounded shadow-sm border-start border-4 border-success">
+              <div class="d-flex align-items-center">
+                <div class="bg-success bg-opacity-10 p-2 rounded-circle me-3">
+                  <i class="fas fa-seedling text-success"></i>
+                </div>
+                <span class="fw-bold text-muted">Tributos Postados</span>
+              </div>
+              <span class="fs-4 fw-bold text-success">{{totalTributos}}</span>
+            </div>
+
+            <div
+              class="d-flex justify-content-between align-items-center p-3 bg-white rounded shadow-sm border-start border-4 border-warning">
+              <div class="d-flex align-items-center">
+                <div class="bg-warning bg-opacity-10 p-2 rounded-circle me-3">
+                  <i class="fas fa-book-open text-warning"></i>
+                </div>
+                <span class="fw-bold text-muted">Histórias de Vida</span>
+              </div>
+              <span class="fs-4 fw-bold text-warning">{{totalHistorias}}</span>
+            </div>
+
+            <div
+              class="d-flex justify-content-between align-items-center p-3 bg-white rounded shadow-sm border-start border-4 border-info">
+              <div class="d-flex align-items-center">
+                <div class="bg-info bg-opacity-10 p-2 rounded-circle me-3">
+                  <i class="fas fa-hands-helping text-info"></i>
+                </div>
+                <span class="fw-bold text-muted">Histórias Compartilhadas</span>
+              </div>
+              <span class="fs-4 fw-bold text-info">{{totalCompartilhadas}}</span>
+            </div>
+
+            <div
+              class="d-flex justify-content-between align-items-center p-3 bg-white rounded shadow-sm border-start border-4 border-danger">
+              <div class="d-flex align-items-center">
+                <div class="bg-danger bg-opacity-10 p-2 rounded-circle me-3">
+                  <i class="fas fa-eye text-danger"></i>
+                </div>
+                <span class="fw-bold text-muted">Total de Visitas</span>
+              </div>
+              <span class="fs-4 fw-bold text-danger">{{totalVisitas}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer bg-white text-center py-3 border-top-0">
+          <small class="text-muted"><i class="fas fa-sync fa-spin me-1"></i> Dados atualizados em tempo real do banco de
+            dados</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

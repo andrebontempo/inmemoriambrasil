@@ -2,8 +2,8 @@
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Logs Administrativos</h2>
-        <a href="/accounts" class="btn btn-secondary">
-            Voltar
+        <a href="/admin" class="btn btn-outline-dark btn-sm">
+            <i class="fas fa-th-large me-1"></i> Painel Geral Admin
         </a>
     </div>
 
@@ -98,7 +98,7 @@
                                             <span class="text-danger fw-bold"><i class="fas fa-info-circle"></i> Dados
                                                 Excluídos:</span>
                                             <ul class="mb-0 mt-1 list-unstyled">
-                                                <li><strong>Nome:</strong> {{this.name}}</li>
+                                                <li><strong>Nome:</strong> {{this.firstName}} {{this.lastName}}</li>
                                                 <li><strong>Email:</strong> {{this.email}}</li>
                                                 <li><strong>Perfil:</strong> {{this.role}}</li>
                                             </ul>

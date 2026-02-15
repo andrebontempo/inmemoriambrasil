@@ -1,0 +1,173 @@
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold"><i class="fas fa-user-shield me-2"></i> Central Geral do Administrador</h2>
+        <div class="text-muted">
+            <span class="badge bg-dark">Ambiente: {{settings.env}}</span>
+        </div>
+    </div>
+
+    <!-- 📊 Cards de Estatísticas -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm bg-primary text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase mb-1 small opacity-75">Usuários Totais</h6>
+                            <h2 class="mb-0 fw-bold">{{stats.totalUsers}}</h2>
+                        </div>
+                        <i class="fas fa-users fa-2x opacity-25"></i>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent border-0 pt-0">
+                    <a href="/admin/accounts" class="text-white text-decoration-none small">Gerenciar <i
+                            class="fas fa-arrow-right ms-1"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card border-0 shadow-sm bg-success text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase mb-1 small opacity-75">Memoriais</h6>
+                            <h2 class="mb-0 fw-bold">{{stats.totalMemoriais}}</h2>
+                        </div>
+                        <i class="fas fa-monument fa-2x opacity-25"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card border-0 shadow-sm bg-info text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase mb-1 small opacity-75">Tributos</h6>
+                            <h2 class="mb-0 fw-bold">{{stats.totalTributos}}</h2>
+                        </div>
+                        <i class="fas fa-seedling fa-2x opacity-25"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card border-0 shadow-sm bg-warning text-dark h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase mb-1 small opacity-75">Histórias</h6>
+                            <h2 class="mb-0 fw-bold">{{stats.totalHistorias}}</h2>
+                        </div>
+                        <i class="fas fa-book-open fa-2x opacity-25"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm bg-danger text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase mb-1 small opacity-75">Total de Visitas</h6>
+                            <h2 class="mb-0 fw-bold">{{stats.totalVisitas}}</h2>
+                        </div>
+                        <i class="fas fa-chart-line fa-2x opacity-25"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- 👥 Usuários Recentes -->
+        <div class="col-lg-5 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold"><i class="fas fa-user-plus me-2 text-primary"></i> Usuários Recentes</h5>
+                    <a href="/admin/accounts" class="btn btn-sm btn-outline-primary">Ver todos</a>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th>Usuário</th>
+                                    <th>Cadastro</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each recentUsers}}
+                                <tr>
+                                    <td>
+                                        <div class="fw-bold small">{{this.firstName}} {{this.lastName}}</div>
+                                        <div class="text-muted" style="font-size: 0.75rem;">{{this.email}}</div>
+                                    </td>
+                                    <td class="small">{{formatDate this.createdAt}}</td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 📜 Atividades Recentes (Logs) -->
+        <div class="col-lg-7 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold"><i class="fas fa-history me-2 text-warning"></i> Atividades Recentes</h5>
+                    <a href="/admin/accounts/logs" class="btn btn-sm btn-outline-warning">Ver Histórico</a>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th>Ação</th>
+                                    <th>Admin</th>
+                                    <th>Data/Hora</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each recentLogs}}
+                                <tr>
+                                    <td>
+                                        {{#if (eq this.action "UPDATE_USER")}}
+                                        <span class="badge bg-warning text-dark small"><i
+                                                class="fas fa-edit"></i></span>
+                                        {{else if (eq this.action "DELETE_USER")}}
+                                        <span class="badge bg-danger small"><i class="fas fa-trash"></i></span>
+                                        {{else}}
+                                        <span class="badge bg-secondary small"><i class="fas fa-info"></i></span>
+                                        {{/if}}
+                                        <span class="ms-1 small">{{this.action}}</span>
+                                    </td>
+                                    <td class="small fw-bold">{{this.adminId.firstName}}</td>
+                                    <td class="small text-muted">{{formatFullDateTime this.createdAt}}</td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🔗 Links Rápidos adicionais -->
+    <div class="bg-white p-4 rounded shadow-sm border-start border-4 border-info">
+        <h5 class="fw-bold mb-3">Links de Gestão Rápida</h5>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="/admin/dashboard" class="btn btn-outline-dark"><i class="fas fa-chart-pie me-2"></i>Estatísticas
+                Avançadas</a>
+            <a href="/admin/accounts" class="btn btn-outline-primary"><i class="fas fa-users-cog me-2"></i>Gerenciar
+                Contas</a>
+            <a href="/admin/accounts/logs" class="btn btn-outline-warning"><i
+                    class="fas fa-clipboard-list me-2"></i>Logs do
+                Sistema</a>
+            <a href="/" class="btn btn-outline-secondary"><i class="fas fa-home me-2"></i>Voltar ao Site</a>
+        </div>
+    </div>
+</div>

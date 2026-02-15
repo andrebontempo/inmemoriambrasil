@@ -14,7 +14,7 @@ const getStatistics = async (req, res) => {
     const memoriais = await Memorial.find({}, "visits")
     const totalVisitas = memoriais.reduce((sum, m) => sum + (m.visits || 0), 0)
 
-    res.render("statics/dashboard", {
+    res.render("admin/dashboard", {
       totalMemoriais,
       totalTributos,
       totalHistorias,

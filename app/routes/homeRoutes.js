@@ -7,16 +7,18 @@ const EnvioContatoController = require("../controllers/EnvioContatoController")
 
 const requireGlobalAdmin = require("../middlewares/requireGlobalAdmin")
 const AccountsController = require("../controllers/AccountsController")
+const AdminController = require("../controllers/AdminController")
 
 
 
 // Rota para o controle de Usuários
-router.get("/accounts", requireGlobalAdmin, AccountsController.list)
-router.get("/accounts/edit/:id", requireGlobalAdmin, AccountsController.editForm)
-router.post("/accounts/edit/:id", requireGlobalAdmin, AccountsController.update)
-router.post("/accounts/delete/:id", requireGlobalAdmin, AccountsController.delete)
+router.get("/admin", requireGlobalAdmin, AdminController.index)
+router.get("/admin/accounts", requireGlobalAdmin, AccountsController.list)
+router.get("/admin/accounts/edit/:id", requireGlobalAdmin, AccountsController.editForm)
+router.post("/admin/accounts/edit/:id", requireGlobalAdmin, AccountsController.update)
+router.post("/admin/accounts/delete/:id", requireGlobalAdmin, AccountsController.delete)
 // Rota para logs
-router.get("/accounts/logs", requireGlobalAdmin, AccountsController.logs)
+router.get("/admin/accounts/logs", requireGlobalAdmin, AccountsController.logs)
 
 
 
@@ -24,7 +26,7 @@ router.get("/accounts/logs", requireGlobalAdmin, AccountsController.logs)
 router.get("/", HomeController.index)
 
 // Rota para estatísticas
-router.get("/dashboard", StatsController.getStatistics)
+router.get("/admin/dashboard", StatsController.getStatistics)
 
 // Rotas estáticas
 router.get("/sobre", (req, res) => {

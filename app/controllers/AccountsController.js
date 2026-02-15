@@ -36,7 +36,7 @@ const AccountsController = {
 
             const totalPages = Math.ceil(totalUsers / limit)
 
-            res.render("statics/accounts/index", {
+            res.render("admin/accounts/index", {
                 users,
                 userCurrent,
                 search,
@@ -70,7 +70,7 @@ const AccountsController = {
                 return res.status(404).send("Usuário não encontrado")
             }
 
-            res.render("statics/accounts/edit", {
+            res.render("admin/accounts/edit", {
                 user,
                 userCurrent
             })
@@ -122,7 +122,7 @@ const AccountsController = {
                 userAgent: req.headers["user-agent"]
             })
 
-            res.redirect("/accounts")
+            res.redirect("/admin/accounts")
 
         } catch (err) {
             console.error("Erro ao atualizar usuário:", err)
@@ -175,7 +175,7 @@ const AccountsController = {
                 userAgent: req.headers["user-agent"]
             })
 
-            res.redirect("/accounts")
+            res.redirect("/admin/accounts")
 
         } catch (err) {
             console.error("Erro ao excluir usuário:", err)
@@ -201,7 +201,7 @@ const AccountsController = {
                 .limit(limit)
                 .lean()
 
-            res.render("statics/accounts/logs", {
+            res.render("admin/accounts/logs", {
                 logs,
                 currentPage: page,
                 totalPages,
