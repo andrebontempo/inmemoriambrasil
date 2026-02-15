@@ -65,13 +65,20 @@
 │       ├── alerts
 │       │   ├── forbidden.hbs
 │       │   ├── login_required.hbs
+│       │   ├── manutencao copy.hbs
+│       │   ├── manutencao.hbs
+│       │   ├── manutencao_producao.hbs
+│       │   ├── manutencao_simples.hbs
 │       │   └── private_memorial.hbs
 │       ├── auth
 │       │   ├── dashboard.hbs
+│       │   ├── forgot-password.hbs
+│       │   ├── login copy.hbs
 │       │   ├── login.hbs
+│       │   ├── register copy.hbs
 │       │   ├── register.hbs
+│       │   ├── reset-password.hbs
 │       │   └── user.hbs
-│       ├── error.hbs
 │       ├── errors
 │       │   ├── 400.hbs
 │       │   ├── 404.hbs
@@ -80,9 +87,6 @@
 │       ├── layouts
 │       │   ├── main.hbs
 │       │   └── memorial-layout.hbs
-│       ├── manutencao.hbs
-│       ├── manutencao_producao.hbs
-│       ├── manutencao_simples.hbs
 │       ├── memorial
 │       │   ├── create-step1.hbs
 │       │   ├── create-step2.hbs
@@ -102,6 +106,7 @@
 │       │   ├── memorial-gallery.hbs
 │       │   ├── memorial-lifestory.hbs
 │       │   ├── memorial-pesquisa.hbs
+│       │   ├── memorial-pesquisa-ORIG.hbs
 │       │   ├── memorial-sharedstory.hbs
 │       │   └── memorial-tribute.hbs
 │       ├── partials
@@ -174,6 +179,7 @@
 │   │   │   │   ├── chiquinha_gonzaga_1.jpg
 │   │   │   │   ├── chiquinha_gonzaga_2.png
 │   │   │   │   ├── Favicom_inmemoriambrasil_1.png
+│   │   │   │   ├── google-logo-50.png
 │   │   │   │   ├── homenageado3.png
 │   │   │   │   ├── homenageado4.png
 │   │   │   │   ├── Logo_InMemoriamBrasil_1.png
@@ -245,4 +251,4 @@
     ├── findSession.js
     └── inspectSessions.js
 
-46 directories, 200 files
+46 directories, 206 files
