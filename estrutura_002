@@ -13,7 +13,7 @@
 │   │   ├── MemorialController.js
 │   │   ├── MemorialFETController.js
 │   │   ├── SharedStoryController.js
-│   │   ├── StatsController.js
+│   │   ├── StatsController.js d
 │   │   └── TributeController.js
 │   ├── middlewares
 │   │   ├── authMiddleware.js
