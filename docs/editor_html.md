@@ -1,4 +1,4 @@
-# ✅ criar um editor de texto (Quill / TinyMCE)
+# ✅ criar um editor de texto (Quill / TinyMCE) ..
 
 Perfeito — **um editor de texto como Quill ou TinyMCE é exatamente o que você precisa** para permitir **parágrafos, negrito, itálico, listas, links etc.**
 E **sim, o MongoDB aceita perfeitamente texto formatado em HTML**, então funciona 100% no seu app.
