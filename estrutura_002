@@ -4,6 +4,7 @@
 │   │   └── kinships.js
 │   ├── controllers
 │   │   ├── AccountsController.js
+│   │   ├── AdminController.js
 │   │   ├── AuthController.js
 │   │   ├── EnvioContatoController.js
 │   │   ├── GalleryController.js
@@ -13,7 +14,7 @@
 │   │   ├── MemorialController.js
 │   │   ├── MemorialFETController.js
 │   │   ├── SharedStoryController.js
-│   │   ├── StatsController.js d
+│   │   ├── StatsController.js
 │   │   └── TributeController.js
 │   ├── middlewares
 │   │   ├── authMiddleware.js
@@ -62,6 +63,15 @@
 │   │   ├── playground-1.mongodb.js
 │   │   └── r2Uploader.js
 │   └── views
+│       ├── admin
+│       │   ├── accounts
+│       │   │   ├── edit.hbs
+│       │   │   ├── index copy.hbs
+│       │   │   ├── index.hbs
+│       │   │   ├── logs copy.hbs
+│       │   │   └── logs.hbs
+│       │   ├── dashboard.hbs
+│       │   └── index.hbs
 │       ├── alerts
 │       │   ├── forbidden.hbs
 │       │   ├── login_required.hbs
@@ -79,6 +89,7 @@
 │       │   ├── register.hbs
 │       │   ├── reset-password.hbs
 │       │   └── user.hbs
+│       ├── error.hbs
 │       ├── errors
 │       │   ├── 400.hbs
 │       │   ├── 404.hbs
@@ -122,17 +133,12 @@
 │       │       ├── memorial-navbar.hbs
 │       │       └── memorial-sidebar.hbs
 │       ├── statics
-│       │   ├── accounts
-│       │   │   ├── edit.hbs
-│       │   │   ├── index copy.hbs
-│       │   │   ├── index.hbs
-│       │   │   ├── logs copy.hbs
-│       │   │   └── logs.hbs
 │       │   ├── condicoes-utilizacao.hbs
 │       │   ├── contato.hbs
 │       │   ├── criar-memorial.hbs
-│       │   ├── dashboard.hbs
 │       │   ├── faq.hbs
+│       │   ├── homeBKP.hbs
+│       │   ├── home copy.hbs
 │       │   ├── home.hbs
 │       │   ├── mapa-site.hbs
 │       │   ├── memoriais-virtuais.hbs
@@ -145,6 +151,7 @@
 │           └── themes.hbs
 ├── config
 │   ├── db.js
+│   ├── passport.js
 │   ├── playground-1.mongodb.js
 │   └── r2.js
 ├── deploy_dev.sh
@@ -152,16 +159,6 @@
 ├── docker-compose.dev.yml
 ├── docker-compose.yml
 ├── Dockerfile
-├── docs
-│   ├── editor_html.md
-│   ├── Para Mobile.md
-│   ├── permissionamento_1.md
-│   ├── permissionamento_2.md
-│   ├── scss.md
-│   └── themes
-│       ├── _theme-azul.scss
-│       ├── _theme-roxo.scss
-│       └── _theme-vinho.scss
 ├── estrutura_001
 ├── estrutura_002
 ├── nodemon.json
@@ -245,10 +242,9 @@
 │               ├── _breakpoints.scss
 │               ├── _helpers.scss
 │               └── _mixins.scss
-├── scripts
 ├── server.js
 └── tools
     ├── findSession.js
     └── inspectSessions.js
 
-46 directories, 206 files
+44 directories, 204 files
