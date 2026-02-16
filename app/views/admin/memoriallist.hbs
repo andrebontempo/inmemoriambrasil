@@ -1,0 +1,193 @@
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-1">
+                    <li class="breadcrumb-item"><a href="/admin" class="text-decoration-none">Admin</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Gerenciar Memoriais</li>
+                </ol>
+            </nav>
+            <h2 class="fw-bold mb-0"><i class="fas fa-monument me-2 text-success"></i> Gerenciar Memoriais</h2>
+        </div>
+        <a href="/admin" class="btn btn-outline-secondary btn-sm">
+            <i class="fas fa-arrow-left me-1"></i> Voltar
+        </a>
+    </div>
+
+    <!-- 🔍 Filtro de Busca -->
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+            <form action="/admin/memorials" method="GET" class="row g-3 align-items-center">
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="fas fa-search text-muted"></i>
+                        </span>
+                        <input type="text" name="q" class="form-control border-start-0"
+                            placeholder="Buscar por nome, e-mail ou slug..." value="{{query}}">
+                        <button type="submit" class="btn btn-primary">Filtrar</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    {{#if query}}
+                    <a href="/admin/memorials" class="btn btn-outline-secondary w-100">Limpar Filtros</a>
+                    {{/if}}
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+            {{#if memoriais.length}}
+            <div class="list-group list-group-flush">
+                {{#each memoriais}}
+                <div class="list-group-item px-0 py-4 border-bottom position-relative">
+
+                    <!-- ⭐ Selo Premium -->
+                    {{#if (eq this.plan "premium")}}
+                    <span class="badge bg-warning text-dark position-absolute top-0 end-0 mt-3">
+                        ⭐ Premium
+                    </span>
+                    {{/if}}
+
+                    <div class="d-flex align-items-start flex-wrap">
+                        <!-- FOTO -->
+                        <div class="me-4 mb-3 mb-md-0">
+                            {{#if this.mainPhoto.url}}
+                            <img src="{{this.mainPhoto.url}}" alt="Foto de {{this.firstName}}" class="rounded shadow-sm"
+                                style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #4f0e21;" />
+                            {{else}}
+                            <div class="rounded bg-light d-flex align-items-center justify-content-center border"
+                                style="width: 120px; height: 120px;">
+                                <i class="fas fa-user fa-3x text-muted opacity-50"></i>
+                            </div>
+                            {{/if}}
+                        </div>
+
+                        <!-- INFORMAÇÕES -->
+                        <div class="flex-grow-1 min-width-0">
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <h5 class="fw-bold mb-0">{{this.firstName}} {{this.lastName}}</h5>
+                            </div>
+
+                            <p class="mb-2 small">
+                                <strong>Nascimento:</strong> {{formatDate this.birth.date}}
+                                <br />
+                                <strong>Falecimento:</strong> {{formatDate this.death.date}}
+                            </p>
+
+                            <!-- LINHA: Visibilidade + Plano -->
+                            <div class="d-flex flex-wrap align-items-center gap-3 small mb-3">
+                                <div>
+                                    <strong>Visibilidade:</strong>
+                                    {{#if (eq this.accessLevel "public_read")}}
+                                    <span class="badge bg-success">Público</span>
+                                    {{else if (eq this.accessLevel "private_read")}}
+                                    <span class="badge bg-secondary">Privado (leitura)</span>
+                                    {{else}}
+                                    <span class="badge bg-dark">Privado (edição)</span>
+                                    {{/if}}
+                                </div>
+
+                                <div>
+                                    <strong>Plano:</strong>
+                                    {{#if (eq this.plan "premium")}}
+                                    <span class="badge bg-warning text-dark">Premium</span>
+                                    {{else}}
+                                    <span class="badge bg-light text-dark border">Free</span>
+                                    {{/if}}
+                                </div>
+                            </div>
+
+                            <div class="text-muted small">
+                                <strong>Dono:</strong>
+                                {{#if this.owner}}
+                                {{this.owner.firstName}} {{this.owner.lastName}} ({{this.owner.email}})
+                                {{else}}
+                                <span class="text-danger">Sem proprietário</span>
+                                {{/if}}
+                            </div>
+                        </div>
+
+                        <!-- AÇÕES (Estilizadas conforme imagem) -->
+                        <div class="ms-md-auto mt-4 mt-md-0 d-flex flex-wrap gap-2 align-items-center justify-content-end"
+                            style="max-width: 500px;">
+                            <style>
+                                .btn-admin-dark {
+                                    background-color: #4f0e21;
+                                    color: white;
+                                    border: none;
+                                }
+
+                                .btn-admin-dark:hover {
+                                    background-color: #6a132c;
+                                    color: white;
+                                }
+                            </style>
+                            <a href="/memorial/{{this.slug}}" class="btn btn-admin-dark btn-sm px-3" target="_blank">
+                                Visitar
+                            </a>
+                            <a href="/memorial/{{this.slug}}/memorial-fet/edit" class="btn btn-admin-dark btn-sm px-3">
+                                Trocar Foto Principal
+                            </a>
+                            <a href="/memorial/{{this.slug}}/memorial/edit" class="btn btn-admin-dark btn-sm px-3">
+                                Editar Memorial
+                            </a>
+                            <a href="/memorial/{{this.slug}}/memorial/privacy/edit"
+                                class="btn btn-admin-dark btn-sm px-3">
+                                Privacidade
+                            </a>
+                            <form action="/memorial/{{this.slug}}/delete" method="POST"
+                                onsubmit="return confirm('ATENÇÃO ADMIN: Tem certeza que deseja APAGAR este memorial permanentemente?')"
+                                class="d-inline">
+                                <input type="hidden" name="_method" value="DELETE" />
+                                <button type="submit" class="btn btn-danger btn-sm px-3">
+                                    Excluir
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+
+            <!-- 🔢 Paginação -->
+            {{#if pagination.totalPages}}
+            <nav aria-label="Navegação de páginas" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item {{#unless pagination.hasPrev}}disabled{{/unless}}">
+                        <a class="page-link" href="?page={{pagination.prevPage}}&q={{query}}&limit={{pagination.limit}}"
+                            tabindex="-1">Anterior</a>
+                    </li>
+
+                    {{#each (range 1 pagination.totalPages)}}
+                    <li class="page-item {{#if (eq this ../pagination.currentPage)}}active{{/if}}">
+                        <a class="page-link"
+                            href="?page={{this}}&q={{../query}}&limit={{../pagination.limit}}">{{this}}</a>
+                    </li>
+                    {{/each}}
+
+                    <li class="page-item {{#unless pagination.hasNext}}disabled{{/unless}}">
+                        <a class="page-link"
+                            href="?page={{pagination.nextPage}}&q={{query}}&limit={{pagination.limit}}">Próximo</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="text-center text-muted small mt-2">
+                Exibindo {{memoriais.length}} de {{pagination.total}} memoriais
+            </div>
+            {{/if}}
+
+            {{else}}
+            <div class="text-center py-5">
+                <i class="fas fa-monument fa-3x text-muted opacity-25 mb-3"></i>
+                <h5 class="text-muted">Nenhum memorial encontrado {{#if query}}para "{{query}}"{{/if}}.</h5>
+                {{#if query}}
+                <a href="/admin/memorials" class="btn btn-link">Ver todos os memoriais</a>
+                {{/if}}
+            </div>
+            {{/if}}
+        </div>
+    </div>
+</div>

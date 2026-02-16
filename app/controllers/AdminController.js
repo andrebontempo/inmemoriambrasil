@@ -51,6 +51,58 @@ const AdminController = {
                 message: "Erro ao carregar o painel administrativo."
             })
         }
+    },
+
+    listMemoriais: async (req, res) => {
+        try {
+            const page = parseInt(req.query.page) || 1
+            const limit = parseInt(req.query.limit) || 10
+            const skip = (page - 1) * limit
+            const query = req.query.q ? req.query.q.trim() : ""
+
+            let searchFilter = {}
+            if (query) {
+                searchFilter = {
+                    $or: [
+                        { firstName: { $regex: query, $options: "i" } },
+                        { lastName: { $regex: query, $options: "i" } },
+                        { slug: { $regex: query, $options: "i" } }
+                    ]
+                }
+            }
+
+            const totalMemoriais = await Memorial.countDocuments(searchFilter)
+            const totalPages = Math.ceil(totalMemoriais / limit)
+
+            const memoriais = await Memorial.find(searchFilter)
+                .populate("owner", "firstName lastName email")
+                .sort({ createdAt: -1 })
+                .skip(skip)
+                .limit(limit)
+                .lean()
+
+            res.render("admin/memoriallist", {
+                title: "Gerenciar Memoriais - In Memoriam Brasil",
+                memoriais,
+                activeAdmin: true,
+                pagination: {
+                    total: totalMemoriais,
+                    totalPages,
+                    currentPage: page,
+                    hasNext: page < totalPages,
+                    hasPrev: page > 1,
+                    nextPage: page + 1,
+                    prevPage: page - 1,
+                    limit
+                },
+                query
+            })
+        } catch (err) {
+            console.error("Erro ao listar memoriais (Admin):", err)
+            res.status(500).render("error", {
+                message: "Erro ao carregar a lista de memoriais."
+            })
+        }
     }
 }
 

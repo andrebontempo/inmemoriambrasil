@@ -1,58 +1,76 @@
 <div class="container my-5">
-  <h2 class="text-center">Resultados da Pesquisa</h2>
+  <h2 class="text-center mb-4">Resultados da Pesquisa</h2>
 
-  {{#if termo}}
-  <p class="text-center">Resultados para: <strong>{{termo}}</strong></p>
-  {{/if}}
+  <!-- 🔍 Filtro de Busca -->
+  <div class="card border-0 shadow-sm mb-5">
+    <div class="card-body p-4">
+      <form action="/memorial/pesquisa" method="GET" class="row g-3 align-items-center">
+        <div class="col-md-9">
+          <div class="input-group input-group-lg">
+            <span class="input-group-text bg-white border-end-0">
+              <i class="fas fa-search text-muted"></i>
+            </span>
+            <input type="text" name="q" class="form-control border-start-0"
+              placeholder="Digite o nome de quem você procura..." value="{{#if (eq termo "
+              *")}}{{else}}{{termo}}{{/if}}">
+            <button type="submit" class="btn btn-primary px-4">Buscar</button>
+          </div>
+        </div>
+        <div class="col-md-3">
+          {{#if termo}}
+          <a href="/memorial/pesquisa?q=*" class="btn btn-outline-secondary btn-lg w-100">Ver Todos</a>
+          {{/if}}
+        </div>
+      </form>
+    </div>
+  </div>
 
   {{#if resultados.length}}
-  <div class="list-group">
+  <div class="list-group shadow-sm">
 
     {{#each resultados}}
-    <div class="list-group-item position-relative">
+    <div class="list-group-item position-relative py-4 border-bottom">
 
       <!-- ⭐ Selo Premium -->
       {{#if (eq this.plan "premium")}}
-      <span class="badge bg-warning text-dark position-absolute top-0 end-0 m-2">
+      <span class="badge bg-warning text-dark position-absolute top-0 end-0 m-3">
         ⭐ Premium
       </span>
       {{/if}}
 
       <!-- Bloco Principal -->
-      <div class="d-flex align-items-start">
+      <div class="d-flex align-items-start flex-wrap">
 
         <!-- FOTO -->
-        <a href="/memorial/{{this.slug}}" class="me-3">
+        <a href="/memorial/{{this.slug}}" class="me-4 mb-3 mb-md-0">
           {{#if this.mainPhoto.url}}
-          <img src="{{this.mainPhoto.url}}" alt="Foto de {{this.firstName}}" class="rounded"
-            style="width: 110px; height: 110px; object-fit: cover; border: 2px solid #4f0e21;" />
+          <img src="{{this.mainPhoto.url}}" alt="Foto de {{this.firstName}}" class="rounded shadow-sm"
+            style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #4f0e21;" />
           {{else}}
-          <img src="/images/default-profile.png" alt="Sem foto" class="rounded"
-            style="width: 110px; height: 110px; object-fit: cover; border: 2px solid #ccc;" />
+          <img src="/images/default-profile.png" alt="Sem foto" class="rounded shadow-sm"
+            style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #ccc;" />
           {{/if}}
         </a>
 
         <!-- INFORMAÇÕES -->
-        <div class="flex-grow-1">
+        <div class="flex-grow-1 min-width-0">
 
-          <h5 class="mb-2">
+          <h4 class="fw-bold mb-2">
             {{this.firstName}} {{this.lastName}}
-          </h5>
+          </h4>
 
-          <p class="mb-2 small">
-            <strong>Nascimento:</strong>
-            {{formatDate this.birth.date}}
-            <br />
-            <strong>Falecimento:</strong>
-            {{formatDate this.death.date}}
+          <p class="mb-3 text-muted">
+            <i class="far fa-calendar-alt me-1"></i> <strong>Nascimento:</strong> {{formatDate this.birth.date}}
+            <span class="mx-2 text-divider">|</span>
+            <i class="far fa-calendar-check me-1"></i> <strong>Falecimento:</strong> {{formatDate this.death.date}}
           </p>
 
           <!-- LINHA ÚNICA -->
-          <div class="d-flex flex-wrap align-items-center gap-3 small mb-2">
+          <div class="d-flex flex-wrap align-items-center gap-3 small">
 
             <!-- 👤 Criador -->
             <div>
-              <strong>Criado por:</strong>
+              <i class="fas fa-user-edit me-1 opacity-75"></i> <strong>Criado por:</strong>
               {{#if this.owner}}
               {{this.owner.firstName}} {{this.owner.lastName}}
               {{else}}
@@ -62,38 +80,48 @@
 
             <!-- 🔐 Visibilidade -->
             <div>
-              <strong>Visibilidade:</strong>
-
+              <i class="fas fa-lock me-1 opacity-75"></i> <strong>Visibilidade:</strong>
               {{#if (eq this.accessLevel "public_read")}}
-              <span class="badge bg-success">Público</span>
-              {{/if}}
-
-              {{#if (eq this.accessLevel "private_read")}}
-              <span class="badge bg-secondary">Privado (leitura)</span>
-              {{/if}}
-
-              {{#if (eq this.accessLevel "private_edit")}}
-              <span class="badge bg-dark">Privado (edição)</span>
+              <span class="badge bg-success-subtle text-success border border-success-subtle px-2">Público</span>
+              {{else if (eq this.accessLevel "private_read")}}
+              <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle px-2">Privado
+                (leitura)</span>
+              {{else}}
+              <span class="badge bg-dark-subtle text-dark border border-dark-subtle px-2">Privado (edição)</span>
               {{/if}}
             </div>
 
             <!-- 💎 Plano -->
             <div>
-              <strong>Plano:</strong>
-
+              <i class="fas fa-gem me-1 opacity-75"></i> <strong>Plano:</strong>
               {{#if (eq this.plan "premium")}}
-              <span class="badge bg-warning text-dark">Premium</span>
+              <span class="badge bg-warning text-dark px-2">Premium</span>
               {{else}}
-              <span class="badge bg-light text-dark border">Free</span>
+              <span class="badge bg-light text-dark border px-2">Free</span>
               {{/if}}
             </div>
 
           </div>
 
           <!-- BOTÃO ALINHADO À DIREITA -->
-          <div class="text-end">
-            <a href="/memorial/{{this.slug}}" class="btn btn-primary">
-              Visitar
+          <div class="text-end mt-3 mt-md-0">
+            <style>
+              .btn-visitar {
+                background-color: #4f0e21;
+                color: white;
+                border: none;
+                transition: all 0.3s ease;
+              }
+
+              .btn-visitar:hover {
+                background-color: #6a132c;
+                color: white;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+              }
+            </style>
+            <a href="/memorial/{{this.slug}}" class="btn btn-visitar px-4">
+              Visitar Memorial
             </a>
           </div>
 
@@ -108,45 +136,41 @@
 
   <!-- 🔢 PAGINAÇÃO -->
   {{#if totalPages}}
-  <nav class="mt-4">
+  <nav class="mt-5">
     <ul class="pagination justify-content-center">
 
-      {{#if hasPrev}}
-      <li class="page-item">
-        <a class="page-link" href="?q={{termo}}&page={{prevPage}}">
-          Anterior
-        </a>
-      </li>
-      {{else}}
-      <li class="page-item disabled">
-        <span class="page-link">Anterior</span>
-      </li>
-      {{/if}}
-
-      <li class="page-item active">
-        <span class="page-link">
-          Página {{currentPage}} de {{totalPages}}
-        </span>
+      <li class="page-item {{#unless hasPrev}}disabled{{/unless}}">
+        <a class="page-link" href="?q={{termo}}&page={{prevPage}}" {{#unless hasPrev}}tabindex="-1" aria-disabled="true"
+          {{/unless}}>Anterior</a>
       </li>
 
-      {{#if hasNext}}
-      <li class="page-item">
-        <a class="page-link" href="?q={{termo}}&page={{nextPage}}">
-          Próxima
-        </a>
+      {{#each (range 1 totalPages)}}
+      <li class="page-item {{#if (eq this ../currentPage)}}active{{/if}}">
+        <a class="page-link" href="?q={{../termo}}&page={{this}}">{{this}}</a>
       </li>
-      {{else}}
-      <li class="page-item disabled">
-        <span class="page-link">Próxima</span>
+      {{/each}}
+
+      <li class="page-item {{#unless hasNext}}disabled{{/unless}}">
+        <a class="page-link" href="?q={{termo}}&page={{nextPage}}" {{#unless hasNext}}tabindex="-1" aria-disabled="true"
+          {{/unless}}>Próxima</a>
       </li>
-      {{/if}}
 
     </ul>
   </nav>
+  <div class="text-center text-muted small mt-2">
+    Página {{currentPage}} de {{totalPages}}
+  </div>
   {{/if}}
 
   {{else}}
-  <p class="text-center text-muted">Nenhum memorial encontrado.</p>
+  <div class="text-center py-5">
+    <i class="fas fa-search fa-3x text-muted opacity-25 mb-4"></i>
+    <h4 class="text-muted">Nenhum memorial encontrado {{#if termo}}{{#if (eq termo "*")}}{{else}}para
+      "<strong>{{termo}}</strong>"{{/if}}{{/if}}.</h4>
+    {{#if termo}}
+    <a href="/memorial/pesquisa?q=*" class="btn btn-link mt-2">Ver todos os memoriais disponíveis</a>
+    {{/if}}
+  </div>
   {{/if}}
 
 </div>

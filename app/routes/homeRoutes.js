@@ -20,6 +20,9 @@ router.post("/admin/accounts/delete/:id", requireGlobalAdmin, AccountsController
 // Rota para logs
 router.get("/admin/accounts/logs", requireGlobalAdmin, AccountsController.logs)
 
+// Rota para gestão de memoriais
+router.get("/admin/memorials", requireGlobalAdmin, AdminController.listMemoriais)
+
 
 
 // Rota raiz do site

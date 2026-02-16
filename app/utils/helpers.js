@@ -85,6 +85,14 @@ const json = (context) => {
 }
 
 
+const range = (start, end) => {
+  let arr = []
+  for (let i = start; i <= end; i++) {
+    arr.push(i)
+  }
+  return arr
+}
+
 // Exporta todas as funções
 module.exports = {
   formatDate,
@@ -95,5 +103,6 @@ module.exports = {
   ifEquals,
   array,
   substr,
-  json
+  json,
+  range
 }
