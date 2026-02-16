@@ -1,135 +1,199 @@
 <main class="container my-5">
-  <h2 class="text-center">
+  <h2 class="text-center mb-4">
     Bem-vindo(a), {{user.firstName}} {{user.lastName}}!
   </h2>
-  <p class="text-center">Você está logado(a).</p>
+  <p class="text-center mb-5">Você está logado(a).</p>
 
-  <!-- Botão Sair -->
-  <div class="text-end mb-4">
-    <a href="/auth/logout" class="btn btn-primary">Sair</a>
+  <!-- Botão Sair e Criar -->
+  <div class="d-flex justify-content-between align-items-center mb-5">
+    <a href="/memorial/create-step1" class="btn btn-primary btn-lg">
+      <i class="fas fa-plus me-2"></i> Criar Novo Memorial
+    </a>
+    <a href="/auth/logout" class="btn btn-secondary">
+      <i class="fas fa-sign-out-alt me-2"></i> Sair
+    </a>
   </div>
 
-  <p class="text-center">
-    <strong>Aqui estão os memoriais que você criou:</strong>
-  </p>
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-4 text-center">
+      <h5 class="mb-4"><strong>Seus Memoriais</strong></h5>
 
-  {{#if memoriais.length}}
-  <div class="list-group">
-
-    {{#each memoriais}}
-    <div class="list-group-item d-flex align-items-start justify-content-between flex-wrap position-relative">
-
-      <!-- ⭐ Selo Premium -->
-      {{#if (eq this.plan "premium")}}
-      <span class="badge bg-warning text-dark position-absolute top-0 end-0 m-2">
-        ⭐ Premium
-      </span>
-      {{/if}}
-
-      <!-- BLOCO PRINCIPAL -->
-      <div class="d-flex align-items-start w-100">
-
-        <!-- FOTO -->
-        <a href="/memorial/{{this.slug}}" class="me-3">
-          {{#if this.mainPhoto.url}}
-          <img src="{{this.mainPhoto.url}}" alt="Foto de {{this.firstName}}" class="rounded"
-            style="width: 110px; height: 110px; object-fit: cover; border: 2px solid #4f0e21;" />
-          {{else}}
-          <img src="/images/default-profile.png" alt="Sem foto" class="rounded"
-            style="width: 110px; height: 110px; object-fit: cover; border: 2px solid #ccc;" />
+      <!-- 🔍 Filtro de Busca -->
+      <form action="/auth/dashboard" method="GET" class="row g-3 justify-content-center mb-4">
+        <div class="col-md-8">
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0">
+              <i class="fas fa-search text-muted"></i>
+            </span>
+            <input type="text" name="q" class="form-control border-start-0" placeholder="Buscar em seus memoriais..."
+              value="{{query}}">
+            <button type="submit" class="btn btn-primary px-4">Filtrar</button>
+          </div>
+        </div>
+        <div class="col-md-2">
+          {{#if query}}
+          <a href="/auth/dashboard" class="btn btn-outline-secondary w-100">Limpar</a>
           {{/if}}
-        </a>
+        </div>
+      </form>
 
-        <!-- INFORMAÇÕES -->
-        <div class="flex-grow-1">
+      {{#if memoriais.length}}
+      <div class="list-group list-group-flush text-start">
 
-          <h5 class="mb-2">
-            {{this.firstName}} {{this.lastName}}
-          </h5>
+        {{#each memoriais}}
+        <div
+          class="list-group-item d-flex align-items-start justify-content-between flex-wrap position-relative py-4 border-bottom">
 
-          <p class="mb-2 small">
-            <strong>Nascimento:</strong>
-            {{formatDate this.birth.date}}
-            <br />
-            <strong>Falecimento:</strong>
-            {{formatDate this.death.date}}
-          </p>
+          <!-- ⭐ Selo Premium -->
+          {{#if (eq this.plan "premium")}}
+          <span class="badge bg-warning text-dark position-absolute top-0 end-0 m-2">
+            ⭐ Premium
+          </span>
+          {{/if}}
 
-          <!-- LINHA: Visibilidade + Plano -->
-          <div class="d-flex flex-wrap align-items-center gap-3 small">
+          <!-- BLOCO PRINCIPAL -->
+          <div class="d-flex align-items-start w-100 flex-wrap">
 
-            <!-- 🔐 Visibilidade -->
-            <div>
-              <strong>Visibilidade:</strong>
-
-              {{#if (eq this.accessLevel "public_read")}}
-              <span class="badge bg-success">Público</span>
+            <!-- FOTO -->
+            <a href="/memorial/{{this.slug}}" class="me-4 mb-3 mb-md-0">
+              {{#if this.mainPhoto.url}}
+              <img src="{{this.mainPhoto.url}}" alt="Foto de {{this.firstName}}" class="rounded shadow-sm"
+                style="width: 110px; height: 110px; object-fit: cover; border: 3px solid #4f0e21;" />
+              {{else}}
+              <img src="/images/default-profile.png" alt="Sem foto" class="rounded shadow-sm"
+                style="width: 110px; height: 110px; object-fit: cover; border: 3px solid #ccc;" />
               {{/if}}
+            </a>
 
-              {{#if (eq this.accessLevel "private_read")}}
-              <span class="badge bg-secondary">Privado (leitura)</span>
-              {{/if}}
+            <!-- INFORMAÇÕES -->
+            <div class="flex-grow-1 min-width-0">
 
-              {{#if (eq this.accessLevel "private_edit")}}
-              <span class="badge bg-dark">Privado (edição)</span>
-              {{/if}}
+              <h5 class="fw-bold mb-2">
+                {{this.firstName}} {{this.lastName}}
+              </h5>
+
+              <p class="mb-3 small text-muted">
+                <strong>Nascimento:</strong> {{formatDate this.birth.date}}
+                <br />
+                <strong>Falecimento:</strong> {{formatDate this.death.date}}
+              </p>
+
+              <!-- LINHA: Visibilidade + Plano -->
+              <div class="d-flex flex-wrap align-items-center gap-3 small">
+
+                <!-- 🔐 Visibilidade -->
+                <div>
+                  <strong>Visibilidade:</strong>
+                  {{#if (eq this.accessLevel "public_read")}}
+                  <span class="badge bg-success">Público</span>
+                  {{else if (eq this.accessLevel "private_read")}}
+                  <span class="badge bg-secondary">Privado (leitura)</span>
+                  {{else}}
+                  <span class="badge bg-dark">Privado (edição)</span>
+                  {{/if}}
+                </div>
+
+                <!-- 💎 Plano -->
+                <div>
+                  <strong>Plano:</strong>
+                  {{#if (eq this.plan "premium")}}
+                  <span class="badge bg-warning text-dark">Premium</span>
+                  {{else}}
+                  <span class="badge bg-light text-dark border">Free</span>
+                  {{/if}}
+                </div>
+
+              </div>
+
             </div>
 
-            <!-- 💎 Plano -->
-            <div>
-              <strong>Plano:</strong>
+            <!-- BOTÕES (Estilizados conforme padrão admin/pesquisa) -->
+            <div class="ms-md-auto mt-4 mt-md-0 d-flex flex-wrap gap-2 align-items-center justify-content-end"
+              style="max-width: 500px;">
+              <style>
+                .btn-dashboard {
+                  background-color: #4f0e21;
+                  color: white;
+                  border: none;
+                  transition: all 0.2s ease;
+                  font-size: 0.85rem;
+                  padding: 0.4rem 1rem;
+                }
 
-              {{#if (eq this.plan "premium")}}
-              <span class="badge bg-warning text-dark">Premium</span>
-              {{else}}
-              <span class="badge bg-light text-dark border">Free</span>
-              {{/if}}
+                .btn-dashboard:hover {
+                  background-color: #6a132c;
+                  color: white;
+                }
+              </style>
+              <a href="/memorial/{{this.slug}}" class="btn btn-dashboard">
+                Visitar
+              </a>
+              <a href="/memorial/{{this.slug}}/memorial-fet/edit" class="btn btn-dashboard">
+                Trocar Foto Principal
+              </a>
+              <a href="/memorial/{{this.slug}}/memorial/edit" class="btn btn-dashboard">
+                Editar Memorial
+              </a>
+              <a href="/memorial/{{this.slug}}/memorial/privacy/edit" class="btn btn-dashboard">
+                Privacidade
+              </a>
+              <form action="/memorial/{{this.slug}}/delete" method="POST"
+                onsubmit="return confirm('Tem certeza que deseja apagar este memorial? Esta ação não poderá ser desfeita!')">
+                <input type="hidden" name="_method" value="DELETE" />
+                <button type="submit" class="btn btn-danger btn-sm px-3">
+                  Excluir
+                </button>
+              </form>
             </div>
 
           </div>
 
         </div>
-
-        <!-- BOTÕES -->
-        <div class="ms-auto mt-3 mt-md-0 d-flex flex-wrap gap-2">
-
-          <a href="/memorial/{{this.slug}}" class="btn btn-primary">
-            Visitar
-          </a>
-
-          <a href="/memorial/{{this.slug}}/memorial-fet/edit" class="btn btn-primary">
-            Trocar Foto Principal
-          </a>
-
-          <a href="/memorial/{{this.slug}}/memorial/edit" class="btn btn-primary">
-            Editar Memorial
-          </a>
-
-          <a href="/memorial/{{this.slug}}/memorial/privacy/edit" class="btn btn-primary">
-            Privacidade
-          </a>
-
-          <form action="/memorial/{{this.slug}}/delete" method="POST"
-            onsubmit="return confirm('Tem certeza que deseja apagar este memorial? Esta ação não poderá ser desfeita!')">
-            <input type="hidden" name="_method" value="DELETE" />
-            <button type="submit" class="btn btn-danger">
-              Excluir
-            </button>
-          </form>
-
-        </div>
+        {{/each}}
 
       </div>
 
+      <!-- 🔢 Paginação -->
+      {{#if pagination.totalPages}}
+      <nav aria-label="Navegação de páginas" class="mt-5">
+        <ul class="pagination justify-content-center">
+          <li class="page-item {{#unless pagination.hasPrev}}disabled{{/unless}}">
+            <a class="page-link" href="?page={{pagination.prevPage}}&q={{query}}" {{#unless
+              pagination.hasPrev}}tabindex="-1" aria-disabled="true" {{/unless}}>Anterior</a>
+          </li>
+
+          {{#each (range 1 pagination.totalPages)}}
+          <li class="page-item {{#if (eq this ../pagination.currentPage)}}active{{/if}}">
+            <a class="page-link" href="?page={{this}}&q={{../query}}">{{this}}</a>
+          </li>
+          {{/each}}
+
+          <li class="page-item {{#unless pagination.hasNext}}disabled{{/unless}}">
+            <a class="page-link" href="?page={{pagination.nextPage}}&q={{query}}">Próximo</a>
+          </li>
+        </ul>
+      </nav>
+      <div class="text-center text-muted small mt-2">
+        Exibindo {{memoriais.length}} de {{pagination.total}} memoriais
+      </div>
+      {{/if}}
+
+      {{else}}
+      <div class="py-5">
+        <p class="text-center text-muted">
+          {{#if query}}
+          Nenhum memorial encontrado para "{{query}}".
+          {{else}}
+          Você ainda não criou nenhum memorial.
+          {{/if}}
+        </p>
+        {{#if query}}
+        <a href="/auth/dashboard" class="btn btn-link">Ver todos os seus memoriais</a>
+        {{/if}}
+      </div>
+      {{/if}}
+
     </div>
-    {{/each}}
-
   </div>
-
-  {{else}}
-  <p class="text-center text-muted">
-    Você ainda não criou nenhum memorial.
-  </p>
-  {{/if}}
 
 </main>

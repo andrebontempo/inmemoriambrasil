@@ -59,19 +59,49 @@ const AuthController = {
   // DASHBOARD
   // ================================
   showDashboard: async (req, res) => {
-    // Agora configurado via middleware ensureAuthenticated
-    // Mas se quiser checar aqui também:
     if (!req.isAuthenticated()) {
       return res.redirect("/auth/login")
     }
 
     try {
       const userId = req.user._id
-      const memoriais = await Memorial.find({ owner: userId }).lean()
+      const query = req.query.q ? req.query.q.trim() : ""
+      const page = parseInt(req.query.page) || 1
+      const limit = 5
+      const skip = (page - 1) * limit
+
+      let searchFilter = { owner: userId }
+      if (query) {
+        searchFilter.$or = [
+          { firstName: { $regex: query, $options: "i" } },
+          { lastName: { $regex: query, $options: "i" } },
+          { slug: { $regex: query, $options: "i" } }
+        ]
+      }
+
+      const totalMemoriais = await Memorial.countDocuments(searchFilter)
+      const totalPages = Math.ceil(totalMemoriais / limit)
+
+      const memoriais = await Memorial.find(searchFilter)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean()
 
       res.render("auth/dashboard", {
         user: req.user,
         memoriais,
+        query,
+        pagination: {
+          total: totalMemoriais,
+          totalPages,
+          currentPage: page,
+          hasNext: page < totalPages,
+          hasPrev: page > 1,
+          nextPage: page + 1,
+          prevPage: page - 1,
+          limit
+        }
       })
     } catch (err) {
       console.error("Erro no dashboard:", err)
