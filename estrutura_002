@@ -71,7 +71,8 @@
 │       │   │   ├── logs copy.hbs
 │       │   │   └── logs.hbs
 │       │   ├── dashboard.hbs
-│       │   └── index.hbs
+│       │   ├── index.hbs
+│       │   └── memoriallist.hbs
 │       ├── alerts
 │       │   ├── forbidden.hbs
 │       │   ├── login_required.hbs
@@ -243,8 +244,14 @@
 │               ├── _helpers.scss
 │               └── _mixins.scss
 ├── server.js
-└── tools
-    ├── findSession.js
-    └── inspectSessions.js
+├── tools
+│   ├── findSession.js
+│   └── inspectSessions.js
+└── ydocs
+    ├── docs
+    └── Video Principald
+        ├── Roteiro do Video 01.md
+        ├── Roteiro do Video 02.md
+        └── Roteiro do Video 03.md
 
-44 directories, 204 files
+47 directories, 208 files
