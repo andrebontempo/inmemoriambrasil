@@ -1,117 +1,230 @@
 <main>
+  <style>
+    .btn-custom-outline {
+      color: #4f0e21;
+      border-color: #4f0e21;
+      background-color: transparent;
+      transition: all 0.3s ease;
+    }
 
-  <!-- Tributos -->
-  <div class="custom-box my-2 mx-0 text-start">
-    <h3 class="text-start">
-      <i class="bi bi-chat-left-text me-2"></i>
-      Homenagens para: <span class="fs-5 text-muted"><strong>{{firstName}} {{lastName}}</strong></span>
+    .btn-custom-outline:hover {
+      background-color: #4f0e21;
+      color: white;
+    }
+
+    .btn-custom-fill {
+      background-color: #4f0e21;
+      color: white;
+      border: 1px solid #4f0e21;
+      transition: all 0.3s ease;
+    }
+
+    .btn-custom-fill:hover {
+      background-color: #6a132c;
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .tribute-card {
+      border-radius: 1.25rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .tribute-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .tribute-icon-btn {
+      cursor: pointer;
+      border: 2px solid transparent;
+      border-radius: 1rem;
+      padding: 10px;
+      transition: all 0.2s ease;
+      display: inline-block;
+    }
+
+    .tribute-option input[type="radio"] {
+      display: none;
+    }
+
+    .tribute-option input[type="radio"]:checked+.tribute-icon-btn {
+      border-color: #4f0e21;
+      background-color: rgba(79, 14, 33, 0.05);
+      transform: scale(1.1);
+    }
+
+    .tribute-icon-img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+    }
+
+    .message-text {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #444;
+      font-style: italic;
+    }
+
+    @media (max-width: 576px) {
+      .tribute-actions {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .tribute-actions .btn,
+      .tribute-actions form {
+        flex: 1;
+      }
+
+      .tribute-actions button {
+        width: 100%;
+      }
+    }
+  </style>
+
+  <!-- Cabeçalho de Homenagens -->
+  <div class="custom-box my-2 mx-0">
+    <h3 class="section-title">
+      <i class="bi bi-journal-bookmark me-2"></i>
+      Página de Homenagens
     </h3>
-    <div class="text-end mt-2">
-      <a href="#form-tributo" class="btn-default-memorial">
-        <i class="bi bi-plus-circle me-1"></i> Escrever Homenagem
+    <p class="section-text">
+      Neste espaço do memorial o visitante é convidado a deixar sua homenagem para <strong>{{firstName}}
+        {{lastName}}</strong>
+      em forma de mensagem que ficará gravada para sempre aqui.
+    </p>
+    <div class="text-center">
+      <a href="#form-tributo" class="btn btn-custom-outline rounded-pill px-4 text-center">
+        <i class="bi bi-pencil-square me-2"></i> Escrever Homenagem
       </a>
     </div>
   </div>
 
+  <!-- Lista de Homenagens -->
   <div class="custom-box my-2 mx-0 text-start">
-    <!--
-    <h3 class="text-start">
-      <i class="bi bi-chat-left-text me-2"></i>
-      Homenagens:
-      <span class="fs-5 text-muted">
-        Deixe a sua homenagem para <strong>{{firstName}} {{lastName}}</strong>
-      </span>
-    </h3>
-    -->
     {{#if tribute.length}}
     {{#each tribute}}
-    <div class="tribute-card my-3">
-      <div class="tribute-body">
+    <div class="col-12">
+      <div class="card tribute-card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="card-body p-4">
+          <div class="row align-items-center g-4">
 
-        <!-- Ícone à esquerda -->
-        <div class="tribute-image-box">
-          <img src="/css/memorial/files/{{#if this.type}}{{this.type}}{{else}}tributo_caneta.png{{/if}}" alt="Tributo"
-            class="tribute-image">
-        </div>
-
-        <!-- Conteúdo -->
-        <div class="tribute-content">
-          <p class="tribute-message">{{this.message}}</p>
-
-          <!-- Rodapé -->
-          <div class="tribute-footer">
-            <span class="tribute-author">
-              Por <strong>{{this.user.firstName}} {{this.user.lastName}}</strong> em {{formatDateTribute
-              this.createdAt "default"}}
-            </span>
-
-            <div class="tribute-actions">
-              <a href="/memorial/{{../slug}}/tribute/edit/{{this._id}}" class="btn-default-memorial">
-                Editar
-              </a>
-
-              <form action="/memorial/{{../slug}}/tribute/delete/{{this._id}}" method="POST"
-                onsubmit="return confirm('Tem certeza que deseja apagar este tributo?');">
-                <button type="submit" class="btn-default-memorial">
-                  Deletar
-                </button>
-              </form>
+            <!-- Ícone Representativo -->
+            <div class="col-md-auto text-center">
+              <div class="rounded-circle p-3 d-inline-block shadow-sm border border-1"
+                style="width: 100px; height: 100px; border-color: #eee !important;">
+                <img src="/css/memorial/files/{{#if this.type}}{{this.type}}{{else}}tributo_caneta.png{{/if}}"
+                  alt="Ícone de Tributo" class="img-fluid" style="max-height: 60px;">
+              </div>
             </div>
+
+            <!-- Mensagem e Rodapé -->
+            <div class="col-md">
+              <div class="mb-3">
+                <p class="message-text mb-0">"{{this.message}}"</p>
+              </div>
+
+              <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 pt-3 border-top">
+                <small class="text-muted">
+                  Por <strong>{{this.user.firstName}} {{this.user.lastName}}</strong><br>
+                  Em <i class="bi bi-calendar3 ms-2 me-1"></i> {{formatDateTribute this.createdAt "default"}}
+                </small>
+
+                <div class="tribute-actions d-flex gap-2">
+                  <a href="/memorial/{{../slug}}/tribute/edit/{{this._id}}"
+                    class="btn btn-custom-outline btn-sm rounded-pill px-3">
+                    Editar
+                  </a>
+
+                  <form action="/memorial/{{../slug}}/tribute/delete/{{this._id}}" method="POST"
+                    onsubmit="return confirm('Tem certeza que deseja apagar este tributo?');" class="d-inline">
+                    <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-3">
+                      Excluir
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
-
       </div>
     </div>
     {{/each}}
     {{else}}
-    <p>Nenhuma homenagem adicionada ainda.</p>
+    <div class="col-12">
+      <div class="card border-0 shadow-sm rounded-4 text-center py-5">
+        <div class="card-body">
+          <i class="bi bi-chat-dots fs-1 text-muted mb-3 d-block"></i>
+          <p class="text-muted fs-5 mb-0">Nenhuma homenagem adicionada ainda. Seja o primeiro a homenagear!</p>
+        </div>
+      </div>
+    </div>
     {{/if}}
   </div>
 
+  <!-- Formulário de Envio (Card Separado) -->
+  <div id="form-tributo" class="mt-2">
+    <form action="/memorial/{{slug}}/tribute/create" method="POST">
+      <input type="hidden" name="memorial" value="{{id}}">
+      <input type="hidden" name="slug" value="{{slug}}">
 
+      <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="card-body p-4 p-md-5">
 
-  <!-- Formulário de Envio de Tributo -->
-  <form id="form-tributo" action="/memorial/{{slug}}/tribute/create" method="POST">
-    <input type="hidden" name="memorial" value="{{id}}">
-    <input type="hidden" name="slug" value="{{slug}}">
+          <h3 class="text-center mb-4 fw-bold" style="color: #4f0e21;">
+            <i class="bi bi-gift-heart-fill me-2"></i>Escreva sua Homenagem
+          </h3>
 
-    <div class="life-form-box">
-      <div class="life-form-card">
+          <!-- Seleção Visual de Ícones -->
+          <div class="text-center mb-4">
+            <p class="text-muted mb-3 small fw-bold text-uppercase">Escolha um ícone para sua homenagem:</p>
+            <div class="d-flex justify-content-center flex-wrap gap-4">
 
-        <h3 class="life-form-title">
-          <i class="bi bi-gift-heart me-2"></i>Escreva sua Homenagem
-        </h3>
+              <label class="tribute-option">
+                <input type="radio" name="type" value="tributo_caneta.png" checked>
+                <div class="tribute-icon-btn shadow-sm">
+                  <img src="/css/memorial/files/tributo_caneta.png" alt="Caneta" class="tribute-icon-img">
+                  <span class="d-block small mt-1">Caneta</span>
+                </div>
+              </label>
 
-        <!-- Opções de ícone -->
-        <div class="tribute-options">
-          <label class="tribute-option">
-            <img src="/css/memorial/files/tributo_caneta.png" alt="">
-            <input type="radio" name="type" value="tributo_caneta.png" checked>
-          </label>
+              <label class="tribute-option">
+                <input type="radio" name="type" value="tributo_flor.png">
+                <div class="tribute-icon-btn shadow-sm">
+                  <img src="/css/memorial/files/tributo_flor.png" alt="Flor" class="tribute-icon-img">
+                  <span class="d-block small mt-1">Flor</span>
+                </div>
+              </label>
 
-          <label class="tribute-option">
-            <img src="/css/memorial/files/tributo_flor.png" alt="">
-            <input type="radio" name="type" value="tributo_flor.png">
-          </label>
+              <label class="tribute-option">
+                <input type="radio" name="type" value="tributo_vela.png">
+                <div class="tribute-icon-btn shadow-sm">
+                  <img src="/css/memorial/files/tributo_vela.png" alt="Vela" class="tribute-icon-img">
+                  <span class="d-block small mt-1">Vela</span>
+                </div>
+              </label>
 
-          <label class="tribute-option">
-            <img src="/css/memorial/files/tributo_vela.png" alt="">
-            <input type="radio" name="type" value="tributo_vela.png">
-          </label>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <textarea class="form-control form-control-lg border-2 shadow-none rounded-4" rows="6"
+              placeholder="Escreva sua mensagem com carinho..." name="message" required
+              style="border-color: #eee;"></textarea>
+          </div>
+
+          <div class="text-center">
+            <button type="submit" class="btn btn-custom-outline rounded-pill px-5 shadow-sm">
+              <i class="bi bi-send-fill me-2"></i>Enviar
+            </button>
+          </div>
+
         </div>
-
-        <textarea class="life-input" rows="10" placeholder="Escreva sua mensagem..." name="message" required></textarea>
-
-        <div class="life-form-footer mt-2">
-          <span class="life-author small">Por usuário logado.</span>
-
-          <button type="submit" class="btn-default-memorial">
-            <i class="bi bi-send-fill me-1"></i> Enviar Homenagem
-          </button>
-        </div>
-
       </div>
-    </div>
-  </form>
+    </form>
+  </div>
 
 </main>

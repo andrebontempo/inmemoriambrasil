@@ -1,139 +1,129 @@
 <main>
-  
-        <!-- Conteúdo Principal -->
-        <div class="custom-box my-2 mx-0">
-          <h3 class="section-title">
-            <i class="bi bi-journal-bookmark me-2"></i>
-            Caminho Percorrido
-          </h3>
 
-          <p class="section-text">
-            Neste espaço do memorial, que é gerenciado pelo seu criador, são reunidos relatos
-            que preservam momentos marcantes da trajetória de
-            <strong>{{firstName}} {{lastName}}</strong>.  
-            Em ordem cronológica, cada história registrada contribui para manter viva sua memória,
-            revelando aspectos significativos de sua vida e legado.
-          </p>
-        </div>
+  <!-- Conteúdo Principal -->
+  <div class="custom-box my-2 mx-0">
+    <h3 class="section-title">
+      <i class="bi bi-journal-bookmark me-2"></i>
+      Caminho Percorrido
+    </h3>
+
+    <p class="section-text">
+      Neste espaço do memorial, que é gerenciado pelo seu criador, são reunidos relatos
+      que preservam momentos marcantes da trajetória de
+      <strong>{{firstName}} {{lastName}}</strong>.
+      Em ordem cronológica, cada história registrada contribui para manter viva sua memória,
+      revelando aspectos significativos de sua vida e legado.
+    </p>
+  </div>
 
 
-        <!-- História de Vida -->
-        <div class="custom-box my-2 mx-0 text-start">
-          <!--
+  <!-- História de Vida -->
+  <div class="custom-box my-2 mx-0 text-start">
+    <!--
           <h3 class="text-start">
             {{firstName}} {{lastName}}:
             <span class="fs-5 text-muted">Acontecimentos marcantes...</span>
           </h3>
           -->
-          {{#if lifeStory.length}}
-            {{#each lifeStory}}
-  <div class="life-card">
-    <div class="life-content">
+    {{#if lifeStory.length}}
+    {{#each lifeStory}}
+    <div class="life-card">
+      <div class="life-content">
 
-      <div class="life-text">
-        <h4 class="life-title">{{this.title}}</h4>
+        <div class="life-text">
+          <h4 class="life-title">{{this.title}}</h4>
 
-        <small class="life-date">
-          <i class="bi bi-calendar-event"></i>
-          Em {{#if this.eventDate}}{{formatDate this.eventDate "long"}}{{else}}Data não informada{{/if}}
-        </small>
+          <small class="life-date">
+            <i class="bi bi-calendar-event"></i>
+            Em {{#if this.eventDate}}{{formatDate this.eventDate "long"}}{{else}}Data não informada{{/if}}
+          </small>
 
-        <p class="life-body">
-          {{this.content}}
-        </p>
+          <p class="life-body">
+            {{this.content}}
+          </p>
 
-        <div class="life-footer">
-          <span class="life-author">
-            Publicado por <strong>{{this.user.firstName}} {{this.user.lastName}}</strong>
-            em {{formatDate this.createdAt "default"}}
-          </span>
+          <div class="life-footer">
+            <span class="life-author">
+              Publicado por <strong>{{this.user.firstName}} {{this.user.lastName}}</strong>
+              em {{formatDate this.createdAt "default"}}
+            </span>
 
-          <div class="life-actions">
-            <a 
-              href="/memorial/{{../slug}}/lifestory/edit/{{this._id}}" 
-              class="btn-default-memorial"
-              title="Editar"
-            >
-              Editar
-            </a>
+            <div class="life-actions">
+              <a href="/memorial/{{../slug}}/lifestory/edit/{{this._id}}" class="btn-default-memorial" title="Editar">
+                Editar
+              </a>
 
-            <form 
-              action="/memorial/{{../slug}}/lifestory/delete/{{this._id}}" 
-              method="POST"
-              onsubmit="return confirm('Deseja realmente excluir esta história?');"
-            >
-              <button type="submit" class="btn-default-memorial" title="Deletar">
-                Deletar
-              </button>
-            </form>
+              <form action="/memorial/{{../slug}}/lifestory/delete/{{this._id}}" method="POST"
+                onsubmit="return confirm('Deseja realmente excluir esta história?');">
+                <button type="submit" class="btn-default-memorial" title="Deletar">
+                  Deletar
+                </button>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="life-image">
-        <img 
-          src="{{this.image.url}}" 
-          alt="Imagem da história"
-        />
-      </div>
-
-    </div>
-  </div>
-{{/each}}
-
-          {{else}}
-            <p>Nenhuma história adicionada ainda.</p>
-          {{/if}}
+        <div class="life-image">
+          <img src="{{this.image.url}}" alt="Imagem da história" />
         </div>
 
-        <!-- Formulário de Envio de História -->
-        <form action="/memorial/{{slug}}/lifestory/create" method="POST" enctype="multipart/form-data">
-  <input type="hidden" name="memorial" value="{{id}}" />
-  <input type="hidden" name="slug" value="{{slug}}" />
-
-  <div class="life-form-box">
-    
-    <div class="life-form-card">
-      <h3 class="life-form-title">
-        <i class="bi bi-pencil-square me-2"></i>Escreva e Envie
-      </h3>
-
-      <div class="mb-3">
-        <label for="storyTitle" class="life-label">
-          <i class="bi bi-bookmark-fill"></i> Título da História
-        </label>
-        <input type="text" id="storyTitle" name="title" class="life-input" required>
-      </div>
-
-      <div class="mb-3">
-        <label for="storyContent" class="life-label">
-          <i class="bi bi-chat-left-text"></i> Conteúdo
-        </label>
-        <textarea id="storyContent" name="content" rows="5" class="life-input" required></textarea>
-      </div>
-
-      <div class="mb-3">
-        <label for="eventDate" class="life-label">
-          <i class="bi bi-calendar-event"></i> Data do Acontecimento
-        </label>
-        <input type="date" id="eventDate" name="eventDate" class="life-input" required>
-      </div>
-
-      <div class="mb-3">
-        <label for="storyImage" class="life-label">
-          <i class="bi bi-image"></i> Adicionar uma imagem
-        </label>
-        <input type="file" id="storyImage" name="file" class="life-input" accept="image/*">
-      </div>
-
-      <div class="life-form-footer">
-        <span class="life-author small">Por usuário logado.</span>
-
-        <button type="submit" class="life-submit-btn">
-          <i class="bi bi-send-fill me-1"></i> Enviar História
-        </button>
       </div>
     </div>
+    {{/each}}
+
+    {{else}}
+    <p>Nenhuma história adicionada ainda.</p>
+    {{/if}}
   </div>
-</form>
+
+  <!-- Formulário de Envio de História -->
+  <form action="/memorial/{{slug}}/lifestory/create" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="memorial" value="{{id}}" />
+    <input type="hidden" name="slug" value="{{slug}}" />
+
+    <div class="life-form-box my-2">
+
+      <div class="life-form-card">
+        <h3 class="life-form-title">
+          <i class="bi bi-pencil-square me-2"></i>Escreva e Envie
+        </h3>
+
+        <div class="mb-3">
+          <label for="storyTitle" class="life-label">
+            <i class="bi bi-bookmark-fill"></i> Título da História
+          </label>
+          <input type="text" id="storyTitle" name="title" class="life-input" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="storyContent" class="life-label">
+            <i class="bi bi-chat-left-text"></i> Conteúdo
+          </label>
+          <textarea id="storyContent" name="content" rows="5" class="life-input" required></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="eventDate" class="life-label">
+            <i class="bi bi-calendar-event"></i> Data do Acontecimento
+          </label>
+          <input type="date" id="eventDate" name="eventDate" class="life-input" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="storyImage" class="life-label">
+            <i class="bi bi-image"></i> Adicionar uma imagem
+          </label>
+          <input type="file" id="storyImage" name="file" class="life-input" accept="image/*">
+        </div>
+
+        <div class="life-form-footer">
+          <span class="life-author small">Por usuário logado.</span>
+
+          <button type="submit" class="life-submit-btn">
+            <i class="bi bi-send-fill me-1"></i> Enviar História
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
 </main>
