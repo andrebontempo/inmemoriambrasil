@@ -5,6 +5,7 @@ const { sendEmail } = require("../services/MailService")
 const User = require("../models/User")
 const Memorial = require("../models/Memorial")
 const AdminLog = require("../models/AdminLog")
+const { escapeRegex } = require("../utils/regexHelpers")
 
 const AuthController = {
 
@@ -72,10 +73,11 @@ const AuthController = {
 
       let searchFilter = { owner: userId }
       if (query) {
+        const escapedQuery = escapeRegex(query)
         searchFilter.$or = [
-          { firstName: { $regex: query, $options: "i" } },
-          { lastName: { $regex: query, $options: "i" } },
-          { slug: { $regex: query, $options: "i" } }
+          { firstName: { $regex: escapedQuery, $options: "i" } },
+          { lastName: { $regex: escapedQuery, $options: "i" } },
+          { slug: { $regex: escapedQuery, $options: "i" } }
         ]
       }
 

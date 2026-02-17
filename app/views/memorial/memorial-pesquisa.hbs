@@ -1,24 +1,32 @@
 <div class="container my-5">
-  <h2 class="text-center mb-4">Resultados da Pesquisa</h2>
+  <h2 class="text-center mb-4 main-title">Resultados da Pesquisa</h2>
 
   <!-- 🔍 Filtro de Busca -->
-  <div class="card border-0 shadow-sm mb-5">
+  <div class="card border-0 shadow-sm mb-5 rounded-4">
     <div class="card-body p-4">
-      <form action="/memorial/pesquisa" method="GET" class="row g-3 align-items-center">
-        <div class="col-md-9">
-          <div class="input-group input-group-lg">
-            <span class="input-group-text bg-white border-end-0">
-              <i class="fas fa-search text-muted"></i>
-            </span>
-            <input type="text" name="q" class="form-control border-start-0"
-              placeholder="Digite o nome de quem você procura..." value="{{#if (eq termo "
-              *")}}{{else}}{{termo}}{{/if}}">
-            <button type="submit" class="btn btn-primary px-4">Buscar</button>
-          </div>
+      <form action="/memorial/pesquisa" method="GET" class="text-center">
+        <div class="mx-auto mb-3" style="max-width: 600px;">
+          <input type="text" name="q" class="form-control form-control-lg" placeholder="Pesquisar por Memorial..."
+            value="{{#if (eq termo " *")}}{{else}}{{termo}}{{/if}}">
         </div>
-        <div class="col-md-3">
+
+        <div class="d-flex justify-content-center gap-3">
+          <style>
+            .btn-custom-outline {
+              color: #4f0e21;
+              border-color: #4f0e21;
+              background-color: transparent;
+              transition: all 0.3s ease;
+            }
+
+            .btn-custom-outline:hover {
+              background-color: #4f0e21;
+              color: white;
+            }
+          </style>
+          <button type="submit" class="btn btn-custom-outline btn-sm rounded-pill px-5 fw-bold">Buscar</button>
           {{#if termo}}
-          <a href="/memorial/pesquisa?q=*" class="btn btn-outline-secondary btn-lg w-100">Ver Todos</a>
+          <a href="/memorial/pesquisa?q=*" class="btn btn-custom-outline btn-sm rounded-pill px-5">Ver Todos</a>
           {{/if}}
         </div>
       </form>
@@ -26,51 +34,50 @@
   </div>
 
   {{#if resultados.length}}
-  <div class="list-group shadow-sm">
+  <div class="list-group shadow-sm rounded-4 overflow-hidden border-0">
 
     {{#each resultados}}
-    <div class="list-group-item position-relative py-4 border-bottom">
+    <div class="list-group-item position-relative py-4 border-bottom px-4">
 
       <!-- ⭐ Selo Premium -->
       {{#if (eq this.plan "premium")}}
-      <span class="badge bg-warning text-dark position-absolute top-0 end-0 m-3">
+      <span class="badge bg-warning text-dark position-absolute top-0 end-0 m-3 rounded-pill px-3 py-1 small shadow-sm">
         ⭐ Premium
       </span>
       {{/if}}
 
       <!-- Bloco Principal -->
-      <div class="d-flex align-items-start flex-wrap">
+      <div class="row align-items-center g-3 justify-content-start text-center text-md-start">
 
         <!-- FOTO -->
-        <a href="/memorial/{{this.slug}}" class="me-4 mb-3 mb-md-0">
-          {{#if this.mainPhoto.url}}
-          <img src="{{this.mainPhoto.url}}" alt="Foto de {{this.firstName}}" class="rounded shadow-sm"
-            style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #4f0e21;" />
-          {{else}}
-          <img src="/images/default-profile.png" alt="Sem foto" class="rounded shadow-sm"
-            style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #ccc;" />
-          {{/if}}
-        </a>
+        <div class="col-md-auto">
+          <a href="/memorial/{{this.slug}}">
+            {{#if this.mainPhoto.url}}
+            <img src="{{this.mainPhoto.url}}" alt="Foto de {{this.firstName}}" class="rounded shadow-sm"
+              style="width: 100px; height: 100px; object-fit: cover; border: 3px solid #4f0e21;" />
+            {{else}}
+            <img src="/images/default-profile.png" alt="Sem foto" class="rounded shadow-sm"
+              style="width: 100px; height: 100px; object-fit: cover; border: 3px solid #ccc;" />
+            {{/if}}
+          </a>
+        </div>
 
         <!-- INFORMAÇÕES -->
-        <div class="flex-grow-1 min-width-0">
-
-          <h4 class="fw-bold mb-2">
+        <div class="col-md">
+          <h4 class="fw-bold mb-1" style="color: #4f0e21;">
             {{this.firstName}} {{this.lastName}}
           </h4>
 
-          <p class="mb-3 text-muted">
-            <i class="far fa-calendar-alt me-1"></i> <strong>Nascimento:</strong> {{formatDate this.birth.date}}
-            <span class="mx-2 text-divider">|</span>
-            <i class="far fa-calendar-check me-1"></i> <strong>Falecimento:</strong> {{formatDate this.death.date}}
-          </p>
+          <div class="mb-2 text-muted small">
+            <span class="d-inline-block me-3"><strong>Nascimento:</strong> {{formatDate this.birth.date}}</span>
+            <br>
+            <span class="d-inline-block"><strong>Falecimento:</strong> {{formatDate this.death.date}}</span>
+          </div>
 
-          <!-- LINHA ÚNICA -->
-          <div class="d-flex flex-wrap align-items-center gap-3 small">
-
-            <!-- 👤 Criador -->
-            <div>
-              <i class="fas fa-user-edit me-1 opacity-75"></i> <strong>Criado por:</strong>
+          <!-- LINHA DE METADADOS -->
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-start gap-2">
+            <div class="smaller opacity-75">
+              <strong>Criador:</strong>
               {{#if this.owner}}
               {{this.owner.firstName}} {{this.owner.lastName}}
               {{else}}
@@ -78,53 +85,32 @@
               {{/if}}
             </div>
 
-            <!-- 🔐 Visibilidade -->
-            <div>
-              <i class="fas fa-lock me-1 opacity-75"></i> <strong>Visibilidade:</strong>
+            <div class="smaller">
               {{#if (eq this.accessLevel "public_read")}}
-              <span class="badge bg-success-subtle text-success border border-success-subtle px-2">Público</span>
-              {{else if (eq this.accessLevel "private_read")}}
-              <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle px-2">Privado
-                (leitura)</span>
+              <span
+                class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-2 py-0">Público</span>
               {{else}}
-              <span class="badge bg-dark-subtle text-dark border border-dark-subtle px-2">Privado (edição)</span>
+              <span
+                class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-2 py-0">Privado</span>
               {{/if}}
             </div>
 
-            <!-- 💎 Plano -->
-            <div>
-              <i class="fas fa-gem me-1 opacity-75"></i> <strong>Plano:</strong>
+            <div class="smaller">
               {{#if (eq this.plan "premium")}}
-              <span class="badge bg-warning text-dark px-2">Premium</span>
+              <span
+                class="badge bg-warning-subtle text-dark border border-warning-subtle rounded-pill px-2 py-0">Premium</span>
               {{else}}
-              <span class="badge bg-light text-dark border px-2">Free</span>
+              <span class="badge bg-light text-dark border rounded-pill px-2 py-0">Free</span>
               {{/if}}
             </div>
-
           </div>
+        </div>
 
-          <!-- BOTÃO ALINHADO À DIREITA -->
-          <div class="text-end mt-3 mt-md-0">
-            <style>
-              .btn-visitar {
-                background-color: #4f0e21;
-                color: white;
-                border: none;
-                transition: all 0.3s ease;
-              }
-
-              .btn-visitar:hover {
-                background-color: #6a132c;
-                color: white;
-                transform: translateY(-2px);
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-              }
-            </style>
-            <a href="/memorial/{{this.slug}}" class="btn btn-visitar px-4">
-              Visitar Memorial
-            </a>
-          </div>
-
+        <!-- BOTÃO DE AÇÃO -->
+        <div class="col-md-auto text-center text-md-end mt-3 mt-md-0">
+          <a href="/memorial/{{this.slug}}" class="btn btn-custom-outline btn-sm rounded-pill fw-bold px-4 py-2">
+            Visitar Memorial
+          </a>
         </div>
 
       </div>
@@ -137,38 +123,47 @@
   <!-- 🔢 PAGINAÇÃO -->
   {{#if totalPages}}
   <nav class="mt-5">
-    <ul class="pagination justify-content-center">
+    <ul class="pagination pagination-sm justify-content-center gap-1">
 
-      <li class="page-item {{#unless hasPrev}}disabled{{/unless}}">
-        <a class="page-link" href="?q={{termo}}&page={{prevPage}}" {{#unless hasPrev}}tabindex="-1" aria-disabled="true"
-          {{/unless}}>Anterior</a>
+      <li class="page-item {{#unless hasPrev}}disabled{{/unless}} mx-1">
+        <a class="page-link rounded-pill px-3 border-0 shadow-sm" style="color: #4f0e21;"
+          href="?q={{termo}}&page={{prevPage}}">
+          Anterior
+        </a>
       </li>
 
       {{#each (range 1 totalPages)}}
-      <li class="page-item {{#if (eq this ../currentPage)}}active{{/if}}">
-        <a class="page-link" href="?q={{../termo}}&page={{this}}">{{this}}</a>
+      <li class="page-item {{#if (eq this ../currentPage)}}active{{/if}} mx-1">
+        <a class="page-link rounded-pill border-0 shadow-sm text-center d-flex align-items-center justify-content-center"
+          style="width: 35px; height: 35px; {{#if (eq this ../currentPage)}}background-color: #4f0e21; color: white;{{else}}color: #4f0e21;{{/if}}"
+          href="?q={{../termo}}&page={{this}}">{{this}}</a>
       </li>
       {{/each}}
 
-      <li class="page-item {{#unless hasNext}}disabled{{/unless}}">
-        <a class="page-link" href="?q={{termo}}&page={{nextPage}}" {{#unless hasNext}}tabindex="-1" aria-disabled="true"
-          {{/unless}}>Próxima</a>
+      <li class="page-item {{#unless hasNext}}disabled{{/unless}} mx-1">
+        <a class="page-link rounded-pill px-3 border-0 shadow-sm" style="color: #4f0e21;"
+          href="?q={{termo}}&page={{nextPage}}">
+          Próxima
+        </a>
       </li>
 
     </ul>
   </nav>
-  <div class="text-center text-muted small mt-2">
+  <div class="text-center text-muted small mt-3">
     Página {{currentPage}} de {{totalPages}}
   </div>
   {{/if}}
 
   {{else}}
   <div class="text-center py-5">
-    <i class="fas fa-search fa-3x text-muted opacity-25 mb-4"></i>
-    <h4 class="text-muted">Nenhum memorial encontrado {{#if termo}}{{#if (eq termo "*")}}{{else}}para
+    <div class="mb-4">
+      <i class="fas fa-search fa-4x text-muted opacity-25"></i>
+    </div>
+    <h4 class="text-muted mb-3">Nenhum memorial encontrado {{#if termo}}{{#if (eq termo "*")}}{{else}}para
       "<strong>{{termo}}</strong>"{{/if}}{{/if}}.</h4>
     {{#if termo}}
-    <a href="/memorial/pesquisa?q=*" class="btn btn-link mt-2">Ver todos os memoriais disponíveis</a>
+    <a href="/memorial/pesquisa?q=*" class="btn btn-link py-0 text-decoration-none" style="color: #4f0e21;">Ver todos os
+      memoriais disponíveis</a>
     {{/if}}
   </div>
   {{/if}}

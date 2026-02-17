@@ -2,12 +2,9 @@
 
   <!-- WRAPPER CENTRALIZADO -->
   <div class="d-flex justify-content-center">
-    <form
-      action="/memorial/create-step2"
-      method="POST"
-      class="main-form main-form-box main-card p-4 rounded-4 shadow-sm"
-    >
-    <h2 class="main-title text-center mb-4 fw-bold">
+    <form action="/memorial/create-step2" method="POST"
+      class="main-form main-form-box main-card p-4 rounded-4 shadow-sm">
+      <h2 class="main-title text-center mb-4 fw-bold">
         Dados do Homenageado(2/4)
       </h2>
       <!-- 🟦 Gênero 
@@ -86,7 +83,7 @@
       </div>
 
       <div class="text-center mt-5">
-        <button type="submit" class="btn btn-primary btn-lg px-5">
+        <button type="submit" class="btn btn-primary btn-lg px-4 rounded-pill">
           Avançar
         </button>
       </div>
@@ -97,50 +94,50 @@
 </main>
 
 <script>
-// Função para carregar estados
-function loadStates(selectId) {
-  const select = document.getElementById(selectId);
+  // Função para carregar estados
+  function loadStates(selectId) {
+    const select = document.getElementById(selectId);
 
-  fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome")
-    .then(res => res.json())
-    .then(states => {
-      states.forEach(state => {
-        const opt = document.createElement("option");
-        opt.value = state.sigla;
-        opt.textContent = `${state.nome} (${state.sigla})`;
-        select.appendChild(opt);
-      });
-    });
-}
-
-// Função para carregar cidades com base no UF
-function loadCities(stateSelectId, citySelectId) {
-  const stateSelect = document.getElementById(stateSelectId);
-  const citySelect = document.getElementById(citySelectId);
-
-  stateSelect.addEventListener("change", () => {
-    const uf = stateSelect.value;
-    citySelect.innerHTML = `<option value="">Carregando...</option>`;
-
-    fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`)
+    fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome")
       .then(res => res.json())
-      .then(cities => {
-        citySelect.innerHTML = `<option value="">Selecione a cidade</option>`;
-        cities.forEach(city => {
+      .then(states => {
+        states.forEach(state => {
           const opt = document.createElement("option");
-          opt.value = city.nome;
-          opt.textContent = city.nome;
-          citySelect.appendChild(opt);
+          opt.value = state.sigla;
+          opt.textContent = `${state.nome} (${state.sigla})`;
+          select.appendChild(opt);
         });
       });
-  });
-}
+  }
 
-// Inicializa (nascimento)
-loadStates("birthState");
-loadCities("birthState", "birthCity");
+  // Função para carregar cidades com base no UF
+  function loadCities(stateSelectId, citySelectId) {
+    const stateSelect = document.getElementById(stateSelectId);
+    const citySelect = document.getElementById(citySelectId);
 
-// Inicializa (falecimento)
-loadStates("deathState");
-loadCities("deathState", "deathCity");
+    stateSelect.addEventListener("change", () => {
+      const uf = stateSelect.value;
+      citySelect.innerHTML = `<option value="">Carregando...</option>`;
+
+      fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`)
+        .then(res => res.json())
+        .then(cities => {
+          citySelect.innerHTML = `<option value="">Selecione a cidade</option>`;
+          cities.forEach(city => {
+            const opt = document.createElement("option");
+            opt.value = city.nome;
+            opt.textContent = city.nome;
+            citySelect.appendChild(opt);
+          });
+        });
+    });
+  }
+
+  // Inicializa (nascimento)
+  loadStates("birthState");
+  loadCities("birthState", "birthCity");
+
+  // Inicializa (falecimento)
+  loadStates("deathState");
+  loadCities("deathState", "deathCity");
 </script>

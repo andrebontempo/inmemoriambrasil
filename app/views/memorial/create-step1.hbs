@@ -2,53 +2,34 @@
 
   <!-- WRAPPER CENTRALIZADO -->
   <div class="d-flex justify-content-center">
-    <form
-      action="/memorial/create-step1"
-      method="POST"
-      class="main-form main-form-box main-card p-4 rounded-4 shadow-sm"
-    >
+    <form action="/memorial/create-step1" method="POST"
+      class="main-form main-form-box main-card p-4 rounded-4 shadow-sm">
 
       <h2 class="main-title text-center mb-4 fw-bold">
         Nome do Homenageado(1/4)
       </h2>
 
       {{#if error}}
-        <div class="alert alert-danger text-center">{{error}}</div>
+      <div class="alert alert-danger text-center">{{error}}</div>
       {{/if}}
 
       <!-- PRIMEIRO NOME -->
       <div class="mb-4">
         <label for="firstName" class="form-label fw-bold">Primeiro Nome</label>
-        <input
-          type="text"
-          class="form-control"
-          id="firstName"
-          name="firstName"
-          required
-          pattern="[A-Za-zÀ-ú\s]+"
-          autocomplete="given-name"
-          value="{{firstName}}"
-        />
+        <input type="text" class="form-control" id="firstName" name="firstName" required pattern="[A-Za-zÀ-ú\s]+"
+          autocomplete="given-name" value="{{firstName}}" />
       </div>
 
       <!-- SOBRENOME -->
       <div class="mb-4">
         <label for="lastName" class="form-label fw-bold">Sobrenome</label>
-        <input
-          type="text"
-          class="form-control"
-          id="lastName"
-          name="lastName"
-          required
-          pattern="[A-Za-zÀ-ú\s]+"
-          autocomplete="family-name"
-          value="{{lastName}}"
-        />
+        <input type="text" class="form-control" id="lastName" name="lastName" required pattern="[A-Za-zÀ-ú\s]+"
+          autocomplete="family-name" value="{{lastName}}" />
       </div>
 
       <!-- BOTÃO -->
       <div class="text-center mt-4">
-        <button type="submit" class="btn btn-primary btn-lg px-5">
+        <button type="submit" class="btn btn-primary btn-lg px-4 rounded-pill">
           Começar
         </button>
       </div>

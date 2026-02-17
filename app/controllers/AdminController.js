@@ -4,6 +4,7 @@ const LifeStory = require("../models/LifeStory")
 const SharedStory = require("../models/SharedStory")
 const User = require("../models/User")
 const AdminLog = require("../models/AdminLog")
+const { escapeRegex } = require("../utils/regexHelpers")
 
 const AdminController = {
     index: async (req, res) => {
@@ -62,11 +63,12 @@ const AdminController = {
 
             let searchFilter = {}
             if (query) {
+                const escapedQuery = escapeRegex(query)
                 searchFilter = {
                     $or: [
-                        { firstName: { $regex: query, $options: "i" } },
-                        { lastName: { $regex: query, $options: "i" } },
-                        { slug: { $regex: query, $options: "i" } }
+                        { firstName: { $regex: escapedQuery, $options: "i" } },
+                        { lastName: { $regex: escapedQuery, $options: "i" } },
+                        { slug: { $regex: escapedQuery, $options: "i" } }
                     ]
                 }
             }

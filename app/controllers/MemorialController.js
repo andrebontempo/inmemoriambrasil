@@ -1,4 +1,5 @@
 const Memorial = require("../models/Memorial")
+const { escapeRegex } = require("../utils/regexHelpers")
 const User = require("../models/User")
 const Tribute = require("../models/Tribute") // Ajuste o caminho conforme necessário
 const LifeStory = require("../models/LifeStory")
@@ -631,10 +632,11 @@ const MemorialController = {
       let query = {}
 
       if (termo !== "*") {
+        const escapedTermo = escapeRegex(termo)
         query = {
           $or: [
-            { firstName: { $regex: termo, $options: "i" } },
-            { lastName: { $regex: termo, $options: "i" } }
+            { firstName: { $regex: escapedTermo, $options: "i" } },
+            { lastName: { $regex: escapedTermo, $options: "i" } }
           ]
         }
       }

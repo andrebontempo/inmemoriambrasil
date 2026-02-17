@@ -1,105 +1,133 @@
 <main class="container my-5">
-  <h2 class="text-center mb-4">
+  <h2 class="text-center mb-4 main-title">
     Bem-vindo(a), {{user.firstName}} {{user.lastName}}!
   </h2>
-  <p class="text-center mb-5">Você está logado(a).</p>
+  <p class="text-center mb-5 text-muted">Você está logado(a).</p>
+
+  <style>
+    .btn-custom-outline {
+      color: #4f0e21;
+      border-color: #4f0e21;
+      background-color: transparent;
+      transition: all 0.3s ease;
+    }
+
+    .btn-custom-outline:hover {
+      background-color: #4f0e21;
+      color: white;
+    }
+
+    .btn-custom-fill {
+      background-color: #4f0e21;
+      color: white;
+      border: 1px solid #4f0e21;
+      transition: all 0.3s ease;
+    }
+
+    .btn-custom-fill:hover {
+      background-color: #6a132c;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(79, 14, 33, 0.2);
+    }
+
+    .smaller {
+      font-size: 0.75rem;
+    }
+  </style>
 
   <!-- Botão Sair e Criar -->
-  <div class="d-flex justify-content-between align-items-center mb-5">
-    <a href="/memorial/create-step1" class="btn btn-primary btn-lg">
+  <div class="d-flex flex-wrap justify-content-between align-items-center mb-5 gap-3">
+    <a href="/memorial/create-step1" class="btn btn-custom-fill btn-lg rounded-pill px-4">
       <i class="fas fa-plus me-2"></i> Criar Novo Memorial
     </a>
-    <a href="/auth/logout" class="btn btn-secondary">
+    <a href="/auth/logout" class="btn btn-custom-fill btn-lg rounded-pill px-4">
       <i class="fas fa-sign-out-alt me-2"></i> Sair
     </a>
   </div>
 
-  <div class="card border-0 shadow-sm mb-4">
-    <div class="card-body p-4 text-center">
-      <h5 class="mb-4"><strong>Seus Memoriais</strong></h5>
-
-      <!-- 🔍 Filtro de Busca -->
-      <form action="/auth/dashboard" method="GET" class="row g-3 justify-content-center mb-4">
-        <div class="col-md-8">
-          <div class="input-group">
-            <span class="input-group-text bg-white border-end-0">
-              <i class="fas fa-search text-muted"></i>
-            </span>
-            <input type="text" name="q" class="form-control border-start-0" placeholder="Buscar em seus memoriais..."
-              value="{{query}}">
-            <button type="submit" class="btn btn-primary px-4">Filtrar</button>
-          </div>
+  <!-- 🔍 Filtro de Busca (Card Separado) -->
+  <div class="card border-0 shadow-sm mb-5 rounded-4">
+    <div class="card-body p-4">
+      <form action="/auth/dashboard" method="GET" class="text-center">
+        <div class="mx-auto mb-3" style="max-width: 600px;">
+          <input type="text" name="q" class="form-control form-control-lg" placeholder="Buscar em seus memoriais...">
         </div>
-        <div class="col-md-2">
-          {{#if query}}
-          <a href="/auth/dashboard" class="btn btn-outline-secondary w-100">Limpar</a>
-          {{/if}}
+
+        <div class="d-flex justify-content-center gap-3">
+          <button type="submit" class="btn btn-custom-outline btn-sm rounded-pill px-5">Buscar</button>
+          <a href="/auth/dashboard" class="btn btn-custom-outline btn-sm rounded-pill px-5">Ver Todos</a>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- 📋 Lista de Memoriais (Card Separado) -->
+  <div class="card border-0 shadow-sm mb-4 rounded-4">
+    <div class="card-body p-4">
+      <h5 class="text-center mb-4"><strong>Seus Memoriais</strong></h5>
 
       {{#if memoriais.length}}
-      <div class="list-group list-group-flush text-start">
+      <div class="list-group list-group-flush border-0">
 
         {{#each memoriais}}
-        <div
-          class="list-group-item d-flex align-items-start justify-content-between flex-wrap position-relative py-4 border-bottom">
+        <div class="list-group-item position-relative py-4 border-bottom px-0">
 
           <!-- ⭐ Selo Premium -->
           {{#if (eq this.plan "premium")}}
-          <span class="badge bg-warning text-dark position-absolute top-0 end-0 m-2">
+          <span
+            class="badge bg-warning text-dark position-absolute top-0 end-0 m-2 rounded-pill px-3 py-1 smaller shadow-sm">
             ⭐ Premium
           </span>
           {{/if}}
 
           <!-- BLOCO PRINCIPAL -->
-          <div class="d-flex align-items-start w-100 flex-wrap">
+          <div class="row align-items-center g-3 justify-content-start text-center text-md-start">
 
             <!-- FOTO -->
-            <a href="/memorial/{{this.slug}}" class="me-4 mb-3 mb-md-0">
-              {{#if this.mainPhoto.url}}
-              <img src="{{this.mainPhoto.url}}" alt="Foto de {{this.firstName}}" class="rounded shadow-sm"
-                style="width: 110px; height: 110px; object-fit: cover; border: 3px solid #4f0e21;" />
-              {{else}}
-              <img src="/images/default-profile.png" alt="Sem foto" class="rounded shadow-sm"
-                style="width: 110px; height: 110px; object-fit: cover; border: 3px solid #ccc;" />
-              {{/if}}
-            </a>
+            <div class="col-md-auto">
+              <a href="/memorial/{{this.slug}}">
+                {{#if this.mainPhoto.url}}
+                <img src="{{this.mainPhoto.url}}" alt="Foto de {{this.firstName}}" class="rounded shadow-sm"
+                  style="width: 100px; height: 100px; object-fit: cover; border: 3px solid #4f0e21;" />
+                {{else}}
+                <img src="/images/default-profile.png" alt="Sem foto" class="rounded shadow-sm"
+                  style="width: 100px; height: 100px; object-fit: cover; border: 3px solid #ccc;" />
+                {{/if}}
+              </a>
+            </div>
 
             <!-- INFORMAÇÕES -->
-            <div class="flex-grow-1 min-width-0">
-
-              <h5 class="fw-bold mb-2">
+            <div class="col-md">
+              <h4 class="fw-bold mb-1" style="color: #4f0e21;">
                 {{this.firstName}} {{this.lastName}}
-              </h5>
+              </h4>
 
-              <p class="mb-3 small text-muted">
-                <strong>Nascimento:</strong> {{formatDate this.birth.date}}
-                <br />
-                <strong>Falecimento:</strong> {{formatDate this.death.date}}
-              </p>
+              <div class="mb-2 text-muted smaller">
+                <span class="d-inline-block me-3"><strong>Nascimento:</strong> {{formatDate this.birth.date}}</span>
+                <br>
+                <span class="d-inline-block"><strong>Falecimento:</strong> {{formatDate this.death.date}}</span>
+              </div>
 
               <!-- LINHA: Visibilidade + Plano -->
-              <div class="d-flex flex-wrap align-items-center gap-3 small">
+              <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-start gap-2">
 
-                <!-- 🔐 Visibilidade -->
-                <div>
-                  <strong>Visibilidade:</strong>
+                <div class="smaller">
                   {{#if (eq this.accessLevel "public_read")}}
-                  <span class="badge bg-success">Público</span>
-                  {{else if (eq this.accessLevel "private_read")}}
-                  <span class="badge bg-secondary">Privado (leitura)</span>
+                  <span
+                    class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-2 py-0">Público</span>
                   {{else}}
-                  <span class="badge bg-dark">Privado (edição)</span>
+                  <span
+                    class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-2 py-0">Privado</span>
                   {{/if}}
                 </div>
 
-                <!-- 💎 Plano -->
-                <div>
-                  <strong>Plano:</strong>
+                <div class="smaller">
                   {{#if (eq this.plan "premium")}}
-                  <span class="badge bg-warning text-dark">Premium</span>
+                  <span
+                    class="badge bg-warning-subtle text-dark border border-warning-subtle rounded-pill px-2 py-0">Premium</span>
                   {{else}}
-                  <span class="badge bg-light text-dark border">Free</span>
+                  <span class="badge bg-light text-dark border rounded-pill px-2 py-0">Free</span>
                   {{/if}}
                 </div>
 
@@ -107,40 +135,28 @@
 
             </div>
 
-            <!-- BOTÕES (Estilizados conforme padrão admin/pesquisa) -->
-            <div class="ms-md-auto mt-4 mt-md-0 d-flex flex-wrap gap-2 align-items-center justify-content-end"
-              style="max-width: 500px;">
-              <style>
-                .btn-dashboard {
-                  background-color: #4f0e21;
-                  color: white;
-                  border: none;
-                  transition: all 0.2s ease;
-                  font-size: 0.85rem;
-                  padding: 0.4rem 1rem;
-                }
-
-                .btn-dashboard:hover {
-                  background-color: #6a132c;
-                  color: white;
-                }
-              </style>
-              <a href="/memorial/{{this.slug}}" class="btn btn-dashboard">
+            <!-- BOTÕES DE AÇÃO -->
+            <div
+              class="col-xl-auto col-lg-12 text-center text-md-end mt-3 mt-md-0 d-flex flex-wrap gap-2 justify-content-center justify-content-xl-end">
+              <a href="/memorial/{{this.slug}}" class="btn btn-custom-outline btn-sm rounded-pill px-3 py-1">
                 Visitar
               </a>
-              <a href="/memorial/{{this.slug}}/memorial-fet/edit" class="btn btn-dashboard">
-                Trocar Foto Principal
+              <a href="/memorial/{{this.slug}}/memorial-fet/edit"
+                class="btn btn-custom-outline btn-sm rounded-pill px-3 py-1">
+                Foto
               </a>
-              <a href="/memorial/{{this.slug}}/memorial/edit" class="btn btn-dashboard">
-                Editar Memorial
+              <a href="/memorial/{{this.slug}}/memorial/edit"
+                class="btn btn-custom-outline btn-sm rounded-pill px-3 py-1">
+                Editar
               </a>
-              <a href="/memorial/{{this.slug}}/memorial/privacy/edit" class="btn btn-dashboard">
+              <a href="/memorial/{{this.slug}}/memorial/privacy/edit"
+                class="btn btn-custom-outline btn-sm rounded-pill px-3 py-1">
                 Privacidade
               </a>
-              <form action="/memorial/{{this.slug}}/delete" method="POST"
-                onsubmit="return confirm('Tem certeza que deseja apagar este memorial? Esta ação não poderá ser desfeita!')">
+              <form action="/memorial/{{this.slug}}/delete" method="POST" class="d-inline"
+                onsubmit="return confirm('Tem certeza que deseja apagar este memorial?')">
                 <input type="hidden" name="_method" value="DELETE" />
-                <button type="submit" class="btn btn-danger btn-sm px-3">
+                <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-3 py-1">
                   Excluir
                 </button>
               </form>
@@ -156,39 +172,49 @@
       <!-- 🔢 Paginação -->
       {{#if pagination.totalPages}}
       <nav aria-label="Navegação de páginas" class="mt-5">
-        <ul class="pagination justify-content-center">
-          <li class="page-item {{#unless pagination.hasPrev}}disabled{{/unless}}">
-            <a class="page-link" href="?page={{pagination.prevPage}}&q={{query}}" {{#unless
-              pagination.hasPrev}}tabindex="-1" aria-disabled="true" {{/unless}}>Anterior</a>
+        <ul class="pagination pagination-sm justify-content-center gap-1">
+
+          <li class="page-item {{#unless pagination.hasPrev}}disabled{{/unless}} mx-1">
+            <a class="page-link rounded-pill px-3 border-0 shadow-sm" style="color: #4f0e21;"
+              href="?page={{pagination.prevPage}}&q={{query}}">
+              Anterior
+            </a>
           </li>
 
           {{#each (range 1 pagination.totalPages)}}
-          <li class="page-item {{#if (eq this ../pagination.currentPage)}}active{{/if}}">
-            <a class="page-link" href="?page={{this}}&q={{../query}}">{{this}}</a>
+          <li class="page-item {{#if (eq this ../pagination.currentPage)}}active{{/if}} mx-1">
+            <a class="page-link rounded-pill border-0 shadow-sm text-center d-flex align-items-center justify-content-center"
+              style="width: 35px; height: 35px; {{#if (eq this ../pagination.currentPage)}}background-color: #4f0e21; color: white;{{else}}color: #4f0e21;{{/if}}"
+              href="?page={{this}}&q={{../query}}">{{this}}</a>
           </li>
           {{/each}}
 
-          <li class="page-item {{#unless pagination.hasNext}}disabled{{/unless}}">
-            <a class="page-link" href="?page={{pagination.nextPage}}&q={{query}}">Próximo</a>
+          <li class="page-item {{#unless pagination.hasNext}}disabled{{/unless}} mx-1">
+            <a class="page-link rounded-pill px-3 border-0 shadow-sm" style="color: #4f0e21;"
+              href="?page={{pagination.nextPage}}&q={{query}}">
+              Próximo
+            </a>
           </li>
+
         </ul>
       </nav>
-      <div class="text-center text-muted small mt-2">
-        Exibindo {{memoriais.length}} de {{pagination.total}} memoriais
+      <div class="text-center text-muted smaller mt-3">
+        Página {{pagination.currentPage}} de {{pagination.totalPages}}
       </div>
       {{/if}}
 
       {{else}}
-      <div class="py-5">
-        <p class="text-center text-muted">
+      <div class="py-5 text-center">
+        <p class="text-muted">
           {{#if query}}
-          Nenhum memorial encontrado para "{{query}}".
+          Nenhum memorial encontrado para "<strong>{{query}}</strong>".
           {{else}}
           Você ainda não criou nenhum memorial.
           {{/if}}
         </p>
         {{#if query}}
-        <a href="/auth/dashboard" class="btn btn-link">Ver todos os seus memoriais</a>
+        <a href="/auth/dashboard" class="btn btn-link link-primary smaller text-decoration-none">Ver todos os seus
+          memoriais</a>
         {{/if}}
       </div>
       {{/if}}

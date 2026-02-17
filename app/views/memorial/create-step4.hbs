@@ -2,12 +2,8 @@
 
   <!-- WRAPPER CENTRALIZADO -->
   <div class="d-flex justify-content-center">
-    <form
-      action="/memorial/create-step4"
-      method="POST"
-      enctype="multipart/form-data"
-      class="main-form main-form-box main-card p-4 rounded-4 shadow-sm"
-    >
+    <form action="/memorial/create-step4" method="POST" enctype="multipart/form-data"
+      class="main-form main-form-box main-card p-4 rounded-4 shadow-sm">
 
       <h2 class="main-title text-center mb-4 fw-bold">
         Foto &amp; Epitáfio(4/4)
@@ -20,14 +16,8 @@
         <label for="coverPhoto" class="form-label fw-semibold main-label">
           Foto Principal
         </label>
-        <input
-          type="file"
-          name="file"
-          id="coverPhoto"
-          class="form-control form-control-lg rounded-3 main-input"
-          accept="image/*"
-          required
-        />
+        <input type="file" name="file" id="coverPhoto" class="form-control form-control-lg rounded-3 main-input"
+          accept="image/*" required />
         <div class="form-text">Envie uma imagem para destacar o memorial.</div>
       </div>
 
@@ -36,14 +26,8 @@
         <label for="epitaph" class="form-label fw-semibold main-label">
           Epitáfio
         </label>
-        <input
-          type="text"
-          name="epitaph"
-          id="epitaph"
-          class="form-control form-control-lg rounded-3 main-input"
-          maxlength="120"
-          required
-        />
+        <input type="text" name="epitaph" id="epitaph" class="form-control form-control-lg rounded-3 main-input"
+          maxlength="120" required />
         <div class="form-text">Frase que será exibida no topo do memorial.</div>
       </div>
 
@@ -66,7 +50,7 @@
       -->
       <!-- Botão -->
       <div class="text-center mt-4">
-        <button type="submit" class="btn btn-primary btn-lg px-5">
+        <button type="submit" class="btn btn-primary btn-lg px-4 rounded-pill">
           Criar e Finalizar
         </button>
       </div>

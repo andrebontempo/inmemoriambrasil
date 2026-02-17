@@ -1,4 +1,4 @@
-<main class="container my-5">
+<main class="container my-3">
   <!-- Card principal -->
   <div class="contact-card p-4 p-md-5 rounded-4 shadow-lg text-white">
 
@@ -11,64 +11,35 @@
     </div>
 
     <!-- Formulário -->
-    <form
-      action="/contato-envio"
-      method="post"
-      class="mx-auto"
-      style="max-width: 640px;"
-    >
+    <form action="/contato-envio" method="post" class="mx-auto" style="max-width: 640px;">
 
       <!-- Nome -->
       <div class="mb-3">
         <label for="nome" class="form-label fw-semibold">Nome</label>
-        <input
-          type="text"
-          class="form-control form-control-lg"
-          id="nome"
-          name="nome"
-          required
-        />
+        <input type="text" class="form-control form-control-lg" id="nome" name="nome" required />
       </div>
 
       <!-- E-mail -->
       <div class="mb-3">
         <label for="email" class="form-label fw-semibold">E-mail</label>
-        <input
-          type="email"
-          class="form-control form-control-lg"
-          id="email"
-          name="email"
-          required
-        />
+        <input type="email" class="form-control form-control-lg" id="email" name="email" required />
       </div>
 
       <!-- Assunto -->
       <div class="mb-3">
         <label for="assunto" class="form-label fw-semibold">Assunto</label>
-        <input
-          type="text"
-          class="form-control form-control-lg"
-          id="assunto"
-          name="assunto"
-          required
-        />
+        <input type="text" class="form-control form-control-lg" id="assunto" name="assunto" required />
       </div>
 
       <!-- Mensagem -->
       <div class="mb-4">
         <label for="mensagem" class="form-label fw-semibold">Mensagem</label>
-        <textarea
-          class="form-control form-control-lg"
-          id="mensagem"
-          name="mensagem"
-          rows="5"
-          required
-        ></textarea>
+        <textarea class="form-control form-control-lg" id="mensagem" name="mensagem" rows="5" required></textarea>
       </div>
 
       <!-- Botão -->
       <div class="d-grid d-md-flex justify-content-md-end">
-        <button type="submit" class="btn btn-light btn-lg px-5">
+        <button type="submit" class="btn btn-outline-light btn-lg px-4 rounded-pill">
           Enviar mensagem
         </button>
       </div>
