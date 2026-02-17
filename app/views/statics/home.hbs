@@ -28,22 +28,21 @@
         <div class="col-lg-6">
           <div class="position-relative animate__animated animate__fadeInRight">
             <div class="rounded-4 overflow-hidden shadow-2xl border border-white border-4">
-              <video controls class="w-100 d-block" style="aspect-ratio: 16/9; object-fit: cover;">
+              <video controls class="w-100 d-block home-video">
                 <source src="/css/main/files/tutorial_SOL.mp4" type="video/mp4" />
                 Seu navegador não suporta vídeo.
               </video>
             </div>
             <!-- Decoração visual -->
             <div
-              class="position-absolute bottom-0 start-0 translate-middle-y translate-middle-x bg-white p-3 rounded-4 shadow-lg d-none d-md-block"
-              style="z-index: 2;">
+              class="position-absolute bottom-0 start-0 translate-middle-y translate-middle-x bg-white p-3 rounded-4 shadow-lg d-none d-md-block home-tutorial-badge">
               <div class="d-flex align-items-center gap-3">
                 <div class="bg-primary bg-opacity-10 p-2 rounded-circle">
                   <i class="bi bi-play-circle-fill text-primary"></i>
                 </div>
                 <div>
                   <div class="small fw-bold text-dark">Como criar um memorial</div>
-                  <div class="text-muted" style="font-size: 0.7rem;">Assista ao tutorial</div>
+                  <div class="text-muted text-xxs">Assista ao tutorial</div>
                 </div>
               </div>
             </div>
@@ -57,7 +56,7 @@
     <div class="container py-4">
       <div class="text-center mb-5">
         <h2 class="display-6 fw-bold mb-0">Exemplos de Memoriais</h2>
-        <div class="mx-auto bg-primary mt-2 mb-3" style="width: 60px; height: 4px; border-radius: 2px;"></div>
+        <div class="mx-auto bg-primary mt-2 mb-3 home-decoration-line"></div>
         <p class="text-muted mt-2 mb-0">Veja como homenagear pessoas especiais que partiram.</p>
       </div>
 
@@ -66,8 +65,8 @@
           <a href="/memorial/machado-de-assis/about" class="text-decoration-none group">
             <div class="card h-100 border-0 shadow-sm overflow-hidden rounded-4 transition-transform hover-up">
               <div class="position-relative">
-                <img src="/css/main/files/machado_de_assis_1.jpg" class="card-img-top" alt="Machado de Assis"
-                  style="height: 280px; object-fit: cover;">
+                <img src="/css/main/files/machado_de_assis_1.jpg" class="card-img-top home-memorial-img"
+                  alt="Machado de Assis">
                 <div class="position-absolute top-0 end-0 m-3">
                   <span class="badge bg-white text-dark shadow-sm">Modelo</span>
                 </div>
@@ -83,8 +82,8 @@
           <a href="/memorial/chiquinha-gonzaga/about" class="text-decoration-none">
             <div class="card h-100 border-0 shadow-sm overflow-hidden rounded-4 transition-transform hover-up">
               <div class="position-relative">
-                <img src="/css/main/files/chiquinha_gonzaga_1.jpg" class="card-img-top" alt="Chiquinha Gonzaga"
-                  style="height: 280px; object-fit: cover;">
+                <img src="/css/main/files/chiquinha_gonzaga_1.jpg" class="card-img-top home-memorial-img"
+                  alt="Chiquinha Gonzaga">
                 <div class="position-absolute top-0 end-0 m-3">
                   <span class="badge bg-white text-dark shadow-sm">Modelo</span>
                 </div>
@@ -110,7 +109,7 @@
     <div class="container py-3">
       <div class="text-center mb-4">
         <h2 class="fs-3 fw-bold">Como funciona?</h2>
-        <div class="mx-auto bg-primary mt-1" style="width: 40px; height: 3px; border-radius: 2px;"></div>
+        <div class="mx-auto bg-primary mt-1 home-decoration-line-small"></div>
         <p class="text-muted mt-2 small">Três passos simples para eternizar uma história:</p>
       </div>
 
@@ -118,8 +117,7 @@
         <div class="col-md-4">
           <div class="p-3 h-100">
             <div
-              class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3"
-              style="width: 60px; height: 60px; font-size: 1.5rem;">
+              class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3 home-step-icon">
               <i class="bi bi-pencil-square"></i>
             </div>
             <h5 class="fw-bold">1. Crie uma Conta</h5>
@@ -131,8 +129,7 @@
         <div class="col-md-4">
           <div class="p-3 h-100">
             <div
-              class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3"
-              style="width: 60px; height: 60px; font-size: 1.5rem;">
+              class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3 home-step-icon">
               <i class="bi bi-journal-text"></i>
             </div>
             <h5 class="fw-bold">2. Conte a História</h5>
@@ -144,8 +141,7 @@
         <div class="col-md-4">
           <div class="p-3 h-100">
             <div
-              class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3"
-              style="width: 60px; height: 60px; font-size: 1.5rem;">
+              class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3 home-step-icon">
               <i class="bi bi-share"></i>
             </div>
             <h5 class="fw-bold">3. Compartilhe</h5>
@@ -189,22 +185,3 @@
     </div>
   </section>
 </main>
-
-<style>
-  .hover-up:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 1rem 3rem rgba(0, 0, 0, .1) !important;
-  }
-
-  .transition-transform {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .shadow-2xl {
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  }
-
-  .tracking-widest {
-    letter-spacing: 0.1em;
-  }
-</style>

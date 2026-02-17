@@ -1,28 +1,74 @@
-/* ============================
-   🎗️ TRIBUTE CARDS
-============================ */
+/* ============================================================
+   🎗️ TRIBUTE.SCSS — Estilos da Página de Homenagens
+   ============================================================ */
 
+/* Botões Customizados para Homenagens */
+.btn-custom-outline {
+  color: #4f0e21;
+  border: 1px solid #4f0e21;
+  background-color: transparent;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #4f0e21;
+    color: white;
+  }
+}
+
+.btn-custom-fill {
+  background-color: #4f0e21;
+  color: white;
+  border: 1px solid #4f0e21;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #6a132c;
+    color: white;
+    transform: translateY(-2px);
+  }
+}
+
+/* Tribute Cards (Visualização) */
 .tribute-card {
   background: #fff;
-  border-radius: 12px;
-  padding: 15px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: none;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1) !important;
+  }
 }
 
 .tribute-body {
   display: flex;
-  gap: 15px;
+  gap: 1.5rem;
+  align-items: center;
 }
 
 /* Ícone */
 .tribute-image-box {
   flex-shrink: 0;
+  text-align: center;
 }
 
-.tribute-image {
-  width: 60px;
-  height: 60px;
-  object-fit: contain;
+.tribute-icon-container {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  padding: 1rem;
+  display: inline-block;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  border: 1px solid #eee;
+
+  img {
+    max-height: 60px;
+    height: auto;
+    object-fit: contain;
+  }
 }
 
 /* Conteúdo */
@@ -30,10 +76,11 @@
   flex: 1;
 }
 
-.tribute-message {
-  font-size: 1rem;
-  margin-bottom: 10px;
-  line-height: 1.4;
+.message-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #444;
+  font-style: italic;
 }
 
 .tribute-footer {
@@ -41,67 +88,91 @@
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
 }
 
 .tribute-author {
-  font-size: 0.85rem;
-  color: #555;
+  font-size: 0.875rem;
+  color: #6c757d;
 }
 
 .tribute-actions {
   display: flex;
-  gap: 10px;
+  gap: 0.5rem;
+}
+
+/* ============================
+   ✍️ TRIBUTE FORM (Seleção de Ícones)
+   ============================ */
+
+.tribute-icon-btn {
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 1rem;
+  padding: 10px;
+  transition: all 0.2s ease;
+  display: inline-block;
+  background: #fff;
+}
+
+.tribute-option {
+  input[type="radio"] {
+    display: none;
+
+    &:checked+.tribute-icon-btn {
+      border-color: #4f0e21;
+      background-color: rgba(79, 14, 33, 0.05);
+      transform: scale(1.1);
+    }
+  }
+}
+
+.tribute-icon-img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
 }
 
 /* ============================
    📱 MOBILE AJUSTES
-============================ */
+ ============================ */
 @media (max-width: 576px) {
-
-  /* Card passa a ser vertical */
   .tribute-body {
     flex-direction: column;
     text-align: center;
-    align-items: center;
   }
 
-  /* Imagem menor */
-  .tribute-image {
-    width: 45px;
-    height: 45px;
+  .tribute-actions {
+    width: 100%;
+    justify-content: center;
+
+    .btn,
+    form {
+      flex: 1;
+    }
+
+    button {
+      width: 100%;
+    }
   }
 
-  /* Mensagem centralizada */
-  .tribute-message {
-    font-size: 0.95rem;
-    text-align: center;
-  }
-
-  /* Rodapé em coluna */
   .tribute-footer {
     flex-direction: column;
     text-align: center;
   }
 
-  /* Botões maiores e em bloco */
-  .tribute-actions {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .tribute-actions a,
-  .tribute-actions button {
-    width: 100%;
-    text-align: center;
+  .message-text {
+    font-size: 1rem;
   }
 }
 
 /* ============================
    🖥️ DESKTOP APRIMORADO
-============================ */
+ ============================ */
 @media (min-width: 768px) {
-  .tribute-message {
+  .message-text {
     font-size: 1.1rem;
   }
 }

@@ -1,7 +1,7 @@
 <main>
   <div class="custom-box p-3 my-2 mx-0">
 
-    <h3 class="mb-4">
+    <h3 class="section-title">
       <i class="bi bi-pencil-square me-2"></i>
       Editar Galeria de Fotos, Áudios e Vídeos
     </h3>
@@ -23,12 +23,8 @@
 
       <!-- 📷 FOTOS -->
       <div class="tab-pane fade show active" id="fotos">
-        <form
-          action="/memorial/{{slug}}/gallery/update/photo"
-          method="POST"
-          enctype="multipart/form-data"
-          class="card p-3"
-        >
+        <form action="/memorial/{{slug}}/gallery/update/photo" method="POST" enctype="multipart/form-data"
+          class="card p-3">
           <input type="file" name="file" accept="image/*" class="form-control mb-3" required>
 
           <input type="hidden" name="slug" value="{{slug}}">
@@ -36,10 +32,10 @@
           <input type="hidden" name="userId" value="{{userId}}">
 
           <div class="d-flex justify-content-end gap-2">
-            <a href="/memorial/{{slug}}/gallery" class="btn-default-memorial">
+            <a href="/memorial/{{slug}}/gallery" class="btn btn-custom-outline rounded-pill px-3 shadow-sm">
               Cancelar
             </a>
-            <button type="submit" class="btn-default-memorial">
+            <button type="submit" class="btn btn-custom-outline rounded-pill px-3 shadow-sm">
               Enviar
             </button>
           </div>
@@ -47,40 +43,33 @@
 
         <div class="row gallery-grid mt-3">
           {{#if gallery.photos.length}}
-            {{#each gallery.photos}}
-              <div class="col-sm-6 col-md-4 col-lg-3 mb-4 position-relative">
+          {{#each gallery.photos}}
+          <div class="col-sm-6 col-md-4 col-lg-3 mb-4 position-relative">
 
-                <a href="{{this.url}}" target="_blank">
-                  <img src="{{this.url}}" class="edit-galeria-foto rounded shadow-sm img-fluid" alt="Foto do memorial {{../slug}}">
-                </a>
+            <a href="{{this.url}}" target="_blank">
+              <img src="{{this.url}}" class="edit-galeria-foto rounded shadow-sm img-fluid"
+                alt="Foto do memorial {{../slug}}">
+            </a>
 
-                <form
-                  action="/memorial/{{../slug}}/gallery/delete/photo"
-                  method="POST"
-                  class="delete-form"
-                >
-                  <input type="hidden" name="key" value="{{this.key}}">
-                  <button type="submit" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 shadow-sm">
-                    <i class="bi bi-trash-fill"></i>
-                  </button>
-                </form>
+            <form action="/memorial/{{../slug}}/gallery/delete/photo" method="POST" class="delete-form">
+              <input type="hidden" name="key" value="{{this.key}}">
+              <button type="submit" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 shadow-sm">
+                <i class="bi bi-trash-fill"></i>
+              </button>
+            </form>
 
-              </div>
-            {{/each}}
+          </div>
+          {{/each}}
           {{else}}
-            <p class="text-muted">Nenhuma foto disponível.</p>
+          <p class="text-muted">Nenhuma foto disponível.</p>
           {{/if}}
         </div>
       </div>
 
       <!-- 🎧 ÁUDIOS -->
       <div class="tab-pane fade" id="audios">
-        <form
-          action="/memorial/{{slug}}/gallery/update/audio"
-          method="POST"
-          enctype="multipart/form-data"
-          class="card p-3"
-        >
+        <form action="/memorial/{{slug}}/gallery/update/audio" method="POST" enctype="multipart/form-data"
+          class="card p-3">
           <input type="file" name="file" accept="audio/*" class="form-control mb-3" required>
 
           <input type="hidden" name="slug" value="{{slug}}">
@@ -88,10 +77,10 @@
           <input type="hidden" name="userId" value="{{userId}}">
 
           <div class="d-flex justify-content-end gap-2">
-            <a href="/memorial/{{slug}}/gallery" class="btn btn-outline-secondary px-4">
+            <a href="/memorial/{{slug}}/gallery" class="btn btn-custom-outline rounded-pill px-3 shadow-sm">
               Cancelar
             </a>
-            <button type="submit" class="btn btn-primary px-4">
+            <button type="submit" class="btn btn-custom-outline rounded-pill px-3 shadow-sm">
               Enviar
             </button>
           </div>
@@ -99,40 +88,32 @@
 
         <div class="row mt-3">
           {{#if gallery.audios.length}}
-            {{#each gallery.audios}}
-              <div class="col-md-6 mb-3 position-relative">
+          {{#each gallery.audios}}
+          <div class="col-md-6 mb-3 position-relative">
 
-                <audio controls class="media-player w-100 border rounded shadow-sm p-2">
-                  <source src="{{this.url}}" type="audio/mpeg">
-                </audio>
+            <audio controls class="media-player w-100 border rounded shadow-sm p-2">
+              <source src="{{this.url}}" type="audio/mpeg">
+            </audio>
 
-                <form
-                  action="/memorial/{{../slug}}/gallery/delete/audio"
-                  method="POST"
-                  class="delete-form"
-                >
-                  <input type="hidden" name="key" value="{{this.key}}">
-                  <button type="submit" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 shadow-sm">
-                    <i class="bi bi-trash-fill"></i>
-                  </button>
-                </form>
+            <form action="/memorial/{{../slug}}/gallery/delete/audio" method="POST" class="delete-form">
+              <input type="hidden" name="key" value="{{this.key}}">
+              <button type="submit" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 shadow-sm">
+                <i class="bi bi-trash-fill"></i>
+              </button>
+            </form>
 
-              </div>
-            {{/each}}
+          </div>
+          {{/each}}
           {{else}}
-            <p class="text-muted">Nenhum áudio disponível.</p>
+          <p class="text-muted">Nenhum áudio disponível.</p>
           {{/if}}
         </div>
       </div>
 
       <!-- 🎬 VÍDEOS -->
       <div class="tab-pane fade" id="videos">
-        <form
-          action="/memorial/{{slug}}/gallery/update/video"
-          method="POST"
-          enctype="multipart/form-data"
-          class="card p-3"
-        >
+        <form action="/memorial/{{slug}}/gallery/update/video" method="POST" enctype="multipart/form-data"
+          class="card p-3">
           <input type="file" name="file" accept="video/*" class="form-control mb-3" required>
 
           <input type="hidden" name="slug" value="{{slug}}">
@@ -140,10 +121,10 @@
           <input type="hidden" name="userId" value="{{userId}}">
 
           <div class="d-flex justify-content-end gap-2">
-            <a href="/memorial/{{slug}}/gallery" class="btn btn-outline-secondary px-4">
+            <a href="/memorial/{{slug}}/gallery" class="btn btn-custom-outline rounded-pill px-3 shadow-sm">
               Cancelar
             </a>
-            <button type="submit" class="btn btn-primary px-4">
+            <button type="submit" class="btn btn-custom-outline rounded-pill px-3 shadow-sm">
               Enviar
             </button>
           </div>
@@ -151,28 +132,24 @@
 
         <div class="row mt-3">
           {{#if gallery.videos.length}}
-            {{#each gallery.videos}}
-              <div class="col-md-6 mb-4 position-relative">
+          {{#each gallery.videos}}
+          <div class="col-md-6 mb-4 position-relative">
 
-                <video controls class="media-player w-100 rounded shadow-sm">
-                  <source src="{{this.url}}" type="video/mp4">
-                </video>
+            <video controls class="media-player w-100 rounded shadow-sm">
+              <source src="{{this.url}}" type="video/mp4">
+            </video>
 
-                <form
-                  action="/memorial/{{../slug}}/gallery/delete/video"
-                  method="POST"
-                  class="delete-form"
-                >
-                  <input type="hidden" name="key" value="{{this.key}}">
-                  <button type="submit" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 shadow-sm">
-                    <i class="bi bi-trash-fill"></i>
-                  </button>
-                </form>
+            <form action="/memorial/{{../slug}}/gallery/delete/video" method="POST" class="delete-form">
+              <input type="hidden" name="key" value="{{this.key}}">
+              <button type="submit" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 shadow-sm">
+                <i class="bi bi-trash-fill"></i>
+              </button>
+            </form>
 
-              </div>
-            {{/each}}
+          </div>
+          {{/each}}
           {{else}}
-            <p class="text-muted">Nenhum vídeo disponível.</p>
+          <p class="text-muted">Nenhum vídeo disponível.</p>
           {{/if}}
         </div>
       </div>

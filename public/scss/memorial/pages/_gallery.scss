@@ -1,76 +1,147 @@
-/* ================================
-    - GALLERY
-================================ */
-ga .nav-tabs .nav-link {
-  border-radius: 8px 8px 0 0;
-  background: #fff;
-  margin-right: 4px;
+/* ============================================================
+   🖼️ GALLERY.SCSS — Design Profissional de Mídia
+   ============================================================ */
+
+@use "../base/variables" as vars;
+
+/* Tabs Customizadas */
+.nav-tabs {
+  border-bottom: 2px solid #eee;
+  gap: 0.5rem;
+
+  .nav-link {
+    border: none;
+    border-radius: 0.75rem 0.75rem 0 0;
+    padding: 0.75rem 1.5rem;
+    color: #666;
+    transition: all 0.3s ease;
+    background: transparent;
+
+    &:hover {
+      background: rgba(79, 14, 33, 0.05);
+      color: var(--bs-primary);
+    }
+
+    &.active {
+      background: #fff;
+      color: var(--bs-primary);
+      font-weight: 700;
+      border-bottom: 3px solid var(--bs-primary);
+    }
+  }
 }
 
-.nav-tabs .nav-link.active {
-  background: #f3dce2;
-  font-weight: bold;
-}
-.btn-edit {
-  background-color: var(--bs-primary); // vinho escuro do tema
+/* Cards de Mídia */
+.gallery-card {
   border: none;
-  color: #fff;
-  font-weight: 600;
-  padding: 8px 18px;
-  border-radius: 10px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.25s ease-in-out;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  border-radius: 1rem;
+  overflow: hidden;
+  background: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 
   &:hover {
-    background-color: #380919; // vinho mais escuro, elegante
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.22);
-  }
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
 
-  &:active {
-    transform: scale(0.96);
+    .gallery-img-zoom {
+      transform: scale(1.05);
+    }
   }
+}
+
+/* Fotos */
+.gallery-img-wrapper {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  cursor: pointer;
+  background: #f8f9fa;
+}
+
+.gallery-img-zoom {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.gallery-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 
   i {
-    font-size: 1.1rem; // deixa o ícone proporcional
+    color: white;
+    font-size: 2rem;
   }
 }
-.btn-edit-outline {
-  border: 1px solid var(--bs-primary);
-  color: var(--bs-primary);
-  background: transparent;
-  padding: 8px 16px;
-  border-radius: var(--bs-border-radius);
-  font-weight: 500;
-  transition: 0.3s ease;
+
+.gallery-card:hover .gallery-overlay {
+  opacity: 1;
 }
 
-.btn-edit-outline:hover {
-  background: var(--bs-primary);
-  color: #fff;
-}
-/* 🔳 Galeria em 2 colunas */
-.gallery-grid .col-6 {
-  padding: 8px;
+/* Áudios */
+.audio-card-body {
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #fff 0%, #fcf7f8 100%);
 }
 
-/* 📷 Fotos com tamanho padronizado */
-.galeria-foto {
-  width: 100%;
-  height: 440px;
-  object-fit: cover;
-  object-position: center;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+.media-player-custom {
+  filter: sepia(20%) saturate(70%) hue-rotate(300deg);
+  /* Aproxima do tom vinho discretamente */
+  height: 45px;
 }
-/* Fotos pequenas no modo edição */
-.edit-galeria-foto {
+
+/* Vídeos */
+.video-wrapper {
+  position: relative;
   width: 100%;
-  height: 140px; // você pode ajustar
+  padding-top: 56.25%;
+  /* 16:9 Aspect Ratio */
+  background: #000;
+
+  video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+/* Edição */
+.edit-gallery-thumb {
+  width: 100%;
+  height: 150px;
   object-fit: cover;
-  object-position: center;
-  border-radius: 8px;
+  border-radius: 0.5rem;
+}
+
+/* Responsividade Mobile */
+@media (max-width: 768px) {
+  .nav-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 2px;
+
+    .nav-link {
+      white-space: nowrap;
+      padding: 0.5rem 1rem;
+    }
+  }
+
+  .gallery-img-wrapper {
+    aspect-ratio: 1/1;
+    /* Quadrados no mobile ficam bons */
+  }
 }

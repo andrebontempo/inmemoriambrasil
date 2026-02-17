@@ -1,0 +1,70 @@
+/* ============================================================
+   🏠 HOME.SCSS — Estilos específicos da Página Inicial
+   ============================================================ */
+
+@use "variables" as vars;
+
+/* Tutorial e Vídeo */
+.home-video {
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
+
+.home-tutorial-badge {
+    z-index: 2;
+}
+
+.text-xxs {
+    font-size: 0.7rem;
+}
+
+/* Decoração e Divisores */
+.home-decoration-line {
+    width: 60px;
+    height: 4px;
+    border-radius: 2px;
+}
+
+.home-decoration-line-small {
+    width: 40px;
+    height: 3px;
+    border-radius: 2px;
+}
+
+/* Memoriais em Destaque */
+.home-memorial-img {
+    height: 280px;
+    object-fit: cover;
+}
+
+/* Passos "Como Funciona" */
+.home-step-icon {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    min-height: 60px;
+    flex-shrink: 0;
+    font-size: 1.5rem;
+}
+
+/* Utilitários e Animações Transladados */
+.hover-up {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1) !important;
+    }
+}
+
+.shadow-2xl {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.tracking-widest {
+    letter-spacing: 0.1em;
+}
+
+.transition-transform {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}

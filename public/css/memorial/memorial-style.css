@@ -640,84 +640,144 @@ iframe {
 /* ------------------------------
    📄 Estilos específicos de páginas
    ------------------------------ */
-/* ================================
-    - GALLERY
-================================ */
-ga .nav-tabs .nav-link {
-  border-radius: 8px 8px 0 0;
-  background: #fff;
-  margin-right: 4px;
+/* ------------------------------
+   🎨 Base global
+   ------------------------------ */
+/* ============================================================
+   🖼️ GALLERY.SCSS — Design Profissional de Mídia
+   ============================================================ */
+/* Tabs Customizadas */
+.nav-tabs {
+  border-bottom: 2px solid #eee;
+  gap: 0.5rem;
 }
-
-.nav-tabs .nav-link.active {
-  background: #f3dce2;
-  font-weight: bold;
-}
-
-.btn-edit {
-  background-color: var(--bs-primary);
+.nav-tabs .nav-link {
   border: none;
-  color: #fff;
-  font-weight: 600;
-  padding: 8px 18px;
-  border-radius: 10px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.25s ease-in-out;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-}
-.btn-edit:hover {
-  background-color: #380919;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.22);
-}
-.btn-edit:active {
-  transform: scale(0.96);
-}
-.btn-edit i {
-  font-size: 1.1rem;
-}
-
-.btn-edit-outline {
-  border: 1px solid var(--bs-primary);
-  color: var(--bs-primary);
+  border-radius: 0.75rem 0.75rem 0 0;
+  padding: 0.75rem 1.5rem;
+  color: #666;
+  transition: all 0.3s ease;
   background: transparent;
-  padding: 8px 16px;
-  border-radius: var(--bs-border-radius);
-  font-weight: 500;
-  transition: 0.3s ease;
+}
+.nav-tabs .nav-link:hover {
+  background: rgba(79, 14, 33, 0.05);
+  color: var(--bs-primary);
+}
+.nav-tabs .nav-link.active {
+  background: #fff;
+  color: var(--bs-primary);
+  font-weight: 700;
+  border-bottom: 3px solid var(--bs-primary);
 }
 
-.btn-edit-outline:hover {
-  background: var(--bs-primary);
-  color: #fff;
+/* Cards de Mídia */
+.gallery-card {
+  border: none;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+.gallery-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+.gallery-card:hover .gallery-img-zoom {
+  transform: scale(1.05);
 }
 
-/* 🔳 Galeria em 2 colunas */
-.gallery-grid .col-6 {
-  padding: 8px;
+/* Fotos */
+.gallery-img-wrapper {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  cursor: pointer;
+  background: #f8f9fa;
 }
 
-/* 📷 Fotos com tamanho padronizado */
-.galeria-foto {
+.gallery-img-zoom {
   width: 100%;
-  height: 440px;
+  height: 100%;
   object-fit: cover;
-  object-position: center;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: transform 0.5s ease;
 }
 
-/* Fotos pequenas no modo edição */
-.edit-galeria-foto {
+.gallery-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 140px;
-  object-fit: cover;
-  object-position: center;
-  border-radius: 8px;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.gallery-overlay i {
+  color: white;
+  font-size: 2rem;
 }
 
+.gallery-card:hover .gallery-overlay {
+  opacity: 1;
+}
+
+/* Áudios */
+.audio-card-body {
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #fff 0%, #fcf7f8 100%);
+}
+
+.media-player-custom {
+  filter: sepia(20%) saturate(70%) hue-rotate(300deg);
+  /* Aproxima do tom vinho discretamente */
+  height: 45px;
+}
+
+/* Vídeos */
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  /* 16:9 Aspect Ratio */
+  background: #000;
+}
+.video-wrapper video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Edição */
+.edit-gallery-thumb {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+/* Responsividade Mobile */
+@media (max-width: 768px) {
+  .nav-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+  .nav-tabs .nav-link {
+    white-space: nowrap;
+    padding: 0.5rem 1rem;
+  }
+  .gallery-img-wrapper {
+    aspect-ratio: 1/1;
+    /* Quadrados no mobile ficam bons */
+  }
+}
 /* ==============================
    Life Story Cards
    ============================== */
@@ -1069,29 +1129,71 @@ ga .nav-tabs .nav-link {
   border-radius: 12px;
 }
 
-/* ============================
-   🎗️ TRIBUTE CARDS
-============================ */
+/* ============================================================
+   🎗️ TRIBUTE.SCSS — Estilos da Página de Homenagens
+   ============================================================ */
+/* Botões Customizados para Homenagens */
+.btn-custom-outline {
+  color: #4f0e21;
+  border: 1px solid #4f0e21;
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+.btn-custom-outline:hover {
+  background-color: #4f0e21;
+  color: white;
+}
+
+.btn-custom-fill {
+  background-color: #4f0e21;
+  color: white;
+  border: 1px solid #4f0e21;
+  transition: all 0.3s ease;
+}
+.btn-custom-fill:hover {
+  background-color: #6a132c;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Tribute Cards (Visualização) */
 .tribute-card {
   background: #fff;
-  border-radius: 12px;
-  padding: 15px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: none;
+}
+.tribute-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1) !important;
 }
 
 .tribute-body {
   display: flex;
-  gap: 15px;
+  gap: 1.5rem;
+  align-items: center;
 }
 
 /* Ícone */
 .tribute-image-box {
   flex-shrink: 0;
+  text-align: center;
 }
 
-.tribute-image {
-  width: 60px;
-  height: 60px;
+.tribute-icon-container {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  padding: 1rem;
+  display: inline-block;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  border: 1px solid #eee;
+}
+.tribute-icon-container img {
+  max-height: 60px;
+  height: auto;
   object-fit: contain;
 }
 
@@ -1100,10 +1202,11 @@ ga .nav-tabs .nav-link {
   flex: 1;
 }
 
-.tribute-message {
-  font-size: 1rem;
-  margin-bottom: 10px;
-  line-height: 1.4;
+.message-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #444;
+  font-style: italic;
 }
 
 .tribute-footer {
@@ -1111,60 +1214,81 @@ ga .nav-tabs .nav-link {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
 }
 
 .tribute-author {
-  font-size: 0.85rem;
-  color: #555;
+  font-size: 0.875rem;
+  color: #6c757d;
 }
 
 .tribute-actions {
   display: flex;
-  gap: 10px;
+  gap: 0.5rem;
+}
+
+/* ============================
+   ✍️ TRIBUTE FORM (Seleção de Ícones)
+   ============================ */
+.tribute-icon-btn {
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 1rem;
+  padding: 10px;
+  transition: all 0.2s ease;
+  display: inline-block;
+  background: #fff;
+}
+
+.tribute-option input[type=radio] {
+  display: none;
+}
+.tribute-option input[type=radio]:checked + .tribute-icon-btn {
+  border-color: #4f0e21;
+  background-color: rgba(79, 14, 33, 0.05);
+  transform: scale(1.1);
+}
+
+.tribute-icon-img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
 }
 
 /* ============================
    📱 MOBILE AJUSTES
-============================ */
+ ============================ */
 @media (max-width: 576px) {
-  /* Card passa a ser vertical */
   .tribute-body {
     flex-direction: column;
     text-align: center;
-    align-items: center;
   }
-  /* Imagem menor */
-  .tribute-image {
-    width: 45px;
-    height: 45px;
-  }
-  /* Mensagem centralizada */
-  .tribute-message {
-    font-size: 0.95rem;
-    text-align: center;
-  }
-  /* Rodapé em coluna */
-  .tribute-footer {
-    flex-direction: column;
-    text-align: center;
-  }
-  /* Botões maiores e em bloco */
   .tribute-actions {
     width: 100%;
     justify-content: center;
   }
-  .tribute-actions a,
+  .tribute-actions .btn,
+  .tribute-actions form {
+    flex: 1;
+  }
   .tribute-actions button {
     width: 100%;
+  }
+  .tribute-footer {
+    flex-direction: column;
     text-align: center;
+  }
+  .message-text {
+    font-size: 1rem;
   }
 }
 /* ============================
    🖥️ DESKTOP APRIMORADO
-============================ */
+ ============================ */
 @media (min-width: 768px) {
-  .tribute-message {
+  .message-text {
     font-size: 1.1rem;
   }
 }

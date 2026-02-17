@@ -3,154 +3,154 @@
   <div class="custom-box p-3 my-2 mx-0">
 
     <!-- Título -->
-    <h3 class="mb-3">
-      <i class="bi bi-collection me-2"></i>
-      Galeria de Fotos, Áudios e Vídeos
+    <h3 class="section-title">
+      <i class="bi bi-collection-play me-2"></i>
+      Galeria de Memórias
     </h3>
 
-    <!-- Tabs -->
-    <ul class="nav nav-tabs fw-semibold" id="myTab" role="tablist">
-      <li class="nav-item">
-        <a
-          class="nav-link active text-dark"
-          data-bs-toggle="tab"
-          href="#fotos"
-          role="tab"
-        >
+    <!-- Tabs Profissionais -->
+    <ul class="nav nav-tabs fw-semibold mt-4" id="galleryTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="fotos-tab" data-bs-toggle="tab" data-bs-target="#fotos" type="button"
+          role="tab" aria-controls="fotos" aria-selected="true">
           📷 Fotos
-        </a>
+        </button>
       </li>
-      <li class="nav-item">
-        <a
-          class="nav-link text-dark"
-          data-bs-toggle="tab"
-          href="#audios"
-          role="tab"
-        >
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="audios-tab" data-bs-toggle="tab" data-bs-target="#audios" type="button" role="tab"
+          aria-controls="audios" aria-selected="false">
           🎧 Áudios
-        </a>
+        </button>
       </li>
-      <li class="nav-item">
-        <a
-          class="nav-link text-dark"
-          data-bs-toggle="tab"
-          href="#videos"
-          role="tab"
-        >
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="videos-tab" data-bs-toggle="tab" data-bs-target="#videos" type="button" role="tab"
+          aria-controls="videos" aria-selected="false">
           🎬 Vídeos
-        </a>
+        </button>
       </li>
     </ul>
 
     <!-- Conteúdo das abas -->
-    <div class="tab-content mt-3" id="myTabContent">
+    <div class="tab-content mt-4" id="galleryTabContent">
 
-      <!-- ============================
-           📸 FOTOS
-      ============================ -->
-      <div class="tab-pane fade show active" id="fotos" role="tabpanel">
-        <div class="card p-3">
-
-          <!-- Grid de fotos -->
-          <div class="row gallery-grid">
-            {{#if gallery.photos.length}}
-              {{#each gallery.photos}}
-                <div class="col-12 col-md-6 mb-4">
-                  <a href="{{this.url}}" target="_blank">
-                    <img
-                      src="{{this.url}}"
-                      class="galeria-foto rounded shadow-sm img-fluid"
-                      alt="Foto do memorial"
-                    />
-                  </a>
+      <!-- ============================ 📸 FOTOS ============================ -->
+      <div class="tab-pane fade show active" id="fotos" role="tabpanel" aria-labelledby="fotos-tab">
+        <div class="row g-4">
+          {{#if gallery.photos.length}}
+          {{#each gallery.photos}}
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="gallery-card shadow-sm" data-bs-toggle="modal" data-bs-target="#lightboxModal"
+              onclick="showLightbox('{{this.url}}')">
+              <div class="gallery-img-wrapper">
+                <img src="{{this.url}}" class="gallery-img-zoom" alt="Foto do memorial">
+                <div class="gallery-overlay">
+                  <i class="bi bi-zoom-in"></i>
                 </div>
-              {{/each}}
-            {{else}}
-              <p class="text-muted">Nenhuma foto disponível.</p>
-            {{/if}}
+              </div>
+            </div>
           </div>
-
-          <!-- Botão Editar Galeria -->
-          <div class="d-flex justify-content-end mt-3">
-            <a
-              href="/memorial/{{slug}}/gallery/edit/{{id}}"
-              class="btn-default-memorial"
-            >
-              <i class="bi bi-pencil-square me-2"></i>Editar Galeria
-            </a>
+          {{/each}}
+          {{else}}
+          <div class="col-12 py-5 text-center">
+            <p class="text-muted"><i class="bi bi-image me-2"></i>Nenhuma foto disponível.</p>
           </div>
+          {{/if}}
         </div>
-      </di
 
-      <!-- ============================
-           🎧 ÁUDIOS
-      ============================ -->
-      <div class="tab-pane fade" id="audios" role="tabpanel">
-        <div class="card p-3">
-          <div class="row">
-            {{#if gallery.audios.length}}
-              {{#each gallery.audios}}
-                <div class="col-md-6 mb-3">
-                  <audio
-                    controls
-                    class="media-player w-100 border rounded shadow-sm p-2"
-                  >
-                    <source src="{{this.url}}" type="audio/mpeg" />
-                    Seu navegador não suporta áudio.
-                  </audio>
-                </div>
-              {{/each}}
-            {{else}}
-              <p class="text-muted">Nenhum áudio disponível.</p>
-            {{/if}}
-          </div>
-
-          <!-- Botão -->
-          <div class="d-flex justify-content-end mt-3">
-            <a
-              href="/memorial/{{slug}}/gallery/edit/{{id}}"
-              class="btn-edit-outline"
-            >
-              <i class="bi bi-pencil-square me-2"></i>Editar Galeria
-            </a>
-          </div>
-
+        <div class="d-flex justify-content-end mt-4">
+          <a href="/memorial/{{slug}}/gallery/edit/{{id}}" class="btn btn-custom-outline btn-sm rounded-pill px-3">
+            <i class="bi bi-pencil-square me-2"></i>Editar Galeria
+          </a>
         </div>
       </div>
 
-      <!-- ============================
-           🎬 VÍDEOS
-      ============================ -->
-      <div class="tab-pane fade" id="videos" role="tabpanel">
-        <div class="card p-3">
-          <div class="row">
-            {{#if gallery.videos.length}}
-              {{#each gallery.videos}}
-                <div class="col-md-6 mb-4">
-                  <video controls class="media-player w-100 rounded shadow-sm">
-                    <source src="{{this.url}}" type="video/mp4" />
-                    Seu navegador não suporta vídeos.
-                  </video>
+      <!-- ============================ 🎧 ÁUDIOS ============================ -->
+      <div class="tab-pane fade" id="audios" role="tabpanel" aria-labelledby="audios-tab">
+        <div class="row g-4">
+          {{#if gallery.audios.length}}
+          {{#each gallery.audios}}
+          <div class="col-12 col-md-6">
+            <div class="gallery-card">
+              <div class="audio-card-body">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                  <div class="bg-primary bg-opacity-10 p-2 rounded-circle">
+                    <i class="bi bi-mic-fill text-primary"></i>
+                  </div>
+                  <span class="fw-bold text-dark">Arquivo de Áudio #{{@index}}</span>
                 </div>
-              {{/each}}
-            {{else}}
-              <p class="text-muted">Nenhum vídeo disponível.</p>
-            {{/if}}
+                <audio controls class="w-100 media-player-custom">
+                  <source src="{{this.url}}" type="audio/mpeg">
+                  Seu navegador não suporta áudio.
+                </audio>
+              </div>
+            </div>
           </div>
-
-          <!-- Botão -->
-          <div class="d-flex justify-content-end mt-3">
-            <a
-              href="/memorial/{{slug}}/gallery/edit/{{id}}"
-              class="btn-edit-outline"
-            >
-              <i class="bi bi-pencil-square me-2"></i>Editar Galeria
-            </a>
+          {{/each}}
+          {{else}}
+          <div class="col-12 py-5 text-center">
+            <p class="text-muted"><i class="bi bi-mic-mute me-2"></i>Nenhum áudio disponível.</p>
           </div>
+          {{/if}}
+        </div>
 
+        <div class="d-flex justify-content-end mt-4">
+          <a href="/memorial/{{slug}}/gallery/edit/{{id}}" class="btn btn-custom-outline btn-sm rounded-pill px-3">
+            <i class="bi bi-pencil-square me-2"></i>Editar Galeria
+          </a>
+        </div>
+      </div>
+
+      <!-- ============================ 🎬 VÍDEOS ============================ -->
+      <div class="tab-pane fade" id="videos" role="tabpanel" aria-labelledby="videos-tab">
+        <div class="row g-4">
+          {{#if gallery.videos.length}}
+          {{#each gallery.videos}}
+          <div class="col-12 col-md-6">
+            <div class="gallery-card">
+              <div class="video-wrapper">
+                <video controls>
+                  <source src="{{this.url}}" type="video/mp4">
+                  Seu navegador não suporta vídeos.
+                </video>
+              </div>
+            </div>
+          </div>
+          {{/each}}
+          {{else}}
+          <div class="col-12 py-5 text-center">
+            <p class="text-muted"><i class="bi bi-play-btn me-2"></i>Nenhum vídeo disponível.</p>
+          </div>
+          {{/if}}
+        </div>
+
+        <div class="d-flex justify-content-end mt-4">
+          <a href="/memorial/{{slug}}/gallery/edit/{{id}}" class="btn btn-custom-outline btn-sm rounded-pill px-3">
+            <i class="bi bi-pencil-square me-2"></i>Editar Galeria
+          </a>
         </div>
       </div>
 
     </div>
   </div>
+
+  <!-- Modal Lightbox para Fotos -->
+  <div class="modal fade" id="lightboxModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content bg-transparent border-0 shadow-none">
+        <div class="modal-header border-0 p-0 position-absolute top-0 end-0 m-3" style="z-index: 10;">
+          <button type="button" class="btn-close btn-close-white shadow-none" data-bs-dismiss="modal"
+            aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-0 text-center">
+          <img src="" id="lightboxImg" class="img-fluid rounded-4 shadow-lg" style="max-height: 85vh;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showLightbox(url) {
+      document.getElementById('lightboxImg').src = url;
+    }
+  </script>
 </main>
