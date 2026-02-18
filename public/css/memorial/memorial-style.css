@@ -692,6 +692,7 @@ iframe {
   position: relative;
   overflow: hidden;
   aspect-ratio: 4/3;
+  /* Tamanho uniforme para todas */
   cursor: pointer;
   background: #f8f9fa;
 }
@@ -700,6 +701,8 @@ iframe {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* Preenche sem distorcer */
+  display: block;
   transition: transform 0.5s ease;
 }
 
@@ -723,6 +726,18 @@ iframe {
 
 .gallery-card:hover .gallery-overlay {
   opacity: 1;
+}
+
+.gallery-caption-small {
+  padding: 0.5rem;
+  font-size: 0.85rem;
+  text-align: center;
+  color: #666;
+  border-top: 1px solid #eee;
+  background: #fdfdfd;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Áudios */
@@ -778,23 +793,31 @@ iframe {
     /* Quadrados no mobile ficam bons */
   }
 }
-/* ==============================
-   Life Story Cards
-   ============================== */
+/* ============================================================
+   📖 LIFESTORY.SCSS — Estilos da História de Vida
+   ============================================================ */
+/* Card de História */
 .life-card {
   background: #fff;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
-  margin-bottom: 20px;
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.life-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1) !important;
 }
 
 .life-content {
   display: flex;
-  justify-content: space-between;
-  gap: 20px;
+  gap: 1.5rem;
+  align-items: flex-start;
 }
 
+/* Texto da História */
 .life-text {
   flex: 1;
 }
@@ -803,330 +826,144 @@ iframe {
   margin: 0;
   font-weight: 700;
   color: var(--bs-primary);
+  font-size: 1.3rem;
 }
 
 .life-date {
-  font-size: 0.85rem;
-  color: #777;
-  margin-bottom: 10px;
-  display: block;
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .life-body {
-  font-size: 1.1rem;
-  color: #333;
-  margin-top: 10px;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #444;
+  margin-bottom: 1.5rem;
+  text-align: justify;
 }
 
+/* Imagem da História */
+.life-image {
+  flex-shrink: 0;
+}
 .life-image img {
-  width: 110px;
-  height: 110px;
+  width: 140px;
+  height: 140px;
   object-fit: cover;
-  border-radius: 10px;
-  border: 2px solid var(--bs-primary);
+  border-radius: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #eee;
 }
 
-/* Footer da história */
+/* Rodapé e Ações */
 .life-footer {
-  margin-top: 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
 }
 
 .life-author {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: #888;
 }
 
-/* Ícones discretos */
 .life-actions {
   display: flex;
-  gap: 10px;
+  gap: 0.5rem;
 }
 .life-actions form {
   margin: 0;
 }
 
-.life-icon {
-  background: none;
-  border: none;
-  padding: 4px;
-  font-size: 1.1rem;
-  cursor: pointer;
-  color: #777;
-  transition: 0.2s ease;
-}
-.life-icon:hover {
-  color: var(--bs-primary);
-}
-.life-icon.delete:hover {
-  color: #a00;
-}
-
-/* Responsivo */
-@media (max-width: 768px) {
-  .life-content {
-    flex-direction: column-reverse;
-    text-align: left;
-  }
-  .life-image img {
-    width: 100%;
-    height: auto;
-  }
-}
-/* ==============================
-   Formulário de História de Vida
-   ============================== */
+/* ============================================================
+   ✍️ LIFE STORY FORM
+   ============================================================ */
 .life-form-box {
-  margin: 20px 0;
-}
-
-.life-form-title {
-  font-weight: 700;
-  color: var(--bs-primary);
-  margin-bottom: 10px;
+  margin-top: 1rem;
 }
 
 .life-form-card {
   background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  padding: 2rem;
+  border-radius: 1.25rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-/* Labels */
 .life-label {
   font-weight: 600;
   color: var(--bs-primary);
-  margin-bottom: 5px;
+  margin-bottom: 0.5rem;
   display: block;
+  font-size: 0.95rem;
 }
 
-/* Inputs */
 .life-input {
   width: 100%;
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid #eee;
   font-size: 1rem;
-  transition: 0.3s ease;
+  transition: all 0.3s ease;
+  background-color: #fdfcfc;
 }
 .life-input:focus {
   border-color: var(--bs-primary);
-  box-shadow: 0 0 0 3px rgba(79, 14, 33, 0.15);
+  box-shadow: 0 0 0 4px rgba(79, 14, 33, 0.1);
   outline: none;
+  background-color: #fff;
 }
 
-/* Footer */
-.life-form-footer {
-  margin-top: 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* ============================================================
+   📱 MOBILE AJUSTES
+   ============================================================ */
+@media (max-width: 576px) {
+  .life-content {
+    flex-direction: column;
+    /* Imagem no topo */
+    text-align: left;
+  }
+  .life-image {
+    width: 100%;
+  }
+  .life-image img {
+    width: 100%;
+    height: 200px;
+    border-radius: 0.75rem;
+  }
+  .life-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .life-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .life-actions a,
+  .life-actions form,
+  .life-actions button {
+    flex: 1;
+    width: 100%;
+  }
 }
-
-.life-submit-btn {
-  background: #ffffff;
-  color: var(--bs-primary);
-  border: 2px solid var(--bs-primary);
-  padding: 8px 18px;
-  border-radius: 50px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-}
-.life-submit-btn:hover {
-  background: var(--bs-primary);
-  color: #fff;
-}
-
-/* ===============================================
-   LifeStory — Página de edição
-   =============================================== */
+/* Edição */
 .custom-story-img {
-  width: 180px;
-  max-height: 180px;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  aspect-ratio: 1/1;
   object-fit: cover;
-  border-radius: 12px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-}
-
-/* Botões iguais ao padrão tributo/lifestory */
-.life-mini-btn {
-  background: rgba(79, 14, 33, 0.1);
-  color: #4f0e21;
-  border: 1px solid rgba(79, 14, 33, 0.2);
-  padding: 6px 12px;
-  border-radius: 12px;
-  font-size: 0.82rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 500;
-  transition: 0.25s ease;
-}
-
-.life-mini-btn:hover {
-  background: rgba(79, 14, 33, 0.18);
-  border-color: rgba(79, 14, 33, 0.35);
-}
-
-.life-mini-btn i {
-  font-size: 0.9rem;
-  margin-top: 1px;
-}
-
-/* ======================================================
-   Caixa de introdução — Caminho Percorrido
-   ====================================================== */
-.intro-box {
-  background: rgba(79, 14, 33, 0.07);
-  border: 1px solid rgba(79, 14, 33, 0.15);
-  border-radius: 18px;
-  padding: 20px 22px;
-  margin-bottom: 16px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-}
-
-.section-title {
-  font-size: 1.4rem;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #2a0a11;
-}
-
-.section-text {
-  font-size: 0.98rem;
-  line-height: 1.55;
-  color: #3a1a22;
-  text-align: justify;
-}
-
-/* ==========================================================
-   TRIBUTOS (Homenagens) — Mesmo design das histórias
-   ========================================================== */
-.tribute-card {
-  background: #fff;
-  border-radius: 14px;
-  padding: 18px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-.tribute-body {
-  display: flex;
-  align-items: flex-start;
-  gap: 18px;
-}
-
-.tribute-content {
-  flex-grow: 1;
-}
-
-.tribute-message {
-  font-size: 1.15rem;
-  margin-bottom: 6px;
-}
-
-.tribute-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 12px;
-  font-size: 0.8rem;
-  color: #6c757d;
-}
-
-.tribute-actions {
-  display: flex;
-  gap: 6px;
-}
-
-.mini-btn {
-  background: #4f0e21;
-  color: #fff;
-  border: none;
-  padding: 6px 10px;
-  border-radius: 8px;
-  font-size: 0.8rem;
-  transition: opacity 0.2s ease;
-}
-
-.mini-btn:hover {
-  opacity: 0.8;
-}
-
-.tribute-image-box {
-  min-width: 70px;
-  display: flex;
-  justify-content: center;
-}
-
-.tribute-image {
-  width: 60px;
-  height: 60px;
-  object-fit: contain;
-}
-
-/*formulário TRIBUTOS*/
-.tribute-options {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-bottom: 18px;
-}
-
-.tribute-option {
-  text-align: center;
-  cursor: pointer;
-}
-
-.tribute-option img {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-  margin-bottom: 6px;
-}
-
-.tribute-option input {
-  transform: scale(1.2);
-}
-
-/*mais para tributo EDIT*/
-/* Caixa padrão usada no memorial */
-.custom-box {
-  background: #fff;
-  border-radius: 20px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-}
-
-/* Versão com fundo vinho clarinho */
-.custom-light-wine {
-  background-color: #f8e9ed !important;
-}
-
-/* Cards internos */
-.custom-inner-card {
-  border-radius: 15px;
-  border: 1px solid rgba(79, 14, 33, 0.15);
-}
-
-/* Ícones das opções de tributo */
-.edit-icon {
-  width: 40px;
-  height: 40px;
-  object-fit: cover;
-  pointer-events: none;
-  margin-bottom: 10px;
-}
-
-/* Campos de texto */
-.edit-input {
-  border-radius: 12px;
+  border-radius: 1rem;
+  border: 1px solid #eee;
 }
 
 /* ============================================================

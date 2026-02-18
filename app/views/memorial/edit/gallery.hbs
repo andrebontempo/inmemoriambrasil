@@ -1,10 +1,12 @@
 <main>
   <div class="custom-box p-3 my-2 mx-0">
 
-    <h3 class="section-title">
-      <i class="bi bi-pencil-square me-2"></i>
-      Editar Galeria de Fotos, Áudios e Vídeos
-    </h3>
+    <div class="mb-4">
+      <h3 class="section-title mb-0">
+        <i class="bi bi-pencil-square me-2"></i>
+        Editar Galeria
+      </h3>
+    </div>
 
     <!-- Tabs -->
     <ul class="nav nav-tabs fw-semibold" id="editGalleryTabs" role="tablist">
@@ -21,139 +23,225 @@
 
     <div class="tab-content mt-3">
 
-      <!-- 📷 FOTOS -->
+      <!-- ============================ 📸 FOTOS ============================ -->
       <div class="tab-pane fade show active" id="fotos">
         <form action="/memorial/{{slug}}/gallery/update/photo" method="POST" enctype="multipart/form-data"
-          class="card p-3">
-          <input type="file" name="file" accept="image/*" class="form-control mb-3" required>
-
-          <input type="hidden" name="slug" value="{{slug}}">
-          <input type="hidden" name="memorialId" value="{{memorialId}}">
-          <input type="hidden" name="userId" value="{{userId}}">
+          class="card p-4 border-0 shadow-sm rounded-4 mb-4 bg-white">
+          <div class="mb-3">
+            <label class="form-label fw-bold small text-uppercase text-muted">Selecionar Foto</label>
+            <input type="file" name="file" accept="image/*" class="form-control bg-white" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold small text-uppercase text-muted">Legenda (Opcional)</label>
+            <input type="text" name="caption" class="form-control bg-white" placeholder="Descreva esta foto...">
+          </div>
 
           <div class="d-flex justify-content-end gap-2">
-            <a href="/memorial/{{slug}}/gallery" class="btn btn-custom-outline rounded-pill px-3 shadow-sm">
-              Cancelar
-            </a>
-            <button type="submit" class="btn btn-custom-outline rounded-pill px-3 shadow-sm">
-              Enviar
+            <button type="submit" class="btn btn-custom-outline rounded-pill px-4">
+              <i class="bi bi-cloud-upload me-2"></i>Enviar Foto
             </button>
           </div>
         </form>
 
-        <div class="row gallery-grid mt-3">
+        <h5 class="fw-bold mb-3"><i class="bi bi-images me-2"></i>Fotos da Galeria</h5>
+        <div class="mt-2">
           {{#if gallery.photos.length}}
-          {{#each gallery.photos}}
-          <div class="col-sm-6 col-md-4 col-lg-3 mb-4 position-relative">
+          <div class="list-group list-group-flush gap-3">
+            {{#each gallery.photos}}
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white p-3">
+              <div class="row g-3 align-items-center">
+                <!-- Miniatura -->
+                <div class="col-auto">
+                  <div class="rounded-3 overflow-hidden shadow-sm d-flex justify-content-center"
+                    style="width: 80px; height: 80px;">
+                    <img src="{{this.url}}" class="w-100 h-100 object-fit-cover" alt="Foto">
+                  </div>
+                </div>
 
-            <a href="{{this.url}}" target="_blank">
-              <img src="{{this.url}}" class="edit-galeria-foto rounded shadow-sm img-fluid"
-                alt="Foto do memorial {{../slug}}">
-            </a>
-
-            <form action="/memorial/{{../slug}}/gallery/delete/photo" method="POST" class="delete-form">
-              <input type="hidden" name="key" value="{{this.key}}">
-              <button type="submit" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 shadow-sm">
-                <i class="bi bi-trash-fill"></i>
-              </button>
-            </form>
-
+                <!-- Formulário e Ações -->
+                <div class="col">
+                  <div class="row g-2 align-items-end">
+                    <div class="col-12 col-lg">
+                      <form id="form-photo-{{@index}}" action="/memorial/{{../slug}}/gallery/caption/photo"
+                        method="POST">
+                        <input type="hidden" name="key" value="{{this.key}}">
+                        <label class="small fw-bold text-muted text-uppercase mb-1">Legenda da Foto</label>
+                        <input type="text" name="caption" class="form-control border-0 bg-white shadow-sm"
+                          placeholder="Adicione uma legenda..." value="{{this.caption}}">
+                      </form>
+                    </div>
+                    <div class="col-12 col-lg-auto d-flex gap-2">
+                      <button type="submit" form="form-photo-{{@index}}"
+                        class="btn btn-custom-outline rounded-pill px-3 flex-grow-1">
+                        <i class="bi bi-check-lg me-1"></i>Salvar
+                      </button>
+                      <form action="/memorial/{{../slug}}/gallery/delete/photo" method="POST"
+                        onsubmit="return confirm('Excluir esta foto?');" class="flex-grow-1">
+                        <input type="hidden" name="key" value="{{this.key}}">
+                        <button type="submit" class="btn btn-outline-danger rounded-pill px-3 w-100">
+                          <i class="bi bi-trash3 me-1"></i>Excluir
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {{/each}}
           </div>
-          {{/each}}
           {{else}}
-          <p class="text-muted">Nenhuma foto disponível.</p>
+          <p class="text-muted text-center py-4 bg-white rounded-4 shadow-sm">Nenhuma foto disponível.</p>
           {{/if}}
         </div>
       </div>
 
-      <!-- 🎧 ÁUDIOS -->
+      <!-- ============================ 🎧 ÁUDIOS ============================ -->
       <div class="tab-pane fade" id="audios">
         <form action="/memorial/{{slug}}/gallery/update/audio" method="POST" enctype="multipart/form-data"
-          class="card p-3">
-          <input type="file" name="file" accept="audio/*" class="form-control mb-3" required>
-
-          <input type="hidden" name="slug" value="{{slug}}">
-          <input type="hidden" name="memorialId" value="{{memorialId}}">
-          <input type="hidden" name="userId" value="{{userId}}">
+          class="card p-4 border-0 shadow-sm rounded-4 mb-4 bg-white">
+          <div class="mb-3">
+            <label class="form-label fw-bold small text-uppercase text-muted">Selecionar Áudio</label>
+            <input type="file" name="file" accept="audio/*" class="form-control bg-white" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold small text-uppercase text-muted">Legenda (Opcional)</label>
+            <input type="text" name="caption" class="form-control bg-white" placeholder="Descreva este áudio...">
+          </div>
 
           <div class="d-flex justify-content-end gap-2">
-            <a href="/memorial/{{slug}}/gallery" class="btn btn-custom-outline rounded-pill px-3 shadow-sm">
-              Cancelar
-            </a>
-            <button type="submit" class="btn btn-custom-outline rounded-pill px-3 shadow-sm">
-              Enviar
+            <button type="submit" class="btn btn-custom-outline rounded-pill px-4">
+              <i class="bi bi-mic-fill me-2"></i>Enviar Áudio
             </button>
           </div>
         </form>
 
-        <div class="row mt-3">
+        <h5 class="fw-bold mb-3"><i class="bi bi-mic-fill me-2"></i>Áudios da Galeria</h5>
+        <div class="mt-2">
           {{#if gallery.audios.length}}
-          {{#each gallery.audios}}
-          <div class="col-md-6 mb-3 position-relative">
+          <div class="list-group list-group-flush gap-3">
+            {{#each gallery.audios}}
+            <div class="card border-0 shadow-sm rounded-4 bg-white p-3">
+              <div class="row g-3 align-items-center">
+                <div class="col-12 col-md-5">
+                  <audio controls class="w-100">
+                    <source src="{{this.url}}" type="audio/mpeg">
+                  </audio>
+                </div>
 
-            <audio controls class="media-player w-100 border rounded shadow-sm p-2">
-              <source src="{{this.url}}" type="audio/mpeg">
-            </audio>
-
-            <form action="/memorial/{{../slug}}/gallery/delete/audio" method="POST" class="delete-form">
-              <input type="hidden" name="key" value="{{this.key}}">
-              <button type="submit" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 shadow-sm">
-                <i class="bi bi-trash-fill"></i>
-              </button>
-            </form>
-
+                <div class="col">
+                  <div class="row g-2 align-items-end">
+                    <div class="col-12 col-lg">
+                      <form id="form-audio-{{@index}}" action="/memorial/{{../slug}}/gallery/caption/audio"
+                        method="POST">
+                        <input type="hidden" name="key" value="{{this.key}}">
+                        <label class="small fw-bold text-muted text-uppercase mb-1">Legenda do Áudio</label>
+                        <input type="text" name="caption" class="form-control border-0 bg-white shadow-sm"
+                          placeholder="Nome descritivo..." value="{{this.caption}}">
+                      </form>
+                    </div>
+                    <div class="col-12 col-lg-auto d-flex gap-2">
+                      <button type="submit" form="form-audio-{{@index}}"
+                        class="btn btn-custom-outline rounded-pill px-3 flex-grow-1">
+                        <i class="bi bi-check-lg me-1"></i>Salvar
+                      </button>
+                      <form action="/memorial/{{../slug}}/gallery/delete/audio" method="POST"
+                        onsubmit="return confirm('Excluir este áudio?');" class="flex-grow-1">
+                        <input type="hidden" name="key" value="{{this.key}}">
+                        <button type="submit" class="btn btn-outline-danger rounded-pill px-3 w-100">
+                          <i class="bi bi-trash3 me-1"></i>Excluir
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {{/each}}
           </div>
-          {{/each}}
           {{else}}
-          <p class="text-muted">Nenhum áudio disponível.</p>
+          <p class="text-muted text-center py-4 bg-white rounded-4 shadow-sm">Nenhum áudio disponível.</p>
           {{/if}}
         </div>
       </div>
 
-      <!-- 🎬 VÍDEOS -->
+      <!-- ============================ 🎬 VÍDEOS ============================ -->
       <div class="tab-pane fade" id="videos">
         <form action="/memorial/{{slug}}/gallery/update/video" method="POST" enctype="multipart/form-data"
-          class="card p-3">
-          <input type="file" name="file" accept="video/*" class="form-control mb-3" required>
-
-          <input type="hidden" name="slug" value="{{slug}}">
-          <input type="hidden" name="memorialId" value="{{memorialId}}">
-          <input type="hidden" name="userId" value="{{userId}}">
+          class="card p-4 border-0 shadow-sm rounded-4 mb-4 bg-white">
+          <div class="mb-3">
+            <label class="form-label fw-bold small text-uppercase text-muted">Selecionar Vídeo</label>
+            <input type="file" name="file" accept="video/*" class="form-control bg-white" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold small text-uppercase text-muted">Legenda (Opcional)</label>
+            <input type="text" name="caption" class="form-control bg-white" placeholder="Descreva este vídeo...">
+          </div>
 
           <div class="d-flex justify-content-end gap-2">
-            <a href="/memorial/{{slug}}/gallery" class="btn btn-custom-outline rounded-pill px-3 shadow-sm">
-              Cancelar
-            </a>
-            <button type="submit" class="btn btn-custom-outline rounded-pill px-3 shadow-sm">
-              Enviar
+            <button type="submit" class="btn btn-custom-outline rounded-pill px-4">
+              <i class="bi bi-play-btn-fill me-2"></i>Enviar Vídeo
             </button>
           </div>
         </form>
 
-        <div class="row mt-3">
+        <h5 class="fw-bold mb-3"><i class="bi bi-play-btn-fill me-2"></i>Vídeos da Galeria</h5>
+        <div class="mt-2">
           {{#if gallery.videos.length}}
-          {{#each gallery.videos}}
-          <div class="col-md-6 mb-4 position-relative">
+          <div class="list-group list-group-flush gap-3">
+            {{#each gallery.videos}}
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white p-3">
+              <div class="row g-3 align-items-center">
+                <div class="col-12 col-md-4 col-xl-3">
+                  <div class="ratio ratio-16x9 rounded-3 overflow-hidden shadow-sm bg-black">
+                    <video controls>
+                      <source src="{{this.url}}" type="video/mp4">
+                    </video>
+                  </div>
+                </div>
 
-            <video controls class="media-player w-100 rounded shadow-sm">
-              <source src="{{this.url}}" type="video/mp4">
-            </video>
-
-            <form action="/memorial/{{../slug}}/gallery/delete/video" method="POST" class="delete-form">
-              <input type="hidden" name="key" value="{{this.key}}">
-              <button type="submit" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 shadow-sm">
-                <i class="bi bi-trash-fill"></i>
-              </button>
-            </form>
-
+                <div class="col">
+                  <div class="row g-2 align-items-end">
+                    <div class="col-12 col-lg">
+                      <form id="form-video-{{@index}}" action="/memorial/{{../slug}}/gallery/caption/video"
+                        method="POST">
+                        <input type="hidden" name="key" value="{{this.key}}">
+                        <label class="small fw-bold text-muted text-uppercase mb-1">Legenda do Vídeo</label>
+                        <input type="text" name="caption" class="form-control border-0 bg-white shadow-sm"
+                          placeholder="Descreva o conteúdo..." value="{{this.caption}}">
+                      </form>
+                    </div>
+                    <div class="col-12 col-lg-auto d-flex gap-2">
+                      <button type="submit" form="form-video-{{@index}}"
+                        class="btn btn-custom-outline rounded-pill px-3 flex-grow-1">
+                        <i class="bi bi-check-lg me-1"></i>Salvar
+                      </button>
+                      <form action="/memorial/{{../slug}}/gallery/delete/video" method="POST"
+                        onsubmit="return confirm('Excluir este vídeo?');" class="flex-grow-1">
+                        <input type="hidden" name="key" value="{{this.key}}">
+                        <button type="submit" class="btn btn-outline-danger rounded-pill px-3 w-100">
+                          <i class="bi bi-trash3 me-1"></i>Excluir
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {{/each}}
           </div>
-          {{/each}}
           {{else}}
-          <p class="text-muted">Nenhum vídeo disponível.</p>
+          <p class="text-muted text-center py-4 bg-white rounded-4 shadow-sm">Nenhum vídeo disponível.</p>
           {{/if}}
         </div>
       </div>
 
     </div>
+
+    <div class="d-flex justify-content-center mt-5 mb-3">
+      <a href="/memorial/{{slug}}/gallery" class="btn btn-custom-outline rounded-pill px-5 py-2 fw-bold shadow">
+        <i class="bi bi-arrow-clockwise me-2"></i>Finalizar e Atualizar Galeria
+      </a>
+    </div>
+
   </div>
 </main>

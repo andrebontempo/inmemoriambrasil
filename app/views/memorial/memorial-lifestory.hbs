@@ -28,6 +28,9 @@
     {{#each lifeStory}}
     <div class="life-card">
       <div class="life-content">
+        <div class="life-image">
+          <img src="{{this.image.url}}" alt="Imagem da história" />
+        </div>
 
         <div class="life-text">
           <h4 class="life-title">{{this.title}}</h4>
@@ -62,11 +65,6 @@
             </div>
           </div>
         </div>
-
-        <div class="life-image">
-          <img src="{{this.image.url}}" alt="Imagem da história" />
-        </div>
-
       </div>
     </div>
     {{/each}}
@@ -86,7 +84,7 @@
 
         <div class="life-form-card">
           <h3 class="section-title text-center">
-            <i class="bi bi-pencil-square me-2"></i>Escreva e Envie
+            <i class="bi bi-pencil-square me-2"></i>Escrever História
           </h3>
 
           <div class="mb-3">

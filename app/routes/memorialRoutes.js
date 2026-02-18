@@ -41,6 +41,11 @@ router.post(
   authMiddleware,
   GalleryController.deleteFile
 )
+router.post(
+  "/:slug/gallery/caption/:tipo",
+  authMiddleware,
+  GalleryController.updateCaption
+)
 
 //*********ROTAS PARA O SHAREDSTORY CONTROLLER***********
 router.post(

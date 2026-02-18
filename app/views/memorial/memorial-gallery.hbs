@@ -38,15 +38,20 @@
         <div class="row g-4">
           {{#if gallery.photos.length}}
           {{#each gallery.photos}}
-          <div class="col-6 col-md-4 col-lg-3">
+          <div class="col-12 col-md-6">
             <div class="gallery-card shadow-sm" data-bs-toggle="modal" data-bs-target="#lightboxModal"
-              onclick="showLightbox('{{this.url}}')">
+              onclick="showLightbox('{{this.url}}', '{{this.caption}}')">
               <div class="gallery-img-wrapper">
                 <img src="{{this.url}}" class="gallery-img-zoom" alt="Foto do memorial">
                 <div class="gallery-overlay">
                   <i class="bi bi-zoom-in"></i>
                 </div>
               </div>
+              {{#if this.caption}}
+              <div class="gallery-caption-small">
+                {{this.caption}}
+              </div>
+              {{/if}}
             </div>
           </div>
           {{/each}}
@@ -58,7 +63,7 @@
         </div>
 
         <div class="d-flex justify-content-end mt-4">
-          <a href="/memorial/{{slug}}/gallery/edit/{{id}}" class="btn btn-custom-outline btn-sm rounded-pill px-3">
+          <a href="/memorial/{{slug}}/gallery/edit/{{id}}" class="btn btn-custom-outline rounded-pill px-4">
             <i class="bi bi-pencil-square me-2"></i>Editar Galeria
           </a>
         </div>
@@ -70,19 +75,19 @@
           {{#if gallery.audios.length}}
           {{#each gallery.audios}}
           <div class="col-12 col-md-6">
-            <div class="gallery-card">
-              <div class="audio-card-body">
-                <div class="d-flex align-items-center gap-3 mb-3">
-                  <div class="bg-primary bg-opacity-10 p-2 rounded-circle">
-                    <i class="bi bi-mic-fill text-primary"></i>
-                  </div>
-                  <span class="fw-bold text-dark">Arquivo de Áudio #{{@index}}</span>
+            <div class="gallery-card p-3 h-100 d-flex flex-column justify-content-center">
+              <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="bg-primary bg-opacity-10 p-2 rounded-circle">
+                  <i class="bi bi-mic-fill text-primary"></i>
                 </div>
-                <audio controls class="w-100 media-player-custom">
-                  <source src="{{this.url}}" type="audio/mpeg">
-                  Seu navegador não suporta áudio.
-                </audio>
+                <span class="fw-bold text-dark">
+                  {{#if this.caption}}{{this.caption}}{{else}}Arquivo de Áudio #{{@index}}{{/if}}
+                </span>
               </div>
+              <audio controls class="w-100 media-player-custom">
+                <source src="{{this.url}}" type="audio/mpeg">
+                Seu navegador não suporta áudio.
+              </audio>
             </div>
           </div>
           {{/each}}
@@ -94,7 +99,7 @@
         </div>
 
         <div class="d-flex justify-content-end mt-4">
-          <a href="/memorial/{{slug}}/gallery/edit/{{id}}" class="btn btn-custom-outline btn-sm rounded-pill px-3">
+          <a href="/memorial/{{slug}}/gallery/edit/{{id}}" class="btn btn-custom-outline rounded-pill px-4">
             <i class="bi bi-pencil-square me-2"></i>Editar Galeria
           </a>
         </div>
@@ -106,13 +111,18 @@
           {{#if gallery.videos.length}}
           {{#each gallery.videos}}
           <div class="col-12 col-md-6">
-            <div class="gallery-card">
+            <div class="gallery-card h-100 overflow-hidden">
               <div class="video-wrapper">
                 <video controls>
                   <source src="{{this.url}}" type="video/mp4">
                   Seu navegador não suporta vídeos.
                 </video>
               </div>
+              {{#if this.caption}}
+              <div class="p-2 text-center fw-semibold small bg-light border-top text-truncate">
+                {{this.caption}}
+              </div>
+              {{/if}}
             </div>
           </div>
           {{/each}}
@@ -124,7 +134,7 @@
         </div>
 
         <div class="d-flex justify-content-end mt-4">
-          <a href="/memorial/{{slug}}/gallery/edit/{{id}}" class="btn btn-custom-outline btn-sm rounded-pill px-3">
+          <a href="/memorial/{{slug}}/gallery/edit/{{id}}" class="btn btn-custom-outline rounded-pill px-4">
             <i class="bi bi-pencil-square me-2"></i>Editar Galeria
           </a>
         </div>
@@ -141,16 +151,18 @@
           <button type="button" class="btn-close btn-close-white shadow-none" data-bs-dismiss="modal"
             aria-label="Close"></button>
         </div>
-        <div class="modal-body p-0 text-center">
-          <img src="" id="lightboxImg" class="img-fluid rounded-4 shadow-lg" style="max-height: 85vh;">
+        <div class="modal-body p-0 text-center position-relative">
+          <img src="" id="lightboxImg" class="img-fluid rounded-4 shadow-lg" style="max-height: 80vh;">
+          <div id="lightboxCaption" class="text-white mt-3 fw-light fs-5"></div>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    function showLightbox(url) {
+    function showLightbox(url, caption) {
       document.getElementById('lightboxImg').src = url;
+      document.getElementById('lightboxCaption').innerText = caption || '';
     }
   </script>
 </main>

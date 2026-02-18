@@ -200,6 +200,7 @@ const GalleryController = {
 
   updateGallery: async (req, res) => {
     const { slug, tipo } = req.params
+    const { caption } = req.body
     const file = req.file
     const userCurrent = req.user
 
@@ -238,6 +239,7 @@ const GalleryController = {
         key,
         url: `${process.env.R2_PUBLIC_URL}/${key}`,
         originalName: file.originalname,
+        caption: caption || "",
         uploadedBy: userCurrent._id,
       }
 
@@ -248,10 +250,38 @@ const GalleryController = {
 
       await gallery.save()
 
-      res.redirect(`/memorial/${slug}/gallery`)
+      res.redirect(`/memorial/${slug}/gallery/edit/${memorial._id}`)
     } catch (error) {
       console.error("Erro ao enviar para R2:", error)
       res.status(500).send("Erro no upload")
+    }
+  },
+
+  // Atualizar legenda de um arquivo existente
+  updateCaption: async (req, res) => {
+    const { slug, tipo } = req.params
+    const { key, caption } = req.body
+
+    try {
+      const memorial = await Memorial.findOne({ slug })
+      if (!memorial) return res.status(404).send("Memorial não encontrado")
+
+      const gallery = await Gallery.findOne({ memorial: memorial._id })
+      if (!gallery) return res.status(404).send("Galeria não encontrada")
+
+      const collectionName = `${tipo}s`
+      if (!gallery[collectionName]) return res.status(400).send("Tipo inválido")
+
+      const item = gallery[collectionName].find((i) => i.key === key)
+      if (!item) return res.status(404).send("Arquivo não encontrado")
+
+      item.caption = caption
+      await gallery.save()
+
+      res.redirect(`/memorial/${slug}/gallery/edit/${memorial._id}`)
+    } catch (error) {
+      console.error("Erro ao atualizar legenda:", error)
+      res.status(500).send("Erro ao atualizar legenda")
     }
   },
 
@@ -288,7 +318,7 @@ const GalleryController = {
 
       await gallery.save()
 
-      res.redirect(`/memorial/${slug}/gallery`)
+      res.redirect(`/memorial/${slug}/gallery/edit/${memorial._id}`)
     } catch (err) {
       console.error("Erro ao deletar arquivo:", err)
       res.status(500).send("Erro ao deletar arquivo")

@@ -1,108 +1,71 @@
 <main>
-  <!-- Caixa principal com fundo vinho claro -->
-  <div class="custom-box my-2 mx-0" style="background: #f7eaed;">
+  <div class="custom-box my-2 mx-0">
 
-    <form
-      action="/memorial/{{slug}}/lifestory/update/{{lifeStory._id}}"
-      method="POST"
-      enctype="multipart/form-data"
-    >
+    <h3 class="section-title text-center">
+      <i class="bi bi-pencil-square me-2"></i> Editar História
+    </h3>
+
+    <form action="/memorial/{{slug}}/lifestory/update/{{lifeStory._id}}" method="POST" enctype="multipart/form-data">
       <input type="hidden" name="_method" value="PUT" />
       <input type="hidden" name="memorial" value="{{lifeStory.memorial}}" />
       <input type="hidden" name="slug" value="{{slug}}" />
 
-      <!-- Título -->
-      <div class="custom-box my-2 mx-0">
-        <h3><i class="bi bi-pencil-square me-2"></i> Editar História</h3>
+      <div class="card border-0 shadow-sm rounded-4 overflow-hidden mt-4">
+        <div class="card-body p-4 p-md-5">
 
-        <div class="card p-3">
-
-          <!-- Título -->
-          <div class="mb-2">
-            <label for="storyTitle" class="form-label">
-              <i class="bi bi-bookmark-fill me-1"></i>
-              Título da História
+          <!-- Título da História -->
+          <div class="mb-4">
+            <label for="storyTitle" class="life-label">
+              <i class="bi bi-bookmark-fill me-2"></i>Título da História
             </label>
-            <input
-              type="text"
-              class="form-control"
-              id="storyTitle"
-              name="title"
-              value="{{lifeStory.title}}"
-              required
-            />
+            <input type="text" class="life-input" id="storyTitle" name="title" value="{{lifeStory.title}}" required />
           </div>
 
           <!-- Conteúdo -->
-          <div class="mb-2">
-            <label for="storyContent" class="form-label">
-              <i class="bi bi-chat-left-text me-1"></i>
-              Conteúdo
+          <div class="mb-4">
+            <label for="storyContent" class="life-label">
+              <i class="bi bi-chat-left-text me-2"></i>Conteúdo
             </label>
-            <textarea
-              class="edit-input form-control"
-              rows="5"
-              id="storyContent"
-              name="content"
-              required
-            >{{lifeStory.content}}</textarea>
+            <textarea class="life-input" rows="6" id="storyContent" name="content"
+              required>{{lifeStory.content}}</textarea>
           </div>
 
           <!-- Data -->
-          <div class="mb-2">
-            <label for="eventDate" class="form-label">
-              <i class="bi bi-calendar-event me-1"></i>
-              Data do Acontecimento
+          <div class="mb-4">
+            <label for="eventDate" class="life-label">
+              <i class="bi bi-calendar-event me-2"></i>Data do Acontecimento
             </label>
-            <input
-              type="date"
-              class="form-control"
-              id="eventDate"
-              name="eventDate"
-              value="{{eventDate}}"
-            />
+            <input type="date" class="life-input" id="eventDate" name="eventDate" value="{{eventDate}}" />
           </div>
 
           <!-- Imagem -->
-          <div class="mb-2">
-            <label for="storyImage" class="form-label">
-              <i class="bi bi-image me-1"></i>
-              Substituir imagem
+          <div class="mb-4">
+            <label for="storyImage" class="life-label">
+              <i class="bi bi-image me-2"></i>Substituir imagem
             </label>
-            <input
-              type="file"
-              class="form-control"
-              id="storyImage"
-              name="file"
-              accept="image/*"
-            />
 
-            {{#if lifeStory.image.url}}
-              <div class="mt-2">
-                <strong>Imagem atual:</strong><br />
-                <img
-                  src="{{lifeStory.image.url}}"
-                  class="rounded custom-story-img"
-                  alt="Imagem da história"
-                />
+            <div class="d-flex align-items-center gap-3">
+              {{#if lifeStory.image.url}}
+              <div class="flex-shrink-0">
+                <img src="{{lifeStory.image.url}}" class="shadow-sm rounded-3" alt="Imagem atual"
+                  style="width: 80px; height: 80px; object-fit: cover; border: 2px solid #fff; outline: 1px solid #eee;">
               </div>
-            {{/if}}
+              {{/if}}
+              <input type="file" class="life-input" id="storyImage" name="file" accept="image/*" />
+            </div>
           </div>
 
-          <div class="text-muted mb-2 fs-7 text-end">
-            Editando como usuário logado.
+          <div class="text-muted mb-4 small text-center">
+            <i class="bi bi-info-circle me-1"></i> Você está editando uma história do Caminho Percorrido.
           </div>
 
           <!-- Botões -->
-          <div class="d-flex justify-content-end align-items-center gap-2">
-            <a href="/memorial/{{slug}}/lifestory" class="btn-default-memorial">
-              <i class="bi bi-x-circle"></i>
-              Cancelar
+          <div class="d-flex justify-content-center gap-3">
+            <a href="/memorial/{{slug}}/lifestory" class="btn btn-custom-outline rounded-pill px-4">
+              <i class="bi bi-x-circle me-2"></i>Cancelar
             </a>
-
-            <button type="submit" class="btn-default-memorial">
-              <i class="bi bi-check2-circle"></i>
-              Atualizar
+            <button type="submit" class="btn btn-custom-outline rounded-pill px-4">
+              <i class="bi bi-check-circle me-2"></i>Atualizar
             </button>
           </div>
 

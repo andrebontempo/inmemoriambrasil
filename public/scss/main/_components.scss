@@ -17,7 +17,7 @@
   &:hover,
   &:focus,
   &:active {
-    background: var(--bs-dark);
+    background: var(--bs-primary);
     /* 🔥 muda para dark */
     border-color: var(--bs-dark);
     /* combina a borda com o fundo */
@@ -55,7 +55,8 @@
   transition: color 0.3s ease;
 
   &:hover {
-    color: var(--bs-secondary) !important;
+    /*color: var(--bs-secondary) !important;*/
+    color: #ffffff !important;
     text-decoration: none;
   }
 }
