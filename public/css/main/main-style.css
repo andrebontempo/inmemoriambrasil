@@ -18,6 +18,10 @@
   display: none !important;
 }
 
+.smaller {
+  font-size: 0.75rem;
+}
+
 /* ------------------------------
    🎨 Base global
    ------------------------------ */
@@ -640,9 +644,72 @@ footer {
   color: #fff !important;
 }
 
-/*/ ================================================
+/* ================================================
+   BOTÕES CUSTOMIZADOS (DASHBOARD)
+================================================ */
+.btn-custom-outline {
+  color: #4f0e21;
+  border: 1px solid #4f0e21;
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+.btn-custom-outline:hover {
+  background-color: #4f0e21;
+  color: white;
+}
+
+.btn-custom-fill {
+  background-color: #4f0e21;
+  color: white;
+  border: 1px solid #4f0e21;
+  transition: all 0.3s ease;
+}
+.btn-custom-fill:hover {
+  background-color: #6a132c;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(79, 14, 33, 0.2);
+}
+
+/* ================================================
+   ABAS (DASHBOARD & GALERIA)
+================================================ */
+.nav-tabs {
+  border-bottom: 2px solid #eee;
+  gap: 0.5rem;
+}
+.nav-tabs .nav-link {
+  border: none;
+  border-radius: 0.75rem 0.75rem 0 0;
+  padding: 0.75rem 1.5rem;
+  color: #666;
+  transition: all 0.3s ease;
+  background: transparent;
+}
+.nav-tabs .nav-link:hover {
+  background: rgba(79, 14, 33, 0.05);
+  color: #4f0e21;
+}
+.nav-tabs .nav-link.active {
+  background: #fff !important;
+  color: #4f0e21 !important;
+  font-weight: 700;
+  border-bottom: 3px solid #4f0e21 !important;
+}
+
+/* ================================================
+   LABELS DE PERFIL
+================================================ */
+.profile-info-label {
+  font-weight: bold;
+  color: var(--bs-primary);
+  width: 120px;
+  display: inline-block;
+}
+
+/* ================================================
    Fim dos componentes
-================================================ /*/
+================================================ */
 /* ------------------------------
    🎨 Base global
    ------------------------------ */
