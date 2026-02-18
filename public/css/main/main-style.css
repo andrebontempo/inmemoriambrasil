@@ -146,6 +146,7 @@ h4,
 /* =========================================
    BASE — Corpo da página - MOBILE
 ========================================= */
+/*
 @media (max-width: 768px) {
   body {
     background-image: url("/css/main/files/background-mobile.jpg");
@@ -153,6 +154,7 @@ h4,
     background-position: center;
   }
 }
+*/
 /* =========================================
    🎨 Estilos das Etapas do Processo Main
 ========================================= */
