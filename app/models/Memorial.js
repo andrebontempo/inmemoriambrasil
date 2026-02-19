@@ -53,8 +53,8 @@ const MemorialSchema = new mongoose.Schema(
     // Tema e plano - No futuro, serão ~40 opções
     theme: {
       type: String,
-      enum: ["Vinho", "Roxo", "Azul"],
-      default: "Vinho",
+      enum: ["vinho", "roxo", "azul"],
+      default: "vinho",
     },
     plan: {
       type: String,
