@@ -21,8 +21,15 @@
 /* ------------------------------
    📄 Estilos específicos de páginas
    ------------------------------ */
-@use "pages/epitaph";
+@use "pages/about";
 @use "pages/gallery";
 @use "pages/lifestory";
 @use "pages/sharedstory";
 @use "pages/tribute";
+
+/* ------------------------------
+   📄 Themes
+   ------------------------------ */
+//@use "themes/vinho";
+//@use "themes/roxo";
+//@use "themes/azul";
