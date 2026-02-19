@@ -6,9 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "test:e2e": "mocha tests/session.e2e.js --exit",
-    "scss:main": "sass public/scss/main/main.scss public/css/main/main-style.css --no-source-map",
-    "scss:memorial": "sass public/scss/memorial/memorial.scss public/css/memorial/memorial-style.css --no-source-map",
-    "watch-css": "sass --watch public/scss/main/main.scss:public/css/main/main-style.css public/scss/memorial/memorial.scss:public/css/memorial/memorial-style.css"
+    "build:css": "sass public/scss:public/css --no-source-map",
+    "watch:css": "sass --watch public/scss:public/css --no-source-map"
   },
   "engines": {
     "node": "20.x"
