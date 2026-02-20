@@ -188,6 +188,11 @@ h4,
   box-shadow: 0 0 8px rgba(79, 14, 33, 0.25);
 }
 
+.btn-outline-default-main {
+  border-color: #4f0e21;
+  color: #4f0e21;
+}
+
 .main-button {
   background: #4f0e21;
   color: #fff;

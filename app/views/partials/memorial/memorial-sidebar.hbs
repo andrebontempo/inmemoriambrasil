@@ -1,69 +1,69 @@
 <main>
   <!-- Box: Compartilhar -->
-<div class="custom-box-sidebar mx-0 mt-1 p-3">
-  <h4 class="fw-semibold"><i class="bi bi-share-fill me-2"></i>Compartilhe</h4>
-  <form action="/memorial/{{slug}}/invite" method="POST" class="mt-2">
-    <div class="mb-2">
-      <label for="emailConvite" class="form-label visually-hidden">E-mail do convidado</label>
-      <input type="email" id="emailConvite" name="email" class="form-control form-control-sm" placeholder="E-mail do convidado" required>
-    </div>
-    <button type="submit" class="btn-default-memorial w-100">
-    <!--<button type="submit" class="btn btn-sm btn-primary w-100">-->
-      <i class="bi bi-envelope-plus me-1"></i> Enviar convite
-    </button>
-  </form>
-  <ul class="list-unstyled small mt-3">
-    <li>Convide amigos e familiares para visitar este memorial.</li>
-    <li>Mantenha viva na memória as lembranças.</li>
-  </ul>
-</div>
+  <div class="custom-box-sidebar mx-0 mt-1 p-3">
+    <h4 class="fw-semibold"><i class="bi bi-share-fill me-2"></i>Compartilhe</h4>
+    <form action="/memorial/{{slug}}/invite" method="POST" class="mt-2">
+      <div class="mb-2">
+        <label for="emailConvite" class="form-label visually-hidden">E-mail do convidado</label>
+        <input type="email" id="emailConvite" name="email" class="form-control form-control-sm"
+          placeholder="E-mail do convidado" required>
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-custom-outline rounded-pill px-4">
+          <i class="bi bi-envelope-plus me-1"></i> Enviar convite
+        </button>
+      </div>
+    </form>
+    <ul class="list-unstyled small mt-3">
+      <li>Convide amigos e familiares para visitar este memorial.</li>
+      <li>Mantenha viva na memória as lembranças.</li>
+    </ul>
+  </div>
 
 
   <!-- Box: Estatísticas -->
-<div class="custom-box-sidebar mx-0 mt-1 p-3">
-  <h4 class="fw-semibold"><i class="bi bi-bar-chart-fill me-2"></i>Estatísticas</h4>
-  <ul class="list-unstyled small mt-3">
-    <li><strong>Visitas:</strong> {{estatisticas.totalVisitas}}</li>
-    <li><strong>Tributos:</strong> {{estatisticas.totalTributos}}</li>
-    <li><strong>Histórias de Vida:</strong> {{estatisticas.totalHistorias}}</li>
-    <li><strong>Histórias Compartilhadas:</strong> {{estatisticas.totalHistoriasCom}}</li>
-  </ul>
-</div>
+  <div class="custom-box-sidebar mx-0 mt-1 p-3">
+    <h4 class="fw-semibold"><i class="bi bi-bar-chart-fill me-2"></i>Estatísticas</h4>
+    <ul class="list-unstyled small mt-3">
+      <li><strong>Visitas:</strong> {{estatisticas.totalVisitas}}</li>
+      <li><strong>Tributos:</strong> {{estatisticas.totalTributos}}</li>
+      <li><strong>Histórias de Vida:</strong> {{estatisticas.totalHistorias}}</li>
+      <li><strong>Histórias Compartilhadas:</strong> {{estatisticas.totalHistoriasCom}}</li>
+    </ul>
+  </div>
 
 
   <!-- Box: Galeria com Link -->
-<a href="/memorial/{{slug}}/gallery" class="text-decoration-none text-dark">
-  <div class="custom-box-sidebar my-2 mx-0 p-3 hover-shadow">
-    <h4 class="fw-semibold"><i class="bi bi-images me-2"></i>Galeria</h4>
-    {{#if gallery.photos.length}}
+  <a href="/memorial/{{slug}}/gallery" class="text-decoration-none text-dark">
+    <div class="custom-box-sidebar my-2 mx-0 p-3 hover-shadow">
+      <h4 class="fw-semibold"><i class="bi bi-images me-2"></i>Galeria</h4>
+      {{#if gallery.photos.length}}
       <div class="row g-2">
         {{#each gallery.photos}}
-          <div class="col-6">
-            <img src="{{this.url}}" class="custom-sidebar-photo" alt="Foto de {{../firstName}}">
-          </div>
+        <div class="col-6">
+          <img src="{{this.url}}" class="custom-sidebar-photo" alt="Foto de {{../firstName}}">
+        </div>
         {{/each}}
       </div>
-    {{else}}
+      {{else}}
       <p class="text-muted">Nenhuma foto disponível.</p>
-    {{/if}}
-  </div>
-</a>
+      {{/if}}
+    </div>
+  </a>
 
   <!-- Box: QR Code -->
-<div class="custom-box-sidebar mt-2 mx-0 p-3 hover-shadow">
-  <h4 class="fw-semibold"><i class="bi bi-qr-code-scan me-2"></i>QR Code</h4>
+  <div class="custom-box-sidebar mt-2 mx-0 p-3 hover-shadow">
+    <h4 class="fw-semibold"><i class="bi bi-qr-code-scan me-2"></i>QR Code</h4>
 
-  {{#if qrCode.url}}
+    {{#if qrCode.url}}
     <div class="text-center mt-2">
-      <img src="{{qrCode.url}}" 
-     alt="QR Code do memorial de {{firstName}}" 
-     style="max-width: 200px; width: 100%; height: auto; object-fit: contain; border-radius: 8px;"
-     class="shadow-sm">
+      <img src="{{qrCode.url}}" alt="QR Code do memorial de {{firstName}}"
+        style="max-width: 200px; width: 100%; height: auto; object-fit: contain; border-radius: 8px;" class="shadow-sm">
       <p class="small text-muted mt-2">Escaneie para acessar o memorial</p>
     </div>
-  {{else}}
+    {{else}}
     <p class="text-muted">QR Code ainda não gerado.</p>
-  {{/if}}
-</div>
+    {{/if}}
+  </div>
 
 </main>
