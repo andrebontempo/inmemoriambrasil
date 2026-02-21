@@ -34,6 +34,7 @@
   text-align: center;
   color: var(--epitaph-text-color);
   text-shadow: var(--theme-text-shadow);
+  border-radius: 12px;
 
   @media (max-width: 768px) {
     padding: 2rem;
