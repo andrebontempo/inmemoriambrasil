@@ -30,6 +30,63 @@
 .epitaph-box {
   background-image: var(--epitaph-bg-image);
   background-size: 100% 100%;
+  background-repeat: no-repeat;
+
+  padding: 3rem;
+  text-align: center;
+  color: var(--epitaph-text-color);
+  text-shadow: var(--theme-text-shadow);
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  /* 👈 centraliza vertical */
+  justify-content: center;
+  /* 👈 centraliza horizontal */
+
+  min-height: 200px;
+  /* 👈 altura mínima da moldura */
+
+  @media (max-width: 768px) {
+    padding: 2rem;
+    min-height: 150px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+    min-height: 120px;
+  }
+}
+
+.epitaph-content {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-width: 100%;
+  text-overflow: ellipsis;
+
+  font-style: italic;
+  font-weight: bold;
+  line-height: 1.5;
+
+  font-size: clamp(1.3rem, 4.5vw, 2.5rem);
+
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+
+  @media (max-width: 576px) {
+    -webkit-line-clamp: 4;
+  }
+
+  @media (max-width: 400px) {
+    -webkit-line-clamp: 3;
+  }
+}
+
+/*
+   .epitaph-box {
+  background-image: var(--epitaph-bg-image);
+  background-size: 100% 100%;
   padding: 3rem;
   text-align: center;
   color: var(--epitaph-text-color);
@@ -79,7 +136,7 @@
   }
 }
 
-
+*/
 /* =============================
    Botões do Memorial
    ============================= */

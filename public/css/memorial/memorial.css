@@ -219,8 +219,13 @@ iframe {
 /* ================================
    NAVBAR MOBILE
 ================================ */
+.bg-navbar-mobile {
+  background-color: var(--theme-header-bg);
+}
+
 .navbar-dark .nav-link.mobile-item {
   color: rgba(255, 255, 255, 0.75);
+  background-color: var(--theme-header-bg);
   opacity: 0.85;
   padding: 6px 0;
   transition: color 0.18s ease, opacity 0.18s ease, transform 0.14s ease;
@@ -380,19 +385,72 @@ iframe {
 .epitaph-box {
   background-image: var(--epitaph-bg-image);
   background-size: 100% 100%;
+  background-repeat: no-repeat;
   padding: 3rem;
   text-align: center;
   color: var(--epitaph-text-color);
   text-shadow: var(--theme-text-shadow);
   border-radius: 12px;
+  display: flex;
+  align-items: center;
+  /* 👈 centraliza vertical */
+  justify-content: center;
+  /* 👈 centraliza horizontal */
+  min-height: 200px;
+  /* 👈 altura mínima da moldura */
 }
 @media (max-width: 768px) {
   .epitaph-box {
     padding: 2rem;
+    min-height: 150px;
   }
 }
 @media (max-width: 480px) {
   .epitaph-box {
+    padding: 1rem;
+    min-height: 120px;
+  }
+}
+
+.epitaph-content {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  font-style: italic;
+  font-weight: bold;
+  line-height: 1.5;
+  font-size: clamp(1.3rem, 4.5vw, 2.5rem);
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+}
+@media (max-width: 576px) {
+  .epitaph-content {
+    -webkit-line-clamp: 4;
+  }
+}
+@media (max-width: 400px) {
+  .epitaph-content {
+    -webkit-line-clamp: 3;
+  }
+}
+
+/*
+   .epitaph-box {
+  background-image: var(--epitaph-bg-image);
+  background-size: 100% 100%;
+  padding: 3rem;
+  text-align: center;
+  color: var(--epitaph-text-color);
+  text-shadow: var(--theme-text-shadow);
+  border-radius: 12px;
+
+  @media (max-width: 768px) {
+    padding: 2rem;
+  }
+
+  @media (max-width: 480px) {
     padding: 1rem;
   }
 }
@@ -410,31 +468,28 @@ iframe {
   font-size: 1.5rem;
   -webkit-line-clamp: 5;
   line-clamp: 5;
-}
-@media (min-width: 769px) {
-  .epitaph-content {
+
+  @media (min-width: 769px) {
     font-size: 2.5rem;
   }
-}
-@media (max-width: 992px) {
-  .epitaph-content {
+
+  @media (max-width: 992px) {
     font-size: 1.3rem;
     -webkit-line-clamp: 4;
   }
-}
-@media (max-width: 576px) {
-  .epitaph-content {
+
+  @media (max-width: 576px) {
     font-size: 1.1rem;
     -webkit-line-clamp: 3;
   }
-}
-@media (max-width: 400px) {
-  .epitaph-content {
+
+  @media (max-width: 400px) {
     font-size: 1rem;
     -webkit-line-clamp: 2;
   }
 }
 
+*/
 /* =============================
    Botões do Memorial
    ============================= */
