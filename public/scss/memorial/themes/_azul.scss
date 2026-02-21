@@ -1,0 +1,18 @@
+/* ==========================================================================
+   THEME - AZUL
+   ========================================================================== */
+
+.theme-azul {
+    --theme-primary: #0a2e5c;
+    --theme-primary-rgb: 10, 46, 92;
+    --theme-dark: #031733;
+    --theme-dark-rgb: 3, 23, 51;
+    --theme-secondary: #0d47a1;
+    --theme-secondary-rgb: 13, 71, 161;
+    --theme-bg-image: url("/css/memorial/files/background_azul.jpg");
+    --theme-texture-image: url("/css/memorial/files/bg_textura_azul.png");
+    --theme-cover-image: url("/css/memorial/files/por_do_sol_azul.jpg");
+    --epitaph-bg-image: url("/css/memorial/files/bg_epitaph_azul.png");
+    --theme-header-bg: var(--theme-dark);
+    --theme-text-color: var(--theme-dark);
+}

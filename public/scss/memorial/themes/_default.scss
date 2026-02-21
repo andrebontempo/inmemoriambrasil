@@ -1,0 +1,36 @@
+/* ==========================================================================
+   THEMES - DEFAULT (Fallback e estrutura base de variáveis)
+   ========================================================================== */
+
+:root {
+  /* Cores primárias (Default: Vinho) */
+  --theme-primary: #4f0e21;
+  --theme-primary-rgb: 79, 14, 33;
+  --theme-dark: #2a0a13;
+  --theme-dark-rgb: 42, 10, 19;
+  --theme-secondary: #7a142f;
+  --theme-secondary-rgb: 122, 20, 47;
+
+  /* Backgrounds */
+  --theme-body-bg: #f8f9fa;
+  --theme-bg-image: url("/css/memorial/files/background.jpg");
+  --theme-texture-image: url("/css/memorial/files/bg_textura.png");
+  --theme-cover-image: url("/css/memorial/files/por_do_sol.jpg");
+  --theme-header-bg: var(--theme-dark);
+
+  /* Textos */
+  --theme-text-color: var(--theme-dark);
+  --theme-text-shadow: 2px 2px 4px white, 0 0 5px white, 0 0 10px white;
+
+  /* Componentes Específicos */
+  --epitaph-bg-image: url("/css/memorial/files/bg_epitaph.png");
+  --epitaph-text-color: #000;
+
+  /* Bootstrap Overrides (usando as variáveis do tema) */
+  --bs-primary: var(--theme-primary);
+  --bs-primary-rgb: var(--theme-primary-rgb);
+  --bs-secondary: var(--theme-secondary);
+  --bs-secondary-rgb: var(--theme-secondary-rgb);
+  --bs-body-bg: var(--theme-body-bg);
+  --bs-body-color: var(--theme-text-color);
+}

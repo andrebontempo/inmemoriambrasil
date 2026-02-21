@@ -395,7 +395,7 @@ const MemorialController = {
         //  audios: [],
         //  videos: [],
         //},
-        theme: memorial.theme || "Flores",
+        theme: memorial.theme || "vinho",
         gallery: galleryData,
         // Envia estatísticas específicas para a view
         estatisticas: {
@@ -606,6 +606,60 @@ const MemorialController = {
     }
   },
 
+
+  // Método para exibir a página de edição de tema do memorial
+  editTheme: async (req, res) => {
+    try {
+      const memorial = await Memorial.findOne({ slug: req.params.slug }).lean()
+
+      if (!memorial) {
+        return res.status(404).send("Memorial não encontrado")
+      }
+
+      // Buscar contagem de tributos e histórias para o menu/sidebar se necessário
+      const totalTributos = await Tribute.countDocuments({ memorial: memorial._id })
+      const totalHistorias = await LifeStory.countDocuments({ memorial: memorial._id })
+      const totalHistoriasCom = await SharedStory.countDocuments({ memorial: memorial._id })
+
+      return res.render("memorial/edit/theme", {
+        layout: "memorial-layout",
+        firstName: memorial.firstName,
+        lastName: memorial.lastName,
+        slug: memorial.slug,
+        theme: memorial.theme || "vinho",
+        mainPhoto: memorial.mainPhoto,
+        estatisticas: {
+          totalVisitas: memorial.visits || 0,
+          totalTributos,
+          totalHistorias,
+          totalHistoriasCom,
+        },
+      })
+    } catch (error) {
+      console.error("Erro ao carregar página de temas:", error)
+      res.status(500).send("Erro interno do servidor")
+    }
+  },
+
+  // Atualizar o tema do memorial
+  updateTheme: async (req, res) => {
+    try {
+      const { slug } = req.params
+      const { theme } = req.body
+
+      await Memorial.findOneAndUpdate(
+        { slug },
+        { $set: { theme } },
+        { new: true, runValidators: true }
+      )
+
+      req.flash("success_msg", "Tema atualizado com sucesso!")
+      res.redirect(`/memorial/${slug}`)
+    } catch (err) {
+      console.error("Erro ao atualizar tema:", err)
+      res.status(500).send("Erro ao atualizar tema")
+    }
+  },
 
   // Método para exibir a página de pesquisa por memorial
   searchMemorial: async (req, res) => {

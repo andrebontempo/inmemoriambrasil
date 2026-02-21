@@ -2,8 +2,6 @@
    🖼️ GALLERY.SCSS — Design Profissional de Mídia
    ============================================================ */
 
-@use "../base/variables" as vars;
-
 /* Tabs Customizadas */
 .nav-tabs {
   border-bottom: 2px solid #eee;
@@ -18,15 +16,15 @@
     background: transparent;
 
     &:hover {
-      background: rgba(79, 14, 33, 0.05);
-      color: var(--bs-primary);
+      background: rgba(var(--theme-primary-rgb), 0.05);
+      color: var(--theme-primary);
     }
 
     &.active {
       background: #fff;
-      color: var(--bs-primary);
+      color: var(--theme-primary);
       font-weight: 700;
-      border-bottom: 3px solid var(--bs-primary);
+      border-bottom: 3px solid var(--theme-primary);
     }
   }
 }
@@ -111,8 +109,7 @@
 }
 
 .media-player-custom {
-  filter: sepia(20%) saturate(70%) hue-rotate(300deg);
-  /* Aproxima do tom vinho discretamente */
+  filter: sepia(20%) saturate(70%);
   height: 45px;
 }
 

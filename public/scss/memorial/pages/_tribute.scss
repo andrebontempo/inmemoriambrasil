@@ -4,25 +4,25 @@
 
 /* Botões Customizados para Homenagens */
 .btn-custom-outline {
-  color: #4f0e21;
-  border: 1px solid #4f0e21;
+  color: var(--theme-primary);
+  border: 1px solid var(--theme-primary);
   background-color: transparent;
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: #4f0e21;
+    background-color: var(--theme-primary);
     color: white;
   }
 }
 
 .btn-custom-fill {
-  background-color: #4f0e21;
+  background-color: var(--theme-primary);
   color: white;
-  border: 1px solid #4f0e21;
+  border: 1px solid var(--theme-primary);
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: #6a132c;
+    background-color: var(--theme-secondary);
     color: white;
     transform: translateY(-2px);
   }
@@ -122,8 +122,8 @@
     display: none;
 
     &:checked+.tribute-icon-btn {
-      border-color: #4f0e21;
-      background-color: rgba(79, 14, 33, 0.05);
+      border-color: var(--theme-primary);
+      background-color: rgba(var(--theme-primary-rgb), 0.05);
       transform: scale(1.1);
     }
   }

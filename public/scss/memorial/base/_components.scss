@@ -3,12 +3,89 @@
 ================================================ */
 
 /* =============================
-   Botão padrão do Memorial
+   Efeitos de Sombra de Texto
+   ============================= */
+.text-shadow-glow {
+  text-shadow: var(--theme-text-shadow);
+
+  @media (max-width: 576px) {
+    text-shadow:
+      1px 1px 3px white,
+      0 0 3px white,
+      0 0 6px white;
+  }
+}
+
+.text-shadow-dark {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+
+  @media (max-width: 576px) {
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* =============================
+   Epitáfio
+   ============================= */
+.epitaph-box {
+  background-image: var(--epitaph-bg-image);
+  background-size: 100% 100%;
+  padding: 3rem;
+  text-align: center;
+  color: var(--epitaph-text-color);
+  text-shadow: var(--theme-text-shadow);
+
+  @media (max-width: 768px) {
+    padding: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+  }
+}
+
+.epitaph-content {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-style: italic;
+  color: var(--theme-primary);
+  line-height: 1.4;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 1.5rem;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+
+  @media (min-width: 769px) {
+    font-size: 2.5rem;
+  }
+
+  @media (max-width: 992px) {
+    font-size: 1.3rem;
+    -webkit-line-clamp: 4;
+  }
+
+  @media (max-width: 576px) {
+    font-size: 1.1rem;
+    -webkit-line-clamp: 3;
+  }
+
+  @media (max-width: 400px) {
+    font-size: 1rem;
+    -webkit-line-clamp: 2;
+  }
+}
+
+
+/* =============================
+   Botões do Memorial
    ============================= */
 .btn-default-memorial {
   background: #ffffff;
-  color: var(--bs-primary);
-  border: 2px solid var(--bs-primary);
+  color: var(--theme-primary);
+  border: 2px solid var(--theme-primary);
   padding: 8px 18px;
   border-radius: 50px;
   font-weight: 700;
@@ -18,56 +95,53 @@
   text-decoration: none !important;
 
   &:hover {
-    background: var(--bs-primary);
+    background: var(--theme-primary);
     color: #fff;
   }
 
-  /* 📱 Versão Mobile */
   @media (max-width: 576px) {
     padding: 10px 22px;
     border-radius: 40px;
     font-size: 0.95rem;
     width: 100%;
-    /* se quiser o botão ocupando toda a largura */
   }
 }
 
 .btn-memorial {
   background-color: #ffffff !important;
-  color: #4f0e21 !important;
-  border: 2px solid #4f0e21 !important;
+  color: var(--theme-primary) !important;
+  border: 2px solid var(--theme-primary) !important;
   padding: 0.8rem 2.5rem;
   font-weight: 700;
-  border-radius: 50rem; // pill
+  border-radius: 50rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease !important;
 
   &:hover {
-    background-color: #4f0e21 !important;
+    background-color: var(--theme-primary) !important;
     color: #ffffff !important;
-    border-color: #4f0e21 !important;
+    border-color: var(--theme-primary) !important;
   }
 
   &:active,
   &.active {
-    background-color: #3a0b18 !important;
+    background-color: var(--theme-secondary) !important;
     color: #ffffff !important;
-    border-color: #3a0b18 !important;
+    border-color: var(--theme-secondary) !important;
     transform: scale(0.97);
     box-shadow: 0 0 0 rgba(0, 0, 0, 0);
   }
 
   &:focus {
     outline: none !important;
-    box-shadow: 0 0 0 4px rgba(79, 14, 33, 0.3) !important;
+    box-shadow: 0 0 0 4px rgba(var(--theme-primary-rgb), 0.3) !important;
   }
 }
 
-/* Botões de ação */
 .custom-btn-primary {
-  background-color: #4f0e21;
+  background-color: var(--theme-primary);
   color: #fff;
-  border: 2px solid #4f0e21;
+  border: 2px solid var(--theme-primary);
   border-radius: 50px;
   padding: 10px 30px;
   font-weight: bold;
@@ -75,77 +149,34 @@
 
   &:hover {
     background-color: #fff;
-    color: #4f0e21;
+    color: var(--theme-primary);
   }
-}
-
-.custom-box.bg-soft-wine {
-  background: #f7eaed;
 }
 
 /* Botões edit/delete */
 .btn-edit {
-  background-color: var(--bs-secondary);
-  border-color: var(--bs-secondary);
+  background-color: var(--theme-secondary);
+  border-color: var(--theme-secondary);
   color: #fff;
   font-weight: bold;
   padding: 8px 16px;
-  border-radius: var(--bs-border-radius);
+  border-radius: 12px;
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: var(--bs-primary);
-    border-color: var(--bs-primary);
-  }
-
-  &:active {
-    background-color: var(--bs-dark);
-    border-color: var(--bs-dark);
-  }
-
-  &:focus-visible {
-    outline: 3px solid rgba(255, 255, 255, 0.3);
-    outline-offset: 2px;
+    background-color: var(--theme-primary);
+    border-color: var(--theme-primary);
   }
 }
 
-/* Botão delete */
-.btn-delete {
-  background-color: var(--bs-danger);
-  border-color: var(--bs-danger);
-  font-weight: bold;
-  color: #fff;
-
-  &:hover {
-    background-color: #c82333;
-    border-color: #c82333;
-  }
-
-  &:active {
-    background-color: var(--bs-dark);
-    border-color: var(--bs-dark);
-  }
-
-  &:focus-visible {
-    outline: 3px solid rgba(255, 255, 255, 0.3);
-    outline-offset: 2px;
-  }
-}
-
-/* Customização Bootstrap */
 .btn-primary {
-  background-color: var(--bs-primary);
-  border-color: var(--bs-secondary);
+  background-color: var(--theme-primary);
+  border-color: var(--theme-secondary);
   color: #fff;
 
   &:hover {
-    background-color: var(--bs-secondary);
-    border-color: var(--bs-dark);
-  }
-
-  &:active {
-    background-color: var(--bs-dark);
-    border-color: var(--bs-dark);
+    background-color: var(--theme-secondary);
+    border-color: var(--theme-primary);
   }
 }
 
@@ -165,32 +196,12 @@
   object-fit: cover;
 }
 
-/* Form */
-.form-control::placeholder {
-  color: #555;
-  font-style: italic;
-  font-size: 14px;
-  opacity: 0.8;
-}
-
+/* Sidebar Photo */
 .custom-sidebar-photo {
   width: 100%;
-  height: 150px; // ajuste a altura se precisar
+  height: 150px;
   object-fit: cover;
   border-radius: 6px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   display: block;
-}
-
-/* Ajuste de scroll para links internos */
-/* Padrão (desktop) */
-#form-tributo {
-  scroll-margin-top: 100px;
-}
-
-/* Celulares */
-@media (max-width: 768px) {
-  #form-tributo {
-    scroll-margin-top: 160px;
-  }
 }

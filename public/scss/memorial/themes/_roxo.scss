@@ -1,0 +1,18 @@
+/* ==========================================================================
+   THEME - ROXO
+   ========================================================================== */
+
+.theme-roxo {
+    --theme-primary: #310c63;
+    --theme-primary-rgb: 49, 12, 99;
+    --theme-dark: #1a0633;
+    --theme-dark-rgb: 26, 6, 51;
+    --theme-secondary: #4a148c;
+    --theme-secondary-rgb: 74, 20, 140;
+    --theme-bg-image: url("/css/memorial/files/background_roxo.jpg");
+    --theme-texture-image: url("/css/memorial/files/bg_textura_roxo.png");
+    --theme-cover-image: url("/css/memorial/files/por_do_sol_roxo.jpg");
+    --epitaph-bg-image: url("/css/memorial/files/bg_epitaph_roxo.png");
+    --theme-header-bg: var(--theme-dark);
+    --theme-text-color: var(--theme-dark);
+}

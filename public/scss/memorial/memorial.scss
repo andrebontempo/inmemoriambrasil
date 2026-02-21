@@ -13,8 +13,8 @@
 /* ------------------------------
    🎨 Base global
    ------------------------------ */
-@use "base/variables";
-@use "base/base";
+@use "base/reset";
+@use "themes/default";
 @use "base/layout";
 @use "base/components";
 
@@ -28,8 +28,8 @@
 @use "pages/tribute";
 
 /* ------------------------------
-   📄 Themes
+   🎨 Themes (Sobrescrita de variáveis)
    ------------------------------ */
-//@use "themes/vinho";
-//@use "themes/roxo";
-//@use "themes/azul";
+@use "themes/vinho";
+@use "themes/roxo";
+@use "themes/azul";

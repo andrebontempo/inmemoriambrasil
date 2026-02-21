@@ -155,6 +155,7 @@ router.get("/create-memorial", MemorialController.createStep1)
 router.get("/:slug/about", loadMemorial, setAdminMenuPermission, canViewMemorial, MemorialController.showMemorial)
 router.get("/:slug/memorial/edit", loadMemorial, setAdminMenuPermission, canViewMemorial, MemorialController.editMemorial)
 router.get("/:slug/memorial/privacy/edit", loadMemorial, setAdminMenuPermission, canViewMemorial, MemorialController.editPrivacy)
+router.get("/:slug/theme/edit", loadMemorial, setAdminMenuPermission, canViewMemorial, MemorialController.editTheme)
 
 router.post(
   "/:slug/memorial/update",
@@ -171,8 +172,10 @@ router.post(
 )
 
 // Rota para atualilzar a privacidade
-router.post("/:slug/privacy/update", loadMemorial, canViewMemorial, MemorialController.updatePrivacy
-)
+router.post("/:slug/privacy/update", loadMemorial, canViewMemorial, MemorialController.updatePrivacy)
+
+// Rota para atualizar o tema
+router.post("/:slug/theme/update", loadMemorial, canViewMemorial, MemorialController.updateTheme)
 
 // Rota para DELETAR MEMORIAL
 router.post("/:slug/delete", loadMemorial, canViewMemorial, (req, res) => {

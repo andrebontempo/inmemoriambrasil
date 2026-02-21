@@ -1,15 +1,12 @@
 <!-- Seção com imagem de fundo -->
-<div
-  class="memorial-header"
-  style="
+<div class="memorial-header" style="
     width: 100%;
     height: 300px;
-    background-image: url('/css/memorial/files/por_do_sol.jpg');
+    background-image: var(--theme-cover-image);
     background-size: cover;
     background-position: center;
     position: relative;
-  "
->
+  ">
 
   <!-- ==========================
        DESKTOP VERSION
@@ -20,17 +17,9 @@
       <!-- DESKTOP: FOTO GRANDE -->
       <div class="col-md-3 d-flex justify-content-center">
         {{#if mainPhoto.url}}
-          <img
-            src="{{mainPhoto.url}}"
-            alt="Imagem do Memorial"
-            class="memorial-photo mt-3 rounded"
-          />
+        <img src="{{mainPhoto.url}}" alt="Imagem do Memorial" class="memorial-photo mt-3 rounded" />
         {{else}}
-          <img
-            src="/css/memorial/files/user_default.png"
-            alt="Imagem padrão"
-            class="memorial-photo mt-3 rounded"
-          />
+        <img src="/css/memorial/files/user_default.png" alt="Imagem padrão" class="memorial-photo mt-3 rounded" />
         {{/if}}
       </div>
 
@@ -55,17 +44,9 @@
 
       <div class="col-4 text-center">
         {{#if mainPhoto.url}}
-          <img
-            src="{{mainPhoto.url}}"
-            class="memorial-photo-mobile rounded"
-            alt="Foto do Memorial"
-          />
+        <img src="{{mainPhoto.url}}" class="memorial-photo-mobile rounded" alt="Foto do Memorial" />
         {{else}}
-          <img
-            src="/css/memorial/files/user_default.png"
-            class="memorial-photo-mobile rounded"
-            alt="Foto padrão"
-          />
+        <img src="/css/memorial/files/user_default.png" class="memorial-photo-mobile rounded" alt="Foto padrão" />
         {{/if}}
       </div>
 

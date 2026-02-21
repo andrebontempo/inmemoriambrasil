@@ -1,0 +1,18 @@
+/* ==========================================================================
+   THEME - VINHO
+   ========================================================================== */
+
+.theme-vinho {
+    --theme-primary: #4f0e21;
+    --theme-primary-rgb: 79, 14, 33;
+    --theme-dark: #2a0a13;
+    --theme-dark-rgb: 42, 10, 19;
+    --theme-secondary: #7a142f;
+    --theme-secondary-rgb: 122, 20, 47;
+    --theme-cover-image: url("/css/memorial/files/por_do_sol_vinho.jpg");
+    --theme-bg-image: url("/css/memorial/files/background_vinho.jpg");
+    --theme-texture-image: url("/css/memorial/files/bg_textura_vinho.png");
+    --epitaph-bg-image: url("/css/memorial/files/bg_epitaph_vinho.png");
+    --theme-header-bg: var(--theme-dark);
+    --theme-text-color: var(--theme-dark);
+}

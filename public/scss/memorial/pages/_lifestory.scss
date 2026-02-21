@@ -32,7 +32,7 @@
 .life-title {
   margin: 0;
   font-weight: 700;
-  color: var(--bs-primary);
+  color: var(--theme-primary);
   font-size: 1.3rem;
 }
 
@@ -111,7 +111,7 @@
 
 .life-label {
   font-weight: 600;
-  color: var(--bs-primary);
+  color: var(--theme-primary);
   margin-bottom: 0.5rem;
   display: block;
   font-size: 0.95rem;
@@ -127,8 +127,8 @@
   background-color: #fdfcfc;
 
   &:focus {
-    border-color: var(--bs-primary);
-    box-shadow: 0 0 0 4px rgba(79, 14, 33, 0.1);
+    border-color: var(--theme-primary);
+    box-shadow: 0 0 0 4px rgba(var(--theme-primary-rgb), 0.1);
     outline: none;
     background-color: #fff;
   }

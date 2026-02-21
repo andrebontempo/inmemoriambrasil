@@ -21,105 +21,67 @@
 /* ------------------------------
    🎨 Base global
    ------------------------------ */
-/* ===========================
-   Variables (Bootstrap overrides + custom)
-   =========================== */
-/* ===========
-   Cores principais (baseadas no seu tema)
-   =========== */
-:root {
-  /* Cores primárias */
-  --bs-primary: #4f0e21;
-  --bs-primary-rgb: 79, 14, 33;
-  --bs-secondary: #7a142f;
-  --bs-secondary-rgb: 122, 20, 47;
-  /* Feedback */
-  --bs-success: #198754;
-  --bs-success-rgb: 25, 135, 84;
-  --bs-danger: #dc3545;
-  --bs-danger-rgb: 220, 53, 69;
-  /* Neutros */
-  --bs-light: #f8f9fa;
-  --bs-light-rgb: 248, 215, 218;
-  --bs-dark: #2a0a13;
-  --bs-dark-rgb: 42, 10, 19;
-  /* Corpo */
-  --bs-body-color: #212529;
-  --bs-body-bg: #f8f9fa;
-  /* Links */
-  --bs-link-color: #0d6efd;
-  --bs-link-hover-color: #0a58ca;
-  /* Bordas */
-  --bs-border-width: 1px;
-  --bs-border-style: solid;
-  --bs-border-color: #dee2e6;
-  /* Botões */
-  --bs-btn-bg: var(--bs-primary);
-  --bs-btn-hover-bg: #3e0a19;
-  --bs-btn-hover-border-color: #3e0a19;
-  /* Formulários */
-  --bs-form-valid-color: var(--bs-success);
-  --bs-form-invalid-color: var(--bs-danger);
-  /* Cards / Modal */
-  --bs-card-bg: #fff;
-  --bs-modal-bg: #fff;
-  --bs-tooltip-bg: #000;
-  --bs-tooltip-color: #fff;
-  /* ===========
-     Tipografia
-     =========== */
-  --font-family-base: "Open Sans", Arial, sans-serif;
-  --font-weight-normal: 400;
-  --font-weight-bold: 700;
-  --font-size-base: 1rem;
-  --font-size-sm: 0.875rem;
-  --font-size-lg: 1.25rem;
-  /* ===========
-     Espaçamentos
-     =========== */
-  --spacing-xs: 0.25rem;
-  --spacing-sm: 0.5rem;
-  --spacing-md: 1rem;
-  --spacing-lg: 1.5rem;
-  --spacing-xl: 3rem;
-  /* ===========
-     Sombras
-     =========== */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.15);
-  /*$text-shadow-color: rgba(0, 0, 0, 0.25);*/
-  /* ===========
-     Temas claro e escuro
-     =========== */
-  /* Tema claro (padrão) */
-  --theme-body-bg: var(--bs-body-bg);
-  --theme-text-color: var(--bs-body-color);
-  /* Tema escuro */
-  --dark-body-bg: #121212;
-  --dark-text-color: #f1f1f1;
-  --dark-primary: #bb86fc;
-  --dark-secondary: #03dac6;
+/* ==========================================================================
+   RESET & NORMALIZE
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* Para aplicar tema escuro via classe */
-.dark-theme {
-  --bs-body-bg: var(--dark-body-bg);
-  --bs-body-color: var(--dark-text-color);
-  --bs-primary: var(--dark-primary);
-  --bs-secondary: var(--dark-secondary);
-}
-
-/* ===============================================
-   BASE — Corpo da página Background, Format Text
-=============================================== */
+html,
 body {
-  background-image: url("/css/memorial/files/background.jpg");
+  height: 100%;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ==========================================================================
+   THEMES - DEFAULT (Fallback e estrutura base de variáveis)
+   ========================================================================== */
+:root {
+  /* Cores primárias (Default: Vinho) */
+  --theme-primary: #4f0e21;
+  --theme-primary-rgb: 79, 14, 33;
+  --theme-dark: #2a0a13;
+  --theme-dark-rgb: 42, 10, 19;
+  --theme-secondary: #7a142f;
+  --theme-secondary-rgb: 122, 20, 47;
+  /* Backgrounds */
+  --theme-body-bg: #f8f9fa;
+  --theme-bg-image: url("/css/memorial/files/background.jpg");
+  --theme-texture-image: url("/css/memorial/files/bg_textura.png");
+  --theme-cover-image: url("/css/memorial/files/por_do_sol.jpg");
+  --theme-header-bg: var(--theme-dark);
+  /* Textos */
+  --theme-text-color: var(--theme-dark);
+  --theme-text-shadow: 2px 2px 4px white, 0 0 5px white, 0 0 10px white;
+  /* Componentes Específicos */
+  --epitaph-bg-image: url("/css/memorial/files/bg_epitaph.png");
+  --epitaph-text-color: #000;
+  /* Bootstrap Overrides (usando as variáveis do tema) */
+  --bs-primary: var(--theme-primary);
+  --bs-primary-rgb: var(--theme-primary-rgb);
+  --bs-secondary: var(--theme-secondary);
+  --bs-secondary-rgb: var(--theme-secondary-rgb);
+  --bs-body-bg: var(--theme-body-bg);
+  --bs-body-color: var(--theme-text-color);
+}
+
+/* ============================================================
+   LAYOUT — Body, Container, Header, Cover, Navbar, Sidebar, Footer
+   ============================================================ */
+body {
+  background-image: var(--theme-bg-image);
   background-size: cover;
   background-position: center center;
   background-attachment: fixed;
-  /*height:  100vh;*/
   width: 100%;
+  color: var(--theme-text-color);
 }
 
 .text-justify {
@@ -130,95 +92,18 @@ body {
   transition: all 0.3s ease;
 }
 
-/* ==============================================
-   text-shadow — glow branco (com versão mobile)
-   =========================================== */
-.text-shadow-glow {
-  /* Efeito glow branco (desktop) */
-  text-shadow: 2px 2px 4px white, 0 0 5px white, 0 0 10px white;
-}
-@media (max-width: 576px) {
-  .text-shadow-glow {
-    text-shadow: 1px 1px 3px white, 0 0 3px white, 0 0 6px white;
-  }
-}
-
-/* ==============================================
-   text-shadow-dark — sombra escura (opcional)
-   ============================================ */
-.text-shadow-dark {
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-}
-@media (max-width: 576px) {
-  .text-shadow-dark {
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
-  }
-}
-
-.epitaph-box {
-  background-image: url("/css/memorial/files/bg_epitaph.png");
-  background-size: 100% 100%;
-  padding: 3rem;
-  text-align: center;
-  color: black;
-  text-shadow: 2px 2px 4px white, 0 0 5px white, 0 0 10px white;
-}
-@media (max-width: 768px) {
-  .epitaph-box {
-    padding: 2rem;
-  }
-}
-@media (max-width: 480px) {
-  .epitaph-box {
-    padding: 1rem;
-  }
-}
-
-.epitaph-content {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-style: italic;
-  color: var(--bs-dark);
-  line-height: 1.4;
-  font-weight: bold;
-  text-decoration: none;
-  font-size: 1.5rem;
-  -webkit-line-clamp: 5; /* default para desktop */
-}
-@media (max-width: 992px) {
-  .epitaph-content {
-    font-size: 1.3rem;
-    -webkit-line-clamp: 4;
-  }
-}
-@media (max-width: 576px) {
-  .epitaph-content {
-    font-size: 1.1rem;
-    -webkit-line-clamp: 3;
-  }
-}
-@media (max-width: 400px) {
-  .epitaph-content {
-    font-size: 1rem;
-    -webkit-line-clamp: 2;
-  }
-}
-
-/* ============================================================
-   LAYOUT — Container, Header, Cover, Navbar, Sidebar, Footer
-============================================================ */
 @media (min-width: 1200px) {
   .container {
     max-width: 1180px;
   }
 }
+/*
 @media (min-width: 769px) {
   .epitaph-content {
     font-size: 2.5rem;
   }
 }
+*/
 .memorial-photo {
   max-width: 250px;
   height: 250px;
@@ -227,17 +112,15 @@ body {
 }
 
 .custom-container {
-  background-image: url("/css/memorial/files/bg_textura.png");
+  background-image: var(--theme-texture-image);
   background-repeat: no-repeat;
   background-position: center center;
-  /* ou center center, se preferir */
   background-size: cover;
-  /* força cada "tile" a ter 100x100 pixels */
 }
 
 .custom-box,
 .custom-box-sidebar {
-  color: var(--bs-dark);
+  color: var(--theme-text-color);
 }
 
 .custom-box-sidebar {
@@ -248,7 +131,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 999;
-  background-color: var(--bs-dark);
+  background-color: var(--theme-header-bg);
   color: #fff;
   padding: 10px 0;
   transition: all 0.3s ease-in-out;
@@ -261,7 +144,7 @@ header {
 }
 
 footer {
-  background-color: var(--bs-dark);
+  background-color: var(--theme-header-bg);
   color: #fff;
   padding: 20px 0;
 }
@@ -286,16 +169,15 @@ iframe {
 }
 
 .tribute-section {
-  background-color: var(--bs-body-bg);
+  background-color: var(--theme-body-bg);
 }
 
 /* ================================
    NAVBAR — Desktop (>=768px)
 ================================ */
 @media (min-width: 768px) {
-  /* estilo base desktop */
   .navbar {
-    background-color: var(--bs-dark);
+    background-color: var(--theme-header-bg);
     color: #fff;
   }
   .navbar-dark .navbar-nav .nav-link {
@@ -336,9 +218,6 @@ iframe {
   }
 }
 /* ================================
-   FIM - NAVBAR
-================================ */
-/* ================================
    NAVBAR MOBILE
 ================================ */
 .navbar-dark .nav-link.mobile-item {
@@ -351,14 +230,12 @@ iframe {
   align-items: center;
 }
 
-/* Ícone */
 .navbar-dark .nav-link.mobile-item i {
   font-size: 1.1rem;
   line-height: 1;
   margin-bottom: 2px;
 }
 
-/* Texto pequeno */
 .navbar-dark .nav-link.mobile-item .small,
 .navbar-dark .nav-link.mobile-item div {
   font-size: 0.75rem;
@@ -366,21 +243,17 @@ iframe {
   margin-top: 2px;
 }
 
-/* Inativos — mais apagados */
 .navbar-dark .nav-link.mobile-item:not(.active) {
   color: rgba(255, 255, 255, 0.6);
   opacity: 0.8;
 }
 
-/* Ativo — tudo fica branco + destaque */
 .navbar-dark .nav-link.mobile-item.active {
   color: #ffffff !important;
   opacity: 1 !important;
   font-weight: 600;
-  /*transform: translateY(-2px);*/
 }
 
-/* Ativo — ícone e texto */
 .navbar-dark .nav-link.mobile-item.active i,
 .navbar-dark .nav-link.mobile-item.active .small,
 .navbar-dark .nav-link.mobile-item.active div {
@@ -388,49 +261,38 @@ iframe {
   opacity: 1 !important;
 }
 
-/* Hover / Tap */
 .navbar-dark .nav-link.mobile-item:hover,
 .navbar-dark .nav-link.mobile-item:active {
   color: #ffffff;
   opacity: 1;
 }
 
-/* Corrigir dropdown no mobile: não empurrar conteúdo */
 @media (max-width: 576px) {
   .mobile-admin .dropdown-menu {
     position: absolute !important;
     top: 50px;
-    /* ajustável */
     right: 0;
     left: auto;
     transform: none !important;
     z-index: 9999;
     min-width: 200px;
   }
-  /* Impedir que o dropdown aumente a altura do navbar */
   .mobile-admin {
     position: relative;
   }
 }
-/* ================================
-   FIM - NAVBAR
-================================ */
-/* ===========================
-   Mobile Styles
-   =========================== */
 @media (max-width: 768px) {
   .desktop-only {
     display: none !important;
   }
   .mobile-navbar {
-    background-color: #330011;
+    background-color: var(--theme-header-bg);
     justify-content: space-around;
   }
   .mobile-navbar .nav-link {
     padding: 0.4rem;
     font-size: 1.3rem;
   }
-  /* Ajuste do epitaph para telas pequenas */
 }
 @media (max-width: 768px) and (max-width: 576px) {
   .epitaph-content {
@@ -454,16 +316,132 @@ iframe {
     opacity: 0.7;
   }
 }
+/* ================================
+   TEMAS
+================================ */
+.theme-option-card {
+  transition: all 0.2s ease;
+  border-width: 2px !important;
+}
+
+.theme-option-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.theme-option-card input:checked + .theme-preview + div + .theme-check-mark,
+.theme-option-card input:checked ~ div .theme-check-mark {
+  display: block !important;
+}
+
+.theme-option-card input:checked ~ .p-3 {
+  background-color: #f8f9fa;
+}
+
+.theme-option-card input:checked {
+  /* Não funciona para o label pai diretamente no CSS puro, mas o truque abaixo sim */
+}
+
+/* Estilo quando está selecionado */
+.theme-option-card:has(input:checked) {
+  border-color: #4f0e21 !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
 /* ================================================
    COMPONENTES — Botões, Cards, Formulários, Flash
 ================================================ */
 /* =============================
-   Botão padrão do Memorial
+   Efeitos de Sombra de Texto
+   ============================= */
+.text-shadow-glow {
+  text-shadow: var(--theme-text-shadow);
+}
+@media (max-width: 576px) {
+  .text-shadow-glow {
+    text-shadow: 1px 1px 3px white, 0 0 3px white, 0 0 6px white;
+  }
+}
+
+.text-shadow-dark {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+@media (max-width: 576px) {
+  .text-shadow-dark {
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* =============================
+   Epitáfio
+   ============================= */
+.epitaph-box {
+  background-image: var(--epitaph-bg-image);
+  background-size: 100% 100%;
+  padding: 3rem;
+  text-align: center;
+  color: var(--epitaph-text-color);
+  text-shadow: var(--theme-text-shadow);
+}
+@media (max-width: 768px) {
+  .epitaph-box {
+    padding: 2rem;
+  }
+}
+@media (max-width: 480px) {
+  .epitaph-box {
+    padding: 1rem;
+  }
+}
+
+.epitaph-content {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-style: italic;
+  color: var(--theme-primary);
+  line-height: 1.4;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 1.5rem;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+}
+@media (min-width: 769px) {
+  .epitaph-content {
+    font-size: 2.5rem;
+  }
+}
+@media (max-width: 992px) {
+  .epitaph-content {
+    font-size: 1.3rem;
+    -webkit-line-clamp: 4;
+  }
+}
+@media (max-width: 576px) {
+  .epitaph-content {
+    font-size: 1.1rem;
+    -webkit-line-clamp: 3;
+  }
+}
+@media (max-width: 400px) {
+  .epitaph-content {
+    font-size: 1rem;
+    -webkit-line-clamp: 2;
+  }
+}
+
+/* =============================
+   Botões do Memorial
    ============================= */
 .btn-default-memorial {
   background: #ffffff;
-  color: var(--bs-primary);
-  border: 2px solid var(--bs-primary);
+  color: var(--theme-primary);
+  border: 2px solid var(--theme-primary);
   padding: 8px 18px;
   border-radius: 50px;
   font-weight: 700;
@@ -473,11 +451,8 @@ iframe {
   text-decoration: none !important;
 }
 .btn-default-memorial:hover {
-  background: var(--bs-primary);
+  background: var(--theme-primary);
   color: #fff;
-}
-.btn-default-memorial {
-  /* 📱 Versão Mobile */
 }
 @media (max-width: 576px) {
   .btn-default-memorial {
@@ -485,14 +460,13 @@ iframe {
     border-radius: 40px;
     font-size: 0.95rem;
     width: 100%;
-    /* se quiser o botão ocupando toda a largura */
   }
 }
 
 .btn-memorial {
   background-color: #ffffff !important;
-  color: #4f0e21 !important;
-  border: 2px solid #4f0e21 !important;
+  color: var(--theme-primary) !important;
+  border: 2px solid var(--theme-primary) !important;
   padding: 0.8rem 2.5rem;
   font-weight: 700;
   border-radius: 50rem;
@@ -500,27 +474,26 @@ iframe {
   transition: all 0.3s ease !important;
 }
 .btn-memorial:hover {
-  background-color: #4f0e21 !important;
+  background-color: var(--theme-primary) !important;
   color: #ffffff !important;
-  border-color: #4f0e21 !important;
+  border-color: var(--theme-primary) !important;
 }
 .btn-memorial:active, .btn-memorial.active {
-  background-color: #3a0b18 !important;
+  background-color: var(--theme-secondary) !important;
   color: #ffffff !important;
-  border-color: #3a0b18 !important;
+  border-color: var(--theme-secondary) !important;
   transform: scale(0.97);
   box-shadow: 0 0 0 rgba(0, 0, 0, 0);
 }
 .btn-memorial:focus {
   outline: none !important;
-  box-shadow: 0 0 0 4px rgba(79, 14, 33, 0.3) !important;
+  box-shadow: 0 0 0 4px rgba(var(--theme-primary-rgb), 0.3) !important;
 }
 
-/* Botões de ação */
 .custom-btn-primary {
-  background-color: #4f0e21;
+  background-color: var(--theme-primary);
   color: #fff;
-  border: 2px solid #4f0e21;
+  border: 2px solid var(--theme-primary);
   border-radius: 50px;
   padding: 10px 30px;
   font-weight: bold;
@@ -528,69 +501,32 @@ iframe {
 }
 .custom-btn-primary:hover {
   background-color: #fff;
-  color: #4f0e21;
-}
-
-.custom-box.bg-soft-wine {
-  background: #f7eaed;
+  color: var(--theme-primary);
 }
 
 /* Botões edit/delete */
 .btn-edit {
-  background-color: var(--bs-secondary);
-  border-color: var(--bs-secondary);
+  background-color: var(--theme-secondary);
+  border-color: var(--theme-secondary);
   color: #fff;
   font-weight: bold;
   padding: 8px 16px;
-  border-radius: var(--bs-border-radius);
+  border-radius: 12px;
   transition: all 0.3s ease;
 }
 .btn-edit:hover {
-  background-color: var(--bs-primary);
-  border-color: var(--bs-primary);
-}
-.btn-edit:active {
-  background-color: var(--bs-dark);
-  border-color: var(--bs-dark);
-}
-.btn-edit:focus-visible {
-  outline: 3px solid rgba(255, 255, 255, 0.3);
-  outline-offset: 2px;
+  background-color: var(--theme-primary);
+  border-color: var(--theme-primary);
 }
 
-/* Botão delete */
-.btn-delete {
-  background-color: var(--bs-danger);
-  border-color: var(--bs-danger);
-  font-weight: bold;
-  color: #fff;
-}
-.btn-delete:hover {
-  background-color: #c82333;
-  border-color: #c82333;
-}
-.btn-delete:active {
-  background-color: var(--bs-dark);
-  border-color: var(--bs-dark);
-}
-.btn-delete:focus-visible {
-  outline: 3px solid rgba(255, 255, 255, 0.3);
-  outline-offset: 2px;
-}
-
-/* Customização Bootstrap */
 .btn-primary {
-  background-color: var(--bs-primary);
-  border-color: var(--bs-secondary);
+  background-color: var(--theme-primary);
+  border-color: var(--theme-secondary);
   color: #fff;
 }
 .btn-primary:hover {
-  background-color: var(--bs-secondary);
-  border-color: var(--bs-dark);
-}
-.btn-primary:active {
-  background-color: var(--bs-dark);
-  border-color: var(--bs-dark);
+  background-color: var(--theme-secondary);
+  border-color: var(--theme-primary);
 }
 
 /* Cards */
@@ -608,14 +544,7 @@ iframe {
   object-fit: cover;
 }
 
-/* Form */
-.form-control::placeholder {
-  color: #555;
-  font-style: italic;
-  font-size: 14px;
-  opacity: 0.8;
-}
-
+/* Sidebar Photo */
 .custom-sidebar-photo {
   width: 100%;
   height: 150px;
@@ -625,23 +554,8 @@ iframe {
   display: block;
 }
 
-/* Ajuste de scroll para links internos */
-/* Padrão (desktop) */
-#form-tributo {
-  scroll-margin-top: 100px;
-}
-
-/* Celulares */
-@media (max-width: 768px) {
-  #form-tributo {
-    scroll-margin-top: 160px;
-  }
-}
 /* ------------------------------
    📄 Estilos específicos de páginas
-   ------------------------------ */
-/* ------------------------------
-   🎨 Base global
    ------------------------------ */
 /* ============================================================
    🖼️ GALLERY.SCSS — Design Profissional de Mídia
@@ -660,14 +574,14 @@ iframe {
   background: transparent;
 }
 .nav-tabs .nav-link:hover {
-  background: rgba(79, 14, 33, 0.05);
-  color: var(--bs-primary);
+  background: rgba(var(--theme-primary-rgb), 0.05);
+  color: var(--theme-primary);
 }
 .nav-tabs .nav-link.active {
   background: #fff;
-  color: var(--bs-primary);
+  color: var(--theme-primary);
   font-weight: 700;
-  border-bottom: 3px solid var(--bs-primary);
+  border-bottom: 3px solid var(--theme-primary);
 }
 
 /* Cards de Mídia */
@@ -747,8 +661,7 @@ iframe {
 }
 
 .media-player-custom {
-  filter: sepia(20%) saturate(70%) hue-rotate(300deg);
-  /* Aproxima do tom vinho discretamente */
+  filter: sepia(20%) saturate(70%);
   height: 45px;
 }
 
@@ -825,7 +738,7 @@ iframe {
 .life-title {
   margin: 0;
   font-weight: 700;
-  color: var(--bs-primary);
+  color: var(--theme-primary);
   font-size: 1.3rem;
 }
 
@@ -901,7 +814,7 @@ iframe {
 
 .life-label {
   font-weight: 600;
-  color: var(--bs-primary);
+  color: var(--theme-primary);
   margin-bottom: 0.5rem;
   display: block;
   font-size: 0.95rem;
@@ -917,8 +830,8 @@ iframe {
   background-color: #fdfcfc;
 }
 .life-input:focus {
-  border-color: var(--bs-primary);
-  box-shadow: 0 0 0 4px rgba(79, 14, 33, 0.1);
+  border-color: var(--theme-primary);
+  box-shadow: 0 0 0 4px rgba(var(--theme-primary-rgb), 0.1);
   outline: none;
   background-color: #fff;
 }
@@ -971,24 +884,24 @@ iframe {
    ============================================================ */
 /* Botões Customizados para Homenagens */
 .btn-custom-outline {
-  color: #4f0e21;
-  border: 1px solid #4f0e21;
+  color: var(--theme-primary);
+  border: 1px solid var(--theme-primary);
   background-color: transparent;
   transition: all 0.3s ease;
 }
 .btn-custom-outline:hover {
-  background-color: #4f0e21;
+  background-color: var(--theme-primary);
   color: white;
 }
 
 .btn-custom-fill {
-  background-color: #4f0e21;
+  background-color: var(--theme-primary);
   color: white;
-  border: 1px solid #4f0e21;
+  border: 1px solid var(--theme-primary);
   transition: all 0.3s ease;
 }
 .btn-custom-fill:hover {
-  background-color: #6a132c;
+  background-color: var(--theme-secondary);
   color: white;
   transform: translateY(-2px);
 }
@@ -1083,8 +996,8 @@ iframe {
   display: none;
 }
 .tribute-option input[type=radio]:checked + .tribute-icon-btn {
-  border-color: #4f0e21;
-  background-color: rgba(79, 14, 33, 0.05);
+  border-color: var(--theme-primary);
+  background-color: rgba(var(--theme-primary-rgb), 0.05);
   transform: scale(1.1);
 }
 
@@ -1130,5 +1043,58 @@ iframe {
   }
 }
 /* ------------------------------
-   📄 Themes
+   🎨 Themes (Sobrescrita de variáveis)
    ------------------------------ */
+/* ==========================================================================
+   THEME - VINHO
+   ========================================================================== */
+.theme-vinho {
+  --theme-primary: #4f0e21;
+  --theme-primary-rgb: 79, 14, 33;
+  --theme-dark: #2a0a13;
+  --theme-dark-rgb: 42, 10, 19;
+  --theme-secondary: #7a142f;
+  --theme-secondary-rgb: 122, 20, 47;
+  --theme-cover-image: url("/css/memorial/files/por_do_sol_vinho.jpg");
+  --theme-bg-image: url("/css/memorial/files/background_vinho.jpg");
+  --theme-texture-image: url("/css/memorial/files/bg_textura_vinho.png");
+  --epitaph-bg-image: url("/css/memorial/files/bg_epitaph_vinho.png");
+  --theme-header-bg: var(--theme-dark);
+  --theme-text-color: var(--theme-dark);
+}
+
+/* ==========================================================================
+   THEME - ROXO
+   ========================================================================== */
+.theme-roxo {
+  --theme-primary: #310c63;
+  --theme-primary-rgb: 49, 12, 99;
+  --theme-dark: #1a0633;
+  --theme-dark-rgb: 26, 6, 51;
+  --theme-secondary: #4a148c;
+  --theme-secondary-rgb: 74, 20, 140;
+  --theme-bg-image: url("/css/memorial/files/background_roxo.jpg");
+  --theme-texture-image: url("/css/memorial/files/bg_textura_roxo.png");
+  --theme-cover-image: url("/css/memorial/files/por_do_sol_roxo.jpg");
+  --epitaph-bg-image: url("/css/memorial/files/bg_epitaph_roxo.png");
+  --theme-header-bg: var(--theme-dark);
+  --theme-text-color: var(--theme-dark);
+}
+
+/* ==========================================================================
+   THEME - AZUL
+   ========================================================================== */
+.theme-azul {
+  --theme-primary: #0a2e5c;
+  --theme-primary-rgb: 10, 46, 92;
+  --theme-dark: #031733;
+  --theme-dark-rgb: 3, 23, 51;
+  --theme-secondary: #0d47a1;
+  --theme-secondary-rgb: 13, 71, 161;
+  --theme-bg-image: url("/css/memorial/files/background_azul.jpg");
+  --theme-texture-image: url("/css/memorial/files/bg_textura_azul.png");
+  --theme-cover-image: url("/css/memorial/files/por_do_sol_azul.jpg");
+  --epitaph-bg-image: url("/css/memorial/files/bg_epitaph_azul.png");
+  --theme-header-bg: var(--theme-dark);
+  --theme-text-color: var(--theme-dark);
+}

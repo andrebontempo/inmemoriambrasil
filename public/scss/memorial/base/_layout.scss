@@ -1,6 +1,25 @@
 /* ============================================================
-   LAYOUT — Container, Header, Cover, Navbar, Sidebar, Footer
-============================================================ */
+   LAYOUT — Body, Container, Header, Cover, Navbar, Sidebar, Footer
+   ============================================================ */
+
+body {
+  background-image: var(--theme-bg-image);
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  width: 100%;
+  color: var(--theme-text-color);
+}
+
+// Texto justificado
+.text-justify {
+  text-align: justify;
+}
+
+// Transição suave para todas as propriedades
+.transition-all {
+  transition: all 0.3s ease;
+}
 
 // Container maior em desktop full HD
 @media (min-width: 1200px) {
@@ -10,11 +29,14 @@
 }
 
 // Ajustes de fontes para tablets e desktops maiores
+// Movido para components.scss para evitar conflito de importação
+/*
 @media (min-width: 769px) {
   .epitaph-content {
     font-size: 2.5rem;
   }
 }
+*/
 
 .memorial-photo {
   max-width: 250px;
@@ -25,22 +47,20 @@
 
 // Container principal com textura de fundo
 .custom-container {
-  background-image: url("/css/memorial/files/bg_textura.png");
+  background-image: var(--theme-texture-image);
   background-repeat: no-repeat;
   background-position: center center;
-  /* ou center center, se preferir */
   background-size: cover;
-  /* força cada "tile" a ter 100x100 pixels */
 }
 
 // Caixas principais e sidebar que reutilizam .card-like
 .custom-box,
 .custom-box-sidebar {
   @extend .card-like;
-  color: var(--bs-dark); // define a cor da fonte aqui
+  color: var(--theme-text-color);
 }
 
-// Ajuste extra de margem para a sidebar (tente evitar !important)
+// Ajuste extra de margem para a sidebar
 .custom-box-sidebar {
   margin: 8px 6px;
 }
@@ -49,7 +69,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 999;
-  background-color: var(--bs-dark);
+  background-color: var(--theme-header-bg);
   color: #fff;
   padding: 10px 0;
   transition: all 0.3s ease-in-out;
@@ -62,7 +82,7 @@ header {
 }
 
 footer {
-  background-color: var(--bs-dark);
+  background-color: var(--theme-header-bg);
   color: #fff;
   padding: 20px 0;
 }
@@ -83,23 +103,21 @@ iframe {
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 15px;
-  background-color: white; // cor padrão, pode ser sobrescrita
+  background-color: white;
 }
 
-// Seção de tributo que reaproveita .card-like, mas com cor diferente
+// Seção de tributo
 .tribute-section {
   @extend .card-like;
-  background-color: var(--bs-body-bg);
+  background-color: var(--theme-body-bg);
 }
 
 /* ================================
    NAVBAR — Desktop (>=768px)
 ================================ */
 @media (min-width: 768px) {
-
-  /* estilo base desktop */
   .navbar {
-    background-color: var(--bs-dark);
+    background-color: var(--theme-header-bg);
     color: #fff;
   }
 
@@ -150,13 +168,8 @@ iframe {
 }
 
 /* ================================
-   FIM - NAVBAR
-================================ */
-
-/* ================================
    NAVBAR MOBILE
 ================================ */
-
 .navbar-dark .nav-link.mobile-item {
   color: rgba(255, 255, 255, 0.75);
   opacity: 0.85;
@@ -170,14 +183,12 @@ iframe {
   align-items: center;
 }
 
-/* Ícone */
 .navbar-dark .nav-link.mobile-item i {
   font-size: 1.1rem;
   line-height: 1;
   margin-bottom: 2px;
 }
 
-/* Texto pequeno */
 .navbar-dark .nav-link.mobile-item .small,
 .navbar-dark .nav-link.mobile-item div {
   font-size: 0.75rem;
@@ -185,21 +196,17 @@ iframe {
   margin-top: 2px;
 }
 
-/* Inativos — mais apagados */
 .navbar-dark .nav-link.mobile-item:not(.active) {
   color: rgba(255, 255, 255, 0.6);
   opacity: 0.8;
 }
 
-/* Ativo — tudo fica branco + destaque */
 .navbar-dark .nav-link.mobile-item.active {
   color: #ffffff !important;
   opacity: 1 !important;
   font-weight: 600;
-  /*transform: translateY(-2px);*/
 }
 
-/* Ativo — ícone e texto */
 .navbar-dark .nav-link.mobile-item.active i,
 .navbar-dark .nav-link.mobile-item.active .small,
 .navbar-dark .nav-link.mobile-item.active div {
@@ -207,19 +214,16 @@ iframe {
   opacity: 1 !important;
 }
 
-/* Hover / Tap */
 .navbar-dark .nav-link.mobile-item:hover,
 .navbar-dark .nav-link.mobile-item:active {
   color: #ffffff;
   opacity: 1;
 }
 
-/* Corrigir dropdown no mobile: não empurrar conteúdo */
 @media (max-width: 576px) {
   .mobile-admin .dropdown-menu {
     position: absolute !important;
     top: 50px;
-    /* ajustável */
     right: 0;
     left: auto;
     transform: none !important;
@@ -227,19 +231,10 @@ iframe {
     min-width: 200px;
   }
 
-  /* Impedir que o dropdown aumente a altura do navbar */
   .mobile-admin {
     position: relative;
   }
 }
-
-/* ================================
-   FIM - NAVBAR
-================================ */
-
-/* ===========================
-   Mobile Styles
-   =========================== */
 
 @media (max-width: 768px) {
   .desktop-only {
@@ -247,7 +242,7 @@ iframe {
   }
 
   .mobile-navbar {
-    background-color: #330011;
+    background-color: var(--theme-header-bg);
     justify-content: space-around;
 
     .nav-link {
@@ -256,10 +251,9 @@ iframe {
     }
   }
 
-  /* Ajuste do epitaph para telas pequenas */
   @media (max-width: 576px) {
     .epitaph-content {
-      font-size: 1.3rem; // ajuste ideal para mobile
+      font-size: 1.3rem;
       line-height: 1.3;
     }
   }
@@ -280,4 +274,40 @@ iframe {
     font-size: 1rem;
     opacity: 0.7;
   }
+}
+
+
+/* ================================
+   TEMAS
+================================ */
+.theme-option-card {
+  transition: all 0.2s ease;
+  border-width: 2px !important;
+}
+
+.theme-option-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.theme-option-card input:checked+.theme-preview+div+.theme-check-mark,
+.theme-option-card input:checked~div .theme-check-mark {
+  display: block !important;
+}
+
+.theme-option-card input:checked~.p-3 {
+  background-color: #f8f9fa;
+}
+
+.theme-option-card input:checked {
+  /* Não funciona para o label pai diretamente no CSS puro, mas o truque abaixo sim */
+}
+
+/* Estilo quando está selecionado */
+.theme-option-card:has(input:checked) {
+  border-color: #4f0e21 !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
