@@ -35,7 +35,8 @@
 │   │   ├── Memorial.js
 │   │   ├── SharedStory.js
 │   │   ├── Tribute.js
-│   │   └── User.js
+│   │   ├── User.js
+│   │   └── UserORIG.js
 │   ├── routes
 │   │   ├── authRoutes.js
 │   │   ├── homeRoutes.js
@@ -50,7 +51,8 @@
 │   │   ├── r2Service.js
 │   │   ├── r2Upload.js
 │   │   ├── StorageService.js
-│   │   └── userService.js
+│   │   ├── userService.js
+│   │   └── whatsappService.js
 │   ├── templates
 │   │   └── emails
 │   │       ├── admin-alert.hbs
@@ -61,7 +63,8 @@
 │   │   ├── helpers.js
 │   │   ├── logger.js
 │   │   ├── playground-1.mongodb.js
-│   │   └── r2Uploader.js
+│   │   ├── r2Uploader.js
+│   │   └── regexHelpers.js
 │   └── views
 │       ├── admin
 │       │   ├── accounts
@@ -84,9 +87,7 @@
 │       ├── auth
 │       │   ├── dashboard.hbs
 │       │   ├── forgot-password.hbs
-│       │   ├── login copy.hbs
 │       │   ├── login.hbs
-│       │   ├── register copy.hbs
 │       │   ├── register.hbs
 │       │   ├── reset-password.hbs
 │       │   └── user.hbs
@@ -113,12 +114,12 @@
 │       │   │   ├── memorial.hbs
 │       │   │   ├── privacy.hbs
 │       │   │   ├── sharedstory.hbs
+│       │   │   ├── theme.hbs
 │       │   │   └── tribute.hbs
 │       │   ├── memorial-about.hbs
 │       │   ├── memorial-gallery.hbs
 │       │   ├── memorial-lifestory.hbs
 │       │   ├── memorial-pesquisa.hbs
-│       │   ├── memorial-pesquisa-ORIG.hbs
 │       │   ├── memorial-sharedstory.hbs
 │       │   └── memorial-tribute.hbs
 │       ├── partials
@@ -170,47 +171,46 @@
 │   │   ├── main
 │   │   │   ├── files
 │   │   │   │   ├── background11.jpg
-│   │   │   │   ├── background1.jpg
+│   │   │   │   ├── background_1.jpg
+│   │   │   │   ├── background999.jpg
 │   │   │   │   ├── background.jpg
-│   │   │   │   ├── background-mobile.jpg
+│   │   │   │   ├── background_ORIG.jpg
 │   │   │   │   ├── chica_da_silva_1.jpg
 │   │   │   │   ├── chiquinha_gonzaga_1.jpg
-│   │   │   │   ├── chiquinha_gonzaga_2.png
 │   │   │   │   ├── Favicom_inmemoriambrasil_1.png
 │   │   │   │   ├── google-logo-50.png
-│   │   │   │   ├── homenageado3.png
-│   │   │   │   ├── homenageado4.png
 │   │   │   │   ├── Logo_InMemoriamBrasil_1.png
 │   │   │   │   ├── machado_de_assis_1.jpg
-│   │   │   │   ├── machado_de_assis_2.jpg
 │   │   │   │   ├── time.jpg
 │   │   │   │   ├── tiradentes_1.jpg
 │   │   │   │   ├── tutorial_SOL.mp4
 │   │   │   │   └── user_default.png
-│   │   │   └── main-style.css
-│   │   ├── memorial
-│   │   │   ├── files
-│   │   │   │   ├── backgrounddd.jpg
-│   │   │   │   ├── backgroundd.jpg
-│   │   │   │   ├── background.jpg
-│   │   │   │   ├── backgrounds.jpg
-│   │   │   │   ├── bg_epitaph_OLD.png
-│   │   │   │   ├── bg_epitaph.png
-│   │   │   │   ├── bg_textura_1.png
-│   │   │   │   ├── bg_textura.png
-│   │   │   │   ├── default-story.jpg
-│   │   │   │   ├── Favicom_inmemoriambrasil_1.png
-│   │   │   │   ├── homenageado_default.png
-│   │   │   │   ├── home.png
-│   │   │   │   ├── Logo_InMemoriamBrasil_1.png
-│   │   │   │   ├── por_do_sol.jpg
-│   │   │   │   ├── tributo_caneta.png
-│   │   │   │   ├── tributo_flor.png
-│   │   │   │   └── tributo_vela.png
-│   │   │   └── memorial-style.css
-│   │   └── templates
-│   │       ├── azul
-│   │       └── violeta
+│   │   │   └── main.css
+│   │   └── memorial
+│   │       ├── files
+│   │       │   ├── background_azul.jpg
+│   │       │   ├── backgrounddd.jpg
+│   │       │   ├── backgroundORIG.jpg
+│   │       │   ├── background_roxo.jpg
+│   │       │   ├── background_vinho.jpg
+│   │       │   ├── bg_epitaph_azul.png
+│   │       │   ├── bg_epitaph_roxo.png
+│   │       │   ├── bg_epitaph_vinho.png
+│   │       │   ├── bg_textura_azul.png
+│   │       │   ├── bg_textura_roxo.png
+│   │       │   ├── bg_textura_vinho.png
+│   │       │   ├── default-story.jpg
+│   │       │   ├── Favicom_inmemoriambrasil_1.png
+│   │       │   ├── homenageado_default.png
+│   │       │   ├── Logo_InMemoriamBrasil_1.png
+│   │       │   ├── —Pngtree—square frame with blue flowers_19967804.png
+│   │       │   ├── por_do_sol_azul.jpg
+│   │       │   ├── por_do_sol_roxo.jpg
+│   │       │   ├── por_do_sol_vinho.jpg
+│   │       │   ├── tributo_caneta.png
+│   │       │   ├── tributo_flor.png
+│   │       │   └── tributo_vela.png
+│   │       └── memorial.css
 │   ├── js
 │   │   ├── calcula_idade.js
 │   │   ├── navbar999.js
@@ -219,6 +219,7 @@
 │       ├── main
 │       │   ├── _base.scss
 │       │   ├── _components.scss
+│       │   ├── _home.scss
 │       │   ├── _layout.scss
 │       │   ├── main.scss
 │       │   ├── utils
@@ -228,17 +229,21 @@
 │       │   └── _variables.scss
 │       └── memorial
 │           ├── base
-│           │   ├── _base.scss
 │           │   ├── _components.scss
 │           │   ├── _layout.scss
-│           │   └── _variables.scss
+│           │   └── _reset.scss
 │           ├── memorial.scss
 │           ├── pages
-│           │   ├── _epitaph.scss
+│           │   ├── _about.scss
 │           │   ├── _gallery.scss
 │           │   ├── _lifestory.scss
 │           │   ├── _sharedstory.scss
 │           │   └── _tribute.scss
+│           ├── themes
+│           │   ├── _azul.scss
+│           │   ├── _default.scss
+│           │   ├── _roxo.scss
+│           │   └── _vinho.scss
 │           └── utils
 │               ├── _breakpoints.scss
 │               ├── _helpers.scss
@@ -249,9 +254,10 @@
 │   └── inspectSessions.js
 └── ydocs
     ├── docs
+    ├── themes.md
     └── Video Principald
         ├── Roteiro do Video 01.md
         ├── Roteiro do Video 02.md
         └── Roteiro do Video 03.md
 
-47 directories, 208 files
+45 directories, 216 files
