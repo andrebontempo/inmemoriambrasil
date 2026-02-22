@@ -4,4 +4,4 @@ tests/
 .env
 .env.*
 data/
-zdocs/
+zdocs_local/
