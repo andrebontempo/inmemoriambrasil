@@ -6,21 +6,8 @@ const fs = require("fs")
 const path = require("path")
 const Memorial = require("../models/Memorial")
 const moment = require("moment-timezone")
-const { deleteFromR2 } = require("../services/r2Delete")
-// IMPORT R2
-const {
-  S3Client,
-  PutObjectCommand,
-  DeleteObjectCommand,
-} = require("@aws-sdk/client-s3")
-const r2 = new S3Client({
-  region: "auto",
-  endpoint: process.env.R2_ENDPOINT,
-  credentials: {
-    accessKeyId: process.env.R2_ACCESS_KEY,
-    secretAccessKey: process.env.R2_SECRET_KEY,
-  },
-})
+const { r2Client: r2, PutObjectCommand, DeleteObjectCommand } = require("../services/R2Service")
+const { deleteFromR2 } = require("../services/R2Service")
 
 function getFolder(mimetype) {
   if (mimetype.startsWith("image/")) return "photos"

@@ -16,10 +16,10 @@ const session = require("express-session")
 //const { DeleteObjectCommand } = require("@aws-sdk/client-s3")
 //const r2 = require("../../config/r2") // ajuste o caminho se diferente
 //const { r2, PutObjectCommand } = require("../../config/r2")
-const { r2, PutObjectCommand, DeleteObjectCommand } = require("../../config/r2")
-const { deleteFromR2 } = require("../services/r2Delete")
-const { generateQRCode } = require("../services/qrCode")
-const memorialService = require("../services/memorialService")
+const { r2Client: r2, PutObjectCommand, DeleteObjectCommand } = require("../services/R2Service")
+const { deleteFromR2 } = require("../services/R2Service")
+const { generateQRCode } = require("../services/QRCodeService")
+const memorialService = require("../services/MemorialService")
 const kinships = require("../constants/kinships")
 
 const MemorialController = {

@@ -3,7 +3,7 @@ const Gallery = require("../models/Gallery")
 const Tribute = require("../models/Tribute")
 const LifeStory = require("../models/LifeStory")
 const SharedStory = require("../models/SharedStory")
-const { r2, DeleteObjectCommand } = require("../../config/r2") // ajuste caminho conforme necessário
+const { r2Client: r2, DeleteObjectCommand } = require("../services/R2Service")
 
 const MemorialFETController = {
   editMemorialFET: async (req, res) => {

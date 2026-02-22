@@ -1,0 +1,114 @@
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Convite para Visitar um Memorial</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f3f4;
+        }
+
+        .wrapper {
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid #e5d5da;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #f6f3f4;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+
+        .header h2 {
+            color: #4f0e21;
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .content {
+            font-size: 16px;
+            color: #444;
+        }
+
+        .highlight {
+            color: #4f0e21;
+            font-weight: bold;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin: 35px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #4f0e21;
+            color: #ffffff !important;
+            padding: 14px 28px;
+            font-weight: bold;
+            font-size: 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .footer {
+            font-size: 14px;
+            color: #777;
+            text-align: center;
+            margin-top: 30px;
+            border-top: 1px solid #f6f3f4;
+            padding-top: 20px;
+        }
+
+        .signature {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #4f0e21;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <div class="header">
+                <h2>Convite Especial</h2>
+            </div>
+            <div class="content">
+                <p>Olá,</p>
+                <p>Você foi convidado para visitar e prestar suas homenagens no memorial de
+                    <span class="highlight">{{memorialName}}</span> no portal <strong>In Memoriam Brasil</strong>.
+                </p>
+                <div class="btn-container">
+                    <a href="{{link}}" class="btn">Acessar o Memorial</a>
+                </div>
+                <p>Participe eternizando memórias e compartilhando histórias com respeito e carinho.</p>
+                <div class="signature">
+                    Equipe In Memoriam Brasil
+                </div>
+            </div>
+            <div class="footer">
+                <p>Este é um e-mail automático. Por favor, não responda.</p>
+                <p>&copy; 2026 In Memoriam Brasil</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

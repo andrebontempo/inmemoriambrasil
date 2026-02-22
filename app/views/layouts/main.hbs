@@ -28,20 +28,23 @@
 </head>
 
 <body>
-  <!-- Mensagens de Sucesso e Erro-->
-  <div class="flash-container position-fixed top-0 start-50 translate-middle-x mt-3"
-    style="z-index: 1055; max-width: 90%;">
+  <!-- Mensagens de Sucesso e Erro (Modernizadas - Fase 7) -->
+  <div class="flash-container fixed-top w-100" style="z-index: 2000;">
     {{#if success_msg}}
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-      <i class="bi bi-check-circle-fill"></i> {{success_msg}}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+    <div class="alert alert-success alert-dismissible fade show border-0 rounded-0 mb-0 py-3" role="alert">
+      <div class="container text-center">
+        <i class="bi bi-check-circle-fill me-2"></i> {{success_msg}}
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Fechar"></button>
+      </div>
     </div>
     {{/if}}
 
     {{#if error_msg}}
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-      <i class="bi bi-exclamation-triangle-fill"></i> {{error_msg}}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+    <div class="alert alert-danger alert-dismissible fade show border-0 rounded-0 mb-0 py-3" role="alert">
+      <div class="container text-center">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i> {{error_msg}}
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Fechar"></button>
+      </div>
     </div>
     {{/if}}
   </div>

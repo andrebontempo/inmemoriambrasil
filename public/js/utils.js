@@ -19,6 +19,6 @@ function handleFlashMessages() {
         alert.classList.add("fade-out-up"); // apply custom animation
         setTimeout(() => alert.remove(), 500); // remove from DOM
       });
-    }, 5000); // Increased visibility time slightly for better UX (was 2000)
+    }, 3000); // Reduced to 3 seconds as requested in Phase 7
   }
 }

@@ -1,18 +1,10 @@
 const multer = require("multer")
 const path = require("path")
-const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3")
+const { r2Client, PutObjectCommand } = require("../services/R2Service")
 
-// Configura cliente Cloudflare R2
-const r2 = new S3Client({
-  region: "auto",
-  endpoint: process.env.R2_ENDPOINT,
-  credentials: {
-    accessKeyId: process.env.R2_ACCESS_KEY,
-    secretAccessKey: process.env.R2_SECRET_KEY,
-  },
-})
-
-// Auxiliar
+/**
+ * Utilitário para determinar a pasta base no R2 baseada no mimetype.
+ */
 function getMediaFolder(mimetype) {
   if (mimetype.startsWith("image/")) return "photos"
   if (mimetype.startsWith("audio/")) return "audios"
@@ -20,25 +12,30 @@ function getMediaFolder(mimetype) {
   return "others"
 }
 
+// Configuração básica do multer (memória)
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 100 * 1024 * 1024 },
+  limits: { fileSize: 100 * 1024 * 1024 }, // Limite de 100MB
 })
 
+/**
+ * Middleware para realizar o upload de um arquivo direto para o R2.
+ */
 async function uploadToR2(req, res, next) {
   const file = req.file
   if (!file) return next()
 
   try {
     const slug = req.body.slug || req.params.slug
-    if (!slug) throw new Error("Slug não fornecido")
+    if (!slug) throw new Error("Slug não fornecido para o upload")
 
     const folder = getMediaFolder(file.mimetype)
     const ext = path.extname(file.originalname)
     const filename = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}${ext}`
     const key = `memorials/${slug}/${folder}/${filename}`
 
-    await r2.send(
+    // Envia o comando via r2Client centralizado
+    await r2Client.send(
       new PutObjectCommand({
         Bucket: process.env.R2_BUCKET,
         Key: key,
@@ -47,19 +44,21 @@ async function uploadToR2(req, res, next) {
       })
     )
 
-    // 👇 AGREGA INFORMAÇÕES PARA O CONTROLLER
+    // Agrega metadados para o controller
     req.file.key = key
     req.file.url = `${process.env.R2_PUBLIC_URL}/${key}`
 
     next()
   } catch (err) {
+    console.error("❌ Erro no UploadMiddleware:", err)
     return res.status(500).json({
-      error: "Erro ao enviar para R2: " + err.message,
+      error: "Erro ao processar upload: " + err.message,
     })
   }
 }
 
 module.exports = {
   upload,
-  uploadToR2,
+  UploadToR2: uploadToR2, // Exportando com Nome PascalCase se desejar manter padrão, mas as rotas chamam como uploadToR2. Mantendo ambos ou padronizando.
+  uploadToR2
 }

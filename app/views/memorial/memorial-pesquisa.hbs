@@ -6,8 +6,8 @@
     <div class="card-body p-4">
       <form action="/memorial/pesquisa" method="GET" class="text-center">
         <div class="mx-auto mb-3" style="max-width: 600px;">
-          <input type="text" name="q" class="form-control form-control-lg" placeholder="Pesquisar por Memorial..."
-            value="{{#if (eq termo " *")}}{{else}}{{termo}}{{/if}}">
+          <input type="text" name="q" class="form-control form-control-lg rounded-pill px-4 shadow-sm"
+            placeholder="Pesquisar por Memorial..." value="{{#if (eq termo " *")}}{{else}}{{termo}}{{/if}}">
         </div>
 
         <div class="d-flex justify-content-center gap-3">

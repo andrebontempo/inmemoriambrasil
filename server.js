@@ -8,7 +8,7 @@ const flash = require("connect-flash")
 const passport = require("passport")
 const helpers = require("./app/utils/helpers")
 require("dotenv").config()
-const maintenanceMiddleware = require("./app/middlewares/maintenance")
+const MaintenanceMiddleware = require("./app/middlewares/MaintenanceMiddleware")
 const routes = require("./app/routes")
 
 // Configuração do Passport (estratégias Local + Google)
@@ -100,7 +100,7 @@ app.set("view engine", ".hbs")
 app.set("views", path.join(__dirname, "app/views"))
 
 // ----- Modo Manutenção -----
-app.use(maintenanceMiddleware)
+app.use(MaintenanceMiddleware)
 app.use("/", routes) //
 
 // ----- Handler de Erro -----

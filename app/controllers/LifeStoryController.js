@@ -6,8 +6,7 @@ const Gallery = require("../models/Gallery")
 const path = require("path")
 const fs = require("fs")
 const moment = require("moment-timezone")
-const { r2, PutObjectCommand } = require("../../config/r2")
-const { DeleteObjectCommand } = require("@aws-sdk/client-s3")
+const { r2Client: r2, PutObjectCommand, DeleteObjectCommand } = require("../services/R2Service")
 
 const LifeStoryController = {
   createLifeStory: async (req, res) => {

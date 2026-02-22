@@ -1,6 +1,6 @@
-// app/services/qrCode.js
+// app/services/QRCodeService.js
 const QRCode = require("qrcode")
-const { r2, PutObjectCommand } = require("../../config/r2") // ajusta caminho se necessário
+const { r2Client: r2, PutObjectCommand } = require("./R2Service")
 
 /**
  * Gera um QR code para o memorial (usa memorial.slug) e envia para o R2.

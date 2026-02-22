@@ -176,15 +176,10 @@ const AuthController = {
         await sendEmail({
           to: newUser.email,
           subject: "Bem-vindo ao In Memoriam Brasil",
-          html: `
-          <h2>Olá, ${newUser.firstName}!</h2>
-          <p>Sua conta foi criada com sucesso.</p>
-          <p>Agora você pode criar memoriais, gerenciar homenagens e acessar seu painel.</p>
-          <br/>
-          <p>Se você não criou esta conta, entre em contato conosco imediatamente.</p>
-          <br/>
-          <p>Equipe In Memoriam Brasil</p>
-        `,
+          templateName: "welcome",
+          context: {
+            name: newUser.firstName
+          }
         })
       } catch (emailErr) {
         console.error("Erro ao enviar email de boas vindas (não crítico):", emailErr)
@@ -244,12 +239,10 @@ const AuthController = {
         await sendEmail({
           to: user.email,
           subject: "Redefinição de senha",
-          html: `
-            <h2>Redefinição de senha</h2>
-            <p>Clique no link abaixo para redefinir sua senha:</p>
-            <a href="${resetLink}">${resetLink}</a>
-            <p>O link expira em 1 hora.</p>
-          `,
+          templateName: "resetPassword",
+          context: {
+            resetLink
+          }
         })
       }
 

@@ -12,10 +12,12 @@
 
       <!-- Pesquisa -->
       <form action="/memorial/pesquisa" method="GET" class="d-flex w-100 justify-content-center mb-3 ms-md-auto">
-        <div class="input-group" style="max-width: 320px;">
-          <input type="text" name="q" class="form-control" placeholder="Pesquisar por Memorial..." />
-          <button class="btn btn-light" type="submit">
-            <i class="bi bi-search"></i>
+        <div class="input-group overflow-hidden rounded-pill border shadow-sm"
+          style="max-width: 320px; background-color: white;">
+          <input type="text" name="q" class="form-control border-0 px-3" placeholder="Pesquisar por Memorial..."
+            style="box-shadow: none;" />
+          <button class="btn btn-white border-0 px-3" type="submit">
+            <i class="bi bi-search text-primary"></i>
           </button>
         </div>
       </form>

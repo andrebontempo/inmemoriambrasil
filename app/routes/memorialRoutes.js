@@ -1,193 +1,95 @@
 const express = require("express")
 const router = express.Router()
+
+// Controllers
 const MemorialController = require("../controllers/MemorialController")
 const MemorialFETController = require("../controllers/MemorialFETController")
 const TributeController = require("../controllers/TributeController")
 const LifeStoryController = require("../controllers/LifeStoryController")
 const SharedStoryController = require("../controllers/SharedStoryController")
 const GalleryController = require("../controllers/GalleryController")
-const authMiddleware = require("../middlewares/authMiddleware")
-const { upload, uploadToR2 } = require("../middlewares/uploadMiddleware")
-const { r2, PutObjectCommand, DeleteObjectCommand } = require("../../config/r2")
 const InviteController = require("../controllers/InviteController")
 
-//Middlewares para o Permissionamento dos Memoriais
-const loadMemorial = require("../middlewares/loadMemorial")
-const canViewMemorial = require("../middlewares/canViewMemorial")
-const setAdminMenuPermission = require("../middlewares/setAdminMenuPermission")
+// Middlewares
+const AuthMiddleware = require("../middlewares/AuthMiddleware")
+const { upload, uploadToR2 } = require("../middlewares/UploadMiddleware")
+const { loadMemorial, canViewMemorial, canEditMemorial, setAdminMenuPermission } = require("../middlewares/MemorialMiddleware")
 
-//*********ROTAS DE BUSCA***********
+// --------- ROTAS PÚBLICAS (BUSCA) ---------
 router.get("/pesquisa", MemorialController.searchMemorial)
 router.get("/search", MemorialController.searchMemorial)
 
-//*********ROTAS PARA O ENVIO DE EMAIL***********
-router.post("/:slug/invite", InviteController.sendInvite)
+// --------- CRIAÇÃO DE MEMORIAL (REQUER LOGIN) ---------
+router.get("/create-step1", AuthMiddleware, MemorialController.renderStep1)
+router.post("/create-step1", AuthMiddleware, MemorialController.createStep1)
 
-//*********ROTAS PARA O GALELRY CONTROLLER***********
-router.get("/:slug/gallery", loadMemorial, setAdminMenuPermission, canViewMemorial, GalleryController.showGallery)
-router.post(
-  "/:slug/gallery/update/:tipo",
-  upload.single("file"),
-  authMiddleware,
-  GalleryController.updateGallery
-)
-router.get(
-  "/:slug/gallery/edit/:id", loadMemorial, setAdminMenuPermission, canViewMemorial,
-  authMiddleware,
-  GalleryController.editGallery
-)
-router.post(
-  "/:slug/gallery/delete/:tipo",
-  authMiddleware,
-  GalleryController.deleteFile
-)
-router.post(
-  "/:slug/gallery/caption/:tipo",
-  authMiddleware,
-  GalleryController.updateCaption
-)
+router.get("/create-step2", AuthMiddleware, MemorialController.renderStep2)
+router.post("/create-step2", AuthMiddleware, MemorialController.createStep2)
 
-//*********ROTAS PARA O SHAREDSTORY CONTROLLER***********
-router.post(
-  "/:slug/sharedstory/create",
-  authMiddleware,
-  upload.single("file"),
-  uploadToR2, // 3) Envia o arquivo para o Cloudflare R2
-  SharedStoryController.createSharedStory
-)
-router.get("/:slug/sharedstory", loadMemorial, setAdminMenuPermission, canViewMemorial, SharedStoryController.showSharedStory)
-router.get("/:slug/sharedstory/edit/:id", loadMemorial, setAdminMenuPermission, canViewMemorial, SharedStoryController.editSharedStory)
-router.post(
-  "/:slug/sharedstory/update/:id",
-  authMiddleware,
-  upload.single("file"),
-  uploadToR2, // 3) Envia o arquivo para o Cloudflare R2
-  SharedStoryController.updateSharedStory
-)
-router.post(
-  "/:slug/sharedstory/delete/:id",
-  SharedStoryController.deleteSharedStory
-)
+router.get("/create-step3", AuthMiddleware, MemorialController.renderStep3)
+router.post("/create-step3", AuthMiddleware, MemorialController.createStep3)
 
-//*********ROTAS PARA O LIFESTORY CONTROLLER***********
-router.post(
-  "/:slug/lifestory/create",
-  authMiddleware,
-  upload.single("file"),
-  uploadToR2, // 3) Envia o arquivo para o Cloudflare R2
-  LifeStoryController.createLifeStory
-)
-router.get("/:slug/lifestory", loadMemorial, setAdminMenuPermission, canViewMemorial, LifeStoryController.showLifeStory)
-router.get("/:slug/lifestory/edit/:id", loadMemorial, setAdminMenuPermission, canViewMemorial, LifeStoryController.editLifeStory)
-router.post(
-  "/:slug/lifestory/update/:id",
-  authMiddleware,
-  upload.single("file"),
-  uploadToR2, // 3) Envia o arquivo para o Cloudflare R2
-  LifeStoryController.updateLifeStory
-)
-router.post("/:slug/lifestory/delete/:id", LifeStoryController.deleteLifeStory)
+router.get("/create-step4", AuthMiddleware, MemorialController.renderStep4)
+router.post("/create-step4", AuthMiddleware, upload.single("file"), uploadToR2, MemorialController.createStep4)
 
-//*********ROTAS PARA O TRIBUTE CONTROLLER***********
-router.get("/:slug/tribute", loadMemorial, setAdminMenuPermission, canViewMemorial, TributeController.showTribute)
-router.post(
-  "/:slug/tribute/create",
-  authMiddleware,
-  TributeController.createTribute
-)
-router.get(
-  "/:slug/tribute/edit/:id",
-  authMiddleware,
-  TributeController.editTribute
-)
-router.post(
-  "/:slug/tribute/update/:id",
-  (req, res) => {
-    // Verificar se o campo _method existe e se é 'PUT'
-    if (req.body._method && req.body._method === "PUT") {
-      // Chama o controller de atualização se o _method for PUT
-      return TributeController.updateTribute(req, res)
-    }
-    // Caso contrário, retorna um erro de método não permitido
-    res.status(400).send("Método não permitido")
-  },
-  authMiddleware,
-  TributeController.updateTribute
-)
-router.post(
-  "/:slug/tribute/delete/:id",
-  authMiddleware,
-  TributeController.deleteTribute
-)
+// Atalho legível
+router.get("/create-memorial", AuthMiddleware, (req, res) => res.redirect("/memorial/create-step1"))
 
-//*********ROTAS PARA O MEMORIAL - FOTO PRINCIPAL***********
-router.get("/:slug/memorial-fet/edit", loadMemorial, setAdminMenuPermission, canViewMemorial, MemorialFETController.editMemorialFET)
-router.post(
-  "/:slug/memorial-fet/update", loadMemorial, canViewMemorial,
-  upload.single("file"),
-  uploadToR2,
-  MemorialFETController.updateMemorialFET
-)
+// --------- ROTAS DO MEMORIAL (SLUG-DEPENDENT) ---------
 
-//*********ROTAS PARA O MEMORIAL CONTROLLER***********
-// Etapa 1: Nome e Sobrenome (Verificar se o usuário está cadastrado)
-router.get("/create-step1", authMiddleware, MemorialController.renderStep1) // Mostrar o formulário da etapa 1
-router.post("/create-step1", authMiddleware, MemorialController.createStep1) // Processar os dados da etapa 1
-
-// Etapa 2: Dados de Nascimento, Falecimento
-router.get("/create-step2", authMiddleware, MemorialController.renderStep2) // Mostrar o formulário da etapa 2
-router.post("/create-step2", authMiddleware, MemorialController.createStep2) // Processar os dados da etapa 2
-
-// Etapa 3: Privacidade
-router.get("/create-step3", authMiddleware, MemorialController.renderStep3) // Mostrar o formulário da etapa 3 (escolha do plano)
-router.post("/create-step3", authMiddleware, MemorialController.createStep3) // Processar a escolha do plano e criar o memorial
-
-// Etapa 4: Foto de Capa, Epitáfio e Tema
-router.get("/create-step4", authMiddleware, MemorialController.renderStep4) // Mostrar o formulário da etapa 4 (personalização)
-
-router.post(
-  "/create-step4",
-  authMiddleware, // 1) Garante login
-  upload.single("file"), // 2) Captura o arquivo via multer
-  uploadToR2, // 3) Envia o arquivo para o Cloudflare R2
-  MemorialController.createStep4) // 4) Salva no banco e finaliza
-router.get("/create-memorial", MemorialController.createStep1)
+// Visualização Pública/Privada (Página Principal)
 router.get("/:slug/about", loadMemorial, setAdminMenuPermission, canViewMemorial, MemorialController.showMemorial)
-router.get("/:slug/memorial/edit", loadMemorial, setAdminMenuPermission, canViewMemorial, MemorialController.editMemorial)
-router.get("/:slug/memorial/privacy/edit", loadMemorial, setAdminMenuPermission, canViewMemorial, MemorialController.editPrivacy)
-router.get("/:slug/theme/edit", loadMemorial, setAdminMenuPermission, canViewMemorial, MemorialController.editTheme)
+router.get("/:slug", (req, res) => res.redirect(`/memorial/${req.params.slug}/about`))
 
-router.post(
-  "/:slug/memorial/update",
-  (req, res) => {
-    // Verificar se o campo _method existe e se é 'PUT'
-    if (req.body._method && req.body._method === "PUT") {
-      // Chama o controller de atualização se o _method for PUT
-      return MemorialController.updateMemorial(req, res)
-    }
-    // Caso contrário, retorna um erro de método não permitido
-    res.status(400).send("Método não permitido")
-  },
-  MemorialController.updateMemorial
-)
+// Convites
+router.post("/:slug/invite", AuthMiddleware, loadMemorial, canEditMemorial, InviteController.sendInvite)
 
-// Rota para atualilzar a privacidade
-router.post("/:slug/privacy/update", loadMemorial, canViewMemorial, MemorialController.updatePrivacy)
+// Edição Básica do Memorial
+router.get("/:slug/memorial/edit", AuthMiddleware, loadMemorial, canEditMemorial, MemorialController.editMemorial)
+router.post("/:slug/memorial/update", AuthMiddleware, loadMemorial, canEditMemorial, MemorialController.updateMemorial)
 
-// Rota para atualizar o tema
-router.post("/:slug/theme/update", loadMemorial, canViewMemorial, MemorialController.updateTheme)
+// Configurações de Privacidade e Tema
+router.get("/:slug/memorial/privacy/edit", AuthMiddleware, loadMemorial, canEditMemorial, MemorialController.editPrivacy)
+router.post("/:slug/privacy/update", AuthMiddleware, loadMemorial, canEditMemorial, MemorialController.updatePrivacy)
 
-// Rota para DELETAR MEMORIAL
-router.post("/:slug/delete", loadMemorial, canViewMemorial, (req, res) => {
-  if (req.body._method && req.body._method === "DELETE") {
-    return MemorialController.deleteMemorial(req, res)
-  }
-  res.status(400).send("Método não permitido")
-})
+router.get("/:slug/theme/edit", AuthMiddleware, loadMemorial, canEditMemorial, MemorialController.editTheme)
+router.post("/:slug/theme/update", AuthMiddleware, loadMemorial, canEditMemorial, MemorialController.updateTheme)
 
-// Rota genérica para /memorial/:slug/about"
-router.get("/:slug", (req, res) => {
-  res.redirect(`/memorial/${req.params.slug}/about`)
-})
+// Foto Principal (FET)
+router.get("/:slug/memorial-fet/edit", AuthMiddleware, loadMemorial, canEditMemorial, MemorialFETController.editMemorialFET)
+router.post("/:slug/memorial-fet/update", AuthMiddleware, loadMemorial, canEditMemorial, upload.single("file"), uploadToR2, MemorialFETController.updateMemorialFET)
+
+// Deleção do Memorial
+router.post("/:slug/delete", AuthMiddleware, loadMemorial, canEditMemorial, MemorialController.deleteMemorial)
+
+// --------- SUB-RECURSOS (GALERIA, TRIBUTOS, HISTÓRIAS) ---------
+
+// Galeria
+router.get("/:slug/gallery", loadMemorial, setAdminMenuPermission, canViewMemorial, GalleryController.showGallery)
+router.get("/:slug/gallery/edit/:id", AuthMiddleware, loadMemorial, canEditMemorial, GalleryController.editGallery)
+router.post("/:slug/gallery/update/:tipo", AuthMiddleware, loadMemorial, canEditMemorial, upload.single("file"), uploadToR2, GalleryController.updateGallery)
+router.post("/:slug/gallery/delete/:tipo", AuthMiddleware, loadMemorial, canEditMemorial, GalleryController.deleteFile)
+router.post("/:slug/gallery/caption/:tipo", AuthMiddleware, loadMemorial, canEditMemorial, GalleryController.updateCaption)
+
+// Histórias Compartilhadas (Shared Stories)
+router.get("/:slug/sharedstory", loadMemorial, setAdminMenuPermission, canViewMemorial, SharedStoryController.showSharedStory)
+router.get("/:slug/sharedstory/edit/:id", AuthMiddleware, loadMemorial, canEditMemorial, SharedStoryController.editSharedStory)
+router.post("/:slug/sharedstory/create", AuthMiddleware, loadMemorial, upload.single("file"), uploadToR2, SharedStoryController.createSharedStory)
+router.post("/:slug/sharedstory/update/:id", AuthMiddleware, loadMemorial, canEditMemorial, upload.single("file"), uploadToR2, SharedStoryController.updateSharedStory)
+router.post("/:slug/sharedstory/delete/:id", AuthMiddleware, loadMemorial, canEditMemorial, SharedStoryController.deleteSharedStory)
+
+// Histórias de Vida (Life Stories)
+router.get("/:slug/lifestory", loadMemorial, setAdminMenuPermission, canViewMemorial, LifeStoryController.showLifeStory)
+router.get("/:slug/lifestory/edit/:id", AuthMiddleware, loadMemorial, canEditMemorial, LifeStoryController.editLifeStory)
+router.post("/:slug/lifestory/create", AuthMiddleware, loadMemorial, upload.single("file"), uploadToR2, LifeStoryController.createLifeStory)
+router.post("/:slug/lifestory/update/:id", AuthMiddleware, loadMemorial, canEditMemorial, upload.single("file"), uploadToR2, LifeStoryController.updateLifeStory)
+router.post("/:slug/lifestory/delete/:id", AuthMiddleware, loadMemorial, canEditMemorial, LifeStoryController.deleteLifeStory)
+
+// Tributos
+router.get("/:slug/tribute", loadMemorial, setAdminMenuPermission, canViewMemorial, TributeController.showTribute)
+router.get("/:slug/tribute/edit/:id", AuthMiddleware, loadMemorial, TributeController.editTribute) // Usuário logado edita seu tributo
+router.post("/:slug/tribute/create", AuthMiddleware, loadMemorial, TributeController.createTribute)
+router.post("/:slug/tribute/update/:id", AuthMiddleware, loadMemorial, TributeController.updateTribute)
+router.post("/:slug/tribute/delete/:id", AuthMiddleware, loadMemorial, TributeController.deleteTribute)
 
 module.exports = router

@@ -1,27 +1,27 @@
 const express = require("express")
 const router = express.Router()
 const HomeController = require("../controllers/HomeController")
-const authMiddleware = require("../middlewares/authMiddleware")
+const AuthMiddleware = require("../middlewares/AuthMiddleware")
 const StatsController = require("../controllers/StatsController")
 const EnvioContatoController = require("../controllers/EnvioContatoController")
 
-const requireGlobalAdmin = require("../middlewares/requireGlobalAdmin")
+const AdminMiddleware = require("../middlewares/AdminMiddleware")
 const AccountsController = require("../controllers/AccountsController")
 const AdminController = require("../controllers/AdminController")
 
 
 
 // Rota para o controle de Usuários
-router.get("/admin", requireGlobalAdmin, AdminController.index)
-router.get("/admin/accounts", requireGlobalAdmin, AccountsController.list)
-router.get("/admin/accounts/edit/:id", requireGlobalAdmin, AccountsController.editForm)
-router.post("/admin/accounts/edit/:id", requireGlobalAdmin, AccountsController.update)
-router.post("/admin/accounts/delete/:id", requireGlobalAdmin, AccountsController.delete)
+router.get("/admin", AdminMiddleware, AdminController.index)
+router.get("/admin/accounts", AdminMiddleware, AccountsController.list)
+router.get("/admin/accounts/edit/:id", AdminMiddleware, AccountsController.editForm)
+router.post("/admin/accounts/edit/:id", AdminMiddleware, AccountsController.update)
+router.post("/admin/accounts/delete/:id", AdminMiddleware, AccountsController.delete)
 // Rota para logs
-router.get("/admin/accounts/logs", requireGlobalAdmin, AccountsController.logs)
+router.get("/admin/accounts/logs", AdminMiddleware, AccountsController.logs)
 
 // Rota para gestão de memoriais
-router.get("/admin/memorials", requireGlobalAdmin, AdminController.listMemoriais)
+router.get("/admin/memorials", AdminMiddleware, AdminController.listMemoriais)
 
 
 
@@ -29,7 +29,7 @@ router.get("/admin/memorials", requireGlobalAdmin, AdminController.listMemoriais
 router.get("/", HomeController.index)
 
 // Rota para estatísticas
-router.get("/admin/dashboard", requireGlobalAdmin, StatsController.getStatistics)
+router.get("/admin/dashboard", AdminMiddleware, StatsController.getStatistics)
 
 // Rotas estáticas
 router.get("/sobre", (req, res) => {

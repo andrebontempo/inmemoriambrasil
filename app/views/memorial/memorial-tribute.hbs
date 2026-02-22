@@ -50,13 +50,13 @@
                 <div class="tribute-actions">
                   <a href="/memorial/{{../slug}}/tribute/edit/{{this._id}}"
                     class="btn btn-custom-outline btn-sm rounded-pill px-3">
-                    Editar
+                    <i class="bi bi-pencil me-1"></i>Editar
                   </a>
 
                   <form action="/memorial/{{../slug}}/tribute/delete/{{this._id}}" method="POST"
                     onsubmit="return confirm('Tem certeza que deseja apagar este tributo?');" class="d-inline">
                     <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-3">
-                      Excluir
+                      <i class="bi bi-trash me-1"></i>Excluir
                     </button>
                   </form>
                 </div>

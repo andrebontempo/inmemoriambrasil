@@ -1,41 +1,102 @@
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Memorial criado com sucesso</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        color: #333;
-      }
-      .container {
-        max-width: 600px;
-        margin: auto;
-        padding: 30px;
-        border: 1px solid #e0e0e0;
-        border-radius: 10px;
-        background-color: #f9f9f9;
-      }
-      .btn {
-        display: inline-block;
-        background-color: #0056b3;
-        color: #ffffff;
-        padding: 12px 24px;
-        margin-top: 20px;
-        text-decoration: none;
-        border-radius: 6px;
-      }
-    </style>
-  </head>
-  <body>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Memorial Criado com Sucesso</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #333;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+
+    .wrapper {
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background-color: #ffffff;
+      border-radius: 12px;
+      padding: 30px;
+      border: 1px solid #ddd;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .header {
+      text-align: center;
+      border-bottom: 2px solid #f9f9f9;
+      padding-bottom: 20px;
+      margin-bottom: 25px;
+    }
+
+    .header h2 {
+      color: #4f0e21;
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .btn-container {
+      text-align: center;
+      margin: 35px 0;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: #4f0e21;
+      color: #ffffff !important;
+      padding: 14px 28px;
+      font-weight: bold;
+      font-size: 16px;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+
+    .footer {
+      font-size: 14px;
+      color: #777;
+      text-align: center;
+      margin-top: 30px;
+      border-top: 1px solid #eee;
+      padding-top: 20px;
+    }
+
+    .signature {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #4f0e21;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
     <div class="container">
-      <h2>Olá, {{nomeUsuario}}!</h2>
-      <p>O memorial de
-        <strong>{{nomeMemorial}}</strong>
-        foi criado com sucesso em nossa plataforma.</p>
-      <p>Você pode acessá-lo a qualquer momento pelo link abaixo:</p>
-      <a href="{{link}}" class="btn">Ver memorial</a>
-      <p style="margin-top: 30px;">Agradecemos por confiar na InMemoriam Brasil.</p>
-      <p>Equipe InMemoriam Brasil</p>
+      <div class="header">
+        <h2>🎉 Memorial Criado!</h2>
+      </div>
+      <div class="content">
+        <p>Olá, <strong>{{userName}}</strong>!</p>
+        <p>O memorial de <strong>{{memorialName}}</strong> foi criado com sucesso no <strong>In Memoriam
+            Brasil</strong>.</p>
+        <p>Você já pode compartilhar este espaço de homenagem com amigos e familiares.</p>
+        <div class="btn-container">
+          <a href="{{link}}" class="btn">Visualizar Memorial</a>
+        </div>
+        <p>Agradecemos por confiar em nossa plataforma para cuidar dessas memórias preciosas.</p>
+        <div class="signature">
+          Equipe In Memoriam Brasil
+        </div>
+      </div>
+      <div class="footer">
+        <p>Este é um e-mail automático enviado pelo site In Memoriam Brasil.</p>
+      </div>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>

@@ -2,7 +2,7 @@ const express = require("express")
 const router = express.Router()
 const passport = require("passport")
 const AuthController = require("../controllers/AuthController")
-const authMiddleware = require("../middlewares/authMiddleware")
+const AuthMiddleware = require("../middlewares/AuthMiddleware")
 
 // Cadastro
 router.get("/register", AuthController.showRegisterForm)

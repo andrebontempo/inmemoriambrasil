@@ -56,13 +56,13 @@
             <div class="life-actions">
               <a href="/memorial/{{../slug}}/sharedstory/edit/{{this._id}}"
                 class="btn btn-custom-outline btn-sm rounded-pill px-3" title="Editar">
-                Editar
+                <i class="bi bi-pencil me-1"></i>Editar
               </a>
 
               <form action="/memorial/{{../slug}}/sharedstory/delete/{{this._id}}" method="POST"
                 onsubmit="return confirm('Deseja realmente excluir esta história?');">
                 <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-3" title="Excluir">
-                  Excluir
+                  <i class="bi bi-trash me-1"></i>Excluir
                 </button>
               </form>
             </div>

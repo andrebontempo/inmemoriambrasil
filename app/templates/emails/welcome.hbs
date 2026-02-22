@@ -1,12 +1,88 @@
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Bem-vindo</title>
-  </head>
-  <body>
-    <h2>Olá {{name}},</h2>
-    <p>Seja bem-vindo ao InMemoriamBrasil.</p>
-    <p>Agora você pode criar e compartilhar memoriais com carinho e respeito.</p>
-    <p>Atenciosamente,<br />Equipe InMemoriamBrasil</p>
-  </body>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Bem-vindo ao In Memoriam Brasil</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #333;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #f6f3f4;
+    }
+
+    .wrapper {
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background-color: #ffffff;
+      border-radius: 12px;
+      padding: 30px;
+      border: 1px solid #e3cdd4;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .header {
+      text-align: center;
+      border-bottom: 2px solid #f6f3f4;
+      padding-bottom: 20px;
+      margin-bottom: 25px;
+    }
+
+    .header h2 {
+      color: #4f0e21;
+      margin: 0;
+      font-size: 26px;
+    }
+
+    .content {
+      font-size: 16px;
+    }
+
+    .footer {
+      font-size: 14px;
+      color: #777;
+      text-align: center;
+      margin-top: 30px;
+      border-top: 1px solid #f6f3f4;
+      padding-top: 20px;
+    }
+
+    .signature {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #4f0e21;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="container">
+      <div class="header">
+        <h2>Bem-vindo(a)!</h2>
+      </div>
+      <div class="content">
+        <p>Olá <strong>{{name}}</strong>,</p>
+        <p>É uma honra ter você conosco no <strong>In Memoriam Brasil</strong>.</p>
+        <p>Nossa missão é ajudar você a eternizar as histórias e memórias de quem você ama, com o máximo de respeito e
+          carinho.</p>
+        <p>Agora você já pode criar memoriais, compartilhar homenagens e manter viva a essência daqueles que partiram.
+        </p>
+        <div class="signature">
+          Equipe In Memoriam Brasil
+        </div>
+      </div>
+      <div class="footer">
+        <p>&copy; 2026 In Memoriam Brasil</p>
+      </div>
+    </div>
+  </div>
+</body>
+
 </html>

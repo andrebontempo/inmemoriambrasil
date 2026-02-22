@@ -576,12 +576,14 @@ iframe {
 
 .btn-primary {
   background-color: var(--theme-primary);
-  border-color: var(--theme-secondary);
+  border: 2px solid var(--theme-primary);
   color: #fff;
+  transition: all 0.3s ease;
 }
 .btn-primary:hover {
-  background-color: var(--theme-secondary);
+  background-color: #fff;
   border-color: var(--theme-primary);
+  color: var(--theme-primary);
 }
 
 /* Cards */
@@ -607,6 +609,45 @@ iframe {
   border-radius: 6px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   display: block;
+}
+
+/* Flash messages (Modernized - Phase 7/9) */
+.flash-container {
+  z-index: 2000;
+  width: 100%;
+  pointer-events: none;
+}
+.flash-container .alert {
+  pointer-events: auto;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  font-weight: 500;
+  animation: slide-down-flash 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+.alert-success {
+  background-color: #0f3d2a !important;
+  color: #d1e7dd !important;
+}
+
+.alert-danger {
+  background-color: #3e0a19 !important;
+  color: #f8d7da !important;
+}
+
+@keyframes slide-down-flash {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-out-up {
+  opacity: 0 !important;
+  transform: translateY(-100%) !important;
+  transition: all 0.4s ease-in !important;
 }
 
 /* ------------------------------
