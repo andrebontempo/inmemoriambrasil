@@ -26,13 +26,16 @@ const MemorialSchema = new mongoose.Schema(
       default: "",
     },
     obituary: {
-      cemetery: { type: String, default: null },
-      graveAddress: { type: String, default: null },
-      wakeLocation: { type: String, default: null },
-      wakeDate: { type: Date, default: null },
-      wakeStart: { type: String, default: null },
-      wakeEnd: { type: String, default: null },
-      cemeteryMap: { type: String, default: null },
+      type: new mongoose.Schema({
+        cemetery: { type: String, default: null },
+        graveAddress: { type: String, default: null },
+        wakeLocation: { type: String, default: null },
+        wakeDate: { type: Date, default: null },
+        wakeStart: { type: String, default: null },
+        wakeEnd: { type: String, default: null },
+        cemeteryMap: { type: String, default: null },
+      }, { _id: false }),
+      default: null
     },
     accessLevel: {
       type: String,
