@@ -1,5 +1,6 @@
 <main>
   <!-- Box: Compartilhar -->
+  {{#if canManageSidebar}}
   <div class="custom-box-sidebar mx-0 mt-1 p-3">
     <h4 class="fw-semibold"><i class="bi bi-share-fill me-2"></i>Compartilhe</h4>
     <form action="/memorial/{{slug}}/invite" method="POST" class="mt-2">
@@ -19,6 +20,7 @@
       <li>Mantenha viva na memória as lembranças.</li>
     </ul>
   </div>
+  {{/if}}
 
 
   <!-- Box: Estatísticas -->

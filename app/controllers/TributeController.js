@@ -69,11 +69,36 @@ const TributeController = {
       }
 
       // Buscar tributos relacionados
-      const tributes = await Tribute.find({ memorial: memorial._id })
+      const tributesRaw = await Tribute.find({ memorial: memorial._id })
         .sort({ createdAt: -1 })
-        .populate({ path: "user", select: "firstName lastName" })
-        .select("name message type image createdAt")
+        .populate({ path: "user", select: "firstName lastName _id" })
+        .select("name message type image createdAt user")
         .lean()
+
+      const currentUser = req.user
+
+      const tributes = tributesRaw.map(tribute => {
+        let canEdit = false
+
+        if (currentUser) {
+          const isAuthor = tribute.user && tribute.user._id.toString() === currentUser._id.toString()
+          const isOwner = memorial.owner && memorial.owner._id.toString() === currentUser._id.toString()
+          const isAdmin = currentUser.role === "admin"
+
+          const isCollaborator = memorial.collaborators && memorial.collaborators.some(
+            collabId => collabId.toString() === currentUser._id.toString()
+          )
+
+          if (isAuthor || isOwner || isAdmin || isCollaborator) {
+            canEdit = true
+          }
+        }
+
+        return {
+          ...tribute,
+          canEdit
+        }
+      })
 
       // Buscar galeria relacionada
       const galeria = await Gallery.findOne({ memorial: memorial._id })

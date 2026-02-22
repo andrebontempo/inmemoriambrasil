@@ -65,10 +65,27 @@ const GalleryController = {
 
       //console.log("Galeria:", galeria)
 
+      // Lógica de Permissionamento
+      let canManageGallery = false
+      const currentUser = req.user
+
+      if (currentUser) {
+        const isOwner = memorial.owner && memorial.owner._id.toString() === currentUser._id.toString()
+        const isAdmin = currentUser.role === "admin"
+        const isCollaborator = memorial.collaborators && memorial.collaborators.some(
+          collabId => collabId.toString() === currentUser._id.toString()
+        )
+
+        if (isOwner || isAdmin || isCollaborator) {
+          canManageGallery = true
+        }
+      }
+
       res.render("memorial/memorial-gallery", {
         layout: "memorial-layout",
         slug: memorial.slug,
         id: memorial._id,
+        canManageGallery,
         owner: {
           firstName: memorial.owner?.firstName || "",
           lastName: memorial.owner?.lastName || "",
@@ -91,12 +108,6 @@ const GalleryController = {
           totalHistorias,
           totalHistoriasCom,
         },
-        /*
-        user: {
-          firstName: memorial.user?.firstName || "Nome não informado",
-          lastName: memorial.user?.lastName || "Sobrenome não informado",
-        },
-        */
       })
     } catch (error) {
       console.error("Erro ao exibir galeria:", error)
@@ -126,6 +137,18 @@ const GalleryController = {
         return res.status(404).render("errors/404", {
           message: "Memorial não encontrado.",
         })
+      }
+
+      // Verificação de permissão
+      const isOwner = memorial.owner && memorial.owner._id.toString() === userCurrent._id.toString()
+      const isAdmin = userCurrent.role === "admin"
+      const isCollaborator = memorial.collaborators && memorial.collaborators.some(
+        collabId => collabId.toString() === userCurrent._id.toString()
+      )
+
+      if (!isOwner && !isAdmin && !isCollaborator) {
+        req.flash("error_msg", "Você não tem permissão para editar a galeria.")
+        return res.redirect(`/memorial/${memorial.slug}/gallery`)
       }
       //console.log("Memorial encontrado:", memorial)
 
@@ -197,6 +220,18 @@ const GalleryController = {
       const memorial = await Memorial.findOne({ slug })
       if (!memorial) return res.status(404).send("Memorial não encontrado")
 
+      // Verificação de permissão
+      const isOwner = memorial.owner && memorial.owner.toString() === userCurrent._id.toString()
+      const isAdmin = userCurrent.role === "admin"
+      const isCollaborator = memorial.collaborators && memorial.collaborators.some(
+        collabId => collabId.toString() === userCurrent._id.toString()
+      )
+
+      if (!isOwner && !isAdmin && !isCollaborator) {
+        req.flash("error_msg", "Você não tem permissão para fazer upload.")
+        return res.redirect(`/memorial/${slug}/gallery`)
+      }
+
       let gallery = await Gallery.findOne({ memorial: memorial._id })
       if (!gallery) {
         gallery = new Gallery({
@@ -253,6 +288,18 @@ const GalleryController = {
       const memorial = await Memorial.findOne({ slug })
       if (!memorial) return res.status(404).send("Memorial não encontrado")
 
+      // Verificação de permissão
+      const currentUser = req.user
+      const isOwner = memorial.owner && memorial.owner.toString() === currentUser._id.toString()
+      const isAdmin = currentUser.role === "admin"
+      const isCollaborator = memorial.collaborators && memorial.collaborators.some(
+        collabId => collabId.toString() === currentUser._id.toString()
+      )
+
+      if (!isOwner && !isAdmin && !isCollaborator) {
+        return res.status(403).send("Sem permissão")
+      }
+
       const gallery = await Gallery.findOne({ memorial: memorial._id })
       if (!gallery) return res.status(404).send("Galeria não encontrada")
 
@@ -288,6 +335,18 @@ const GalleryController = {
 
       const memorial = await Memorial.findOne({ slug })
       if (!memorial) return res.status(404).send("Memorial não encontrado")
+
+      // Verificação de permissão
+      const currentUser = req.user
+      const isOwner = memorial.owner && memorial.owner.toString() === currentUser._id.toString()
+      const isAdmin = currentUser.role === "admin"
+      const isCollaborator = memorial.collaborators && memorial.collaborators.some(
+        collabId => collabId.toString() === currentUser._id.toString()
+      )
+
+      if (!isOwner && !isAdmin && !isCollaborator) {
+        return res.status(403).send("Sem permissão")
+      }
 
       const gallery = await Gallery.findOne({ memorial: memorial._id })
       if (!gallery) return res.status(404).send("Galeria não encontrada")

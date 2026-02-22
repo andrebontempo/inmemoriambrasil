@@ -62,11 +62,13 @@
           {{/if}}
         </div>
 
+        {{#if canManageGallery}}
         <div class="d-flex justify-content-end mt-4">
           <a href="/memorial/{{slug}}/gallery/edit/{{id}}" class="btn btn-custom-outline rounded-pill px-4">
             <i class="bi bi-pencil-square me-2"></i>Editar Galeria
           </a>
         </div>
+        {{/if}}
       </div>
 
       <!-- ============================ 🎧 ÁUDIOS ============================ -->
@@ -98,11 +100,13 @@
           {{/if}}
         </div>
 
+        {{#if canManageGallery}}
         <div class="d-flex justify-content-end mt-4">
           <a href="/memorial/{{slug}}/gallery/edit/{{id}}" class="btn btn-custom-outline rounded-pill px-4">
             <i class="bi bi-pencil-square me-2"></i>Editar Galeria
           </a>
         </div>
+        {{/if}}
       </div>
 
       <!-- ============================ 🎬 VÍDEOS ============================ -->
@@ -133,11 +137,13 @@
           {{/if}}
         </div>
 
+        {{#if canManageGallery}}
         <div class="d-flex justify-content-end mt-4">
           <a href="/memorial/{{slug}}/gallery/edit/{{id}}" class="btn btn-custom-outline rounded-pill px-4">
             <i class="bi bi-pencil-square me-2"></i>Editar Galeria
           </a>
         </div>
+        {{/if}}
       </div>
 
     </div>

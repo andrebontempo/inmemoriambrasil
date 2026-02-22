@@ -38,11 +38,17 @@ const SharedStoryController = {
         return res.status(404).send("Memorial não encontrado")
       }
 
+      // Verificação de permissão: Precisa estar logado
+      if (!userCurrent) {
+        req.flash("error_msg", "Você precisa estar logado para compartilhar uma história.")
+        return res.redirect(`/memorial/${memorial.slug}/sharedstory`)
+      }
+
       // Criar uma nova história compartilhada
       const newSharedStory = new SharedStory({
         memorial: memorial._id,
         slug: req.params.slug,
-        user: userCurrent ? userCurrent._id : null,
+        user: userCurrent._id,
         title: req.body.title,
         content: req.body.content,
         eventDate: req.body.eventDate,
@@ -92,11 +98,34 @@ const SharedStoryController = {
         videos: [],
       }
 
-      const sharedstories = await SharedStory.find({ memorial: memorial._id })
+      const sharedstoriesRaw = await SharedStory.find({ memorial: memorial._id })
         .sort({ eventDate: 1 })
-        .populate({ path: "user", select: "firstName lastName" })
-        .select("title content eventDate image createdAt")
+        .populate({ path: "user", select: "firstName lastName _id" })
+        .select("title content eventDate image createdAt user")
         .lean()
+
+      const currentUser = req.user
+      const sharedStory = sharedstoriesRaw.map(story => {
+        let canEdit = false
+
+        if (currentUser) {
+          const isAuthor = story.user && story.user._id.toString() === currentUser._id.toString()
+          const isOwner = memorial.owner && memorial.owner._id.toString() === currentUser._id.toString()
+          const isAdmin = currentUser.role === "admin"
+          const isCollaborator = memorial.collaborators && memorial.collaborators.some(
+            collabId => collabId.toString() === currentUser._id.toString()
+          )
+
+          if (isAuthor || isOwner || isAdmin || isCollaborator) {
+            canEdit = true
+          }
+        }
+
+        return {
+          ...story,
+          canEdit
+        }
+      })
 
       const totalTributos = await Tribute.countDocuments({
         memorial: memorial._id,
@@ -123,8 +152,7 @@ const SharedStoryController = {
         kinship: memorial.kinship,
         mainPhoto: memorial.mainPhoto,
         qrCode: memorial.qrCode,
-        //lifeStory: lifestories || [],
-        sharedStory: sharedstories || [],
+        sharedStory,
         gallery: galleryData,
         birth: {
           date: memorial.birth?.date || "Não informada",
@@ -179,6 +207,25 @@ const SharedStoryController = {
           .render("errors/404", { message: "Memorial não encontrado." })
       }
 
+      // Verificação de permissão
+      const currentUser = req.user
+      if (!currentUser) {
+        req.flash("error_msg", "Você precisa estar logado.")
+        return res.redirect(`/memorial/${slug}/sharedstory`)
+      }
+
+      const isAuthor = sharedStory.user && sharedStory.user.toString() === currentUser._id.toString()
+      const isOwner = memorial.owner && memorial.owner._id.toString() === currentUser._id.toString()
+      const isAdmin = currentUser.role === "admin"
+      const isCollaborator = memorial.collaborators && memorial.collaborators.some(
+        collabId => collabId.toString() === currentUser._id.toString()
+      )
+
+      if (!isAuthor && !isOwner && !isAdmin && !isCollaborator) {
+        req.flash("error_msg", "Você não tem permissão para editar esta história.")
+        return res.redirect(`/memorial/${slug}/sharedstory`)
+      }
+
       const galeria = await Gallery.findOne({ memorial: memorial._id })
         .select("photos audios videos")
         .lean()
@@ -207,6 +254,26 @@ const SharedStoryController = {
 
       if (!sharedStory) {
         return res.status(404).send("História não encontrada")
+      }
+
+      // Verificação de permissão
+      const currentUser = req.user
+      if (!currentUser) {
+        req.flash("error_msg", "Você precisa estar logado.")
+        return res.redirect(`/memorial/${slug}/sharedstory`)
+      }
+
+      const memorial = await Memorial.findById(sharedStory.memorial)
+      const isAuthor = sharedStory.user && sharedStory.user.toString() === currentUser._id.toString()
+      const isOwner = memorial.owner && memorial.owner.toString() === currentUser._id.toString()
+      const isAdmin = currentUser.role === "admin"
+      const isCollaborator = memorial.collaborators && memorial.collaborators.some(
+        collabId => collabId.toString() === currentUser._id.toString()
+      )
+
+      if (!isAuthor && !isOwner && !isAdmin && !isCollaborator) {
+        req.flash("error_msg", "Você não tem permissão para editar esta história.")
+        return res.redirect(`/memorial/${slug}/sharedstory`)
       }
 
       // Se recebeu nova imagem via middleware
@@ -272,12 +339,21 @@ const SharedStoryController = {
         return res.status(404).send("História de Vida não encontrada")
       }
 
-      // Verifica se o usuário tem permissão (criador do memorial)
-      if (
-        !req.user ||
-        sharedStory.memorial.owner.toString() !==
-        req.user._id.toString()
-      ) {
+      // Verifica se o usuário tem permissão (autor, dono, admin ou colaborador)
+      const currentUser = req.user
+      if (!currentUser) {
+        req.flash("error_msg", "Você precisa estar logado.")
+        return res.redirect(`/memorial/${sharedStory.memorial.slug}/sharedstory`)
+      }
+
+      const isAuthor = sharedStory.user && sharedStory.user.toString() === currentUser._id.toString()
+      const isOwner = sharedStory.memorial.owner && sharedStory.memorial.owner.toString() === currentUser._id.toString()
+      const isAdmin = currentUser.role === "admin"
+      const isCollaborator = sharedStory.memorial.collaborators && sharedStory.memorial.collaborators.some(
+        collabId => collabId.toString() === currentUser._id.toString()
+      )
+
+      if (!isAuthor && !isOwner && !isAdmin && !isCollaborator) {
         req.flash(
           "error_msg",
           "Você não tem permissão para excluir esta história."

@@ -75,16 +75,18 @@ function canEditMemorial(req, res, next) {
 }
 
 /**
- * Define se o menu de administração deve ser exibido.
+ * Define se o menu de administração e o envio de convites devem ser exibidos.
  */
 function setAdminMenuPermission(req, res, next) {
     const { memorial, user } = req
     res.locals.canAdminMenu = false
+    res.locals.canManageSidebar = false
 
     if (memorial && user) {
         const userId = String(user._id)
         if (user.role === "admin" || String(memorial.owner) === userId || memorial.collaborators?.some(id => String(id) === userId)) {
             res.locals.canAdminMenu = true
+            res.locals.canManageSidebar = true
         }
     }
 

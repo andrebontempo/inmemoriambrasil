@@ -38,6 +38,18 @@ const LifeStoryController = {
         return res.status(404).send("Memorial não encontrado")
       }
 
+      // Verificação de permissão
+      const isOwner = memorial.owner && memorial.owner.toString() === userCurrent._id.toString()
+      const isAdmin = userCurrent.role === "admin"
+      const isCollaborator = memorial.collaborators && memorial.collaborators.some(
+        collabId => collabId.toString() === userCurrent._id.toString()
+      )
+
+      if (!isOwner && !isAdmin && !isCollaborator) {
+        req.flash("error_msg", "Você não tem permissão para adicionar histórias.")
+        return res.redirect(`/memorial/${memorial.slug}/lifestory`)
+      }
+
       // Criar uma nova história de vida
       const newLifeStory = new LifeStory({
         memorial: memorial._id,
@@ -107,9 +119,26 @@ const LifeStoryController = {
         memorial: memorial._id,
       })
 
+      // Lógica de Permissionamento
+      let canManageStory = false
+      const currentUser = req.user
+
+      if (currentUser) {
+        const isOwner = memorial.owner && memorial.owner._id.toString() === currentUser._id.toString()
+        const isAdmin = currentUser.role === "admin"
+        const isCollaborator = memorial.collaborators && memorial.collaborators.some(
+          collabId => collabId.toString() === currentUser._id.toString()
+        )
+
+        if (isOwner || isAdmin || isCollaborator) {
+          canManageStory = true
+        }
+      }
+
       return res.render("memorial/memorial-lifestory", {
         layout: "memorial-layout",
         id: memorial._id,
+        canManageStory,
         owner: {
           firstName: memorial.owner?.firstName || "",
           lastName: memorial.owner?.lastName || "",
@@ -208,6 +237,22 @@ const LifeStoryController = {
         return res.status(404).send("História não encontrada")
       }
 
+      // Verificação de permissão
+      const currentUser = req.user
+      // Precisamos do memorial para checar owner/collaborators
+      const memorial = await Memorial.findById(lifeStory.memorial)
+
+      const isOwner = memorial.owner && memorial.owner.toString() === currentUser._id.toString()
+      const isAdmin = currentUser.role === "admin"
+      const isCollaborator = memorial.collaborators && memorial.collaborators.some(
+        collabId => collabId.toString() === currentUser._id.toString()
+      )
+
+      if (!isOwner && !isAdmin && !isCollaborator) {
+        req.flash("error_msg", "Você não tem permissão para atualizar histórias.")
+        return res.redirect(`/memorial/${slug}/lifestory`)
+      }
+
       // Se recebeu nova imagem via middleware
       if (req.file) {
         // Deleta imagem antiga da R2, se existir key completa
@@ -272,11 +317,17 @@ const LifeStoryController = {
         return res.status(404).send("História de Vida não encontrada")
       }
 
-      // Verifica se o usuário tem permissão (criador do memorial)
-      if (
-        !req.user ||
-        lifeStory.memorial.owner.toString() !== req.user._id.toString()
-      ) {
+      // Verifica se o usuário tem permissão (dono, admin ou colaborador)
+      const currentUser = req.user
+      const isOwner = lifeStory.memorial.owner && lifeStory.memorial.owner.toString() === currentUser._id.toString()
+      const isAdmin = currentUser.role === "admin"
+      // Note: Colaboradores estão no memorial, não na story. lifeStory.memorial.collaborators deve estar populado ou disponível.
+      // deleteLifeStory faz populate('memorial'), mas precisamos ver se collaborators está no schema do memorial.
+      const isCollaborator = lifeStory.memorial.collaborators && lifeStory.memorial.collaborators.some(
+        collabId => collabId.toString() === currentUser._id.toString()
+      )
+
+      if (!isOwner && !isAdmin && !isCollaborator) {
         req.flash(
           "error_msg",
           "Você não tem permissão para excluir esta história."

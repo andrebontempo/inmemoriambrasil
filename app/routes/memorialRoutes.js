@@ -45,18 +45,18 @@ router.get("/:slug", (req, res) => res.redirect(`/memorial/${req.params.slug}/ab
 router.post("/:slug/invite", AuthMiddleware, loadMemorial, canEditMemorial, InviteController.sendInvite)
 
 // Edição Básica do Memorial
-router.get("/:slug/memorial/edit", AuthMiddleware, loadMemorial, canEditMemorial, MemorialController.editMemorial)
+router.get("/:slug/memorial/edit", AuthMiddleware, loadMemorial, setAdminMenuPermission, canEditMemorial, MemorialController.editMemorial)
 router.post("/:slug/memorial/update", AuthMiddleware, loadMemorial, canEditMemorial, MemorialController.updateMemorial)
 
 // Configurações de Privacidade e Tema
-router.get("/:slug/memorial/privacy/edit", AuthMiddleware, loadMemorial, canEditMemorial, MemorialController.editPrivacy)
+router.get("/:slug/memorial/privacy/edit", AuthMiddleware, loadMemorial, setAdminMenuPermission, canEditMemorial, MemorialController.editPrivacy)
 router.post("/:slug/privacy/update", AuthMiddleware, loadMemorial, canEditMemorial, MemorialController.updatePrivacy)
 
-router.get("/:slug/theme/edit", AuthMiddleware, loadMemorial, canEditMemorial, MemorialController.editTheme)
+router.get("/:slug/theme/edit", AuthMiddleware, loadMemorial, setAdminMenuPermission, canEditMemorial, MemorialController.editTheme)
 router.post("/:slug/theme/update", AuthMiddleware, loadMemorial, canEditMemorial, MemorialController.updateTheme)
 
 // Foto Principal (FET)
-router.get("/:slug/memorial-fet/edit", AuthMiddleware, loadMemorial, canEditMemorial, MemorialFETController.editMemorialFET)
+router.get("/:slug/memorial-fet/edit", AuthMiddleware, loadMemorial, setAdminMenuPermission, canEditMemorial, MemorialFETController.editMemorialFET)
 router.post("/:slug/memorial-fet/update", AuthMiddleware, loadMemorial, canEditMemorial, upload.single("file"), uploadToR2, MemorialFETController.updateMemorialFET)
 
 // Deleção do Memorial
@@ -66,7 +66,7 @@ router.post("/:slug/delete", AuthMiddleware, loadMemorial, canEditMemorial, Memo
 
 // Galeria
 router.get("/:slug/gallery", loadMemorial, setAdminMenuPermission, canViewMemorial, GalleryController.showGallery)
-router.get("/:slug/gallery/edit/:id", AuthMiddleware, loadMemorial, canEditMemorial, GalleryController.editGallery)
+router.get("/:slug/gallery/edit/:id", AuthMiddleware, loadMemorial, setAdminMenuPermission, canEditMemorial, GalleryController.editGallery)
 router.post("/:slug/gallery/update/:tipo", AuthMiddleware, loadMemorial, canEditMemorial, upload.single("file"), uploadToR2, GalleryController.updateGallery)
 router.post("/:slug/gallery/delete/:tipo", AuthMiddleware, loadMemorial, canEditMemorial, GalleryController.deleteFile)
 router.post("/:slug/gallery/caption/:tipo", AuthMiddleware, loadMemorial, canEditMemorial, GalleryController.updateCaption)

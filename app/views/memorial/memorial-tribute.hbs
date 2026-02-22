@@ -48,6 +48,7 @@
                 </small>
 
                 <div class="tribute-actions">
+                  {{#if this.canEdit}}
                   <a href="/memorial/{{../slug}}/tribute/edit/{{this._id}}"
                     class="btn btn-custom-outline btn-sm rounded-pill px-3">
                     <i class="bi bi-pencil me-1"></i>Editar
@@ -59,6 +60,7 @@
                       <i class="bi bi-trash me-1"></i>Excluir
                     </button>
                   </form>
+                  {{/if}}
                 </div>
               </div>
             </div>
@@ -82,6 +84,7 @@
 
   <!-- Formulário de Envio (Card Separado) -->
   <div id="form-tributo" class="mt-2">
+    {{#if user}}
     <form action="/memorial/{{slug}}/tribute/create" method="POST">
       <input type="hidden" name="memorial" value="{{id}}">
       <input type="hidden" name="slug" value="{{slug}}">
@@ -140,6 +143,18 @@
         </div>
       </div>
     </form>
+    {{else}}
+    <div class="card border-0 shadow-sm rounded-4 text-center py-5">
+      <div class="card-body">
+        <i class="bi bi-person-lock fs-1 text-muted mb-3 d-block"></i>
+        <h4 class="mb-3">Faça login para homenagear</h4>
+        <p class="text-muted mb-4">Você precisa estar conectado para enviar uma mensagem para <strong>{{firstName}}
+            {{lastName}}</strong>.</p>
+        <a href="/auth/login" class="btn btn-primary rounded-pill px-4 me-2">Entrar</a>
+        <a href="/auth/register" class="btn btn-outline-dark rounded-pill px-4">Criar conta</a>
+      </div>
+    </div>
+    {{/if}}
   </div>
 
 </main>

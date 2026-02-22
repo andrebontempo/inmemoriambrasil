@@ -14,11 +14,13 @@
       Em ordem cronológica, cada história registrada contribui para manter viva sua memória,
       revelando aspectos significativos de sua vida e legado.
     </p>
+    {{#if canManageStory}}
     <div class="text-center">
       <a href="#form-historia" class="btn btn-custom-outline rounded-pill px-4">
         <i class="bi bi-pencil-square me-2"></i> Escrever História
       </a>
     </div>
+    {{/if}}
   </div>
 
 
@@ -51,6 +53,7 @@
             </span>
 
             <div class="life-actions">
+              {{#if ../canManageStory}}
               <a href="/memorial/{{../slug}}/lifestory/edit/{{this._id}}"
                 class="btn btn-custom-outline btn-sm rounded-pill px-3" title="Editar">
                 <i class="bi bi-pencil me-1"></i>Editar
@@ -62,6 +65,7 @@
                   <i class="bi bi-trash me-1"></i>Excluir
                 </button>
               </form>
+              {{/if}}
             </div>
           </div>
         </div>
@@ -75,6 +79,7 @@
   </div>
 
   <!-- Formulário de Envio de História -->
+  {{#if canManageStory}}
   <div id="form-historia" class="mt-2">
     <form action="/memorial/{{slug}}/lifestory/create" method="POST" enctype="multipart/form-data">
       <input type="hidden" name="memorial" value="{{id}}" />
@@ -124,4 +129,5 @@
       </div>
     </form>
   </div>
+  {{/if}}
 </main>
