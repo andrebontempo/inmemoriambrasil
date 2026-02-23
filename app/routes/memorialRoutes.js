@@ -3,7 +3,6 @@ const router = express.Router()
 
 // Controllers
 const MemorialController = require("../controllers/MemorialController")
-const MemorialFETController = require("../controllers/MemorialFETController")
 const TributeController = require("../controllers/TributeController")
 const LifeStoryController = require("../controllers/LifeStoryController")
 const SharedStoryController = require("../controllers/SharedStoryController")
@@ -46,19 +45,19 @@ router.get("/:slug", (req, res) => res.redirect(`/memorial/${req.params.slug}/ab
 router.post("/:slug/invite", AuthMiddleware, loadMemorial, canEditMemorial, InviteController.sendInvite)
 
 // Edição Básica do Memorial
-router.get("/:slug/memorial/edit", AuthMiddleware, loadMemorial, setAdminMenuPermission, canEditMemorial, MemorialController.editMemorial)
-router.post("/:slug/memorial/update", AuthMiddleware, loadMemorial, canEditMemorial, MemorialController.updateMemorial)
+router.get("/:slug/edit", AuthMiddleware, loadMemorial, setAdminMenuPermission, canEditMemorial, MemorialController.editMemorial)
+router.post("/:slug/update", AuthMiddleware, loadMemorial, canEditMemorial, MemorialController.updateMemorial)
 
 // Configurações de Privacidade e Tema
-router.get("/:slug/memorial/privacy/edit", AuthMiddleware, loadMemorial, setAdminMenuPermission, canEditMemorial, MemorialController.editPrivacy)
+router.get("/:slug/privacy/edit", AuthMiddleware, loadMemorial, setAdminMenuPermission, canEditMemorial, MemorialController.editPrivacy)
 router.post("/:slug/privacy/update", AuthMiddleware, loadMemorial, canEditMemorial, MemorialController.updatePrivacy)
 
 router.get("/:slug/theme/edit", AuthMiddleware, loadMemorial, setAdminMenuPermission, canEditMemorial, MemorialController.editTheme)
 router.post("/:slug/theme/update", AuthMiddleware, loadMemorial, canEditMemorial, MemorialController.updateTheme)
 
-// Foto Principal (FET)
-router.get("/:slug/memorial-fet/edit", AuthMiddleware, loadMemorial, setAdminMenuPermission, canEditMemorial, MemorialFETController.editMemorialFET)
-router.post("/:slug/memorial-fet/update", AuthMiddleware, loadMemorial, canEditMemorial, upload.single("file"), uploadToR2, MemorialFETController.updateMemorialFET)
+// Foto Principal
+router.get("/:slug/photo/edit", AuthMiddleware, loadMemorial, setAdminMenuPermission, canEditMemorial, MemorialController.editFotoPrincipal)
+router.post("/:slug/photo/update", AuthMiddleware, loadMemorial, canEditMemorial, upload.single("file"), uploadToR2, MemorialController.updateFotoPrincipal)
 
 // Deleção do Memorial
 router.post("/:slug/delete", AuthMiddleware, loadMemorial, canEditMemorial, MemorialController.deleteMemorial)

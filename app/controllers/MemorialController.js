@@ -609,6 +609,123 @@ const MemorialController = {
   },
 
 
+  // Método para exibir a página de edição de foto principal (Antigo FET)
+  editFotoPrincipal: async (req, res) => {
+    try {
+      const memorial = await Memorial.findOne({ slug: req.params.slug })
+        .populate({ path: "owner", select: "firstName lastName" })
+        .lean()
+
+      if (!memorial) {
+        return res.status(404).send("Memorial não encontrado")
+      }
+
+      const galeria = await Gallery.findOne({ memorial: memorial._id })
+        .populate({ path: "user", select: "firstName lastName" })
+        .select("photos audios videos")
+        .lean()
+
+      const galleryData = galeria || {
+        photos: [],
+        audios: [],
+        videos: [],
+      }
+
+      const totalTributos = await Tribute.countDocuments({
+        memorial: memorial._id,
+      })
+      const totalHistorias = await LifeStory.countDocuments({
+        memorial: memorial._id,
+      })
+      const totalHistoriasCom = await SharedStory.countDocuments({
+        memorial: memorial._id,
+      })
+
+      return res.render("memorial/edit/photo-edit", {
+        layout: "memorial-layout",
+        firstName: memorial.firstName,
+        lastName: memorial.lastName,
+        slug: memorial.slug,
+        mainPhoto: memorial.mainPhoto,
+        epitaph: memorial.epitaph,
+        biography: memorial.biography,
+        birth: {
+          date: memorial.birth?.date
+            ? new Date(memorial.birth.date).toISOString().split("T")[0]
+            : "",
+          city: memorial.birth?.city || "Cidade não informada",
+          state: memorial.birth?.state || "Estado não informado",
+          country: memorial.birth?.country || "Brasil",
+        },
+        death: {
+          date: memorial.death?.date
+            ? new Date(memorial.death.date).toISOString().split("T")[0]
+            : "",
+          city: memorial.death?.city || "Cidade não informada",
+          state: memorial.death?.state || "Estado não informado",
+          country: memorial.death?.country || "Brasil",
+        },
+        gallery: galleryData,
+        theme: memorial.theme || "vinho",
+        estatisticas: {
+          totalVisitas: memorial.visits || 0,
+          totalTributos,
+          totalHistorias,
+          totalHistoriasCom,
+        },
+      })
+    } catch (error) {
+      console.error("Erro ao carregar memorial para foto:", error)
+      res.status(500).send("Erro interno do servidor")
+    }
+  },
+
+  // Método para atualizar a foto principal
+  updateFotoPrincipal: async (req, res) => {
+    try {
+      const { slug } = req.params
+      const memorial = await Memorial.findOne({ slug })
+
+      if (!memorial) {
+        return res.status(404).send("Memorial não encontrado")
+      }
+
+      const updateData = {}
+
+      // Se vier uma nova foto no req.file (uploadToR2 middleware)
+      if (req.file && req.file.key) {
+        // Apaga a foto antiga da Cloudflare R2 (se existir)
+        if (memorial.mainPhoto && memorial.mainPhoto.key) {
+          try {
+            await r2.send(
+              new DeleteObjectCommand({
+                Bucket: process.env.R2_BUCKET,
+                Key: memorial.mainPhoto.key,
+              })
+            )
+          } catch (err) {
+            console.error("Erro ao deletar foto antiga da R2:", err)
+          }
+        }
+
+        // Atualiza mainPhoto com a nova info da R2
+        updateData.mainPhoto = {
+          key: req.file.key,
+          url: req.file.url,
+          originalName: req.file.originalname,
+          updatedAt: new Date(),
+        }
+      }
+
+      await Memorial.findOneAndUpdate({ slug }, updateData, { new: true })
+
+      res.redirect(`/memorial/${slug}`)
+    } catch (err) {
+      console.error("Erro ao atualizar foto do memorial:", err)
+      res.status(500).send("Erro ao atualizar memorial")
+    }
+  },
+
   // Método para exibir a página de edição de tema do memorial
   editTheme: async (req, res) => {
     try {
