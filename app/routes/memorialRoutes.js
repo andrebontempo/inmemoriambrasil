@@ -8,6 +8,7 @@ const TributeController = require("../controllers/TributeController")
 const LifeStoryController = require("../controllers/LifeStoryController")
 const SharedStoryController = require("../controllers/SharedStoryController")
 const GalleryController = require("../controllers/GalleryController")
+const MemberController = require("../controllers/MemberController")
 const InviteController = require("../controllers/InviteController")
 
 // Middlewares
@@ -71,6 +72,11 @@ router.post("/:slug/gallery/update/:tipo", AuthMiddleware, loadMemorial, canEdit
 router.post("/:slug/gallery/delete/:tipo", AuthMiddleware, loadMemorial, canEditMemorial, GalleryController.deleteFile)
 router.post("/:slug/gallery/caption/:tipo", AuthMiddleware, loadMemorial, canEditMemorial, GalleryController.updateCaption)
 router.post("/:slug/gallery/save-all", AuthMiddleware, loadMemorial, canEditMemorial, GalleryController.saveAllCaptions)
+
+// Gestão de Membros (Premium)
+router.get("/:slug/members", AuthMiddleware, loadMemorial, setAdminMenuPermission, canEditMemorial, MemberController.listMembers)
+router.post("/:slug/members/add/:role", AuthMiddleware, loadMemorial, canEditMemorial, MemberController.addMember)
+router.post("/:slug/members/remove/:role/:userId", AuthMiddleware, loadMemorial, canEditMemorial, MemberController.removeMember)
 
 // Histórias Compartilhadas (Shared Stories)
 router.get("/:slug/sharedstory", loadMemorial, setAdminMenuPermission, canViewMemorial, SharedStoryController.showSharedStory)

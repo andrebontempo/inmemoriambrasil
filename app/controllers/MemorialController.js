@@ -354,6 +354,7 @@ const MemorialController = {
         firstName: memorial.firstName,
         lastName: memorial.lastName,
         slug: memorial.slug,
+        plan: memorial.plan,
         gender: memorial.gender,
         mainPhoto: memorial.mainPhoto,
         kinship: memorial.kinship, // valor salvo
@@ -460,6 +461,7 @@ const MemorialController = {
         firstName: memorial.firstName,
         lastName: memorial.lastName,
         slug: memorial.slug,
+        plan: memorial.plan,
         accessLevel: memorial.accessLevel,
         gender: memorial.gender,
         mainPhoto: memorial.mainPhoto,
@@ -626,6 +628,7 @@ const MemorialController = {
         firstName: memorial.firstName,
         lastName: memorial.lastName,
         slug: memorial.slug,
+        plan: memorial.plan,
         theme: memorial.theme || "vinho",
         mainPhoto: memorial.mainPhoto,
         estatisticas: {

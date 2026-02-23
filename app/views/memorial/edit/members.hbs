@@ -1,0 +1,205 @@
+<main>
+    <div class="custom-box p-3 my-2 mx-0">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="section-title mb-0">
+                <i class="bi bi-people-fill me-2"></i>
+                Gestão de Membros
+            </h3>
+            <a href="/memorial/{{slug}}/privacy" class="btn btn-custom-outline btn-sm rounded-pill px-3">
+                <i class="bi bi-arrow-left me-1"></i>Voltar
+            </a>
+        </div>
+
+        <!-- Tabs Estilo Galeria -->
+        <ul class="nav nav-tabs fw-semibold mb-4 mx-auto" id="memberTabs" role="tablist"
+            style="max-width: fit-content;">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active text-dark px-4" id="collab-tab" data-bs-toggle="tab"
+                    data-bs-target="#collab" type="button" role="tab" aria-controls="collab" aria-selected="true">
+                    ✍️ Colaboradores (Edição)
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link text-dark px-4" id="invited-tab" data-bs-toggle="tab" data-bs-target="#invited"
+                    type="button" role="tab" aria-controls="invited" aria-selected="false">
+                    👁️ Convidados (Leitura)
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content pt-2">
+
+            <!-- ============================ ✍️ COLABORADORES ============================ -->
+            <div class="tab-pane fade show active" id="collab" role="tabpanel" aria-labelledby="collab-tab">
+                <div class="row g-4">
+                    <div class="col-md-5">
+                        <div class="card border-0 shadow-sm rounded-4 p-4 bg-light">
+                            <h6 class="fw-bold mb-3 text-primary"><i class="bi bi-person-plus-fill me-2"></i>Novo
+                                Colaborador</h6>
+                            <p class="small text-muted mb-3">Colaboradores podem editar informações, adicionar fotos e
+                                gerenciar o memorial.</p>
+                            <form action="/memorial/{{slug}}/members/add/collab" method="POST">
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold">E-MAIL DO USUÁRIO</label>
+                                    <input type="email" name="email" class="form-control rounded-pill px-3"
+                                        placeholder="exemplo@email.com" required>
+                                </div>
+                                <button type="submit" class="btn btn-custom-fill w-100 rounded-pill">
+                                    <i class="bi bi-plus-lg me-1"></i>Adicionar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <h6 class="fw-bold mb-3 d-flex align-items-center">
+                            Membros Atuais
+                            <span
+                                class="badge bg-light text-dark ms-2 rounded-pill fw-normal">{{collaborators.length}}</span>
+                        </h6>
+                        {{#if collaborators.length}}
+                        <div class="list-group list-group-flush shadow-sm rounded-4 overflow-hidden">
+                            {{#each collaborators}}
+                            <div
+                                class="list-group-item bg-white p-3 border-0 d-flex justify-content-between align-items-center border-bottom">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-primary bg-opacity-10 p-2 rounded-circle me-3">
+                                        <i class="bi bi-person-badge-fill text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold">{{this.firstName}} {{this.lastName}}</div>
+                                        <div class="small text-muted">{{this.email}}</div>
+                                    </div>
+                                </div>
+                                <form action="/memorial/{{../slug}}/members/remove/collab/{{this._id}}" method="POST"
+                                    onsubmit="return confirm('Remover acesso de edição deste usuário?');">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-3">
+                                        <i class="bi bi-trash3"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            {{/each}}
+                        </div>
+                        {{else}}
+                        <div class="text-center py-5 bg-white shadow-sm rounded-4">
+                            <i class="bi bi-person-slash text-muted fs-1 mb-2"></i>
+                            <p class="text-muted mb-0">Nenhum colaborador adicional.</p>
+                        </div>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================ 👁️ CONVIDADOS ============================ -->
+            <div class="tab-pane fade" id="invited" role="tabpanel" aria-labelledby="invited-tab">
+                <div class="row g-4">
+                    <div class="col-md-5">
+                        <div class="card border-0 shadow-sm rounded-4 p-4 bg-light">
+                            <h6 class="fw-bold mb-3 text-secondary"><i class="bi bi-eye-fill me-2"></i>Novo Convidado
+                            </h6>
+                            <p class="small text-muted mb-3">Convidados podem apenas visualizar o memorial quando ele
+                                está em modo privado.</p>
+                            <form action="/memorial/{{slug}}/members/add/invited" method="POST">
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold">E-MAIL DO CONVIDADO</label>
+                                    <input type="email" name="email" class="form-control rounded-pill px-3"
+                                        placeholder="exemplo@email.com" required>
+                                </div>
+                                <button type="submit" class="btn btn-custom-fill w-100 rounded-pill">
+                                    <i class="bi bi-plus-lg me-1"></i>Adicionar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <h6 class="fw-bold mb-3 d-flex align-items-center">
+                            Convidados Atuais
+                            <span class="badge bg-light text-dark ms-2 rounded-pill fw-normal">{{invited.length}}</span>
+                        </h6>
+                        {{#if invited.length}}
+                        <div class="list-group list-group-flush shadow-sm rounded-4 overflow-hidden">
+                            {{#each invited}}
+                            <div
+                                class="list-group-item bg-white p-3 border-0 d-flex justify-content-between align-items-center border-bottom">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-secondary bg-opacity-10 p-2 rounded-circle me-3">
+                                        <i class="bi bi-bookmark-heart-fill text-secondary"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold">{{this.firstName}} {{this.lastName}}</div>
+                                        <div class="small text-muted">{{this.email}}</div>
+                                    </div>
+                                </div>
+                                <form action="/memorial/{{../slug}}/members/remove/invited/{{this._id}}" method="POST"
+                                    onsubmit="return confirm('Remover acesso de leitura deste convidado?');">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-3">
+                                        <i class="bi bi-trash3"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            {{/each}}
+                        </div>
+                        {{else}}
+                        <div class="text-center py-5 bg-white shadow-sm rounded-4">
+                            <i class="bi bi-people text-muted fs-1 mb-2"></i>
+                            <p class="text-muted mb-0">Nenhum convidado adicionado.</p>
+                        </div>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<style>
+    .nav-tabs .nav-link {
+        color: #555;
+        border: none;
+        border-bottom: 3px solid transparent;
+        transition: all 0.3s ease;
+    }
+
+    .nav-tabs .nav-link.active {
+        color: var(--theme-primary) !important;
+        border-bottom-color: var(--theme-primary);
+        background: transparent;
+    }
+
+    .nav-tabs .nav-link:hover:not(.active) {
+        color: var(--theme-primary);
+        border-bottom-color: #eee;
+    }
+
+    .btn-custom-fill {
+        background-color: var(--theme-primary);
+        border-color: var(--theme-primary);
+        color: #fff;
+    }
+
+    .btn-custom-fill:hover {
+        background-color: var(--theme-secondary);
+        border-color: var(--theme-secondary);
+        color: #fff;
+    }
+
+    .btn-custom-outline {
+        color: var(--theme-primary);
+        border: 2px solid var(--theme-primary);
+        background: transparent;
+        transition: 0.3s;
+    }
+
+    .btn-custom-outline:hover {
+        background: var(--theme-primary);
+        color: #fff;
+    }
+
+    .text-primary {
+        color: var(--theme-primary) !important;
+    }
+
+    .bg-primary.bg-opacity-10 {
+        background-color: rgba(var(--theme-primary-rgb), 0.1) !important;
+    }
+</style>

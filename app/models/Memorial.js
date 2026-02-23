@@ -61,8 +61,8 @@ const MemorialSchema = new mongoose.Schema(
     },
     plan: {
       type: String,
-      enum: ["free", "premium"],
-      default: "free",
+      enum: ["base", "premium"],
+      default: "base",
     },
     planDetails: {
       expirationDate: { type: Date }, // Data de vencimento do plano premium
