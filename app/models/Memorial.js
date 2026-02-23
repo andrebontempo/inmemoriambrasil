@@ -59,6 +59,28 @@ const MemorialSchema = new mongoose.Schema(
       enum: ["vinho", "roxo", "azul"],
       default: "vinho",
     },
+    // **Áudio de fundo**
+    backgroundAudio: {
+      file: {
+        type: String,
+        enum: ["audio_001.mp3", "audio_002.mp3", "audio_003.mp3"],
+        default: "audio_001.mp3",
+      },
+      autoplay: {
+        type: Boolean,
+        default: false,
+      },
+      loop: {
+        type: Boolean,
+        default: true,
+      },
+      volume: {
+        type: Number,
+        min: 0,
+        max: 1,
+        default: 0.5,
+      },
+    },
     plan: {
       type: String,
       enum: ["base", "premium"],
