@@ -1,5 +1,5 @@
 # Procedimentos de Backup: In Memoriam Brasil
-fd
+
 Este documento define as políticas, ferramentas e procedimentos detalhados para realizar o backup completo do sistema **In Memoriam Brasil**. Um plano de backup eficiente é vital para garantir a disponibilidade, a integridade dos dados dos usuários e a rápida recuperação em caso de falhas, exclusões acidentais ou ataques.
 
 O escopo de backup desta aplicação envolve três pilares principais:
