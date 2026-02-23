@@ -174,74 +174,74 @@ const TributeController = {
 
   // Método para editar um tributo (GET)
   editTribute: async (req, res) => {
-    const { slug, id } = req.params
-
+    const { slug } = req.params
     try {
-      const currentUser = req.user
-
-      // Buscar tributo e popular memorial
-      const tribute = await Tribute.findById(id)
-        .populate({
-          path: "memorial",
-          populate: {
-            path: "owner",
-            select: "firstName lastName"
-          }
-        })
-        .populate({
-          path: "user",
-          select: "firstName lastName _id"
-        })
+      const tribute = await Tribute.findById(req.params.id).populate("memorial") // <--- aqui o populate
 
       if (!tribute) {
         return res.status(404).send("Tributo não encontrado")
       }
+      /*
+      console.log({
+        slug: tribute.memorial.slug,
+        mainPhoto: tribute.memorial.mainPhoto,
+        birthDate: tribute.memorial.birth?.date,
+        deathDate: tribute.memorial.death?.date,
+      })
+      */
+      //Buscar dados do memorial para o painel direito
+      const memorial = await Memorial.findOne({ slug })
+        .populate({ path: "owner", select: "firstName lastName" })
+        .populate({ path: "lifeStory", select: "title content eventDate" }) // Populate para lifeStory
+        .populate({ path: "sharedStory", select: "title content eventDate" }) // Populate para sharedStory
+        .populate({ path: "gallery.photos", select: "url" }) // Populate para fotos da galeria
+        .populate({ path: "gallery.audios", select: "url" }) // Populate para áudios da galeria
+        .populate({ path: "gallery.videos", select: "url" }) // Populate para vídeos da galeria
+        .lean() // Converte o documento em um objeto simples
 
-      const memorial = tribute.memorial
-
-      if (!memorial || memorial.slug !== slug) {
+      if (!memorial) {
         return res.status(404).render("errors/404", {
           message: "Memorial não encontrado.",
         })
       }
+      // Buscar tributos relacionados
+      const tributesRaw = await Tribute.find({ memorial: memorial._id })
+        .sort({ createdAt: -1 })
+        .populate({ path: "user", select: "firstName lastName _id" })
+        .select("name message type image createdAt user")
+        .lean()
 
-      // ===== REGRA DE PERMISSÃO =====
-      let canEdit = false
+      const currentUser = req.user
 
-      if (currentUser) {
-        const isAuthor =
-          tribute.user &&
-          tribute.user._id.toString() === currentUser._id.toString()
+      const tributes = tributesRaw.map(tribute => {
+        let canEdit = false
 
-        const isOwner =
-          memorial.owner &&
-          memorial.owner._id.toString() === currentUser._id.toString()
+        if (currentUser) {
+          const isAuthor = tribute.user && tribute.user._id.toString() === currentUser._id.toString()
+          const isOwner = memorial.owner && memorial.owner._id.toString() === currentUser._id.toString()
+          const isAdmin = currentUser.role === "admin"
 
-        const isAdmin = currentUser.role === "admin"
-
-        const isCollaborator =
-          memorial.collaborators &&
-          memorial.collaborators.some(
+          const isCollaborator = memorial.collaborators && memorial.collaborators.some(
             collabId => collabId.toString() === currentUser._id.toString()
           )
 
-        if (isAuthor || isOwner || isAdmin || isCollaborator) {
-          canEdit = true
+          if (isAuthor || isOwner || isAdmin || isCollaborator) {
+            canEdit = true
+          }
         }
-      }
 
-      // Se não pode editar, bloqueia
-      if (!canEdit) {
-        return res.status(403).render("errors/403", {
-          message: "Você não tem permissão para editar este tributo.",
-        })
-      }
+        return {
+          ...tribute,
+          canEdit
+        }
+      })
 
-      // ===== GALERIA =====
+
+      // Buscar as photos relacionados ao memorial
       const galeria = await Gallery.findOne({ memorial: memorial._id })
         .populate({ path: "user", select: "firstName lastName" })
         .select("photos audios videos")
-        .lean()
+        .lean() // Garantir que o resultado seja simples (não um documento Mongoose)
 
       const galleryData = galeria || {
         photos: [],
@@ -249,51 +249,44 @@ const TributeController = {
         videos: [],
       }
 
-      // ===== ESTATÍSTICAS =====
+      // Buscar tributos relacionados ao memorial
+      //const tributes = await Tribute.find({ memorial: memorial._id }).lean()
+
+      // Buscar contagem de histórias (caso tenha múltiplas associadas a esse memorial)
       const totalHistorias = await LifeStory.countDocuments({
         memorial: memorial._id,
       })
-
+      // Buscar contagem de histórias (caso tenha múltiplas associadas a esse memorial)
       const totalHistoriasCom = await SharedStory.countDocuments({
         memorial: memorial._id,
       })
 
-      const totalTributos = await Tribute.countDocuments({
-        memorial: memorial._id,
-      })
-
-      // ===== RENDER =====
-      return res.render("memorial/edit/tribute", {
+      res.render("memorial/edit/tribute", {
         layout: "memorial-layout",
-
-        // 🔥 IMPORTANTE para sidebar funcionar
-        owner: memorial.owner,
-        activeTribute: true,
-
-        tribute: tribute.toObject(),
-        slug: memorial.slug,
-        id: memorial._id,
-        firstName: memorial.firstName,
-        lastName: memorial.lastName,
-        mainPhoto: memorial.mainPhoto,
-        qrCode: memorial.qrCode,
-        birth: memorial.birth,
-        death: memorial.death,
+        tribute: tribute.toObject(), // Converte para objeto simples
+        slug: tribute.memorial.slug, // Passa o slug do memorial
+        firstName: tribute.memorial.firstName,
+        lastName: tribute.memorial.lastName,
+        mainPhoto: tribute.memorial.mainPhoto, // Passa a foto principal do memorial
+        qrCode: tribute.memorial.qrCode, // Passa o qrCode do memorial
+        birth: tribute.memorial.birth,
+        death: tribute.memorial.death,
+        //gallery: tribute.memorial.gallery,
         gallery: galleryData,
-
+        //birthDate: tribute.memorial.birth?.date,
+        //deathDate: tribute.memorial.death?.date,
+        //birthDate: tribute.memorial.birthDate, // Passa a data de nascimento do memorial
+        //deathDate: tribute.memorial.deathDate, // Passa a data de falecimento do memorial
         estatisticas: {
           totalVisitas: memorial.visits || 0,
-          totalTributos,
+          totalTributos: tributes.length || 0,
           totalHistorias,
           totalHistoriasCom,
         },
       })
-
-    } catch (error) {
-      console.error("Erro ao carregar tributo para edição:", error)
-      return res.status(500).render("errors/500", {
-        message: "Erro ao carregar tributo para edição.",
-      })
+    } catch (err) {
+      console.error(err)
+      res.status(500).send("Erro ao carregar tributo para edição.")
     }
   },
 

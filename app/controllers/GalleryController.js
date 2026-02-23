@@ -163,6 +163,18 @@ const GalleryController = {
         audios: [],
         videos: [],
       }
+      // Buscar contagem de tributos (caso tenha múltiplas associadas a esse memorial)
+      const totalTributos = await Tribute.countDocuments({
+        memorial: memorial._id,
+      })
+      // Buscar contagem de histórias de vida (caso tenha múltiplas associadas a esse memorial)
+      const totalHistorias = await LifeStory.countDocuments({
+        memorial: memorial._id,
+      })
+      // Buscar contagem de histórias compartilhadas (caso tenha múltiplas associadas a esse memorial)
+      const totalHistoriasCom = await SharedStory.countDocuments({
+        memorial: memorial._id,
+      })
 
       //console.log("Galeria:", galeria)
 
@@ -176,10 +188,17 @@ const GalleryController = {
         gender: memorial.gender,
         kinship: memorial.kinship,
         mainPhoto: memorial.mainPhoto,
+        qrCode: memorial.qrCode,
         birth: memorial.birth,
         death: memorial.death,
         gallery: galleryData,
         theme: memorial.theme,
+        estatisticas: {
+          totalVisitas: memorial.visits || 0,
+          totalTributos,
+          totalHistorias,
+          totalHistoriasCom,
+        },
         user: {
           firstName: memorial.user?.firstName || "Nome não informado",
           lastName: memorial.user?.lastName || "Sobrenome não informado",
