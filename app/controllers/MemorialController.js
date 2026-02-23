@@ -357,6 +357,7 @@ const MemorialController = {
         plan: memorial.plan,
         gender: memorial.gender,
         mainPhoto: memorial.mainPhoto,
+        qrCode: memorial.qrCode,
         kinship: memorial.kinship, // valor salvo
         kinships,                  // <<< ISSO FALTAVA
         biography: memorial.biography,
@@ -465,6 +466,7 @@ const MemorialController = {
         accessLevel: memorial.accessLevel,
         gender: memorial.gender,
         mainPhoto: memorial.mainPhoto,
+        qrCode: memorial.qrCode,
         kinship: memorial.kinship, // valor salvo
         kinships,                  // <<< ISSO FALTAVA
         biography: memorial.biography,
@@ -647,6 +649,7 @@ const MemorialController = {
         lastName: memorial.lastName,
         slug: memorial.slug,
         mainPhoto: memorial.mainPhoto,
+        qrCode: memorial.qrCode,
         epitaph: memorial.epitaph,
         biography: memorial.biography,
         birth: {
@@ -729,10 +732,28 @@ const MemorialController = {
   // Método para exibir a página de edição de tema do memorial
   editTheme: async (req, res) => {
     try {
-      const memorial = await Memorial.findOne({ slug: req.params.slug }).lean()
+      const memorial = await Memorial.findOne({ slug: req.params.slug })
+        .populate({ path: "owner", select: "firstName lastName" })
+        .populate({ path: "lifeStory", select: "title content" }) // Populate para lifeStory
+        .populate({ path: "sharedStory", select: "title content" }) // Populate para sharedstory
+        .lean() // Converte o documento em um objeto simples
 
       if (!memorial) {
         return res.status(404).send("Memorial não encontrado")
+      }
+      // Buscar as photos relacionados ao memorial
+      const galeria = await Gallery.findOne({ memorial: memorial._id })
+        .populate({ path: "user", select: "firstName lastName" })
+        .select("photos audios videos")
+        .lean() // Garantir que o resultado seja simples (não um documento Mongoose)
+
+      // Se não houver galeria, inicializa com arrays vazios
+      const galleryData = {
+        memorial: galeria?.memorial || null,
+        user: galeria?.user || null,
+        photos: galeria?.photos || [],
+        audios: galeria?.audios || [],
+        videos: galeria?.videos || [],
       }
 
       // Buscar contagem de tributos e histórias para o menu/sidebar se necessário
@@ -746,8 +767,52 @@ const MemorialController = {
         lastName: memorial.lastName,
         slug: memorial.slug,
         plan: memorial.plan,
-        theme: memorial.theme || "vinho",
+        accessLevel: memorial.accessLevel,
+        gender: memorial.gender,
         mainPhoto: memorial.mainPhoto,
+        qrCode: memorial.qrCode,
+        kinship: memorial.kinship, // valor salvo
+        kinships,                  // <<< ISSO FALTAVA
+        biography: memorial.biography,
+        obituary: {
+          ...memorial.obituary,
+
+          wakeDate: memorial.obituary?.wakeDate
+            ? new Date(memorial.obituary.wakeDate).toISOString().split("T")[0]
+            : "",
+        },
+        birth: {
+          date: memorial.birth?.date
+            ? new Date(memorial.birth.date).toISOString().split("T")[0]
+            : "",
+          //date: memorial.birth?.date || "Não informada", // Passa a data sem formatar
+          city: memorial.birth?.city || "Cidade não informada",
+          state: memorial.birth?.state || "Estado não informado",
+          country: memorial.birth?.country || "Brasil",
+        },
+        death: {
+          date: memorial.death?.date
+            ? new Date(memorial.death.date).toISOString().split("T")[0]
+            : "",
+
+          //date: memorial.death?.date || "Não informada", // Passa a data sem formatar
+          city: memorial.death?.city || "Cidade não informada",
+          state: memorial.death?.state || "Estado não informado",
+          country: memorial.death?.country || "Brasil",
+        },
+        about: memorial.about, // || "Informação não disponível.",
+        epitaph: memorial.epitaph, // || "Nenhum epitáfio fornecido.",
+        //tribute: memorial.tribute || [], // Passando os tributos para o template
+        //lifeStory: Array.isArray(memorial.lifeStory) ? memorial.lifeStory : [],
+        //stories: Array.isArray(memorial.stories) ? memorial.stories : [],
+        //gallery: memorial.gallery || {
+        //  photos: [],
+        //  audios: [],
+        //  videos: [],
+        //},
+        theme: memorial.theme || "Flores",
+        gallery: galleryData,
+        // Envia estatísticas específicas para a view
         estatisticas: {
           totalVisitas: memorial.visits || 0,
           totalTributos,
