@@ -2,6 +2,7 @@
 
   <!-- WRAPPER CENTRALIZADO -->
   <div class="d-flex justify-content-center">
+    {{#if user}}
     <form action="/memorial/create-step1" method="POST"
       class="main-form main-form-box main-card p-4 rounded-4 shadow-sm">
 
@@ -35,6 +36,20 @@
       </div>
 
     </form>
+    {{else}}
+    <div class="card border-0 shadow-sm rounded-4 text-center py-5 px-4" style="max-width: 600px; width: 100%;">
+      <div class="card-body">
+        <i class="bi bi-person-lock fs-1 text-muted mb-3 d-block"></i>
+        <h4 class="mb-3 fw-bold">Faça login para criar um memorial</h4>
+        <p class="text-muted mb-4">Você precisa estar conectado para começar a eternizar a história de quem você ama.
+        </p>
+        <div class="d-flex justify-content-center gap-2">
+          <a href="/auth/login" class="btn btn-primary rounded-pill px-4">Entrar</a>
+          <a href="/auth/register" class="btn btn-outline-dark rounded-pill px-4">Criar conta</a>
+        </div>
+      </div>
+    </div>
+    {{/if}}
   </div>
 
 </main>

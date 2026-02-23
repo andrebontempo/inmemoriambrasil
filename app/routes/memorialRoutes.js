@@ -20,7 +20,7 @@ router.get("/pesquisa", MemorialController.searchMemorial)
 router.get("/search", MemorialController.searchMemorial)
 
 // --------- CRIAÇÃO DE MEMORIAL (REQUER LOGIN) ---------
-router.get("/create-step1", AuthMiddleware, MemorialController.renderStep1)
+router.get("/create-step1", MemorialController.renderStep1)
 router.post("/create-step1", AuthMiddleware, MemorialController.createStep1)
 
 router.get("/create-step2", AuthMiddleware, MemorialController.renderStep2)
