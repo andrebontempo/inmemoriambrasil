@@ -319,6 +319,56 @@ const GalleryController = {
     }
   },
 
+  // Salvar todas as legendas em massa
+  saveAllCaptions: async (req, res) => {
+    const { slug } = req.params
+    const { captions } = req.body // Espera um objeto { key: caption }
+
+    try {
+      const memorial = await Memorial.findOne({ slug })
+      if (!memorial) return res.status(404).json({ error: "Memorial não encontrado" })
+
+      // Verificação de permissão
+      const currentUser = req.user
+      const isOwner = memorial.owner && memorial.owner.toString() === currentUser._id.toString()
+      const isAdmin = currentUser.role === "admin"
+      const isCollaborator = memorial.collaborators && memorial.collaborators.some(
+        collabId => collabId.toString() === currentUser._id.toString()
+      )
+
+      if (!isOwner && !isAdmin && !isCollaborator) {
+        return res.status(403).json({ error: "Sem permissão" })
+      }
+
+      const gallery = await Gallery.findOne({ memorial: memorial._id })
+      if (!gallery) return res.status(404).json({ error: "Galeria não encontrada" })
+
+      if (captions && typeof captions === "object") {
+        // Tipos de mídia na galeria
+        const mediaTypes = ["photos", "audios", "videos"]
+
+        mediaTypes.forEach(type => {
+          if (gallery[type]) {
+            gallery[type].forEach(item => {
+              if (captions[item.key] !== undefined) {
+                item.caption = captions[item.key]
+              }
+            })
+          }
+        })
+
+        await gallery.save()
+      }
+
+      req.flash("success_msg", "Todas as legendas foram salvas com sucesso!")
+      res.redirect(`/memorial/${slug}/gallery`)
+    } catch (error) {
+      console.error("Erro ao salvar todas as legendas:", error)
+      req.flash("error_msg", "Erro ao salvar as legendas.")
+      res.redirect(`/memorial/${slug}/gallery/edit/${slug}`)
+    }
+  },
+
   // Deletar um arquivo da galeria
   // Deletar um arquivo da galeria
   // Deletar um arquivo da galeria

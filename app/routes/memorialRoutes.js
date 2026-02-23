@@ -70,6 +70,7 @@ router.get("/:slug/gallery/edit/:id", AuthMiddleware, loadMemorial, setAdminMenu
 router.post("/:slug/gallery/update/:tipo", AuthMiddleware, loadMemorial, canEditMemorial, upload.single("file"), uploadToR2, GalleryController.updateGallery)
 router.post("/:slug/gallery/delete/:tipo", AuthMiddleware, loadMemorial, canEditMemorial, GalleryController.deleteFile)
 router.post("/:slug/gallery/caption/:tipo", AuthMiddleware, loadMemorial, canEditMemorial, GalleryController.updateCaption)
+router.post("/:slug/gallery/save-all", AuthMiddleware, loadMemorial, canEditMemorial, GalleryController.saveAllCaptions)
 
 // Histórias Compartilhadas (Shared Stories)
 router.get("/:slug/sharedstory", loadMemorial, setAdminMenuPermission, canViewMemorial, SharedStoryController.showSharedStory)
