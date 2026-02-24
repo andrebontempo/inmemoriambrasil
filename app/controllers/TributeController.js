@@ -277,6 +277,7 @@ const TributeController = {
         lastName: memorial.lastName,
         mainPhoto: memorial.mainPhoto,
         qrCode: memorial.qrCode,
+        theme: memorial.theme,
         birth: memorial.birth,
         death: memorial.death,
         gallery: galleryData,

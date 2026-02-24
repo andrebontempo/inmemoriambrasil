@@ -237,6 +237,7 @@ const SharedStoryController = {
         firstName: sharedStory.memorial.firstName,
         lastName: sharedStory.memorial.lastName,
         mainPhoto: sharedStory.memorial.mainPhoto,
+        theme: memorial.theme,
         eventDate: moment(sharedStory.eventDate).format("YYYY-MM-DD"),
         birth: sharedStory.memorial.birth,
         death: sharedStory.memorial.death,

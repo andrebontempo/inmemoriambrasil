@@ -217,6 +217,7 @@ const LifeStoryController = {
         firstName: lifeStory.memorial.firstName,
         lastName: lifeStory.memorial.lastName,
         mainPhoto: lifeStory.memorial.mainPhoto,
+        theme: memorial.theme,
         eventDate: moment(lifeStory.eventDate).format("YYYY-MM-DD"),
         birth: lifeStory.memorial.birth,
         death: lifeStory.memorial.death,
