@@ -79,21 +79,21 @@ router.post("/:slug/members/remove/:role/:userId", AuthMiddleware, loadMemorial,
 
 // Histórias Compartilhadas (Shared Stories)
 router.get("/:slug/sharedstory", loadMemorial, setAdminMenuPermission, canViewMemorial, SharedStoryController.showSharedStory)
-router.get("/:slug/sharedstory/edit/:id", AuthMiddleware, loadMemorial, canEditMemorial, SharedStoryController.editSharedStory)
+router.get("/:slug/sharedstory/edit/:id", AuthMiddleware, loadMemorial, setAdminMenuPermission, canEditMemorial, SharedStoryController.editSharedStory)
 router.post("/:slug/sharedstory/create", AuthMiddleware, loadMemorial, upload.single("file"), uploadToR2, SharedStoryController.createSharedStory)
 router.post("/:slug/sharedstory/update/:id", AuthMiddleware, loadMemorial, canEditMemorial, upload.single("file"), uploadToR2, SharedStoryController.updateSharedStory)
 router.post("/:slug/sharedstory/delete/:id", AuthMiddleware, loadMemorial, canEditMemorial, SharedStoryController.deleteSharedStory)
 
 // Histórias de Vida (Life Stories)
 router.get("/:slug/lifestory", loadMemorial, setAdminMenuPermission, canViewMemorial, LifeStoryController.showLifeStory)
-router.get("/:slug/lifestory/edit/:id", AuthMiddleware, loadMemorial, canEditMemorial, LifeStoryController.editLifeStory)
+router.get("/:slug/lifestory/edit/:id", AuthMiddleware, loadMemorial, setAdminMenuPermission, canEditMemorial, LifeStoryController.editLifeStory)
 router.post("/:slug/lifestory/create", AuthMiddleware, loadMemorial, upload.single("file"), uploadToR2, LifeStoryController.createLifeStory)
 router.post("/:slug/lifestory/update/:id", AuthMiddleware, loadMemorial, canEditMemorial, upload.single("file"), uploadToR2, LifeStoryController.updateLifeStory)
 router.post("/:slug/lifestory/delete/:id", AuthMiddleware, loadMemorial, canEditMemorial, LifeStoryController.deleteLifeStory)
 
 // Tributos
 router.get("/:slug/tribute", loadMemorial, setAdminMenuPermission, canViewMemorial, TributeController.showTribute)
-router.get("/:slug/tribute/edit/:id", AuthMiddleware, loadMemorial, TributeController.editTribute) // Usuário logado edita seu tributo
+router.get("/:slug/tribute/edit/:id", AuthMiddleware, loadMemorial, setAdminMenuPermission, canViewMemorial, TributeController.editTribute) // Usuário logado edita seu tributo
 router.post("/:slug/tribute/create", AuthMiddleware, loadMemorial, TributeController.createTribute)
 router.post("/:slug/tribute/update/:id", AuthMiddleware, loadMemorial, TributeController.updateTribute)
 router.post("/:slug/tribute/delete/:id", AuthMiddleware, loadMemorial, TributeController.deleteTribute)
