@@ -10,23 +10,10 @@
             placeholder="Pesquisar por Memorial..." value="{{#if (eq termo " *")}}{{else}}{{termo}}{{/if}}">
         </div>
 
-        <div class="d-flex justify-content-center gap-3">
-          <style>
-            .btn-custom-outline {
-              color: #4f0e21;
-              border-color: #4f0e21;
-              background-color: transparent;
-              transition: all 0.3s ease;
-            }
-
-            .btn-custom-outline:hover {
-              background-color: #4f0e21;
-              color: white;
-            }
-          </style>
-          <button type="submit" class="btn btn-custom-outline btn-sm rounded-pill px-4">Buscar</button>
+        <div class="d-flex flex-wrap justify-content-center gap-3">
+          <button type="submit" class="btn btn-custom-outline btn-sm rounded-pill px-4 px-md-5">Buscar</button>
           {{#if termo}}
-          <a href="/memorial/pesquisa?q=*" class="btn btn-custom-outline btn-sm rounded-pill px-4">Ver Todos</a>
+          <a href="/memorial/pesquisa?q=*" class="btn btn-custom-outline btn-sm rounded-pill px-4 px-md-5">Ver Todos</a>
           <br>
           <a href="/memorial/create-step1" class="btn btn-custom-fill btn-sm rounded-pill px-4 w-md-auto">
             <i class="fas fa-plus me-2"></i> Criar Novo Memorial
