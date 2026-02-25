@@ -1,60 +1,79 @@
 <header class="bs-primary text-white py-3">
   <div class="container">
 
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+    <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
 
       <!-- Logo -->
-      <div class="text-center text-md-start mb-3 mb-md-0">
-        <a href="/">
+      <div class="text-center text-md-start">
+        <a href="/" class="d-inline-flex align-items-center">
           <img src="/css/main/files/Logo_InMemoriamBrasil_1.png" alt="Logo In Memoriam Brasil" style="height: 55px;" />
         </a>
       </div>
 
       <!-- Pesquisa -->
-      <form action="/memorial/pesquisa" method="GET" class="d-flex w-100 justify-content-center mb-3 ms-md-auto">
-        <div class="input-group overflow-hidden rounded-pill border shadow-sm"
-          style="max-width: 320px; background-color: white;">
+      <form action="/memorial/pesquisa" method="GET" class="d-flex justify-content-center flex-grow-1">
+
+        <div class="input-group overflow-hidden rounded-pill shadow-sm"
+          style="max-width: 340px; background-color: white;">
+
           <input type="text" name="q" class="form-control border-0 px-3" placeholder="Pesquisar por Memorial..."
-            style="box-shadow: none;" />
-          <button class="btn btn-white border-0 px-3" type="submit">
+            style="box-shadow: none; height: 42px;" />
+
+          <button class="btn border-0 px-3" type="submit" style="background-color: white;">
             <i class="bi bi-search text-primary"></i>
           </button>
+
         </div>
       </form>
 
       <!-- Login -->
-      <div class="d-flex gap-3 justify-content-end pe-4">
+      <div class="d-flex align-items-center gap-3">
 
         {{#if user}}
+
         <div class="dropdown">
-          <a class="btn btn-link text-white dropdown-toggle fs-6 ms-auto" href="#" id="dropdownMenuButton"
+          <a class="btn btn-link text-white dropdown-toggle fs-6 text-nowrap" href="#" id="dropdownMenuButton"
             data-bs-toggle="dropdown">
-            Bem-vindo(a),
-            {{user.firstName}}
+            Bem-vindo(a), {{user.firstName}}
           </a>
-          <ul class="dropdown-menu">
+
+          <ul class="dropdown-menu dropdown-menu-end">
             {{#if (eq user.role "admin")}}
-            <li><a class="dropdown-item fw-bold text-primary" href="/admin"><i class="bi bi-shield-check me-1"></i>
-                Painel Geral Admin</a></li>
+            <li>
+              <a class="dropdown-item fw-bold text-primary" href="/admin">
+                <i class="bi bi-shield-check me-1"></i>
+                Painel Geral Admin
+              </a>
+            </li>
             <li>
               <hr class="dropdown-divider">
             </li>
             {{/if}}
-            <li><a class="dropdown-item" href="/auth/dashboard">A Minha Conta</a></li>
-            <li><a class="dropdown-item" href="/auth/logout">Sair</a></li>
+
+            <li>
+              <a class="dropdown-item" href="/auth/dashboard">
+                A Minha Conta
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="/auth/logout">
+                Sair
+              </a>
+            </li>
           </ul>
         </div>
 
         {{else}}
+
         <a href="/auth/register"
           class="text-white text-decoration-none fs-6 text-nowrap d-flex align-items-center gap-1">
-          <i class="bi bi-person-plus text-white"></i>
+          <i class="bi bi-person-plus"></i>
           Criar uma conta
         </a>
 
         <a href="/auth/login"
-          class="text-white text-decoration-none fw-bold fs-6 text-nowrap d-flex align-items-center gap-1 pe-3">
-          <i class="bi bi-box-arrow-in-right text-white"></i>
+          class="text-white text-decoration-none fw-bold fs-6 text-nowrap d-flex align-items-center gap-1">
+          <i class="bi bi-box-arrow-in-right"></i>
           Entre
         </a>
 
